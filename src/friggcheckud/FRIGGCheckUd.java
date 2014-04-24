@@ -22,8 +22,14 @@ public class FRIGGCheckUd {
     public void hej(){
         
     }
-    
+
     public void dethererentest(){
+
+    }
+    
+    public void hello()
+    {
+
         
     }
 }
