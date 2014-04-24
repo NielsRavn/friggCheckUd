@@ -8,7 +8,7 @@ package friggcheckud;
 
 /**
  *  det her er en test
- * @author Niels 
+ * @author Niels ....
  */
 public class FRIGGCheckUd {
 
