@@ -18,5 +18,5 @@ public class FRIGGCheckUd {
     public static void main(String[] args) {
         // TODO code application logic here
     }
-    // added som code
+    // added som code version 2
 }
