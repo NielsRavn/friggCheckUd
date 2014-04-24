@@ -18,7 +18,6 @@ public class FRIGGCheckUd {
     public static void main(String[] args) {
         System.out.println("hello world");
     }
-    // added som code version 2 nyt forsøg
     
     public void hej(){
         
