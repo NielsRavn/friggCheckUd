@@ -19,4 +19,8 @@ public class FRIGGCheckUd {
         System.out.println("hello world");
     }
     // added som code version 2 nyt forsøg
+    
+    public void hej(){
+        
+    }
 }
