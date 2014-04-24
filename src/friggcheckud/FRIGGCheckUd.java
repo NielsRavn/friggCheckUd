@@ -22,4 +22,9 @@ public class FRIGGCheckUd {
     public void hej(){
         
     }
+    
+    public void hello()
+    {
+        
+    }
 }
