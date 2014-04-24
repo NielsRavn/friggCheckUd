@@ -7,7 +7,7 @@
 package friggcheckud;
 
 /**
- *
+ *hello world
  * @author Niels
  */
 public class FRIGGCheckUd {
