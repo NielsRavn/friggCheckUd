@@ -20,13 +20,9 @@ import javax.swing.border.BevelBorder;
  */
 public class TabView extends JTabbedPane{
     
-    private int width, height;
     ArrayList<Tab>  tabs;
     
-    public TabView(int width, int height){
-        this.width = width;
-        this.height = height;
-        setSize(width, height);
+    public TabView(){
         tabs = new ArrayList<>();
         
     }
@@ -35,7 +31,7 @@ public class TabView extends JTabbedPane{
         content.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         Tab t = new Tab(tabName, content);
         tabs.add(t);
-        int margin = (width/100)*5;
+        int margin = (getWidth()/100)*5;
         addTab("<html><body leftmargin=" + margin + " topmargin=" + margin + " marginwidth=25 marginheight=8>" + tabName + "</body></html>", content);
         
     }
