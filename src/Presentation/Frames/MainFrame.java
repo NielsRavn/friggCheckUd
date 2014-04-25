@@ -6,6 +6,7 @@
 
 package Presentation.Frames;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -25,6 +26,11 @@ public class MainFrame extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setSize(dim.width, dim.height);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+        BorderLayout bl =  new BorderLayout();
+        setLayout(bl);
+        Footer f = new Footer();
+        add(f, BorderLayout.SOUTH);
+        
     }
 
     /**
