@@ -37,7 +37,7 @@ public class Footer extends javax.swing.JPanel {
         jbErrorReporting = new javax.swing.JButton();
         jbAprove = new javax.swing.JButton();
 
-        jbLogOut.setText("Log ud");
+        jbLogOut.setText("<html><body marginwidth=20 marginheight=10>Log ud</body></html>");
         jbLogOut.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jbLogOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -45,14 +45,19 @@ public class Footer extends javax.swing.JPanel {
             }
         });
 
-        jbErrorReporting.setText("Opreg Fejl Report");
+        jbErrorReporting.setText("<html><body marginwidth=20 marginheight=10>Opreg Fejl Report</body></html>");
         jbErrorReporting.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbErrorReportingActionPerformed(evt);
             }
         });
 
-        jbAprove.setText("Godkend køreseddel");
+        jbAprove.setText("<html><body marginwidth=20 marginheight=10>Godkend køreseddel</body></html>");
+        jbAprove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAproveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -60,21 +65,21 @@ public class Footer extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jbErrorReporting)
+                .addComponent(jbErrorReporting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbAprove)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
-                .addComponent(jbLogOut)
+                .addComponent(jbAprove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 252, Short.MAX_VALUE)
+                .addComponent(jbLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbLogOut)
-                    .addComponent(jbErrorReporting)
-                    .addComponent(jbAprove))
+                    .addComponent(jbLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbErrorReporting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbAprove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -86,6 +91,10 @@ public class Footer extends javax.swing.JPanel {
     private void jbErrorReportingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbErrorReportingActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbErrorReportingActionPerformed
+
+    private void jbAproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAproveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbAproveActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
