@@ -6,6 +6,8 @@
 
 package Presentation.Frames;
 
+import java.awt.Color;
+
 /**
  *
  * @author Poul Nielsen
@@ -17,6 +19,7 @@ public class Footer extends javax.swing.JPanel {
      */
     public Footer() {
         initComponents();
+        jbLogOut.setBackground(Color.RED);
     }
 
     /**
