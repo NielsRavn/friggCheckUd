@@ -7,6 +7,7 @@
 package Presentation.Frames;
 
 import Presentation.Components.TabView;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -30,6 +31,11 @@ public class MainFrame extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setSize(dim.width, dim.height);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+
+        BorderLayout bl =  new BorderLayout();
+        setLayout(bl);
+        Footer f = new Footer();
+        add(f, BorderLayout.SOUTH);
         
         setLayout(null);
         JPanel p1 = makeTextPanel("det her er panel 1");
@@ -41,9 +47,12 @@ public class MainFrame extends javax.swing.JFrame {
         tv.addNewTab("car", p2);
         tv.addNewTab("position", p3);
         tv.setLocation(50, 50);
-        add(tv);
+        add(tv, BorderLayout.CENTER);
         tv.removeTab(p2);
         repaint();
+
+        
+
         
     }
     
