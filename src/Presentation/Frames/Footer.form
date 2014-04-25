@@ -21,7 +21,7 @@
               <Component id="jbErrorReporting" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jbAprove" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="332" max="32767" attributes="0"/>
+              <EmptySpace pref="334" max="32767" attributes="0"/>
               <Component id="jbLogOut" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
           </Group>
@@ -55,7 +55,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jbErrorReporting">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Opreg Fejl Report"/>
+        <Property name="text" type="java.lang.String" value="Opret Fejl Report"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbErrorReportingActionPerformed"/>

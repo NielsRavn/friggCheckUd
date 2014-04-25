@@ -45,7 +45,7 @@ public class Footer extends javax.swing.JPanel {
             }
         });
 
-        jbErrorReporting.setText("Opreg Fejl Report");
+        jbErrorReporting.setText("Opret Fejl Report");
         jbErrorReporting.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbErrorReportingActionPerformed(evt);
@@ -63,7 +63,7 @@ public class Footer extends javax.swing.JPanel {
                 .addComponent(jbErrorReporting)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbAprove)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 334, Short.MAX_VALUE)
                 .addComponent(jbLogOut)
                 .addGap(26, 26, 26))
         );
