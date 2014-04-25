@@ -20,6 +20,8 @@ public class Footer extends javax.swing.JPanel {
     public Footer() {
         initComponents();
         jbLogOut.setBackground(Color.RED);
+        jbAprove.setBackground(Color.GREEN);
+        jbErrorReporting.setBackground(Color.yellow);
     }
 
     /**
