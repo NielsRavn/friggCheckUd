@@ -6,8 +6,13 @@
 
 package Presentation.Frames;
 
+import Presentation.Components.TabView;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -25,7 +30,32 @@ public class MainFrame extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setSize(dim.width, dim.height);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+        
+        setLayout(null);
+        JPanel p1 = makeTextPanel("det her er panel 1");
+        JPanel p2 = makeTextPanel("her har vi panel 2");
+        JPanel p3 = makeTextPanel("mr ultimate panel!");
+        
+        TabView tv = new TabView(400, 400);
+        tv.addNewTab("alarm", p1);
+        tv.addNewTab("car", p2);
+        tv.addNewTab("position", p3);
+        tv.setLocation(50, 50);
+        add(tv);
+        tv.removeTab(p2);
+        repaint();
+        
     }
+    
+    protected JPanel makeTextPanel(String text) {
+        JPanel panel = new JPanel(false);
+        JLabel filler = new JLabel(text);
+        filler.setHorizontalAlignment(JLabel.CENTER);
+        panel.setLayout(new GridLayout(1, 1));
+        panel.add(filler);
+        return panel;
+    }
+     
 
     /**
      * This method is called from within the constructor to initialize the form.

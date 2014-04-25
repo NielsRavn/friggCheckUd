@@ -35,7 +35,8 @@ public class TabView extends JTabbedPane{
         content.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         Tab t = new Tab(tabName, content);
         tabs.add(t);
-        addTab("<html><body leftmargin=25 topmargin=10 marginwidth=25 marginheight=8>" + tabName + "</body></html>", content);
+        int margin = (width/100)*5;
+        addTab("<html><body leftmargin=" + margin + " topmargin=" + margin + " marginwidth=25 marginheight=8>" + tabName + "</body></html>", content);
         
     }
     
