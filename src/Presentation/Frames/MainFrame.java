@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 
-package Presentation;
+package Presentation.Frames;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  *
@@ -18,6 +21,10 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         super("FRIGG Check Ud");
         initComponents();
+        setResizable(false);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setSize(dim.width, dim.height);
+        this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
     }
 
     /**
