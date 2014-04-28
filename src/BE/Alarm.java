@@ -6,6 +6,8 @@
 
 package BE;
 
+import java.sql.Date;
+
 /**
  *
  * @author Susanne
@@ -15,14 +17,16 @@ public class Alarm {
     private int odinNr;
     private String distination;
     private String type;
-    private String time;
+    private Date time;
+    private boolean accepted;
     
-    public Alarm (int ID, int odinNr, String distination, String type, String time) {
+    public Alarm (int ID, int odinNr, String distination, String type, Date time, boolean accepted) {
     this.ID = ID;
     this.odinNr = odinNr;
     this.distination = distination;
     this.type = type;
     this.time = time;
+    this.accepted = accepted;
     }
 
     /**
@@ -84,15 +88,29 @@ public class Alarm {
     /**
      * @return the time
      */
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
     /**
      * @param time the time to set
      */
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
+    }
+
+    /**
+     * @return the accepted
+     */
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    /**
+     * @param accepted the accepted to set
+     */
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
     }
     
 }
