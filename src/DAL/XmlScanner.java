@@ -7,12 +7,9 @@
 package DAL;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -35,17 +32,22 @@ public class XmlScanner {
     private void scanner()
     {
       
-        String xmlUrl = "https://www.dropbox.com/s/hf45d70vn7mtteh/alarm_1.xml";
+        String file = "alarm_1.xml";
         
         try {
-            URL url = new URL(xmlUrl);
-            InputStream is = url.openStream();
+            
+            InputStream is = new FileInputStream(file);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(is);
             doc.getDocumentElement().normalize();
             
-            NodeList location = doc.getElementsByTagName("currency");
+            NodeList odinNr = doc.getElementsByTagName("odinNr");
+            NodeList destination = doc.getElementsByTagName("destination");
+            NodeList type = doc.getElementsByTagName("type");
+            NodeList time = doc.getElementsByTagName("time");
+            
+            
         
         } catch (IOException | ParserConfigurationException | SAXException ex) {
             System.out.println("Nope, not going there!");
