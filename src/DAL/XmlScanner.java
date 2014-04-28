@@ -6,8 +6,12 @@
 
 package DAL;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  *
@@ -23,8 +27,10 @@ public class XmlScanner {
     
     private void scanner()
     {
-        //define a folder root
-        Path myDir = Paths.get("C:\\Users\\Poul Nielsen\\Dropbox\\EKSAMEN\\fire and rescue\\alarmer");
+      
+        String xmlFile = "alarm_1.xml";
+        
+        
         
         
     }
