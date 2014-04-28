@@ -10,13 +10,13 @@ package BE;
  * 
  * @author Susanne
  */
-public class Cars {
+public class Car {
     private int carNr;
     private String iconPath;
     private String name;
     private int seats;
     
-    private Cars (int carNr, String iconPath, String name, int seats) {
+    private Car (int carNr, String iconPath, String name, int seats) {
         this.carNr = carNr;
         this.iconPath = iconPath;
         this.name = name;
