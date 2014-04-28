@@ -6,6 +6,9 @@
 
 package DAL;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  *
  * @author Poul Nielsen
@@ -20,6 +23,9 @@ public class XmlScanner {
     
     private void scanner()
     {
+        //define a folder root
+        Path myDir = Paths.get("C:\\Users\\Poul Nielsen\\Dropbox\\EKSAMEN\\fire and rescue\\alarmer");
+        
         
     }
     
