@@ -22,6 +22,8 @@ public class Footer extends javax.swing.JPanel {
         jbLogOut.setBackground(Color.RED);
         jbAprove.setBackground(Color.GREEN);
         jbErrorReporting.setBackground(Color.yellow);
+        this.setBackground(Color.white);
+
     }
 
     /**
