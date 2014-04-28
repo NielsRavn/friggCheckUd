@@ -9,6 +9,7 @@ package Presentation.Components;
 import Presentation.Components.ViewObjects.ViewObject;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
@@ -19,12 +20,15 @@ import javax.swing.ListCellRenderer;
  */
 public class ListPanel extends javax.swing.JPanel {
     JPanel thisList;
+    DefaultListModel model;
     /**
      * Creates new form ListPanel
      */
     public ListPanel() {
         initComponents();
         thisList = this;
+        lstData.setModel(model);
+        model = new DefaultListModel();
         lstData.setCellRenderer(getClientListRenderer());
     }
 
@@ -57,6 +61,19 @@ public class ListPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList lstData;
     // End of variables declaration//GEN-END:variables
+    
+    /**
+     * Adds a new ViewObject to the lst
+     * @param object the ViewObject you want to add to the list
+     */
+    public void addViewObject(ViewObject object){
+        model.addElement(object);
+    }
+    
+    /**
+     * Gets the Cell renderer for the list
+     * @return 
+     */
     private ListCellRenderer getClientListRenderer(){
         ListCellRenderer r =
                 new ListCellRenderer() {
