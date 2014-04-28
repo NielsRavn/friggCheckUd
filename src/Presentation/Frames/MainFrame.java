@@ -37,12 +37,11 @@ public class MainFrame extends javax.swing.JFrame {
         Footer f = new Footer();
         add(f, BorderLayout.SOUTH);
         
-        setLayout(null);
         JPanel p1 = makeTextPanel("det her er panel 1");
         JPanel p2 = makeTextPanel("her har vi panel 2");
         JPanel p3 = makeTextPanel("mr ultimate panel!");
         
-        TabView tv = new TabView(400, 400);
+        TabView tv = new TabView();
         tv.addNewTab("alarm", p1);
         tv.addNewTab("car", p2);
         tv.addNewTab("position", p3);

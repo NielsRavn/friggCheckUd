@@ -21,7 +21,7 @@
               <Component id="jbErrorReporting" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jbAprove" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="334" max="32767" attributes="0"/>
+              <EmptySpace pref="252" max="32767" attributes="0"/>
               <Component id="jbLogOut" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
           </Group>
@@ -30,7 +30,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="23" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jbLogOut" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jbErrorReporting" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -44,7 +44,7 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="jbLogOut">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Log ud"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;body marginwidth=20 marginheight=10&gt;Log ud&lt;/body&gt;&lt;/html&gt;"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Default Cursor"/>
         </Property>
@@ -55,7 +55,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jbErrorReporting">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Opret Fejl Report"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;body marginwidth=20 marginheight=10&gt;Opreg Fejl Report&lt;/body&gt;&lt;/html&gt;"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbErrorReportingActionPerformed"/>
@@ -63,8 +63,11 @@
     </Component>
     <Component class="javax.swing.JButton" name="jbAprove">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Godkend k&#xf8;reseddel"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;body marginwidth=20 marginheight=10&gt;Godkend k&#xf8;reseddel&lt;/body&gt;&lt;/html&gt;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbAproveActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
