@@ -19,6 +19,7 @@ import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
 import Presentation.MyColorConstants;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -42,6 +43,10 @@ public class MainFrame extends javax.swing.JFrame {
     Car_AccessLink cal;
     Alarm_AccessLink aal;
     ViewObjectFactory vof;
+    
+    TabView tv;
+    LogIn li;
+    
     /**
      * Creates new form MainFrame
      */
@@ -68,12 +73,13 @@ public class MainFrame extends javax.swing.JFrame {
             JPanel p3 = makePositionPanel();
             ApprovePanel ap = new ApprovePanel();
             
-            TabView tv = new TabView();
+            tv = new TabView();
             tv.addNewTab("alarm", p1);
             tv.addNewTab("car", p2);
             tv.addNewTab("position", p3);
             tv.addNewTab("Godkend", ap);
-            add(tv, BorderLayout.CENTER);
+            li = new LogIn(this);
+            add(li, BorderLayout.CENTER);
             
             //tv.setEnabledContent(p2, false);
         } catch (IOException ex) {
@@ -191,6 +197,13 @@ public class MainFrame extends javax.swing.JFrame {
                 new MainFrame().setVisible(true);
             }
         });
+    }
+    
+    public void changeView (){
+        remove(li);
+        add(tv, BorderLayout.CENTER);
+        validate();
+        repaint();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

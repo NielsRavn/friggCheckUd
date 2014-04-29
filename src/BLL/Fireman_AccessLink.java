@@ -8,6 +8,7 @@ package BLL;
 
 import BE.Fireman;
 import DAL.Fireman_Access;
+import java.io.IOException;
 import java.sql.SQLException;
 
 /**
@@ -17,6 +18,10 @@ import java.sql.SQLException;
 public class Fireman_AccessLink {
     
     Fireman_Access fa;
+    
+    public Fireman_AccessLink() throws IOException{
+        fa = new Fireman_Access();
+    }
 
     
     public Fireman getFiremanByID (int ID) throws SQLException {
