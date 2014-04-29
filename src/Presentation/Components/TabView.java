@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 
@@ -33,7 +34,16 @@ public class TabView extends JTabbedPane{
         tabs.add(t);
         int margin = (getWidth()/100)*5;
         addTab("<html><body leftmargin=" + margin + " topmargin=" + margin + " marginwidth=25 marginheight=8>" + tabName + "</body></html>", content);
-        
+        //setBackgroundAt(tabs.size(), Color.GREEN);
+    }
+    
+    public void setEnabledContent(JPanel content, boolean state){
+        for(int i = 0; i< tabs.size(); i++){
+            if(tabs.get(i).getContent() == content){
+                setEnabledAt(i, state);
+                setBackgroundAt(i, state ? Color.GREEN : Color.GRAY );
+            }
+        }
     }
     
     public void removeTab(JPanel content){
