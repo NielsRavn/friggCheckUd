@@ -15,10 +15,13 @@ import Presentation.Components.ViewObjects.ViewObjectAlarm;
 import Presentation.Components.ViewObjects.ViewObjectCar;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.sql.Date;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -30,9 +33,9 @@ import javax.swing.plaf.ColorUIResource;
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainFrame
-     */
+    TabView tv;
+    LogIn li;
+            
     public MainFrame() {
         super("FRIGG Check Ud");
         initComponents();
@@ -51,12 +54,14 @@ public class MainFrame extends javax.swing.JFrame {
         JPanel p3 = makePositionPanel();
         ApprovePanel ap = new ApprovePanel();
         
-        TabView tv = new TabView();
+        tv = new TabView();
         tv.addNewTab("alarm", p1);
         tv.addNewTab("car", p2);
         tv.addNewTab("position", p3);
         tv.addNewTab("Godkend", ap);
-        add(tv, BorderLayout.CENTER);
+        li = new LogIn(this);
+        
+        add(li, BorderLayout.CENTER);
 
         //tv.setEnabledContent(p2, false);
 
@@ -159,6 +164,13 @@ public class MainFrame extends javax.swing.JFrame {
                 new MainFrame().setVisible(true);
             }
         });
+    }
+    
+    public void changeView (){
+        remove(li);
+        add(tv, BorderLayout.CENTER);
+        validate();
+        repaint();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
