@@ -9,6 +9,7 @@ package Presentation.Frames;
 import BE.Alarm;
 import BE.Car;
 import BE.Position;
+import BLL.Alarm_AccessLink;
 import BLL.Car_AccessLink;
 import Presentation.Components.ListPanel;
 import Presentation.Components.TabView;
@@ -39,6 +40,7 @@ import javax.swing.plaf.ColorUIResource;
  */
 public class MainFrame extends javax.swing.JFrame {
     Car_AccessLink cal;
+    Alarm_AccessLink aal;
     ViewObjectFactory vof;
     /**
      * Creates new form MainFrame
@@ -47,6 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
         super("FRIGG Check Ud");
         try {
             cal = new Car_AccessLink();
+            aal = new Alarm_AccessLink();
             vof = new ViewObjectFactory();
             initComponents();
             setResizable(false);
@@ -60,7 +63,7 @@ public class MainFrame extends javax.swing.JFrame {
             Footer f = new Footer();
             add(f, BorderLayout.SOUTH);
             
-            JPanel p1 = makeAlarmPanel();
+            JPanel p1 = getAlarmPanel();
             JPanel p2 = getCarPanel();
             JPanel p3 = makePositionPanel();
             ApprovePanel ap = new ApprovePanel();
@@ -80,18 +83,28 @@ public class MainFrame extends javax.swing.JFrame {
         
     }
     
-    protected JPanel makeAlarmPanel() {
+    protected JPanel getAlarmPanel() {
         ListPanel list = new ListPanel();
-        ViewObjectAlarm viewObject1 = new ViewObjectAlarm(new Alarm(25, 25565, "Hansensvej 22", "Brand og redning", new Date(2014-1900, 3, 29), false));
-        ViewObjectAlarm viewObject2 = new ViewObjectAlarm(new Alarm(25, 25567, "Strandbygade 42", "Kat i træ", new Date(2014-1900, 3, 29), false));
-        ViewObjectAlarm viewObject3 = new ViewObjectAlarm(new Alarm(25, 25568, "Hjertingvej 13", "Brand og redning", new Date(2014-1900, 3, 30), false));
-        ViewObjectAlarm viewObject4 = new ViewObjectAlarm(new Alarm(25, 25570, "Skt. Petersplads 0", "Brand og redning", new Date(2014-1900, 3, 31), false));
-        list.addViewObject(viewObject1);
-        list.addViewObject(viewObject2);
-        list.addViewObject(viewObject3);
-        list.addViewObject(viewObject4);
+        try{
+            ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
+            for(Alarm alarm : alarms){
+                list.addViewObject(vof.getViewObject(alarm));
+            }
+            
+        }catch(SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+        }
+//        ViewObjectAlarm viewObject1 = new ViewObjectAlarm(new Alarm(25, 25565, "Hansensvej 22", "Brand og redning", new Date(2014-1900, 3, 29), false));
+//        ViewObjectAlarm viewObject2 = new ViewObjectAlarm(new Alarm(25, 25567, "Strandbygade 42", "Kat i træ", new Date(2014-1900, 3, 29), false));
+//        ViewObjectAlarm viewObject3 = new ViewObjectAlarm(new Alarm(25, 25568, "Hjertingvej 13", "Brand og redning", new Date(2014-1900, 3, 30), false));
+//        ViewObjectAlarm viewObject4 = new ViewObjectAlarm(new Alarm(25, 25570, "Skt. Petersplads 0", "Brand og redning", new Date(2014-1900, 3, 31), false));
+//        list.addViewObject(viewObject1);
+//        list.addViewObject(viewObject2);
+//        list.addViewObject(viewObject3);
+//        list.addViewObject(viewObject4);
         return list;
     }
+        
     protected JPanel getCarPanel(){
         ListPanel list = new ListPanel();
         try {
@@ -104,6 +117,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         return list;
     }
+    
     protected JPanel makePositionPanel(){
         ListPanel list = new ListPanel();
         ViewObjectPosition viewObject1 = new ViewObjectPosition(new Position(0, "Chauffør"));
