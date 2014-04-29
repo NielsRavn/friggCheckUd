@@ -27,7 +27,6 @@ public class ViewObjectCar extends ViewObject{
         carNr = car.getCarNr();
         
         fillData();
-        setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     }
 
     private void fillData() {

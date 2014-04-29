@@ -7,9 +7,11 @@
 package Presentation.Components.ViewObjects;
 
 import BLL.IViewObjectObserver;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -24,6 +26,7 @@ public abstract class ViewObject extends javax.swing.JPanel {
      */
     public ViewObject() {
         initComponents();
+        setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         observers = new ArrayList<>();
         
     }

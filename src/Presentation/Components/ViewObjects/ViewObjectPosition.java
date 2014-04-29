@@ -26,7 +26,6 @@ public class ViewObjectPosition extends ViewObject{
         setLayout(new FlowLayout());
         pos = position.getName();
         fillData();
-        setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     }
 
     private void fillData() {

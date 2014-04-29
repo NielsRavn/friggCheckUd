@@ -34,7 +34,6 @@ public class ViewObjectAlarm extends ViewObject{
         
         
         fillData();
-        setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     }
 
     private void fillData() {
