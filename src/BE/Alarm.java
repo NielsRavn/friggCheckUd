@@ -29,6 +29,14 @@ public class Alarm implements ViewObjectBE{
     this.accepted = accepted;
     }
 
+    public Alarm(int odinNr, String destination, String type, Date date) {
+        this.odinNr = odinNr;
+        this.distination = destination;
+        this.type = type;
+        this.time = date;
+    }
+
+
     /**
      * @return the ID
      */

@@ -5,7 +5,6 @@
  */
 
 package Presentation.Frames;
-
 import java.awt.Color;
 
 /**
@@ -23,7 +22,6 @@ public class Footer extends javax.swing.JPanel {
         jbAprove.setBackground(Color.GREEN);
         jbErrorReporting.setBackground(Color.yellow);
         this.setBackground(Color.white);
-
     }
 
     /**
