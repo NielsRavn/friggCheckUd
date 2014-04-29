@@ -6,18 +6,35 @@
 
 package Presentation.Components.ViewObjects;
 
+import BLL.IViewObjectObserver;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 /**
  *
  * @author Brobak
  */
 public abstract class ViewObject extends javax.swing.JPanel {
 
+    ArrayList<IViewObjectObserver> observers;
+    
     /**
      * Creates new form ViewObject
      */
     public ViewObject() {
         initComponents();
+        observers = new ArrayList<>();
         
+    }
+    
+    public void addMouseObserver(IViewObjectObserver observer){
+        observers.add(observer);
+    }
+    
+    private void runObservers(){
+        for(IViewObjectObserver observer: observers)
+            observer.notifyObserver();
     }
 
     /**
@@ -42,4 +59,14 @@ public abstract class ViewObject extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    private class myMouseAdapter extends MouseAdapter{
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            runObservers();
+        }
+        
+    }
+
 }

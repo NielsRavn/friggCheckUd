@@ -14,7 +14,7 @@ public class Position implements ViewObjectBE{
 private int ID;
 private String name;
 
-private Position (int ID, String name) {
+public Position (int ID, String name) {
     this.ID = ID;
     this.name = name;
     
