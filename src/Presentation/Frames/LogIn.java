@@ -8,6 +8,9 @@ package Presentation.Frames;
 
 import BE.Fireman;
 import BLL.Fireman_AccessLink;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,9 +25,9 @@ public class LogIn extends javax.swing.JPanel {
     public LogIn() {
         initComponents();
         firemanMgr = new Fireman_AccessLink();
-        Fireman fireman;
+        
     }
-
+Fireman fireman;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,8 +87,11 @@ logIn();
         }
         else {
             int FiremanID = Integer.parseInt(txtLogIn.getText());
-            
-            fireman = firemanMgr.getFiremanByID(); 
+            try {
+                fireman = firemanMgr.getFiremanByID(FiremanID); 
+            } catch (SQLException ex) {
+                Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
         } 
             }
