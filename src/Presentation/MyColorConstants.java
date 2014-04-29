@@ -15,6 +15,8 @@ import java.awt.Color;
 public class MyColorConstants {
     
     public static final Color OUR_BLUE = new Color(0, 51, 66),
-            OUR_RED = new Color(106, 14, 0);
+            OUR_RED = new Color(106, 0, 0),
+            OUR_GREEN = new Color(0, 85, 0),
+            LIGHT_BLUE = new Color(180, 230, 255);
     
 }
