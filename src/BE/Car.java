@@ -16,7 +16,7 @@ public class Car implements ViewObjectBE{
     private String name;
     private int seats;
     
-    private Car (int carNr, String iconPath, String name, int seats) {
+    public Car (int carNr, String iconPath, String name, int seats) {
         this.carNr = carNr;
         this.iconPath = iconPath;
         this.name = name;

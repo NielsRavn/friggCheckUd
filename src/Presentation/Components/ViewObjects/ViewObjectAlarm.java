@@ -37,7 +37,10 @@ public class ViewObjectAlarm extends ViewObject{
         topPanel.add(new JLabel(destination));
         topPanel.add(new JLabel(time.toString()));
         add(topPanel, BorderLayout.NORTH);
-        add(new JLabel(type), BorderLayout.CENTER);
+        JPanel buttomPanel = new JPanel();
+        buttomPanel.setLayout(new FlowLayout());
+        buttomPanel.add(new JLabel(type));
+        add(buttomPanel, BorderLayout.CENTER);
     }
     
 }

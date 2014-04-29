@@ -27,8 +27,8 @@ public class ListPanel extends javax.swing.JPanel {
     public ListPanel() {
         initComponents();
         thisList = this;
-        lstData.setModel(model);
         model = new DefaultListModel();
+        lstData.setModel(model);
         lstData.setCellRenderer(getClientListRenderer());
     }
 

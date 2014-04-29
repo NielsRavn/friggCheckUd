@@ -6,11 +6,19 @@
 
 package Presentation.Frames;
 
+import BE.Alarm;
+import BE.Car;
+import BE.Position;
+import Presentation.Components.ListPanel;
 import Presentation.Components.TabView;
+import Presentation.Components.ViewObjects.ViewObjectAlarm;
+import Presentation.Components.ViewObjects.ViewObjectCar;
+import Presentation.Components.ViewObjects.ViewObjectPosition;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.sql.Date;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -38,9 +46,9 @@ public class MainFrame extends javax.swing.JFrame {
         Footer f = new Footer();
         add(f, BorderLayout.SOUTH);
         
-        JPanel p1 = makeTextPanel("det her er panel 1");
-        JPanel p2 = makeTextPanel("her har vi panel 2");
-        JPanel p3 = makeTextPanel("mr ultimate panel!");
+        JPanel p1 = makeAlarmPanel();
+        JPanel p2 = makeCarPanel();
+        JPanel p3 = makePositionPanel();
         
         TabView tv = new TabView();
         tv.addNewTab("alarm", p1);
@@ -54,13 +62,37 @@ public class MainFrame extends javax.swing.JFrame {
         
     }
     
-    protected JPanel makeTextPanel(String text) {
-        JPanel panel = new JPanel(false);
-        JLabel filler = new JLabel(text);
-        filler.setHorizontalAlignment(JLabel.CENTER);
-        panel.setLayout(new GridLayout(1, 1));
-        panel.add(filler);
-        return panel;
+    protected JPanel makeAlarmPanel() {
+        ListPanel list = new ListPanel();
+        ViewObjectAlarm viewObject1 = new ViewObjectAlarm(new Alarm(25, 25565, "Hansensvej 22", "Brand og redning", new Date(2014-1900, 3, 29), false));
+        ViewObjectAlarm viewObject2 = new ViewObjectAlarm(new Alarm(25, 25567, "Strandbygade 42", "Kat i træ", new Date(2014-1900, 3, 29), false));
+        ViewObjectAlarm viewObject3 = new ViewObjectAlarm(new Alarm(25, 25568, "Hjertingvej 13", "Brand og redning", new Date(2014-1900, 3, 30), false));
+        ViewObjectAlarm viewObject4 = new ViewObjectAlarm(new Alarm(25, 25570, "Skt. Petersplads 0", "Brand og redning", new Date(2014-1900, 3, 31), false));
+        list.addViewObject(viewObject1);
+        list.addViewObject(viewObject2);
+        list.addViewObject(viewObject3);
+        list.addViewObject(viewObject4);
+        return list;
+    }
+    protected JPanel makeCarPanel(){
+        ListPanel list = new ListPanel();
+        ViewObjectCar viewObject1 = new ViewObjectCar(new Car(2577, "res\\images (1).jpg", "SuperCar", 5));
+        ViewObjectCar viewObject2 = new ViewObjectCar(new Car(2579, "res\\images (2).jpg", "Firestarter", 2));
+        ViewObjectCar viewObject3 = new ViewObjectCar(new Car(4242, "res\\images (3).jpg", "The Freezer", 23));
+        list.addViewObject(viewObject1);
+        list.addViewObject(viewObject2);
+        list.addViewObject(viewObject3);
+        return list;
+    }
+    protected JPanel makePositionPanel(){
+        ListPanel list = new ListPanel();
+        ViewObjectPosition viewObject1 = new ViewObjectPosition(new Position(0, "Chauffør"));
+        ViewObjectPosition viewObject2 = new ViewObjectPosition(new Position(1, "Holdleder"));
+        ViewObjectPosition viewObject3 = new ViewObjectPosition(new Position(2, "Brandmand"));
+        list.addViewObject(viewObject1);
+        list.addViewObject(viewObject2);
+        list.addViewObject(viewObject3);
+        return list;
     }
      
 
