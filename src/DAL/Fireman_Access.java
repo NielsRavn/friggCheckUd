@@ -7,6 +7,7 @@
 package DAL;
 
 import BE.Fireman;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +17,11 @@ import java.sql.Statement;
  *
  * @author Susanne
  */
-public class Fireman_Access {
+public class Fireman_Access extends DatabaseConnection {
+    
+    public Fireman_Access () throws IOException {
+        super();
+    }
 
     public Fireman getFiremanByID(int ID) throws SQLException {
         Connection con = null;
