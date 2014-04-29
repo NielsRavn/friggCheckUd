@@ -3,14 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Presentation.Frames;
 
 import BE.Fireman;
 import BLL.Fireman_AccessLink;
+import java.awt.Component;
+import java.awt.GridBagLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,14 +26,32 @@ import javax.swing.JOptionPane;
 public class LogIn extends javax.swing.JPanel {
 
     private Fireman_AccessLink firemanMgr;
-            
-            
-    public LogIn() {
+    MainFrame parent;
+
+    public LogIn(MainFrame parent) {
         initComponents();
-        firemanMgr = new Fireman_AccessLink();
-        
+
+        this.parent = parent;
+        try {
+            firemanMgr = new Fireman_AccessLink();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "fejl!");
+        }
+
+        txtLogIn.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    logIn();
+                }
+            }
+
+        });
+        setLayout(new GridBagLayout());
     }
-Fireman fireman;
+    Fireman fireman;
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,37 +64,20 @@ Fireman fireman;
         txtLogIn = new javax.swing.JTextField();
         btnLogIn = new javax.swing.JButton();
 
+        txtLogIn.setPreferredSize(new java.awt.Dimension(100, 20));
+        add(txtLogIn);
+
         btnLogIn.setText("Log Ind");
         btnLogIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogInActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addComponent(txtLogIn, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnLogIn)
-                .addContainerGap(66, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtLogIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLogIn))
-                .addContainerGap(239, Short.MAX_VALUE))
-        );
+        add(btnLogIn);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
-logIn();        
+        logIn();
     }//GEN-LAST:event_btnLogInActionPerformed
 
 
@@ -80,21 +87,25 @@ logIn();
     // End of variables declaration//GEN-END:variables
 
     private void logIn() {
-        if (!IsInteger(txtLogIn.getText()) || txtLogIn.getText().isEmpty()){ 
+        if (!IsInteger(txtLogIn.getText()) || txtLogIn.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Medarbejder nummer ikke godkendt");
             txtLogIn.setText(null);
             txtLogIn.requestFocus();
-        }
-        else {
+        } else {
             int FiremanID = Integer.parseInt(txtLogIn.getText());
             try {
-                fireman = firemanMgr.getFiremanByID(FiremanID); 
+                fireman = firemanMgr.getFiremanByID(FiremanID);
+                if (fireman != null) {
+                    parent.changeView();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Medarbejder nummer eksisterer ikke.");
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-        } 
-            }
+
+        }
+    }
 
     private boolean IsInteger(String s) {
         try {
@@ -102,5 +113,11 @@ logIn();
         } catch (NumberFormatException e) {
             return false;
         }
-        return true;    }
+        return true;
+    }
+
+    public Fireman getFireman() {
+        return fireman;
+    }
+
 }

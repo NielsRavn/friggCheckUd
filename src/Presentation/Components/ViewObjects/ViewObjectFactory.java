@@ -15,7 +15,7 @@ import BE.ViewObjectBE;
  *
  * @author Brobak
  */
-public abstract class ViewObjectFactory {
+public class ViewObjectFactory {
     
     public ViewObject getViewObject(ViewObjectBE viewObjectBE){
         if(viewObjectBE.getClass() == Car.class)
@@ -28,15 +28,15 @@ public abstract class ViewObjectFactory {
         return null;
     }
     
-    public ViewObjectCar getViewObject(Car car){
+    private ViewObjectCar getViewObject(Car car){
         return new ViewObjectCar(car);
     }
     
-    public ViewObjectAlarm getViewObject(Alarm alarm){
+    private ViewObjectAlarm getViewObject(Alarm alarm){
         return new ViewObjectAlarm(alarm);
     }
     
-    public ViewObjectPosition getViewObject(Position position){
+    private ViewObjectPosition getViewObject(Position position){
         return new ViewObjectPosition(position);
     }
     

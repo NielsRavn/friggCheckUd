@@ -32,10 +32,10 @@ public class Fireman_Access extends DatabaseConnection {
            con = getConnection();
            
            Statement query = con.createStatement();
-           ResultSet result = query.executeQuery("SELECT * FROM Customer WHERE id = " + ID + ";");
+           ResultSet result = query.executeQuery("SELECT * FROM Fireman WHERE employeeId = " + ID + ";");
            if(result.next())
            {
-               int userId = result.getInt("id");
+               int userId = result.getInt("employeeId");
                String firstName = result.getString("firstName");
                String lastName = result.getString("lastName");
                boolean teamleader = result.getBoolean("teamleader");

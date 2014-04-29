@@ -9,18 +9,29 @@ package Presentation.Frames;
 import BE.Alarm;
 import BE.Car;
 import BE.Position;
+import BLL.Alarm_AccessLink;
+import BLL.Car_AccessLink;
+import BLL.Position_AccessLink;
 import Presentation.Components.ListPanel;
 import Presentation.Components.TabView;
 import Presentation.Components.ViewObjects.ViewObjectAlarm;
 import Presentation.Components.ViewObjects.ViewObjectCar;
+import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
 import Presentation.MyColorConstants;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
@@ -30,73 +41,98 @@ import javax.swing.plaf.ColorUIResource;
  * @author Niels
  */
 public class MainFrame extends javax.swing.JFrame {
-
+    Car_AccessLink cal;
+    Alarm_AccessLink aal;
+    Position_AccessLink pal;
+    ViewObjectFactory vof;
+    
+    TabView tv;
+    LogIn li;
+    
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         super("FRIGG Check Ud");
-        initComponents();
-        setResizable(false);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setSize(dim.width, dim.height);
-        this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        setBackground(MyColorConstants.OUR_BLUE);
-
-        BorderLayout bl =  new BorderLayout();
-        setLayout(bl);
-        Footer f = new Footer();
-        add(f, BorderLayout.SOUTH);
-        
-        JPanel p1 = makeAlarmPanel();
-        JPanel p2 = makeCarPanel();
-        JPanel p3 = makePositionPanel();
-        ApprovePanel ap = new ApprovePanel();
-        
-        TabView tv = new TabView();
-        tv.addNewTab("alarm", p1);
-        tv.addNewTab("car", p2);
-        tv.addNewTab("position", p3);
-        tv.addNewTab("Godkend", ap);
-        add(tv, BorderLayout.CENTER);
-
-        //tv.setEnabledContent(p2, false);
+        try {
+            cal = new Car_AccessLink();
+            aal = new Alarm_AccessLink();
+            pal = new Position_AccessLink();
+            vof = new ViewObjectFactory();
+            initComponents();
+            setResizable(false);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            this.setSize(dim.width, dim.height);
+            this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+            setBackground(MyColorConstants.OUR_BLUE);
+            
+            BorderLayout bl =  new BorderLayout();
+            setLayout(bl);
+            Footer f = new Footer();
+            add(f, BorderLayout.SOUTH);
+            
+            JPanel p1 = getAlarmPanel();
+            JPanel p2 = getCarPanel();
+            JPanel p3 = getPositionPanel();
+            ApprovePanel ap = new ApprovePanel();
+            
+            tv = new TabView();
+            tv.addNewTab("alarm", p1, dim.width);
+            tv.addNewTab("car", p2, dim.width);
+            tv.addNewTab("position", p3, dim.width);
+            tv.addNewTab("Godkend", ap, dim.width);
+            li = new LogIn(this);
+            add(li, BorderLayout.CENTER);
+            
+            //tv.setEnabledContent(p2, false);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Could not use the config file, error: " + ex);
+        }
 
         
     }
     
-    protected JPanel makeAlarmPanel() {
+    protected JPanel getAlarmPanel() {
         ListPanel list = new ListPanel();
-        ViewObjectAlarm viewObject1 = new ViewObjectAlarm(new Alarm(25, 25565, "Hansensvej 22", "Brand og redning", new Date(2014-1900, 3, 29), false));
-        ViewObjectAlarm viewObject2 = new ViewObjectAlarm(new Alarm(25, 25567, "Strandbygade 42", "Kat i træ", new Date(2014-1900, 3, 29), false));
-        ViewObjectAlarm viewObject3 = new ViewObjectAlarm(new Alarm(25, 25568, "Hjertingvej 13", "Brand og redning", new Date(2014-1900, 3, 30), false));
-        ViewObjectAlarm viewObject4 = new ViewObjectAlarm(new Alarm(25, 25570, "Skt. Petersplads 0", "Brand og redning", new Date(2014-1900, 3, 31), false));
-        list.addViewObject(viewObject1);
-        list.addViewObject(viewObject2);
-        list.addViewObject(viewObject3);
-        list.addViewObject(viewObject4);
+        try{
+            ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
+            for(Alarm alarm : alarms){
+                list.addViewObject(vof.getViewObject(alarm));
+            }
+            
+        }catch(SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+        }
         return list;
     }
-    protected JPanel makeCarPanel(){
+        
+    protected JPanel getCarPanel(){
         ListPanel list = new ListPanel();
-        ViewObjectCar viewObject1 = new ViewObjectCar(new Car(2577, "res\\images (1).png", "SuperCar", 5));
-        ViewObjectCar viewObject2 = new ViewObjectCar(new Car(2579, "res\\images (2).png", "Firestarter", 2));
-        ViewObjectCar viewObject3 = new ViewObjectCar(new Car(4242, "res\\images (3).jpg", "The Freezer", 23));
-        list.addViewObject(viewObject1);
-        list.addViewObject(viewObject2);
-        list.addViewObject(viewObject3);
+        try {
+            ArrayList<Car> cars = cal.getAllCars();
+            for(Car car : cars){
+                list.addViewObject(vof.getViewObject(car));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+        }
         return list;
     }
-    protected JPanel makePositionPanel(){
+    
+    protected JPanel getPositionPanel(){
         ListPanel list = new ListPanel();
-        ViewObjectPosition viewObject1 = new ViewObjectPosition(new Position(0, "Chauffør"));
-        ViewObjectPosition viewObject2 = new ViewObjectPosition(new Position(1, "Holdleder"));
-        ViewObjectPosition viewObject3 = new ViewObjectPosition(new Position(2, "Brandmand"));
-        list.addViewObject(viewObject1);
-        list.addViewObject(viewObject2);
-        list.addViewObject(viewObject3);
+        try{
+            ArrayList<Position> positions = pal.getAllPositions();
+            for(Position pos : positions){
+                list.addViewObject(vof.getViewObject(pos));
+            }
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+        }
         return list;
     }
+    
+    
      
 
     /**
@@ -160,6 +196,13 @@ public class MainFrame extends javax.swing.JFrame {
                 new MainFrame().setVisible(true);
             }
         });
+    }
+    
+    public void changeView (){
+        remove(li);
+        add(tv, BorderLayout.CENTER);
+        validate();
+        repaint();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

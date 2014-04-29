@@ -30,12 +30,12 @@ public class TabView extends JTabbedPane{
         setOpaque(true);
     }
     
-    public void addNewTab(String tabName, JPanel content){
+    public void addNewTab(String tabName, JPanel content, int width){
         content.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         Tab t = new Tab(tabName, content);
         tabs.add(t);
-        int margin = (getWidth()/100)*5;
-        addTab("<html><body leftmargin=" + margin + " topmargin=" + margin + " marginwidth=25 marginheight=8>" + tabName + "</body></html>", content);
+        int margin = (width/100);
+        addTab("<html><body marginwidth="+(margin*7)+" marginheight="+(margin*2)+">" + tabName + "</body></html>", content);
         setBackgroundAt(tabs.size() -1, Color.WHITE);
     }
     
