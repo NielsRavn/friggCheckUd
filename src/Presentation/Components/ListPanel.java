@@ -7,6 +7,7 @@
 package Presentation.Components;
 
 import Presentation.Components.ViewObjects.ViewObject;
+import Presentation.MyColorConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -14,6 +15,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -85,12 +87,17 @@ public class ListPanel extends javax.swing.JPanel {
                     {
                         ViewObject myViewObject = (ViewObject) value;
                         if(isSelected)
-                            myViewObject.setBackground(Color.BLUE);
+                            myViewObject.setBackground(MyColorConstants.LIGHT_BLUE);
                         else
                             myViewObject.setBackground(Color.WHITE);
-                        return myViewObject;
+                        JPanel surroundPanel = new JPanel();
+                        surroundPanel.setLayout(new BorderLayout());
+                        surroundPanel.add(myViewObject, BorderLayout.CENTER);
+                        surroundPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
+                        return surroundPanel;
                     }
                 };
+        
         
         return r;
     }

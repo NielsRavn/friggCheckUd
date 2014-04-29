@@ -9,20 +9,27 @@ package Presentation.Frames;
 import BE.Alarm;
 import BE.Car;
 import BE.Position;
+import BLL.Car_AccessLink;
 import Presentation.Components.ListPanel;
 import Presentation.Components.TabView;
 import Presentation.Components.ViewObjects.ViewObjectAlarm;
 import Presentation.Components.ViewObjects.ViewObjectCar;
+import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
+import Presentation.MyColorConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.sql.Date;
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
@@ -32,38 +39,44 @@ import javax.swing.plaf.ColorUIResource;
  * @author Niels
  */
 public class MainFrame extends javax.swing.JFrame {
-
-    TabView tv;
-    LogIn li;
-            
+    Car_AccessLink cal;
+    ViewObjectFactory vof;
+    /**
+     * Creates new form MainFrame
+     */
     public MainFrame() {
         super("FRIGG Check Ud");
-        initComponents();
-        setResizable(false);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setSize(dim.width, dim.height);
-        this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-
-        BorderLayout bl =  new BorderLayout();
-        setLayout(bl);
-        Footer f = new Footer();
-        add(f, BorderLayout.SOUTH);
-        
-        JPanel p1 = makeAlarmPanel();
-        JPanel p2 = makeCarPanel();
-        JPanel p3 = makePositionPanel();
-        ApprovePanel ap = new ApprovePanel();
-        
-        tv = new TabView();
-        tv.addNewTab("alarm", p1);
-        tv.addNewTab("car", p2);
-        tv.addNewTab("position", p3);
-        tv.addNewTab("Godkend", ap);
-        li = new LogIn(this);
-        
-        add(li, BorderLayout.CENTER);
-
-        //tv.setEnabledContent(p2, false);
+        try {
+            cal = new Car_AccessLink();
+            vof = new ViewObjectFactory();
+            initComponents();
+            setResizable(false);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            this.setSize(dim.width, dim.height);
+            this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+            setBackground(MyColorConstants.OUR_BLUE);
+            
+            BorderLayout bl =  new BorderLayout();
+            setLayout(bl);
+            Footer f = new Footer();
+            add(f, BorderLayout.SOUTH);
+            
+            JPanel p1 = makeAlarmPanel();
+            JPanel p2 = getCarPanel();
+            JPanel p3 = makePositionPanel();
+            ApprovePanel ap = new ApprovePanel();
+            
+            TabView tv = new TabView();
+            tv.addNewTab("alarm", p1);
+            tv.addNewTab("car", p2);
+            tv.addNewTab("position", p3);
+            tv.addNewTab("Godkend", ap);
+            add(tv, BorderLayout.CENTER);
+            
+            //tv.setEnabledContent(p2, false);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Could not use the config file, error: " + ex);
+        }
 
         
     }
@@ -80,14 +93,16 @@ public class MainFrame extends javax.swing.JFrame {
         list.addViewObject(viewObject4);
         return list;
     }
-    protected JPanel makeCarPanel(){
+    protected JPanel getCarPanel(){
         ListPanel list = new ListPanel();
-        ViewObjectCar viewObject1 = new ViewObjectCar(new Car(2577, "res\\images (1).png", "SuperCar", 5));
-        ViewObjectCar viewObject2 = new ViewObjectCar(new Car(2579, "res\\images (2).png", "Firestarter", 2));
-        ViewObjectCar viewObject3 = new ViewObjectCar(new Car(4242, "res\\images (3).jpg", "The Freezer", 23));
-        list.addViewObject(viewObject1);
-        list.addViewObject(viewObject2);
-        list.addViewObject(viewObject3);
+        try {
+            ArrayList<Car> cars = cal.getAllCars();
+            for(Car car : cars){
+                list.addViewObject(vof.getViewObject(car));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+        }
         return list;
     }
     protected JPanel makePositionPanel(){
@@ -153,10 +168,9 @@ public class MainFrame extends javax.swing.JFrame {
 //            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
         //</editor-fold>
-
-       UIManager.put("TabbedPane.selected",ColorUIResource.GREEN);
-       UIManager.put("TabbedPane.background",ColorUIResource.CYAN);
-       UIManager.put("TabbedPane.focus", ColorUIResource.BLUE);
+        
+        UIManager.put("TabbedPane.tabAreaBackground",
+            MyColorConstants.OUR_BLUE);
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
