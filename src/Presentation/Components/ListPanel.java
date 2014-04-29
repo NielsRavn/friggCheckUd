@@ -14,6 +14,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -88,9 +89,14 @@ public class ListPanel extends javax.swing.JPanel {
                             myViewObject.setBackground(Color.BLUE);
                         else
                             myViewObject.setBackground(Color.WHITE);
-                        return myViewObject;
+                        JPanel surroundPanel = new JPanel();
+                        surroundPanel.setLayout(new BorderLayout());
+                        surroundPanel.add(myViewObject, BorderLayout.CENTER);
+                        surroundPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
+                        return surroundPanel;
                     }
                 };
+        
         
         return r;
     }
