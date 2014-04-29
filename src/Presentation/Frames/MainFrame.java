@@ -14,6 +14,7 @@ import Presentation.Components.TabView;
 import Presentation.Components.ViewObjects.ViewObjectAlarm;
 import Presentation.Components.ViewObjects.ViewObjectCar;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
+import Presentation.MyColorConstants;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -40,6 +41,7 @@ public class MainFrame extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setSize(dim.width, dim.height);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+        setBackground(MyColorConstants.OUR_BLUE);
 
         BorderLayout bl =  new BorderLayout();
         setLayout(bl);
@@ -148,10 +150,9 @@ public class MainFrame extends javax.swing.JFrame {
 //            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
         //</editor-fold>
-
-       UIManager.put("TabbedPane.selected",ColorUIResource.GREEN);
-       UIManager.put("TabbedPane.background",ColorUIResource.CYAN);
-       UIManager.put("TabbedPane.focus", ColorUIResource.BLUE);
+        
+        UIManager.put("TabbedPane.tabAreaBackground",
+            MyColorConstants.OUR_BLUE);
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
