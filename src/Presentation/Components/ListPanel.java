@@ -8,6 +8,7 @@ package Presentation.Components;
 
 import Presentation.Components.ViewObjects.ViewObject;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -83,6 +84,10 @@ public class ListPanel extends javax.swing.JPanel {
                             boolean cellHasFocus)
                     {
                         ViewObject myViewObject = (ViewObject) value;
+                        if(isSelected)
+                            myViewObject.setBackground(Color.BLUE);
+                        else
+                            myViewObject.setBackground(Color.GRAY);
                         return myViewObject;
                     }
                 };
