@@ -74,10 +74,10 @@ public class MainFrame extends javax.swing.JFrame {
             ApprovePanel ap = new ApprovePanel();
             
             tv = new TabView();
-            tv.addNewTab("alarm", p1);
-            tv.addNewTab("car", p2);
-            tv.addNewTab("position", p3);
-            tv.addNewTab("Godkend", ap);
+            tv.addNewTab("alarm", p1, dim.width);
+            tv.addNewTab("car", p2, dim.width);
+            tv.addNewTab("position", p3, dim.width);
+            tv.addNewTab("Godkend", ap, dim.width);
             li = new LogIn(this);
             add(li, BorderLayout.CENTER);
             
