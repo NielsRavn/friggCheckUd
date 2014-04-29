@@ -10,7 +10,9 @@ import BE.Alarm;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.sql.Date;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -37,12 +39,18 @@ public class ViewObjectAlarm extends ViewObject{
     private void fillData() {
         topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout());
-        topPanel.add(new JLabel(destination));
-        topPanel.add(new JLabel(time.toString()));
+        JLabel lblDest = new JLabel(destination);
+        lblDest.setFont(new Font("Comic Sans", Font.PLAIN, 42));
+        JLabel lblTime = new JLabel(" - " + time.toString());
+        lblTime.setFont(new Font("Comic Sans", Font.PLAIN, 42));
+        topPanel.add(lblDest);
+        topPanel.add(lblTime);
         add(topPanel, BorderLayout.NORTH);
         buttomPanel = new JPanel();
         buttomPanel.setLayout(new FlowLayout());
-        buttomPanel.add(new JLabel(type));
+        JLabel lblType = new JLabel(type);
+        lblType.setFont(new Font("Comic Sans", Font.PLAIN, 24));
+        buttomPanel.add(lblType);
         add(buttomPanel, BorderLayout.CENTER);
     }
     

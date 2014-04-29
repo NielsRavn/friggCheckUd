@@ -7,7 +7,10 @@
 package Presentation.Components.ViewObjects;
 
 import BE.Car;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -28,7 +31,9 @@ public class ViewObjectCar extends ViewObject{
 
     private void fillData() {
         add(new JLabel(carIcon));
-        add(new JLabel(""+carNr));
+        JLabel carInfo = new JLabel(""+carNr);
+        carInfo.setFont(new Font("Comic Sans", Font.PLAIN, 42));
+        add(carInfo);
     }
     
 }

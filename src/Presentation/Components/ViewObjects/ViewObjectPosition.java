@@ -8,8 +8,11 @@ package Presentation.Components.ViewObjects;
 
 import BE.Position;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.sql.Date;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -26,6 +29,8 @@ public class ViewObjectPosition extends ViewObject{
     }
 
     private void fillData() {
-        add(new JLabel(pos));
+        JLabel lblPos = new JLabel(pos);
+        lblPos.setFont(new Font("Comic Sans", Font.PLAIN, 80));
+        add(lblPos);
     }
 }
