@@ -11,6 +11,7 @@ import BE.Car;
 import BE.Position;
 import BLL.Alarm_AccessLink;
 import BLL.Car_AccessLink;
+import BLL.Position_AccessLink;
 import Presentation.Components.ListPanel;
 import Presentation.Components.TabView;
 import Presentation.Components.ViewObjects.ViewObjectAlarm;
@@ -42,6 +43,7 @@ import javax.swing.plaf.ColorUIResource;
 public class MainFrame extends javax.swing.JFrame {
     Car_AccessLink cal;
     Alarm_AccessLink aal;
+    Position_AccessLink pal;
     ViewObjectFactory vof;
     
     TabView tv;
@@ -55,6 +57,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             cal = new Car_AccessLink();
             aal = new Alarm_AccessLink();
+            pal = new Position_AccessLink();
             vof = new ViewObjectFactory();
             initComponents();
             setResizable(false);
@@ -70,7 +73,7 @@ public class MainFrame extends javax.swing.JFrame {
             
             JPanel p1 = getAlarmPanel();
             JPanel p2 = getCarPanel();
-            JPanel p3 = makePositionPanel();
+            JPanel p3 = getPositionPanel();
             ApprovePanel ap = new ApprovePanel();
             
             tv = new TabView();
@@ -116,16 +119,20 @@ public class MainFrame extends javax.swing.JFrame {
         return list;
     }
     
-    protected JPanel makePositionPanel(){
+    protected JPanel getPositionPanel(){
         ListPanel list = new ListPanel();
-        ViewObjectPosition viewObject1 = new ViewObjectPosition(new Position(0, "Chauffør"));
-        ViewObjectPosition viewObject2 = new ViewObjectPosition(new Position(1, "Holdleder"));
-        ViewObjectPosition viewObject3 = new ViewObjectPosition(new Position(2, "Brandmand"));
-        list.addViewObject(viewObject1);
-        list.addViewObject(viewObject2);
-        list.addViewObject(viewObject3);
+        try{
+            ArrayList<Position> positions = pal.getAllPositions();
+            for(Position pos : positions){
+                list.addViewObject(vof.getViewObject(pos));
+            }
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+        }
         return list;
     }
+    
+    
      
 
     /**

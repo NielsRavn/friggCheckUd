@@ -6,7 +6,15 @@
 
 package DAL;
 
+import BE.Alarm;
+import BE.Position;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,4 +26,25 @@ public class Position_Access extends DatabaseConnection{
         super();
     }
     
+    public ArrayList<Position> getAllPositions() throws SQLServerException, SQLException{
+        Connection con = null;
+        ArrayList<Position> positions = new ArrayList<>();
+        
+        try{
+            con = getConnection();
+            Statement stmnt = con.createStatement();
+            
+            ResultSet rs = stmnt.executeQuery("SELECT * FROM Position;");
+            
+            while(rs.next()){
+                Position p = new Position(rs.getInt("id"), rs.getString("name"));
+                
+                positions.add(p);
+            }
+        }finally{
+            if(con != null) con.close();
+        }
+        
+        return positions;
+    }
 }
