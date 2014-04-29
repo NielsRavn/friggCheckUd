@@ -31,7 +31,7 @@ public class ViewObjectPosition extends ViewObject{
 
     private void fillData() {
         JLabel lblPos = new JLabel(pos);
-        lblPos.setFont(new Font("Comic Sans", Font.PLAIN, 42));
+        lblPos.setFont(new Font("Comic Sans", Font.PLAIN, 80));
         add(lblPos);
     }
 }
