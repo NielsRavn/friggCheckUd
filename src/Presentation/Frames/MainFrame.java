@@ -100,14 +100,6 @@ public class MainFrame extends javax.swing.JFrame {
         }catch(SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
-//        ViewObjectAlarm viewObject1 = new ViewObjectAlarm(new Alarm(25, 25565, "Hansensvej 22", "Brand og redning", new Date(2014-1900, 3, 29), false));
-//        ViewObjectAlarm viewObject2 = new ViewObjectAlarm(new Alarm(25, 25567, "Strandbygade 42", "Kat i træ", new Date(2014-1900, 3, 29), false));
-//        ViewObjectAlarm viewObject3 = new ViewObjectAlarm(new Alarm(25, 25568, "Hjertingvej 13", "Brand og redning", new Date(2014-1900, 3, 30), false));
-//        ViewObjectAlarm viewObject4 = new ViewObjectAlarm(new Alarm(25, 25570, "Skt. Petersplads 0", "Brand og redning", new Date(2014-1900, 3, 31), false));
-//        list.addViewObject(viewObject1);
-//        list.addViewObject(viewObject2);
-//        list.addViewObject(viewObject3);
-//        list.addViewObject(viewObject4);
         return list;
     }
         
