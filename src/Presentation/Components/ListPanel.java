@@ -87,7 +87,7 @@ public class ListPanel extends javax.swing.JPanel {
                         if(isSelected)
                             myViewObject.setBackground(Color.BLUE);
                         else
-                            myViewObject.setBackground(Color.GRAY);
+                            myViewObject.setBackground(Color.WHITE);
                         return myViewObject;
                     }
                 };
