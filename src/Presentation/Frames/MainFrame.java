@@ -76,8 +76,8 @@ public class MainFrame extends javax.swing.JFrame {
     }
     protected JPanel makeCarPanel(){
         ListPanel list = new ListPanel();
-        ViewObjectCar viewObject1 = new ViewObjectCar(new Car(2577, "res\\images (1).jpg", "SuperCar", 5));
-        ViewObjectCar viewObject2 = new ViewObjectCar(new Car(2579, "res\\images (2).jpg", "Firestarter", 2));
+        ViewObjectCar viewObject1 = new ViewObjectCar(new Car(2577, "res\\images (1).png", "SuperCar", 5));
+        ViewObjectCar viewObject2 = new ViewObjectCar(new Car(2579, "res\\images (2).png", "Firestarter", 2));
         ViewObjectCar viewObject3 = new ViewObjectCar(new Car(4242, "res\\images (3).jpg", "The Freezer", 23));
         list.addViewObject(viewObject1);
         list.addViewObject(viewObject2);
