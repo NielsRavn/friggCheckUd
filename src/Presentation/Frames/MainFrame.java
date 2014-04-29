@@ -49,6 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
         JPanel p1 = makeAlarmPanel();
         JPanel p2 = makeCarPanel();
         JPanel p3 = makePositionPanel();
+        ApprovePanel ap = new ApprovePanel();
         
         TabView tv = new TabView();
         tv.addNewTab("alarm", p1);
