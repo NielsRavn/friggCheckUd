@@ -6,6 +6,8 @@
 
 package Presentation.Frames;
 
+import BE.Fireman;
+import BLL.Fireman_AccessLink;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,11 +16,13 @@ import javax.swing.JOptionPane;
  */
 public class LogIn extends javax.swing.JPanel {
 
-    /**
-     * Creates new form LogIn
-     */
+    private Fireman_AccessLink firemanMgr;
+            
+            
     public LogIn() {
         initComponents();
+        firemanMgr = new Fireman_AccessLink();
+        Fireman fireman;
     }
 
     /**
@@ -81,7 +85,8 @@ logIn();
         else {
             int FiremanID = Integer.parseInt(txtLogIn.getText());
             
-//            fireman = 
+            fireman = firemanMgr.getFiremanByID(); 
+            
         } 
             }
 
