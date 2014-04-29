@@ -9,12 +9,24 @@ package Presentation.Components.ViewObjects;
 import BE.Alarm;
 import BE.Car;
 import BE.Position;
+import BE.ViewObjectBE;
 
 /**
  *
  * @author Brobak
  */
 public abstract class ViewObjectFactory {
+    
+    public ViewObject getViewObject(ViewObjectBE viewObjectBE){
+        if(viewObjectBE.getClass() == Car.class)
+            return getViewObject((Car) viewObjectBE);
+        else if(viewObjectBE.getClass() == Alarm.class)
+            return getViewObject((Alarm) viewObjectBE);
+        else if (viewObjectBE.getClass() == Position.class)
+            return getViewObject((Position) viewObjectBE);
+        
+        return null;
+    }
     
     public ViewObjectCar getViewObject(Car car){
         return new ViewObjectCar(car);

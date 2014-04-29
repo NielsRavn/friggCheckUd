@@ -10,7 +10,7 @@ package Presentation.Components.ViewObjects;
  *
  * @author Brobak
  */
-public class ViewObject extends javax.swing.JPanel {
+public abstract class ViewObject extends javax.swing.JPanel {
 
     /**
      * Creates new form ViewObject

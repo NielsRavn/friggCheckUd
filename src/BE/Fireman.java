@@ -10,7 +10,7 @@ package BE;
  *
  * @author Susanne
  */
-public class Fireman {
+public class Fireman{
     private int ID;
     private String firstName;
     private String lastName;

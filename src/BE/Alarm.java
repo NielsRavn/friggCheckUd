@@ -12,7 +12,7 @@ import java.sql.Date;
  *
  * @author Susanne
  */
-public class Alarm {
+public class Alarm implements ViewObjectBE{
     private int ID;
     private int odinNr;
     private String distination;

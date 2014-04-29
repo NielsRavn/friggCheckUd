@@ -10,7 +10,7 @@ package BE;
  * 
  * @author Susanne
  */
-public class Car {
+public class Car implements ViewObjectBE{
     private int carNr;
     private String iconPath;
     private String name;
