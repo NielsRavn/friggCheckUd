@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Presentation.Frames;
 
 import BE.Fireman;
 import BLL.Fireman_AccessLink;
 import java.awt.Component;
+import java.awt.GridBagLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -23,18 +26,32 @@ import javax.swing.JOptionPane;
 public class LogIn extends javax.swing.JPanel {
 
     private Fireman_AccessLink firemanMgr;
-            MainFrame parent;
-            
+    MainFrame parent;
+
     public LogIn(MainFrame parent) {
         initComponents();
+
         this.parent = parent;
         try {
             firemanMgr = new Fireman_AccessLink();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "fejl!");
         }
+
+        txtLogIn.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    logIn();
+                }
+            }
+
+        });
+        setLayout(new GridBagLayout());
     }
-Fireman fireman;
+    Fireman fireman;
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,7 +77,7 @@ Fireman fireman;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
-logIn();        
+        logIn();
     }//GEN-LAST:event_btnLogInActionPerformed
 
 
@@ -69,26 +86,26 @@ logIn();
     private javax.swing.JTextField txtLogIn;
     // End of variables declaration//GEN-END:variables
 
-    private void logIn()  {
-        if (!IsInteger(txtLogIn.getText()) || txtLogIn.getText().isEmpty()){ 
+    private void logIn() {
+        if (!IsInteger(txtLogIn.getText()) || txtLogIn.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Medarbejder nummer ikke godkendt");
             txtLogIn.setText(null);
             txtLogIn.requestFocus();
-        }
-        else {
+        } else {
             int FiremanID = Integer.parseInt(txtLogIn.getText());
             try {
                 fireman = firemanMgr.getFiremanByID(FiremanID);
-                if(fireman != null)
+                if (fireman != null) {
                     parent.changeView();
-                else 
+                } else {
                     JOptionPane.showMessageDialog(this, "Medarbejder nummer eksisterer ikke.");
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-        } 
-            }
+
+        }
+    }
 
     private boolean IsInteger(String s) {
         try {
@@ -96,11 +113,11 @@ logIn();
         } catch (NumberFormatException e) {
             return false;
         }
-        return true;    }
+        return true;
+    }
 
     public Fireman getFireman() {
         return fireman;
     }
-    
-    
+
 }
