@@ -41,12 +41,13 @@ public class MainFrame extends javax.swing.JFrame {
         JPanel p1 = makeTextPanel("det her er panel 1");
         JPanel p2 = makeTextPanel("her har vi panel 2");
         JPanel p3 = makeTextPanel("mr ultimate panel!");
+        ApprovePanel ap = new ApprovePanel();
         
         TabView tv = new TabView();
         tv.addNewTab("alarm", p1);
         tv.addNewTab("car", p2);
         tv.addNewTab("position", p3);
-        tv.setLocation(50, 50);
+        tv.addNewTab("Godkend", ap);
         add(tv, BorderLayout.CENTER);
 
         //tv.setEnabledContent(p2, false);
