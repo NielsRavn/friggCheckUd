@@ -11,26 +11,31 @@ import BE.Car;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Brobak
  */
 public class Alarm_Access extends DatabaseConnection{
-    
+    XmlScanner xml;
     public Alarm_Access() throws IOException{
         super();
+        xml = new XmlScanner();
     }
     
     
     public ArrayList<Alarm> getAllUnfinishedAlarms() throws SQLServerException, SQLException{
         Connection con = null;
         ArrayList<Alarm> alarms = new ArrayList<>();
-        
+        getAlarmFromXml();
         try{
             con = getConnection();
             Statement stmnt = con.createStatement();
@@ -47,6 +52,49 @@ public class Alarm_Access extends DatabaseConnection{
         }
         
         return alarms;
+    }
+    
+    
+    private void getAlarmFromXml() throws SQLException
+    {
+        ArrayList<Integer> alarmsFromSql = new ArrayList<Integer>();
+        Connection con = null;
+        try{
+            con = getConnection();
+            Statement stmnt = con.createStatement();
+            
+            ResultSet rs = stmnt.executeQuery("SELECT * FROM Alarm WHERE accepted = 0;");
+            
+            while(rs.next()){
+               alarmsFromSql.add(rs.getInt("odinNr"));
+            }
+        
+        try {
+            ArrayList<Alarm> newAlarm =  xml.scanner();
+        
+        for(Alarm a : newAlarm)
+        {
+            if(!alarmsFromSql.contains(a.getOdinNr()))
+            {
+                String sql = "INSERT INTO Alarm VALUES (?,?,?,?,?)";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setInt(1, a.getOdinNr());
+                ps.setString(2, a.getDistination());
+                ps.setString(3, a.getType());
+                ps.setDate(4, a.getTime());
+                ps.setBoolean(5, false);
+                
+                ps.executeUpdate();
+            }
+            
+        }
+        
+        } catch (ParseException ex) {
+            
+        }
+        }finally{
+            if(con != null) con.close();
+        }
     }
     
 }

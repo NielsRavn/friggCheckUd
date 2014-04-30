@@ -280,14 +280,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         @Override
         public void notifyObserver() {
-//            if(mfl.getNextPanel() == null){
-//                approveListPanel.clearList();
-//                fillApproveListPanel();
-//                tv.setSelectedComponent(approvePanel);
-//                
-//            }
-//            else
-//                tv.setSelectedComponent(mfl.getNextPanel());
+            if(mfl.getNextPanel() == null){
+                approveListPanel.clearList();
+                fillApproveListPanel();
+                tv.setSelectedComponent(approvePanel);
+                
+            }
+            else
+                tv.setSelectedComponent(mfl.getNextPanel());
             
         }
         
