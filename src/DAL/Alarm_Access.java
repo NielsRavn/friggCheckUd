@@ -74,7 +74,7 @@ public class Alarm_Access extends DatabaseConnection{
         
         for(Alarm a : newAlarm)
         {
-            if(!alarmsFromSql.contains(a))
+            if(!alarmsFromSql.contains(a.getOdinNr()))
             {
                 String sql = "INSERT INTO Alarm VALUES (?,?,?,?,?)";
                 PreparedStatement ps = con.prepareStatement(sql);
