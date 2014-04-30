@@ -20,6 +20,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
@@ -35,7 +36,7 @@ import org.xml.sax.SAXException;
 public class XmlScanner {
     
     Scanner scanner = new Scanner(System.in);
-    public Alarm scanner()
+    public Alarm scanner() throws ParseException
     {
       
         String file = "res\\alarm.xml";
@@ -48,24 +49,37 @@ public class XmlScanner {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(is);
             
-            XPathFactory xpathFactory = XPathFactory.newInstance();
-            XPath xpath = xpathFactory.newXPath();
+            doc.getDocumentElement().normalize();
             
-            int odinNr = Integer.parseInt(xpath.evaluate("call/alarm/odinNr", doc));
-            String destination = xpath.evaluate("call/alarm/destination", doc);
-            String type = xpath.evaluate("call/alarm/type", doc);
-            String s=  xpath.evaluate("call/alarm/time", doc);
-            
-            SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Element docEle = doc.getDocumentElement();
+               NodeList nl = docEle.getChildNodes();
+               if (nl != null && nl.getLength() > 0) 
+               {
+                   for (int i = 0; i < nl.getLength(); i++) 
+                   {
+                       if (nl.item(i).getNodeType() == Node.ELEMENT_NODE) 
+                       {
+                           Element el = (Element) nl.item(i);
+                           int odinNr = Integer.parseInt(el.getElementsByTagName("odinNr").item(0).getTextContent());
+                           String destination = el.getElementsByTagName("destination").item(0).getTextContent();
+                           String type = el.getElementsByTagName("type").item(0).getTextContent();
+                           String s = el.getElementsByTagName("time").item(0).getTextContent();
+                           
+                           SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             
                java.util.Date result = sd.parse(s);
                java.sql.Date sqlDate = new java.sql.Date(result.getTime());
                            
-               //alarm = new Alarm(odinNr, destination, type, date);           
-            
-        
-        } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException | ParseException ex) {
-         
+               
+                alarm = new Alarm(odinNr, destination, type, sqlDate);
+                       }
+                   }
+               }
+                
+                
+                //alarm = new Alarm(odinNr, destination, type, date);
+                
+         } catch (IOException | ParserConfigurationException | SAXException ex) {
         
         }
         

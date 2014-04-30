@@ -8,6 +8,9 @@ package BLL;
 
 import BE.Alarm;
 import DAL.XmlScanner;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,6 +27,12 @@ public class AlarmFromOdin {
     
     Alarm getAlarmFromOdin()
     {
-        return scanner.scanner();
+        Alarm result = null;
+        try {
+            result = scanner.scanner();
+        } catch (ParseException ex) {
+          
+        }
+        return result;
     }
 }

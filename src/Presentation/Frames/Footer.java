@@ -5,7 +5,8 @@
  */
 
 package Presentation.Frames;
-import DAL.XmlScanner;
+
+import Presentation.MyColorConstants;
 import java.awt.Color;
 
 /**
@@ -13,18 +14,17 @@ import java.awt.Color;
  * @author Poul Nielsen
  */
 public class Footer extends javax.swing.JPanel {
-XmlScanner scanner;
+
     /**
      * Creates new form Footer
      */
     public Footer() {
         initComponents();
-        jbLogOut.setBackground(Color.RED);
-        jbAprove.setBackground(Color.GREEN);
-        jbErrorReporting.setBackground(Color.yellow);
+        jbLogOut.setBackground(MyColorConstants.OUR_RED);
+        jbAprove.setBackground(MyColorConstants.OUR_GREEN);
+        jbErrorReporting.setBackground(MyColorConstants.LIGHT_BLUE);
         this.setBackground(Color.white);
-        scanner = new XmlScanner();
-      System.out.println(scanner.scanner());
+        
     }
 
     /**
@@ -40,7 +40,9 @@ XmlScanner scanner;
         jbErrorReporting = new javax.swing.JButton();
         jbAprove = new javax.swing.JButton();
 
-        jbLogOut.setText("<html><body marginwidth=20 marginheight=10>Log ud</body></html>");
+        jbLogOut.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jbLogOut.setForeground(new java.awt.Color(255, 255, 255));
+        jbLogOut.setText("<html><body marginwidth=30 marginheight=20>Log ud</body></html>");
         jbLogOut.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jbLogOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -48,14 +50,18 @@ XmlScanner scanner;
             }
         });
 
-        jbErrorReporting.setText("<html><body marginwidth=20 marginheight=10>Opret Fejl Report</body></html>");
+        jbErrorReporting.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jbErrorReporting.setText("<html><body marginwidth=30 marginheight=20>Opret Fejl Report</body></html>");
         jbErrorReporting.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbErrorReportingActionPerformed(evt);
             }
         });
 
-        jbAprove.setText("<html><body marginwidth=20 marginheight=10>Godkend køreseddel</body></html>");
+        jbAprove.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jbAprove.setForeground(new java.awt.Color(255, 255, 255));
+        jbAprove.setText("<html><body marginwidth=30 marginheight=20>Godkend køreseddel</body></html>");
+        jbAprove.setActionCommand("<html><body marginwidth=30 marginheight=20>Godkend køreseddel</body></html>");
         jbAprove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbAproveActionPerformed(evt);
@@ -71,7 +77,7 @@ XmlScanner scanner;
                 .addComponent(jbErrorReporting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbAprove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(jbLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
