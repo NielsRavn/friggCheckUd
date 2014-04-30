@@ -6,12 +6,9 @@
 
 package Presentation.Components;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
+import Presentation.MyConstants;
+import java.awt.Color;
 import java.awt.Graphics;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.BoxLayout;
 
 /**
  *
@@ -26,6 +23,10 @@ public class TimePicker extends javax.swing.JPanel {
      */
     public TimePicker() {
         initComponents();
+        btnAnnuller.setBackground(MyConstants.COLOR_RED);
+        btnOkay.setBackground(MyConstants.COLOR_GREEN);
+        btnAnnuller.setForeground(Color.WHITE);
+        btnOkay.setForeground(Color.WHITE);
         
     }
 
@@ -40,39 +41,39 @@ public class TimePicker extends javax.swing.JPanel {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnAnnuller = new javax.swing.JButton();
+        btnOkay = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
+        tfHour = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tfMinute = new javax.swing.JTextField();
 
         setLayout(new java.awt.GridBagLayout());
 
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jButton2.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jButton2.setText("Annuller");
-        jPanel2.add(jButton2);
+        btnAnnuller.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        btnAnnuller.setText("Annuller");
+        jPanel2.add(btnAnnuller);
 
-        jButton1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jButton1.setText("Okay");
-        jPanel2.add(jButton1);
+        btnOkay.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        btnOkay.setText("Okay");
+        jPanel2.add(btnOkay);
 
         jPanel3.add(jPanel2, java.awt.BorderLayout.SOUTH);
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 1, 70)); // NOI18N
-        jTextField2.setText("00");
-        jPanel1.add(jTextField2);
+        tfHour.setFont(new java.awt.Font("Tahoma", 1, 70)); // NOI18N
+        tfHour.setText("00");
+        jPanel1.add(tfHour);
 
         jLabel3.setFont(new java.awt.Font("Calibri", 1, 120)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText(":");
         jPanel1.add(jLabel3);
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 1, 70)); // NOI18N
-        jTextField1.setText("00");
-        jPanel1.add(jTextField1);
+        tfMinute.setFont(new java.awt.Font("Tahoma", 1, 70)); // NOI18N
+        tfMinute.setText("00");
+        jPanel1.add(tfMinute);
 
         jPanel3.add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -88,14 +89,14 @@ public class TimePicker extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnAnnuller;
+    private javax.swing.JButton btnOkay;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField tfHour;
+    private javax.swing.JTextField tfMinute;
     // End of variables declaration//GEN-END:variables
 
     @Override
