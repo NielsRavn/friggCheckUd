@@ -7,7 +7,7 @@ package Presentation.Frames;
 
 import BE.Fireman;
 import BLL.Fireman_AccessLink;
-import Presentation.MyColorConstants;
+import Presentation.MyConstants;
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyAdapter;
@@ -31,7 +31,7 @@ public class LogIn extends javax.swing.JPanel {
 
     public LogIn(MainFrame parent) {
         initComponents();
-        btnLogIn.setBackground(MyColorConstants.OUR_GREEN);
+        btnLogIn.setBackground(MyConstants.COLOR_GREEN);
         
         this.parent = parent;
         try {

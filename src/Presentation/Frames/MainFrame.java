@@ -20,7 +20,7 @@ import Presentation.Components.ViewObjects.ViewObjectAlarm;
 import Presentation.Components.ViewObjects.ViewObjectCar;
 import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
-import Presentation.MyColorConstants;
+import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -82,7 +82,7 @@ public class MainFrame extends javax.swing.JFrame {
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             this.setSize(dim.width, dim.height);
             this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-            setBackground(MyColorConstants.OUR_BLUE);
+            setBackground(MyConstants.COLOR_BLUE);
             
             BorderLayout bl =  new BorderLayout();
             setLayout(bl);
@@ -171,11 +171,11 @@ public class MainFrame extends javax.swing.JFrame {
         JPanel footer = new JPanel();
         footer.setLayout(new FlowLayout());
         JButton btnAccept = new JButton("Accepter");
-        btnAccept.setBackground(MyColorConstants.OUR_GREEN);
+        btnAccept.setBackground(MyConstants.COLOR_GREEN);
         btnAccept.setForeground(Color.WHITE);
         btnAccept.setFont(null);
         JButton btnCancel = new JButton("Fortryd");
-        btnCancel.setBackground(MyColorConstants.OUR_RED);
+        btnCancel.setBackground(MyConstants.COLOR_RED);
         btnCancel.setForeground(Color.WHITE);
         footer.add(btnAccept);
         footer.add(btnCancel);
@@ -247,7 +247,7 @@ public class MainFrame extends javax.swing.JFrame {
         //</editor-fold>
         
         UIManager.put("TabbedPane.tabAreaBackground",
-            MyColorConstants.OUR_BLUE);
+            MyConstants.COLOR_BLUE);
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

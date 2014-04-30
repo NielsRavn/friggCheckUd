@@ -6,7 +6,7 @@
 
 package Presentation.Components;
 
-import Presentation.MyColorConstants;
+import Presentation.MyConstants;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ public class TabView extends JTabbedPane{
 
     @Override
     protected void paintComponent(Graphics g) {
-        g.setColor(MyColorConstants.OUR_BLUE);
+        g.setColor(MyConstants.COLOR_BLUE);
         g.drawRect(0, 0, getWidth(), getHeight());
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
     }

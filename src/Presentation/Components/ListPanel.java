@@ -7,7 +7,7 @@ package Presentation.Components;
 
 import BLL.IObserver;
 import Presentation.Components.ViewObjects.ViewObject;
-import Presentation.MyColorConstants;
+import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -113,7 +113,7 @@ public class ListPanel extends javax.swing.JPanel{
                 {
                     ViewObject myViewObject = (ViewObject) value;
                     if(isSelected)
-                        myViewObject.setBackground(MyColorConstants.LIGHT_BLUE);
+                        myViewObject.setBackground(MyConstants.COLOR_LIGHT_BLUE);
                     else
                         myViewObject.setBackground(Color.WHITE);
                     JPanel surroundPanel = new JPanel();

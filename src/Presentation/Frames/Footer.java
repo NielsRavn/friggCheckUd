@@ -6,7 +6,7 @@
 
 package Presentation.Frames;
 
-import Presentation.MyColorConstants;
+import Presentation.MyConstants;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
@@ -21,9 +21,9 @@ public class Footer extends javax.swing.JPanel {
      */
     public Footer(MainFrame parent) {
         initComponents();
-        jbLogOut.setBackground(MyColorConstants.OUR_RED);
-        jbAprove.setBackground(MyColorConstants.OUR_GREEN);
-        jbErrorReporting.setBackground(MyColorConstants.LIGHT_BLUE);
+        jbLogOut.setBackground(MyConstants.COLOR_RED);
+        jbAprove.setBackground(MyConstants.COLOR_GREEN);
+        jbErrorReporting.setBackground(MyConstants.COLOR_LIGHT_BLUE);
         this.setBackground(Color.white);
         this.parent = parent;
     }
