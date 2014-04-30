@@ -106,6 +106,7 @@ public class LogIn extends javax.swing.JPanel {
                 } else {
                     JOptionPane.showMessageDialog(this, "Medarbejder nummer eksisterer ikke.");
                     txtLogIn.setText("");
+                    setFocus();
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
