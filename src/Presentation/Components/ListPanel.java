@@ -5,40 +5,49 @@
  */
 package Presentation.Components;
 
+import BLL.IObserver;
 import Presentation.Components.ViewObjects.ViewObject;
 import Presentation.MyColorConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
-import java.awt.dnd.MouseDragGestureRecognizer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import static java.util.Collections.list;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JViewport;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
  * @author Brobak
  */
-public class ListPanel extends javax.swing.JPanel {
-
+public class ListPanel extends javax.swing.JPanel{
     JPanel thisList;
     DefaultListModel model;
-
+    ArrayList<IObserver> observers;
+    
     /**
      * Creates new form ListPanel
      */
     public ListPanel() {
         initComponents();
         thisList = this;
+        observers = new ArrayList();
         model = new DefaultListModel();
         lstData.setModel(model);
         lstData.setCellRenderer(getClientListRenderer());
+        lstData.addListSelectionListener(new MyListSelectionListener());
         MyMouseMotionAdapter mma = new MyMouseMotionAdapter();
         lstData.addMouseListener(mma);
         jScrollPane1.addMouseListener(mma);
@@ -94,29 +103,64 @@ public class ListPanel extends javax.swing.JPanel {
      *
      * @return
      */
-    private ListCellRenderer getClientListRenderer() {
-        ListCellRenderer r
-                = new ListCellRenderer() {
-                    @Override
-                    public Component getListCellRendererComponent(JList list,
-                            Object value, int index, boolean isSelected,
-                            boolean cellHasFocus) {
-                        ViewObject myViewObject = (ViewObject) value;
-                        if (isSelected) {
-                            myViewObject.setBackground(MyColorConstants.LIGHT_BLUE);
-                        } else {
-                            myViewObject.setBackground(Color.WHITE);
-                        }
-                        JPanel surroundPanel = new JPanel();
-                        surroundPanel.setLayout(new BorderLayout());
-                        surroundPanel.add(myViewObject, BorderLayout.CENTER);
-                        surroundPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
-                        return surroundPanel;
-                    }
-                };
-
+    private ListCellRenderer getClientListRenderer(){
+        ListCellRenderer r =
+            new ListCellRenderer() {
+                @Override
+                public Component getListCellRendererComponent(JList list,
+                        Object value, int index, boolean isSelected,
+                        boolean cellHasFocus)
+                {
+                    ViewObject myViewObject = (ViewObject) value;
+                    if(isSelected)
+                        myViewObject.setBackground(MyColorConstants.LIGHT_BLUE);
+                    else
+                        myViewObject.setBackground(Color.WHITE);
+                    JPanel surroundPanel = new JPanel();
+                    surroundPanel.setLayout(new BorderLayout());
+                    surroundPanel.add(myViewObject, BorderLayout.CENTER);
+                    surroundPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
+                    return surroundPanel;
+                }
+            };
+        
+        
         return r;
     }
+    
+    public ViewObject getSelectedViewObject(){
+        return (ViewObject)lstData.getSelectedValue();
+    }
+    
+    public void addSelectionObserver(IObserver observer){
+        observers.add(observer);
+    }
+    
+    public void removeSelectionObserver(IObserver observer){
+        observers.remove(observer);
+    }
+    
+    private void notifyObservers(){
+        for(IObserver observer : observers){
+            observer.notifyObserver();
+        }
+    }
+    
+    public void clearList(){
+        model.removeAllElements();
+    }
+    
+    private class MyListSelectionListener implements ListSelectionListener{
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            notifyObservers();
+        }
+        
+    }
+    
+   
+    
 
     private class MyMouseMotionAdapter extends MouseAdapter {
 

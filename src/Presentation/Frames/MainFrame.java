@@ -11,6 +11,8 @@ import BE.Car;
 import BE.Position;
 import BLL.Alarm_AccessLink;
 import BLL.Car_AccessLink;
+import BLL.IObserver;
+import BLL.MainFrameLogic;
 import BLL.Position_AccessLink;
 import Presentation.Components.ListPanel;
 import Presentation.Components.TabView;
@@ -20,8 +22,10 @@ import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
 import Presentation.MyColorConstants;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -30,6 +34,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -45,10 +50,18 @@ public class MainFrame extends javax.swing.JFrame {
     Alarm_AccessLink aal;
     Position_AccessLink pal;
     ViewObjectFactory vof;
+    MainFrameLogic mfl;
+    myListPanelListener panelListener;
     
     TabView tv;
     LogIn li;
     
+    ListPanel alarmPanel;
+    ListPanel carPanel;
+    ListPanel positionPanel;
+    ListPanel approveListPanel;
+    
+    JPanel approvePanel;
     /**
      * Creates new form MainFrame
      */
@@ -59,6 +72,9 @@ public class MainFrame extends javax.swing.JFrame {
             aal = new Alarm_AccessLink();
             pal = new Position_AccessLink();
             vof = new ViewObjectFactory();
+            mfl = new MainFrameLogic();
+            panelListener = new myListPanelListener();
+            
             initComponents();
             setResizable(false);
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -71,16 +87,24 @@ public class MainFrame extends javax.swing.JFrame {
             Footer f = new Footer();
             add(f, BorderLayout.SOUTH);
             
-            JPanel p1 = getAlarmPanel();
-            JPanel p2 = getCarPanel();
-            JPanel p3 = getPositionPanel();
-            ApprovePanel ap = new ApprovePanel();
+            alarmPanel = getAlarmPanel();
+            carPanel = getCarPanel();
+            positionPanel = getPositionPanel();
+            approvePanel = getApprovePanel();
+            
+            alarmPanel.addSelectionObserver(panelListener);
+            carPanel.addSelectionObserver(panelListener);
+            positionPanel.addSelectionObserver(panelListener);
+            
+            mfl.addDataList(alarmPanel);
+            mfl.addDataList(carPanel);
+            mfl.addDataList(positionPanel);
             
             tv = new TabView();
-            tv.addNewTab("alarm", p1, dim.width);
-            tv.addNewTab("car", p2, dim.width);
-            tv.addNewTab("position", p3, dim.width);
-            tv.addNewTab("Godkend", ap, dim.width);
+            tv.addNewTab("alarm", alarmPanel, dim.width);
+            tv.addNewTab("car", carPanel, dim.width);
+            tv.addNewTab("position", positionPanel, dim.width);
+            tv.addNewTab("Godkend", approvePanel, dim.width);
             li = new LogIn(this);
             add(li, BorderLayout.CENTER);
             
@@ -92,7 +116,7 @@ public class MainFrame extends javax.swing.JFrame {
         
     }
     
-    protected JPanel getAlarmPanel() {
+    protected ListPanel getAlarmPanel() {
         ListPanel list = new ListPanel();
         try{
             ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
@@ -106,7 +130,7 @@ public class MainFrame extends javax.swing.JFrame {
         return list;
     }
         
-    protected JPanel getCarPanel(){
+    protected ListPanel getCarPanel(){
         ListPanel list = new ListPanel();
         try {
             ArrayList<Car> cars = cal.getAllCars();
@@ -119,7 +143,7 @@ public class MainFrame extends javax.swing.JFrame {
         return list;
     }
     
-    protected JPanel getPositionPanel(){
+    protected ListPanel getPositionPanel(){
         ListPanel list = new ListPanel();
         try{
             ArrayList<Position> positions = pal.getAllPositions();
@@ -130,6 +154,40 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
         return list;
+    }
+    
+    /**
+     * Creates and returns a approve panel
+     * @return a approve panel
+     */
+    protected JPanel getApprovePanel(){
+        JPanel approvePanel = new JPanel();
+        approvePanel.setLayout(new BorderLayout());
+        
+        approveListPanel = new ListPanel();
+        approvePanel.add(approveListPanel, BorderLayout.CENTER);
+        
+        JPanel footer = new JPanel();
+        footer.setLayout(new FlowLayout());
+        JButton btnAccept = new JButton("Accepter");
+        btnAccept.setBackground(MyColorConstants.OUR_GREEN);
+        btnAccept.setForeground(Color.WHITE);
+        btnAccept.setFont(null);
+        JButton btnCancel = new JButton("Fortryd");
+        btnCancel.setBackground(MyColorConstants.OUR_RED);
+        btnCancel.setForeground(Color.WHITE);
+        footer.add(btnAccept);
+        footer.add(btnCancel);
+        approvePanel.add(footer, BorderLayout.SOUTH);
+        
+        return approvePanel;
+    }
+    
+    
+    protected void fillApproveListPanel(){
+        approveListPanel.addViewObject(alarmPanel.getSelectedViewObject());
+        approveListPanel.addViewObject(carPanel.getSelectedViewObject());
+        approveListPanel.addViewObject(positionPanel.getSelectedViewObject());
     }
     
     
@@ -207,4 +265,23 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+    
+    private class myListPanelListener implements IObserver{
+
+        @Override
+        public void notifyObserver() {
+            if(mfl.getNextPanel() == null){
+                approveListPanel.clearList();
+                System.out.println("Test");
+                fillApproveListPanel();
+                tv.setSelectedComponent(approvePanel);
+                
+            }
+            else
+                tv.setSelectedComponent(mfl.getNextPanel());
+            
+        }
+        
+    }
+
 }
