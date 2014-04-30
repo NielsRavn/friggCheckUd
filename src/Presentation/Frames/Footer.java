@@ -5,7 +5,6 @@
  */
 
 package Presentation.Frames;
-import DAL.XmlScanner;
 import java.awt.Color;
 
 /**
@@ -13,7 +12,7 @@ import java.awt.Color;
  * @author Poul Nielsen
  */
 public class Footer extends javax.swing.JPanel {
-XmlScanner scanner;
+
     /**
      * Creates new form Footer
      */
@@ -23,8 +22,7 @@ XmlScanner scanner;
         jbAprove.setBackground(Color.GREEN);
         jbErrorReporting.setBackground(Color.yellow);
         this.setBackground(Color.white);
-        scanner = new XmlScanner();
-      System.out.println(scanner.scanner());
+        
     }
 
     /**
