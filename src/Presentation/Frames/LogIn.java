@@ -7,6 +7,7 @@ package Presentation.Frames;
 
 import BE.Fireman;
 import BLL.Fireman_AccessLink;
+import Presentation.MyColorConstants;
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyAdapter;
@@ -30,7 +31,8 @@ public class LogIn extends javax.swing.JPanel {
 
     public LogIn(MainFrame parent) {
         initComponents();
-
+        btnLogIn.setBackground(MyColorConstants.OUR_GREEN);
+        
         this.parent = parent;
         try {
             firemanMgr = new Fireman_AccessLink();
@@ -64,10 +66,13 @@ public class LogIn extends javax.swing.JPanel {
         txtLogIn = new javax.swing.JTextField();
         btnLogIn = new javax.swing.JButton();
 
-        txtLogIn.setPreferredSize(new java.awt.Dimension(100, 20));
+        txtLogIn.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+        txtLogIn.setPreferredSize(new java.awt.Dimension(160, 68));
         add(txtLogIn);
 
-        btnLogIn.setText("Log Ind");
+        btnLogIn.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        btnLogIn.setForeground(new java.awt.Color(255, 255, 255));
+        btnLogIn.setText("<html><body marginwidth=30 marginheight=20>Log Ind</body></html>");
         btnLogIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogInActionPerformed(evt);
@@ -97,8 +102,10 @@ public class LogIn extends javax.swing.JPanel {
                 fireman = firemanMgr.getFiremanByID(FiremanID);
                 if (fireman != null) {
                     parent.changeView();
+                    txtLogIn.setText("");
                 } else {
                     JOptionPane.showMessageDialog(this, "Medarbejder nummer eksisterer ikke.");
+                    txtLogIn.setText("");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);

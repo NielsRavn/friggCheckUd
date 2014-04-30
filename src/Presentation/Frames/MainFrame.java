@@ -45,7 +45,7 @@ public class MainFrame extends javax.swing.JFrame {
     Alarm_AccessLink aal;
     Position_AccessLink pal;
     ViewObjectFactory vof;
-    
+    Footer fot;
     TabView tv;
     LogIn li;
     
@@ -59,6 +59,7 @@ public class MainFrame extends javax.swing.JFrame {
             aal = new Alarm_AccessLink();
             pal = new Position_AccessLink();
             vof = new ViewObjectFactory();
+            fot = new Footer(this);
             initComponents();
             setResizable(false);
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -68,8 +69,7 @@ public class MainFrame extends javax.swing.JFrame {
             
             BorderLayout bl =  new BorderLayout();
             setLayout(bl);
-            Footer f = new Footer();
-            add(f, BorderLayout.SOUTH);
+            
             
             JPanel p1 = getAlarmPanel();
             JPanel p2 = getCarPanel();
@@ -200,11 +200,18 @@ public class MainFrame extends javax.swing.JFrame {
     
     public void changeView (){
         remove(li);
+        add(fot, BorderLayout.SOUTH);
         add(tv, BorderLayout.CENTER);
         validate();
         repaint();
     }
-
+    
+    public void logOut (){
+        remove(tv);
+        remove(fot);
+        add(li, BorderLayout.CENTER);
+        repaint();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

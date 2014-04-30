@@ -8,23 +8,24 @@ package Presentation.Frames;
 
 import Presentation.MyColorConstants;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Poul Nielsen
  */
 public class Footer extends javax.swing.JPanel {
-
+    MainFrame parent;
     /**
      * Creates new form Footer
      */
-    public Footer() {
+    public Footer(MainFrame parent) {
         initComponents();
         jbLogOut.setBackground(MyColorConstants.OUR_RED);
         jbAprove.setBackground(MyColorConstants.OUR_GREEN);
         jbErrorReporting.setBackground(MyColorConstants.LIGHT_BLUE);
         this.setBackground(Color.white);
-        
+        this.parent = parent;
     }
 
     /**
@@ -94,15 +95,17 @@ public class Footer extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLogOutActionPerformed
-        // TODO add your handling code here:
+        
+        parent.logOut();
+        
     }//GEN-LAST:event_jbLogOutActionPerformed
 
     private void jbErrorReportingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbErrorReportingActionPerformed
-        // TODO add your handling code here:
+       JOptionPane.showMessageDialog(parent, "Denne funktion er ikke implementeret endnu");
     }//GEN-LAST:event_jbErrorReportingActionPerformed
 
     private void jbAproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAproveActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(parent, "Denne funktion er ikke implementeret endnu");
     }//GEN-LAST:event_jbAproveActionPerformed
 
 
