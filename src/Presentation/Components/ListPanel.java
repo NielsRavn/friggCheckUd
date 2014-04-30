@@ -49,7 +49,6 @@ public class ListPanel extends javax.swing.JPanel{
         model = new DefaultListModel();
         lstData.setModel(model);
         lstData.setCellRenderer(getClientListRenderer());
-        lstData.addListSelectionListener(new MyListSelectionListener());
         MyMouseMotionAdapter mma = new MyMouseMotionAdapter();
         lstData.addMouseListener(mma);
         jScrollPane1.addMouseListener(mma);
@@ -131,7 +130,10 @@ public class ListPanel extends javax.swing.JPanel{
     }
     
     public ViewObject getSelectedViewObject(){
-        return (ViewObject)lstData.getSelectedValue();
+        if(mySelectedIndex == -1)
+            return null;
+        else 
+            return (ViewObject)model.get(mySelectedIndex);
     }
     
     public void addSelectionObserver(IObserver observer){
@@ -154,21 +156,6 @@ public class ListPanel extends javax.swing.JPanel{
     
    
     
-    public void setSelectedVeiwObject(){
-        
-    }
-    
-   
-     private class MyListSelectionListener implements ListSelectionListener{
-
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            
-            notifyObservers();
-        }
-        
-    }
-
     private class MyMouseMotionAdapter extends MouseAdapter {
 
         Point lastDragPoint = new Point();
@@ -193,6 +180,8 @@ public class ListPanel extends javax.swing.JPanel{
         @Override
         public void mouseClicked(MouseEvent e) {
             mySelectedIndex = lstData.getSelectedIndex();
+            notifyObservers();
+            
         }
         
         
