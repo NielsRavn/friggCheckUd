@@ -10,7 +10,7 @@ package BLL;
  *
  * @author Niels
  */
-public interface IViewObjectObserver {
+public interface IObserver {
     
     public void notifyObserver();
     
