@@ -36,11 +36,13 @@ public class ListPanel extends javax.swing.JPanel{
     JPanel thisList;
     DefaultListModel model;
     ArrayList<IObserver> observers;
+    int mySelectedIndex;
     
     /**
      * Creates new form ListPanel
      */
     public ListPanel() {
+        mySelectedIndex  = -1;
         initComponents();
         thisList = this;
         observers = new ArrayList();
@@ -150,17 +152,22 @@ public class ListPanel extends javax.swing.JPanel{
         model.removeAllElements();
     }
     
-    private class MyListSelectionListener implements ListSelectionListener{
-
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            notifyObservers();
-        }
+   
+    
+    public void setSelectedVeiwObject(){
         
     }
     
    
-    
+     private class MyListSelectionListener implements ListSelectionListener{
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            
+            notifyObservers();
+        }
+        
+    }
 
     private class MyMouseMotionAdapter extends MouseAdapter {
 
@@ -169,12 +176,26 @@ public class ListPanel extends javax.swing.JPanel{
 
         @Override
         public void mouseDragged(MouseEvent e) {
+            if(mySelectedIndex == -1)
+                lstData.clearSelection();
+            else
+                lstData.setSelectedIndex(mySelectedIndex);
+            
             if (!beingDragged) {
                 beingDragged = true;
                 setLastDragPoint(e.getX(), e.getY());
             }
+            
             handleDraging(e);
+            
         }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            mySelectedIndex = lstData.getSelectedIndex();
+        }
+        
+        
 
         @Override
         public void mouseReleased(MouseEvent e) {
@@ -201,6 +222,7 @@ public class ListPanel extends javax.swing.JPanel{
             if(scrollPosition.y > maxScroll) scrollPosition.y = maxScroll;
 
             viewPort.setViewPosition(scrollPosition);
+            
         }
 
     }
