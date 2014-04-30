@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,11 +37,11 @@ import org.xml.sax.SAXException;
 public class XmlScanner {
     
     Scanner scanner = new Scanner(System.in);
-    public Alarm scanner() throws ParseException
+    public ArrayList<Alarm> scanner() throws ParseException
     {
       
         String file = "res\\alarm.xml";
-        Alarm alarm = null;
+        ArrayList<Alarm> alarm = new ArrayList<>();
         Date date = null;
         try {
             
@@ -71,7 +72,8 @@ public class XmlScanner {
                java.sql.Date sqlDate = new java.sql.Date(result.getTime());
                            
                
-                alarm = new Alarm(odinNr, destination, type, sqlDate);
+                Alarm a = new Alarm(odinNr, destination, type, sqlDate);
+                alarm.add(a);
                        }
                    }
                }
