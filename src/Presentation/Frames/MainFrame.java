@@ -263,6 +263,7 @@ public class MainFrame extends javax.swing.JFrame {
         remove(tv);
         remove(fot);
         add(li, BorderLayout.CENTER);
+        li.setFocus();
         repaint();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

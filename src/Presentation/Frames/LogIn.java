@@ -126,5 +126,9 @@ public class LogIn extends javax.swing.JPanel {
     public Fireman getFireman() {
         return fireman;
     }
-
+    
+    public void setFocus()
+    {
+        txtLogIn.requestFocus();
+    }
 }
