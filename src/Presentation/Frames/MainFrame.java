@@ -173,10 +173,11 @@ public class MainFrame extends javax.swing.JFrame {
         JButton btnAccept = new JButton("Accepter");
         btnAccept.setBackground(MyConstants.COLOR_GREEN);
         btnAccept.setForeground(Color.WHITE);
-        btnAccept.setFont(null);
+        btnAccept.setFont(MyConstants.FONT_BUTTON_FONT);
         JButton btnCancel = new JButton("Fortryd");
         btnCancel.setBackground(MyConstants.COLOR_RED);
         btnCancel.setForeground(Color.WHITE);
+        btnCancel.setFont(MyConstants.FONT_BUTTON_FONT);
         footer.add(btnAccept);
         footer.add(btnCancel);
         approvePanel.add(footer, BorderLayout.SOUTH);
@@ -279,15 +280,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         @Override
         public void notifyObserver() {
-            if(mfl.getNextPanel() == null){
-                approveListPanel.clearList();
-                System.out.println("Test");
-                fillApproveListPanel();
-                tv.setSelectedComponent(approvePanel);
-                
-            }
-            else
-                tv.setSelectedComponent(mfl.getNextPanel());
+//            if(mfl.getNextPanel() == null){
+//                approveListPanel.clearList();
+//                fillApproveListPanel();
+//                tv.setSelectedComponent(approvePanel);
+//                
+//            }
+//            else
+//                tv.setSelectedComponent(mfl.getNextPanel());
             
         }
         
