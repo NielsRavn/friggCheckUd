@@ -31,6 +31,7 @@ public class ViewObjectTime extends ViewObject{
         setLayout(new BorderLayout());
         endHour = endDate.getHours();
         endMin = endDate.getMinutes();
+        fillData();
     }
     
     

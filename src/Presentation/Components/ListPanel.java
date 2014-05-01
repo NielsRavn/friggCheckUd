@@ -37,6 +37,7 @@ public class ListPanel extends javax.swing.JPanel{
     DefaultListModel model;
     ArrayList<IObserver> observers;
     int mySelectedIndex;
+    TimePicker tp;
     
     /**
      * Creates new form ListPanel
@@ -70,18 +71,11 @@ public class ListPanel extends javax.swing.JPanel{
         jScrollPane1 = new javax.swing.JScrollPane();
         lstData = new javax.swing.JList();
 
+        setLayout(new java.awt.BorderLayout());
+
         jScrollPane1.setViewportView(lstData);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
-        );
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
