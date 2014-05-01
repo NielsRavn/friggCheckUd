@@ -8,6 +8,7 @@ package Presentation.Components.ViewObjects;
 
 import BLL.IObserver;
 import BLL.ITimeObserver;
+import BLL.MyUtil;
 import Presentation.Components.TimePicker;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -63,13 +64,13 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
         JLabel lblStringInit = new JLabel("Fra kl ");
         lblStringInit.setFont(buttomFont);
         
-        JLabel lblTimeStart = new JLabel(date.get(Calendar.HOUR_OF_DAY) + ":" + date.get(Calendar.MINUTE));
+        JLabel lblTimeStart = new JLabel(MyUtil.p0(date.get(Calendar.HOUR_OF_DAY)) + ":" + MyUtil.p0(date.get(Calendar.MINUTE)));
         lblTimeStart.setFont(buttomFont);
         
         JLabel lblStringDevider = new JLabel(" til ");
         lblStringDevider.setFont(buttomFont);
         
-        lblTimeEnd = new JLabel(endHour + ":" + endMin);
+        lblTimeEnd = new JLabel(MyUtil.p0(endHour) + ":" + MyUtil.p0(endMin));
         lblTimeEnd.setFont(buttomFont);
         
         buttomPanel.add(lblStringInit);
@@ -101,8 +102,7 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
     public void timeChanged(int hour, int minute) {
         endHour = hour;
         endMin = minute;
-        lblTimeEnd.setText(endHour + ":" + endMin);
+        lblTimeEnd.setText(MyUtil.p0(endHour) + ":" + MyUtil.p0(endMin));
         repaint();
     }
-
 }

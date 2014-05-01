@@ -127,7 +127,6 @@ public class MainFrame extends javax.swing.JFrame {
         try{
             ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
             for(Alarm alarm : alarms){
-                System.out.println(alarm.getTime().getTime());
                 list.addViewObject(vof.getViewObject(alarm));
             }
             
@@ -299,6 +298,7 @@ public class MainFrame extends javax.swing.JFrame {
         remove(tv);
         remove(fot);
         remove(tp);
+        mfl.reset();
         add(li, BorderLayout.CENTER);
         li.setFocus();
         repaint();

@@ -7,6 +7,7 @@
 package Presentation.Components;
 
 import BLL.ITimeObserver;
+import BLL.MyUtil;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
 import java.awt.Color;
@@ -47,8 +48,8 @@ public class TimePicker extends javax.swing.JPanel {
         this(parent);
         this.hour = hour;
         this.minute = minute;
-        tfHour.setText("" +hour);
-        tfMinute.setText(""+minute);
+        tfHour.setText(MyUtil.p0(hour));
+        tfMinute.setText(MyUtil.p0(minute));
     }
     
     public void addObserver(ITimeObserver observer){
@@ -205,4 +206,5 @@ public class TimePicker extends javax.swing.JPanel {
         
         
     }
+    
 }
