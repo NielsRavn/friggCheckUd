@@ -25,6 +25,10 @@ public class MainFrameLogic {
         dataLists.add(list);
     }
     
+    public void reset(){
+        dataLists.clear();
+    }
+    
     /**
      * returns the index value of the first unselected list
      * @return the index value of the first unselected list

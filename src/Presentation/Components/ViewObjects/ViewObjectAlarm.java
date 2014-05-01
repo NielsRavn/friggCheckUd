@@ -7,12 +7,14 @@
 package Presentation.Components.ViewObjects;
 
 import BE.Alarm;
+import BLL.MyUtil;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,11 +29,14 @@ public class ViewObjectAlarm extends ViewObject{
     Timestamp time;
     JPanel topPanel;
     JPanel buttomPanel;
+    Calendar date;
     public ViewObjectAlarm(Alarm alarm){
         setLayout(new BorderLayout());
         destination = alarm.getDistination();
         type = alarm.getType();
         time = alarm.getTime();
+        date = Calendar.getInstance();
+        date.setTimeInMillis(time.getTime());
         fillData();
     }
 
@@ -40,7 +45,7 @@ public class ViewObjectAlarm extends ViewObject{
         topPanel.setLayout(new FlowLayout());
         JLabel lblDest = new JLabel(destination);
         lblDest.setFont(new Font("Comic Sans", Font.PLAIN, 42));
-        JLabel lblTime = new JLabel(" - " + time.toString());
+        JLabel lblTime = new JLabel(" - " + date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+"-"+date.get(Calendar.YEAR)+" " + MyUtil.p0(date.get(Calendar.HOUR_OF_DAY)) + ":" + MyUtil.p0(date.get(Calendar.MINUTE)));
         lblTime.setFont(new Font("Comic Sans", Font.PLAIN, 42));
         topPanel.add(lblDest);
         topPanel.add(lblTime);
