@@ -301,7 +301,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void logOut (){
         remove(tv);
         remove(fot);
-        remove(tp);
+        if(tp != null) remove(tp);
         mfl.reset();
         add(li, BorderLayout.CENTER);
         li.setFocus();
