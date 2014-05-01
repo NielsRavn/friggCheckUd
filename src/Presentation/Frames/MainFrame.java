@@ -16,6 +16,7 @@ import BLL.MainFrameLogic;
 import BLL.Position_AccessLink;
 import Presentation.Components.ListPanel;
 import Presentation.Components.TabView;
+import Presentation.Components.TimePicker;
 import Presentation.Components.ViewObjects.ViewObjectAlarm;
 import Presentation.Components.ViewObjects.ViewObjectCar;
 import Presentation.Components.ViewObjects.ViewObjectFactory;
@@ -56,6 +57,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     TabView tv;
     LogIn li;
+    TimePicker tp;
     
     ListPanel alarmPanel;
     ListPanel carPanel;
@@ -275,6 +277,19 @@ public class MainFrame extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    public void addTimePicker(int hour, int minute){
+        tp = new TimePicker(this, hour, minute);
+        add(tp, BorderLayout.EAST);
+        tv.setEnabled(false);
+        fot.setEnabled(false);
+    }
+    
+    public void removeTimePicker() {
+        remove(tp);
+        tv.setEnabled(true);
+        fot.setEnabled(true);
+    }
     
     private class myListPanelListener implements IObserver{
 
