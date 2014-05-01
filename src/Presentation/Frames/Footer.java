@@ -17,7 +17,8 @@ import javax.swing.JOptionPane;
 public class Footer extends javax.swing.JPanel {
     MainFrame parent;
     /**
-     * Creates new form Footer
+     * 
+     * @param parent 
      */
     public Footer(MainFrame parent) {
         initComponents();
