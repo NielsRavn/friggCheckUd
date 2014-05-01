@@ -90,7 +90,9 @@ public class LogIn extends javax.swing.JPanel {
     private javax.swing.JButton btnLogIn;
     private javax.swing.JTextField txtLogIn;
     // End of variables declaration//GEN-END:variables
-
+    /**
+     * Login methode testing if worker exist in system
+     */
     private void logIn() {
         if (!IsInteger(txtLogIn.getText()) || txtLogIn.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Medarbejder nummer ikke godkendt");
@@ -114,7 +116,11 @@ public class LogIn extends javax.swing.JPanel {
 
         }
     }
-
+    /**
+     * 
+     * @param s
+     * @return 
+     */
     private boolean IsInteger(String s) {
         try {
             Integer.parseInt(s);
@@ -123,11 +129,16 @@ public class LogIn extends javax.swing.JPanel {
         }
         return true;
     }
-
+    /**
+     * 
+     * @return Fireman
+     */
     public Fireman getFireman() {
         return fireman;
     }
-    
+    /**
+     * Sets focus on txtfiled txtLogIn
+     */
     public void setFocus()
     {
         txtLogIn.requestFocus();
