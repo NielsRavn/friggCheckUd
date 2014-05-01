@@ -28,7 +28,8 @@ public class TimePicker extends javax.swing.JPanel {
     ArrayList<ITimeObserver> observers;
     
     /**
-     * Creates new form TimePicker
+     * creates a new timePicker
+     * @param parent the object that initialized this, to be able to close it again
      */
     public TimePicker(MainFrame parent) {
         this.parent = parent;
@@ -44,6 +45,12 @@ public class TimePicker extends javax.swing.JPanel {
         
     }
 
+    /**
+     * creates a new time picker with initialzed times.
+     * @param parent the object that initialized this, to be able to close it again
+     * @param hour the hour to set on the time picker
+     * @param minute the minute to set on the timepicker
+     */
     public TimePicker(MainFrame parent, int hour, int minute) {
         this(parent);
         this.hour = hour;
@@ -52,14 +59,25 @@ public class TimePicker extends javax.swing.JPanel {
         tfMinute.setText(MyUtil.p0(minute));
     }
     
+    /**
+     * adds a time observer to be notified when okay i clicked
+     * @param observer an object implementing ITimeObserver
+     */
     public void addObserver(ITimeObserver observer){
         observers.add(observer);
     }
     
+    /**
+     * removes a given time observer from the time picker
+     * @param observer the observer to remove
+     */
     public void removeObserver(ITimeObserver observer){
         observers.remove(observer);
     }
     
+    /**
+     * notifies all observers, with the time currently sat on the time.
+     */
     private void notifyObservers(){
         for(ITimeObserver observer: observers)
             observer.timeChanged(hour, minute);
@@ -137,13 +155,6 @@ public class TimePicker extends javax.swing.JPanel {
         parent.removeTimePicker();
     }//GEN-LAST:event_btnAnnullerActionPerformed
 
-    public int getHour() {
-        return hour;
-    }
-
-    public int getMinute() {
-        return minute;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnuller;
@@ -156,12 +167,9 @@ public class TimePicker extends javax.swing.JPanel {
     private javax.swing.JTextField tfMinute;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        
-    }
-    
+    /**
+     * checks the inputed text in the two textfields one after the other.
+     */
     private void checkInput(){
         try{
             hour = checkInputForTextField(tfHour, 23);
@@ -173,6 +181,13 @@ public class TimePicker extends javax.swing.JPanel {
         
     }
     
+    /**
+     * checks the input in the given textfield is a 2 degit number under the max number.
+     * Also fixes the string in the textfield so that nothing invalid is written.
+     * @param toTest the textfield to be tested
+     * @param maxNumber the max number that the field should hold
+     * @return the correct number that is shown
+     */
     private int checkInputForTextField(JTextField toTest, int maxNumber){
         if(!toTest.getText().equals("")){
             int result = 0;
@@ -196,6 +211,9 @@ public class TimePicker extends javax.swing.JPanel {
         }else throw new IllegalStateException("The field is empty");
     }
     
+    /**
+     * listens for any key event to trigger a check of the textfields.
+     */
     private class myKeyAdapter extends KeyAdapter{
 
         @Override
