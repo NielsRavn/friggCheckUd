@@ -308,10 +308,6 @@ public class MainFrame extends javax.swing.JFrame {
         repaint();
     }
     
-    public void aproveTimesheet()
-    {
-        tsa.aproveTimesheet(li.getFireman());
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 

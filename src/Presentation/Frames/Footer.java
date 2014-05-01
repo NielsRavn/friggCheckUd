@@ -6,8 +6,12 @@
 
 package Presentation.Frames;
 
+import BLL.TimeSheet_AccessLink;
 import Presentation.MyConstants;
 import java.awt.Color;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,6 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class Footer extends javax.swing.JPanel {
     MainFrame parent;
+    TimeSheet_AccessLink tsl;
     /**
      * 
      * @param parent 
@@ -27,6 +32,20 @@ public class Footer extends javax.swing.JPanel {
         jbErrorReporting.setBackground(MyConstants.COLOR_LIGHT_BLUE);
         this.setBackground(Color.white);
         this.parent = parent;
+        try {
+            tsl = new TimeSheet_AccessLink();
+        } catch (IOException ex) {
+            Logger.getLogger(Footer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(tsl.showTimeAprove()== true)
+        {
+           jbAprove.setVisible(true);
+        }
+        else
+        {
+            jbAprove.setVisible(false);
+        }
+        System.out.println(""+tsl.showTimeAprove());
     }
 
     /**
@@ -106,7 +125,7 @@ public class Footer extends javax.swing.JPanel {
     }//GEN-LAST:event_jbErrorReportingActionPerformed
 
     private void jbAproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAproveActionPerformed
-        parent.aproveTimesheet();
+        //parent.aproveTimesheet();
     }//GEN-LAST:event_jbAproveActionPerformed
 
 

@@ -29,7 +29,7 @@ public class TimeSheet_Access extends DatabaseConnection{
         super();
         pa = new Position_Access();
     }
-    public boolean testForTimeSheet(int id) throws SQLException
+    public ArrayList<Time_Sheet> testForTimeSheet(int id) throws SQLException
     {
         Connection con = null;
         ArrayList<Time_Sheet> timesheets = new ArrayList<>();
@@ -62,7 +62,7 @@ public class TimeSheet_Access extends DatabaseConnection{
        }
         
         
-        return true;
+        return timesheets;
     }
     
 }

@@ -20,12 +20,17 @@ import java.util.logging.Logger;
 public class TimeSheet_AccessLink {
     
     TimeSheet_Access ta;
+    boolean timeSheetExist = false;
     
     public TimeSheet_AccessLink() throws IOException
     {
         ta = new TimeSheet_Access();
     }
     
+    /**
+     * 
+     * @param firemanTotest 
+     */
     private void isTeamleader(Fireman firemanTotest)
     {
         if(firemanTotest.isTeamLeader())
@@ -33,6 +38,13 @@ public class TimeSheet_AccessLink {
             try {
                 //If fireman is allowed to bee a teamlead check the database for timesheets not approved
                 ta.testForTimeSheet(firemanTotest.getID());
+                
+                    if(ta.testForTimeSheet(firemanTotest.getID()) != null)
+                    {
+                        timeSheetExist=true;
+                    }
+                                
+                
             } catch (SQLException ex) {
                 Logger.getLogger(TimeSheet_AccessLink.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -43,5 +55,10 @@ public class TimeSheet_AccessLink {
     public void aproveTimesheet(Fireman fireman)
     {
         isTeamleader(fireman);
+    }
+    
+    public boolean showTimeAprove()
+    {
+        return timeSheetExist;
     }
 }
