@@ -74,7 +74,7 @@ public class XmlScanner {
                            SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             
                java.util.Date result = sd.parse(s);
-               java.sql.Date sqlDate = new java.sql.Date(result.getTime());
+               java.sql.Timestamp sqlDate = new java.sql.Timestamp(result.getTime());
                            
                
                 Alarm a = new Alarm(odinNr, destination, type, sqlDate);

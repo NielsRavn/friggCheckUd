@@ -7,6 +7,7 @@
 package BE;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -17,10 +18,10 @@ public class Alarm implements ViewObjectBE{
     private int odinNr;
     private String distination;
     private String type;
-    private Date time;
+    private Timestamp time;
     private boolean accepted;
     
-    public Alarm (int ID, int odinNr, String distination, String type, Date time, boolean accepted) {
+    public Alarm (int ID, int odinNr, String distination, String type, Timestamp time, boolean accepted) {
     this.ID = ID;
     this.odinNr = odinNr;
     this.distination = distination;
@@ -29,7 +30,7 @@ public class Alarm implements ViewObjectBE{
     this.accepted = accepted;
     }
 
-    public Alarm(int odinNr, String destination, String type, Date date) {
+    public Alarm(int odinNr, String destination, String type, Timestamp date) {
         this.odinNr = odinNr;
         this.distination = destination;
         this.type = type;
@@ -96,14 +97,14 @@ public class Alarm implements ViewObjectBE{
     /**
      * @return the time
      */
-    public Date getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
     /**
      * @param time the time to set
      */
-    public void setTime(Date time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 

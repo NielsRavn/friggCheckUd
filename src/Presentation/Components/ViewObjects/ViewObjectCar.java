@@ -36,4 +36,8 @@ public class ViewObjectCar extends ViewObject{
         add(carInfo);
     }
     
+    public int getCarNumber(){
+        return carNr;
+    }
+    
 }

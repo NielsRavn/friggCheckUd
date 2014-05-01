@@ -17,10 +17,12 @@ import BLL.MainFrameLogic;
 import BLL.Position_AccessLink;
 import Presentation.Components.ListPanel;
 import Presentation.Components.TabView;
+import Presentation.Components.TimePicker;
 import Presentation.Components.ViewObjects.ViewObjectAlarm;
 import Presentation.Components.ViewObjects.ViewObjectCar;
 import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
+import Presentation.Components.ViewObjects.ViewObjectTime;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -55,13 +57,12 @@ public class MainFrame extends javax.swing.JFrame {
     MainFrameLogic mfl;
     myListPanelListener panelListener;
     TimeSheet_AccessLink tsa;
+    int width;
     TabView tv;
     LogIn li;
+    TimePicker tp;
     
-    ListPanel alarmPanel;
-    ListPanel carPanel;
-    ListPanel positionPanel;
-    ListPanel approveListPanel;
+    ListPanel alarmPanel, carPanel, positionPanel, approveListPanel;
     
     JPanel approvePanel;
     /**
@@ -90,25 +91,8 @@ public class MainFrame extends javax.swing.JFrame {
             BorderLayout bl =  new BorderLayout();
             setLayout(bl);
             
+            width = dim.width;
             
-            alarmPanel = getAlarmPanel();
-            carPanel = getCarPanel();
-            positionPanel = getPositionPanel();
-            approvePanel = getApprovePanel();
-            
-            alarmPanel.addSelectionObserver(panelListener);
-            carPanel.addSelectionObserver(panelListener);
-            positionPanel.addSelectionObserver(panelListener);
-            
-            mfl.addDataList(alarmPanel);
-            mfl.addDataList(carPanel);
-            mfl.addDataList(positionPanel);
-            
-            tv = new TabView();
-            tv.addNewTab("alarm", alarmPanel, dim.width);
-            tv.addNewTab("car", carPanel, dim.width);
-            tv.addNewTab("position", positionPanel, dim.width);
-            tv.addNewTab("Godkend", approvePanel, dim.width);
             li = new LogIn(this);
             add(li, BorderLayout.CENTER);
             
@@ -120,11 +104,34 @@ public class MainFrame extends javax.swing.JFrame {
         
     }
     
+    public void createPanels(){
+        alarmPanel = getAlarmPanel();
+        carPanel = getCarPanel();
+        positionPanel = getPositionPanel();
+        approvePanel = getApprovePanel();
+
+        alarmPanel.addSelectionObserver(panelListener);
+        carPanel.addSelectionObserver(panelListener);
+        positionPanel.addSelectionObserver(panelListener);
+        approveListPanel.addSelectionObserver(new myAcceptListPanelListener());
+
+        mfl.addDataList(alarmPanel);
+        mfl.addDataList(carPanel);
+        mfl.addDataList(positionPanel);
+
+        tv = new TabView();
+        tv.addNewTab("alarm", alarmPanel, width);
+        tv.addNewTab("car", carPanel, width);
+        tv.addNewTab("position", positionPanel, width);
+        tv.addNewTab("Godkend", approvePanel, width);
+    }
+    
     protected ListPanel getAlarmPanel() {
         ListPanel list = new ListPanel();
         try{
             ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
             for(Alarm alarm : alarms){
+                System.out.println(alarm.getTime().getTime());
                 list.addViewObject(vof.getViewObject(alarm));
             }
             
@@ -137,7 +144,9 @@ public class MainFrame extends javax.swing.JFrame {
     protected ListPanel getCarPanel(){
         ListPanel list = new ListPanel();
         try {
+            
             ArrayList<Car> cars = cal.getAllCars();
+            cars.add(MyConstants.STATION_DUTY_CAR);
             for(Car car : cars){
                 list.addViewObject(vof.getViewObject(car));
             }
@@ -149,15 +158,26 @@ public class MainFrame extends javax.swing.JFrame {
     
     protected ListPanel getPositionPanel(){
         ListPanel list = new ListPanel();
-        try{
-            ArrayList<Position> positions = pal.getAllPositions();
-            for(Position pos : positions){
-                list.addViewObject(vof.getViewObject(pos));
-            }
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+        
+        ArrayList<Position> positions = createPositions();
+        for(Position pos : positions){
+            list.addViewObject(vof.getViewObject(pos));
         }
+
         return list;
+    }
+    
+    
+    private ArrayList<Position> createPositions(){
+        
+        ArrayList<Position> positions = new ArrayList();
+        positions.add(MyConstants.FIREMAN);
+        if(li.getFireman().isDriver())
+            positions.add(MyConstants.DRIVER);
+        if(li.getFireman().isTeamLeader())
+            positions.add(MyConstants.TEAM_LEADER);
+        
+        return positions;
     }
     
     /**
@@ -190,9 +210,18 @@ public class MainFrame extends javax.swing.JFrame {
     
     
     protected void fillApproveListPanel(){
-        approveListPanel.addViewObject(alarmPanel.getSelectedViewObject());
-        approveListPanel.addViewObject(carPanel.getSelectedViewObject());
-        approveListPanel.addViewObject(positionPanel.getSelectedViewObject());
+        ViewObjectAlarm voa = (ViewObjectAlarm) alarmPanel.getSelectedViewObject();
+        approveListPanel.addViewObject(voa);
+        ViewObjectCar carView = (ViewObjectCar)carPanel.getSelectedViewObject();
+        if(carView.getCarNumber() != 0){
+            approveListPanel.addViewObject(carPanel.getSelectedViewObject());
+            approveListPanel.addViewObject(positionPanel.getSelectedViewObject());
+        }else{
+            approveListPanel.addViewObject(carPanel.getSelectedViewObject());
+            approveListPanel.addViewObject(new ViewObjectPosition(MyConstants.STATION_DUTY));
+        }
+        approveListPanel.addViewObject(new ViewObjectTime(voa.getTime()));
+        
     }
     
     
@@ -264,6 +293,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void changeView (){
         remove(li);
         add(fot, BorderLayout.SOUTH);
+        createPanels();
         add(tv, BorderLayout.CENTER);
         validate();
         repaint();
@@ -272,6 +302,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void logOut (){
         remove(tv);
         remove(fot);
+        remove(tp);
         add(li, BorderLayout.CENTER);
         li.setFocus();
         repaint();
@@ -283,6 +314,25 @@ public class MainFrame extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    public void addTimePicker(int hour, int minute){
+        tp = new TimePicker(this, hour, minute);
+        add(tp, BorderLayout.EAST);
+        tv.setEnabled(false);
+        approveListPanel.setElementsEnabled(false);
+        fot.setElementsEnabled(false);
+        validate();
+        repaint();
+    }
+    
+    public void removeTimePicker() {
+        remove(tp);
+        tv.setEnabled(true);
+        approveListPanel.setElementsEnabled(true);
+        fot.setElementsEnabled(true);
+        validate();
+        repaint();
+    }
     
     private class myListPanelListener implements IObserver{
 
@@ -297,6 +347,25 @@ public class MainFrame extends javax.swing.JFrame {
             else
                 tv.setSelectedComponent(mfl.getNextPanel());
             
+        }
+        
+    }
+    
+    private class myAcceptListPanelListener implements IObserver{
+
+        @Override
+        public void notifyObserver() {
+            if(approveListPanel.getSelectedViewObject().getClass() == ViewObjectAlarm.class){
+                tv.setSelectedComponent(alarmPanel);
+            }else if(approveListPanel.getSelectedViewObject().getClass() == ViewObjectCar.class){
+                tv.setSelectedComponent(carPanel);
+            }else if(approveListPanel.getSelectedViewObject().getClass() == ViewObjectPosition.class){
+                tv.setSelectedComponent(positionPanel);
+            }else if(approveListPanel.getSelectedViewObject().getClass() == ViewObjectTime.class){
+                ViewObjectTime vot = (ViewObjectTime) approveListPanel.getSelectedViewObject();
+                addTimePicker(vot.getEndHour(), vot.getEndMin());
+                tp.addObserver(vot);
+            }
         }
         
     }
