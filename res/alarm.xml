@@ -24,4 +24,28 @@
     <type>Brand i grill</type>
     <time>2014-05-03 21:15:13</time>
 </alarm>
+<alarm>
+    <odinNr>189795454</odinNr>
+    <destination>Bilka, 6700 Esbjerg</destination>
+    <type>Brand i grill</type>
+    <time>2014-05-03 21:15:13</time>
+</alarm>
+<alarm>
+    <odinNr>189795458</odinNr>
+    <destination>Test , 6700 Esbjerg</destination>
+    <type>Brand i Pc fra LG</type>
+    <time>2014-05-03 21:15:13</time>
+</alarm>
+<alarm>
+    <odinNr>189795459</odinNr>
+    <destination>Test 1, 6700 Esbjerg</destination>
+    <type>Brand i Pc fra LG</type>
+    <time>2014-05-03 21:15:13</time>
+</alarm>
+<alarm>
+    <odinNr>189795460</odinNr>
+    <destination>Test 1, 6700 Esbjerg</destination>
+    <type>Brand i Pc fra LG</type>
+    <time>2014-05-03 21:15:13</time>
+</alarm>
 </call>

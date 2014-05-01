@@ -37,6 +37,11 @@ import org.xml.sax.SAXException;
 public class XmlScanner {
     
     Scanner scanner = new Scanner(System.in);
+    /**
+     * 
+     * @return Alarm 
+     * @throws ParseException 
+     */
     public ArrayList<Alarm> scanner() throws ParseException
     {
       
