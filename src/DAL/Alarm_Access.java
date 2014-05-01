@@ -43,7 +43,7 @@ public class Alarm_Access extends DatabaseConnection{
             ResultSet rs = stmnt.executeQuery("SELECT * FROM Alarm WHERE accepted = 0;");
             
             while(rs.next()){
-                Alarm a = new Alarm(rs.getInt("id"), rs.getInt("odinNr"), rs.getString("destination"), rs.getString("type"), rs.getDate("time"), rs.getBoolean("accepted"));
+                Alarm a = new Alarm(rs.getInt("id"), rs.getInt("odinNr"), rs.getString("destination"), rs.getString("type"), rs.getTimestamp("time"), rs.getBoolean("accepted"));
                 
                 alarms.add(a);
             }
@@ -81,7 +81,7 @@ public class Alarm_Access extends DatabaseConnection{
                 ps.setInt(1, a.getOdinNr());
                 ps.setString(2, a.getDistination());
                 ps.setString(3, a.getType());
-                ps.setDate(4, a.getTime());
+                ps.setTimestamp(4, a.getTime());
                 ps.setBoolean(5, false);
                 
                 ps.executeUpdate();

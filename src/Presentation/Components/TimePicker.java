@@ -6,7 +6,7 @@
 
 package Presentation.Components;
 
-import BLL.IObserver;
+import BLL.ITimeObserver;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
 import java.awt.Color;
@@ -24,7 +24,7 @@ public class TimePicker extends javax.swing.JPanel {
 
     int hour, minute;
     MainFrame parent;
-    ArrayList<IObserver> observers;
+    ArrayList<ITimeObserver> observers;
     
     /**
      * Creates new form TimePicker
@@ -51,17 +51,17 @@ public class TimePicker extends javax.swing.JPanel {
         tfMinute.setText(""+minute);
     }
     
-    public void addObserver(IObserver observer){
+    public void addObserver(ITimeObserver observer){
         observers.add(observer);
     }
     
-    public void removeObserver(IObserver observer){
+    public void removeObserver(ITimeObserver observer){
         observers.remove(observer);
     }
     
     private void notifyObservers(){
-        for(IObserver observer: observers)
-            observer.notifyObserver();
+        for(ITimeObserver observer: observers)
+            observer.timeChanged(hour, minute);
     }
 
     /**

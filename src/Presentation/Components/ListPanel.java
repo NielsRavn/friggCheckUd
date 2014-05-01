@@ -38,11 +38,13 @@ public class ListPanel extends javax.swing.JPanel{
     ArrayList<IObserver> observers;
     int mySelectedIndex;
     TimePicker tp;
+    boolean enabled;
     
     /**
      * Creates new form ListPanel
      */
     public ListPanel() {
+        enabled = true;
         mySelectedIndex  = -1;
         initComponents();
         thisList = this;
@@ -147,6 +149,11 @@ public class ListPanel extends javax.swing.JPanel{
     public void clearList(){
         model.removeAllElements();
     }
+
+    public void setElementsEnabled(boolean b) {
+        lstData.setEnabled(b);
+        enabled = b;
+    }
     
    
     
@@ -173,9 +180,10 @@ public class ListPanel extends javax.swing.JPanel{
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            mySelectedIndex = lstData.getSelectedIndex();
-            notifyObservers();
-            
+            if(enabled){
+                mySelectedIndex = lstData.getSelectedIndex();
+                notifyObservers();
+            }
         }
         
         

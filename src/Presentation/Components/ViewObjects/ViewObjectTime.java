@@ -6,11 +6,16 @@
 
 package Presentation.Components.ViewObjects;
 
+import BLL.IObserver;
+import BLL.ITimeObserver;
+import Presentation.Components.TimePicker;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -18,19 +23,23 @@ import javax.swing.JPanel;
  *
  * @author Brobak
  */
-public class ViewObjectTime extends ViewObject{
-    Date date;
+public class ViewObjectTime extends ViewObject implements ITimeObserver{
+    Calendar date;
     JPanel topPanel;
     JPanel buttomPanel;
-    Date endDate;
+    Calendar endDate;
     int endHour;
     int endMin;
-    public ViewObjectTime(Date date){
-        this.date = date;
-        endDate = new Date(System.currentTimeMillis());
+    
+    JLabel lblTimeEnd;
+            
+    public ViewObjectTime(Timestamp date){
+        this.date = Calendar.getInstance();
+        this.date.setTimeInMillis(date.getTime());
+        endDate = Calendar.getInstance();
         setLayout(new BorderLayout());
-        endHour = endDate.getHours();
-        endMin = endDate.getMinutes();
+        endHour = endDate.get(Calendar.HOUR_OF_DAY);
+        endMin = endDate.get(Calendar.MINUTE);
         fillData();
     }
     
@@ -38,10 +47,10 @@ public class ViewObjectTime extends ViewObject{
     private void fillData() {
         topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout());
-        Font topFont = new Font("Verdana", Font.PLAIN, 42);
+        Font topFont = new Font("Verdana", Font.PLAIN, 50);
         JLabel lblDateString = new JLabel("Dato: ");
         lblDateString.setFont(topFont);
-        JLabel lblDate = new JLabel(" - " + date.toString());
+        JLabel lblDate = new JLabel(date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+"-"+date.get(Calendar.YEAR));
         lblDate.setFont(topFont);
         topPanel.add(lblDateString);
         topPanel.add(lblDate);
@@ -49,22 +58,24 @@ public class ViewObjectTime extends ViewObject{
         
         buttomPanel = new JPanel();
         buttomPanel.setLayout(new FlowLayout());
-        Font buttomFont = new Font("Verdana", Font.PLAIN, 24);
+        Font buttomFont = new Font("Verdana", Font.PLAIN, 30);
         
         JLabel lblStringInit = new JLabel("Fra kl ");
         lblStringInit.setFont(buttomFont);
         
-        JLabel lblTimeStart = new JLabel(date.getHours() + ":" + date.getMinutes());
+        JLabel lblTimeStart = new JLabel(date.get(Calendar.HOUR_OF_DAY) + ":" + date.get(Calendar.MINUTE));
         lblTimeStart.setFont(buttomFont);
         
         JLabel lblStringDevider = new JLabel(" til ");
         lblStringDevider.setFont(buttomFont);
         
-        JLabel lblTimeEnd = new JLabel(endHour + ":" + endMin);
-        
+        lblTimeEnd = new JLabel(endHour + ":" + endMin);
+        lblTimeEnd.setFont(buttomFont);
         
         buttomPanel.add(lblStringInit);
         buttomPanel.add(lblTimeStart);
+        buttomPanel.add(lblStringDevider);
+        buttomPanel.add(lblTimeEnd);
         
         add(buttomPanel, BorderLayout.CENTER);
     }
@@ -77,6 +88,21 @@ public class ViewObjectTime extends ViewObject{
         if(buttomPanel != null)
             buttomPanel.setBackground(color);
     }
-    
-    
+
+    public int getEndHour() {
+        return endHour;
+    }
+
+    public int getEndMin() {
+        return endMin;
+    }
+
+    @Override
+    public void timeChanged(int hour, int minute) {
+        endHour = hour;
+        endMin = minute;
+        lblTimeEnd.setText(endHour + ":" + endMin);
+        repaint();
+    }
+
 }

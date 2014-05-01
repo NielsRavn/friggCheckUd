@@ -21,6 +21,7 @@ import Presentation.Components.ViewObjects.ViewObjectAlarm;
 import Presentation.Components.ViewObjects.ViewObjectCar;
 import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
+import Presentation.Components.ViewObjects.ViewObjectTime;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -59,10 +60,7 @@ public class MainFrame extends javax.swing.JFrame {
     LogIn li;
     TimePicker tp;
     
-    ListPanel alarmPanel;
-    ListPanel carPanel;
-    ListPanel positionPanel;
-    ListPanel approveListPanel;
+    ListPanel alarmPanel, carPanel, positionPanel, approveListPanel;
     
     JPanel approvePanel;
     /**
@@ -111,6 +109,7 @@ public class MainFrame extends javax.swing.JFrame {
         alarmPanel.addSelectionObserver(panelListener);
         carPanel.addSelectionObserver(panelListener);
         positionPanel.addSelectionObserver(panelListener);
+        approveListPanel.addSelectionObserver(new myAcceptListPanelListener());
 
         mfl.addDataList(alarmPanel);
         mfl.addDataList(carPanel);
@@ -128,6 +127,7 @@ public class MainFrame extends javax.swing.JFrame {
         try{
             ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
             for(Alarm alarm : alarms){
+                System.out.println(alarm.getTime().getTime());
                 list.addViewObject(vof.getViewObject(alarm));
             }
             
@@ -206,7 +206,8 @@ public class MainFrame extends javax.swing.JFrame {
     
     
     protected void fillApproveListPanel(){
-        approveListPanel.addViewObject(alarmPanel.getSelectedViewObject());
+        ViewObjectAlarm voa = (ViewObjectAlarm) alarmPanel.getSelectedViewObject();
+        approveListPanel.addViewObject(voa);
         ViewObjectCar carView = (ViewObjectCar)carPanel.getSelectedViewObject();
         if(carView.getCarNumber() != 0){
             approveListPanel.addViewObject(carPanel.getSelectedViewObject());
@@ -215,6 +216,8 @@ public class MainFrame extends javax.swing.JFrame {
             approveListPanel.addViewObject(carPanel.getSelectedViewObject());
             approveListPanel.addViewObject(new ViewObjectPosition(MyConstants.STATION_DUTY));
         }
+        approveListPanel.addViewObject(new ViewObjectTime(voa.getTime()));
+        
     }
     
     
@@ -295,6 +298,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void logOut (){
         remove(tv);
         remove(fot);
+        remove(tp);
         add(li, BorderLayout.CENTER);
         li.setFocus();
         repaint();
@@ -306,13 +310,19 @@ public class MainFrame extends javax.swing.JFrame {
         tp = new TimePicker(this, hour, minute);
         add(tp, BorderLayout.EAST);
         tv.setEnabled(false);
-        fot.setEnabled(false);
+        approveListPanel.setElementsEnabled(false);
+        fot.setElementsEnabled(false);
+        validate();
+        repaint();
     }
     
     public void removeTimePicker() {
         remove(tp);
         tv.setEnabled(true);
-        fot.setEnabled(true);
+        approveListPanel.setElementsEnabled(true);
+        fot.setElementsEnabled(true);
+        validate();
+        repaint();
     }
     
     private class myListPanelListener implements IObserver{
@@ -328,6 +338,25 @@ public class MainFrame extends javax.swing.JFrame {
             else
                 tv.setSelectedComponent(mfl.getNextPanel());
             
+        }
+        
+    }
+    
+    private class myAcceptListPanelListener implements IObserver{
+
+        @Override
+        public void notifyObserver() {
+            if(approveListPanel.getSelectedViewObject().getClass() == ViewObjectAlarm.class){
+                tv.setSelectedComponent(alarmPanel);
+            }else if(approveListPanel.getSelectedViewObject().getClass() == ViewObjectCar.class){
+                tv.setSelectedComponent(carPanel);
+            }else if(approveListPanel.getSelectedViewObject().getClass() == ViewObjectPosition.class){
+                tv.setSelectedComponent(positionPanel);
+            }else if(approveListPanel.getSelectedViewObject().getClass() == ViewObjectTime.class){
+                ViewObjectTime vot = (ViewObjectTime) approveListPanel.getSelectedViewObject();
+                addTimePicker(vot.getEndHour(), vot.getEndMin());
+                tp.addObserver(vot);
+            }
         }
         
     }

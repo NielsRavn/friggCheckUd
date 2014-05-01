@@ -115,4 +115,9 @@ public class Footer extends javax.swing.JPanel {
     private javax.swing.JButton jbErrorReporting;
     private javax.swing.JButton jbLogOut;
     // End of variables declaration//GEN-END:variables
+
+    void setElementsEnabled(boolean b) {
+        jbAprove.setEnabled(b);
+        jbErrorReporting.setEnabled(b);
+    }
 }

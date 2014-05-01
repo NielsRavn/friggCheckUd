@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.sql.Date;
+import java.sql.Timestamp;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,7 +24,7 @@ import javax.swing.JPanel;
 public class ViewObjectAlarm extends ViewObject{
     String destination;
     String type;
-    Date time;
+    Timestamp time;
     JPanel topPanel;
     JPanel buttomPanel;
     public ViewObjectAlarm(Alarm alarm){
@@ -59,6 +60,10 @@ public class ViewObjectAlarm extends ViewObject{
             topPanel.setBackground(color);
         if(buttomPanel != null)
             buttomPanel.setBackground(color);
+    }
+
+    public Timestamp getTime() {
+        return time;
     }
     
 }
