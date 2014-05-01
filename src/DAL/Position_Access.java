@@ -47,4 +47,26 @@ public class Position_Access extends DatabaseConnection{
         
         return positions;
     }
+    
+    public Position getPositionById(int id) throws SQLServerException, SQLException{
+        Connection con = null;
+        Position position = null;
+        
+        try{
+            con = getConnection();
+            Statement stmnt = con.createStatement();
+            
+            ResultSet rs = stmnt.executeQuery("SELECT * FROM Position WHERE id = "+id+";");
+            
+            if(rs.next()){
+                position = new Position(rs.getInt("id"), rs.getString("name"));
+                
+            }
+        }finally{
+            if(con != null) con.close();
+        }
+        
+        return position;
+    }
+    
 }

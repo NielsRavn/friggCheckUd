@@ -25,7 +25,7 @@
     <time>2014-05-03 21:15:13</time>
 </alarm>
 <alarm>
-    <odinNr>189795454</odinNr>
+    <odinNr>189795455</odinNr>
     <destination>Bilka, 6700 Esbjerg</destination>
     <type>Brand i grill</type>
     <time>2014-05-03 21:15:13</time>
@@ -46,6 +46,12 @@
     <odinNr>189795460</odinNr>
     <destination>Test 1, 6700 Esbjerg</destination>
     <type>Brand i Pc fra LG</type>
-    <time>2014-05-03 21:15:13</time>
+    <time>2014-04-28 12:23:00.000</time>
+</alarm>
+<alarm>
+    <odinNr>189795461</odinNr>
+    <destination>Test 2, 6700 Esbjerg</destination>
+    <type>Brand i Pc fra LG</type>
+    <time>2014-04-28 12:23:00.000</time>
 </alarm>
 </call>

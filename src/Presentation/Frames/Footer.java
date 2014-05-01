@@ -106,7 +106,7 @@ public class Footer extends javax.swing.JPanel {
     }//GEN-LAST:event_jbErrorReportingActionPerformed
 
     private void jbAproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAproveActionPerformed
-        JOptionPane.showMessageDialog(parent, "Denne funktion er ikke implementeret endnu");
+        parent.aproveTimesheet();
     }//GEN-LAST:event_jbAproveActionPerformed
 
 

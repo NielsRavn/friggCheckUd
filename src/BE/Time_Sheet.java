@@ -17,6 +17,7 @@ public class Time_Sheet {
     private int alarmID;
     private int carNr;
     private int positionID;
+    Position position;
     private Date endTime;
     private boolean accepted;
     
@@ -29,6 +30,14 @@ public class Time_Sheet {
         this.accepted = accepted;
         
                 }
+
+    public Time_Sheet(int employeeId, int alarmId, int carNr, Position pos, Date endtime) {
+        this.employeeID = employeeId;
+        this.alarmID = alarmId;
+        this.carNr = carNr;
+        this.position = pos;
+        this.endTime = endtime;
+    }
 
     /**
      * @return the employeeID

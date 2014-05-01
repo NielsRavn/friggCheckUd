@@ -10,6 +10,7 @@ import BE.Alarm;
 import BE.Car;
 import BE.Position;
 import BLL.Alarm_AccessLink;
+import BLL.TimeSheet_AccessLink;
 import BLL.Car_AccessLink;
 import BLL.IObserver;
 import BLL.MainFrameLogic;
@@ -53,7 +54,7 @@ public class MainFrame extends javax.swing.JFrame {
     Footer fot;
     MainFrameLogic mfl;
     myListPanelListener panelListener;
-    
+    TimeSheet_AccessLink tsa;
     TabView tv;
     LogIn li;
     
@@ -75,6 +76,8 @@ public class MainFrame extends javax.swing.JFrame {
             vof = new ViewObjectFactory();
             fot = new Footer(this);
             mfl = new MainFrameLogic();
+            tsa = new TimeSheet_AccessLink();
+            
             panelListener = new myListPanelListener();
             
             initComponents();
@@ -272,6 +275,11 @@ public class MainFrame extends javax.swing.JFrame {
         add(li, BorderLayout.CENTER);
         li.setFocus();
         repaint();
+    }
+    
+    public void aproveTimesheet()
+    {
+        tsa.aproveTimesheet(li.getFireman());
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
