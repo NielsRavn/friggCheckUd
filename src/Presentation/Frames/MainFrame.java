@@ -53,7 +53,7 @@ public class MainFrame extends javax.swing.JFrame {
     Footer fot;
     MainFrameLogic mfl;
     myListPanelListener panelListener;
-    
+    int width;
     TabView tv;
     LogIn li;
     
@@ -87,25 +87,8 @@ public class MainFrame extends javax.swing.JFrame {
             BorderLayout bl =  new BorderLayout();
             setLayout(bl);
             
+            width = dim.width;
             
-            alarmPanel = getAlarmPanel();
-            carPanel = getCarPanel();
-            positionPanel = getPositionPanel();
-            approvePanel = getApprovePanel();
-            
-            alarmPanel.addSelectionObserver(panelListener);
-            carPanel.addSelectionObserver(panelListener);
-            positionPanel.addSelectionObserver(panelListener);
-            
-            mfl.addDataList(alarmPanel);
-            mfl.addDataList(carPanel);
-            mfl.addDataList(positionPanel);
-            
-            tv = new TabView();
-            tv.addNewTab("alarm", alarmPanel, dim.width);
-            tv.addNewTab("car", carPanel, dim.width);
-            tv.addNewTab("position", positionPanel, dim.width);
-            tv.addNewTab("Godkend", approvePanel, dim.width);
             li = new LogIn(this);
             add(li, BorderLayout.CENTER);
             
@@ -115,6 +98,27 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
         
+    }
+    
+    public void createPanels(){
+        alarmPanel = getAlarmPanel();
+        carPanel = getCarPanel();
+        positionPanel = getPositionPanel();
+        approvePanel = getApprovePanel();
+
+        alarmPanel.addSelectionObserver(panelListener);
+        carPanel.addSelectionObserver(panelListener);
+        positionPanel.addSelectionObserver(panelListener);
+
+        mfl.addDataList(alarmPanel);
+        mfl.addDataList(carPanel);
+        mfl.addDataList(positionPanel);
+
+        tv = new TabView();
+        tv.addNewTab("alarm", alarmPanel, width);
+        tv.addNewTab("car", carPanel, width);
+        tv.addNewTab("position", positionPanel, width);
+        tv.addNewTab("Godkend", approvePanel, width);
     }
     
     protected ListPanel getAlarmPanel() {
@@ -134,7 +138,9 @@ public class MainFrame extends javax.swing.JFrame {
     protected ListPanel getCarPanel(){
         ListPanel list = new ListPanel();
         try {
+            
             ArrayList<Car> cars = cal.getAllCars();
+            cars.add(MyConstants.STATION_DUTY_CAR);
             for(Car car : cars){
                 list.addViewObject(vof.getViewObject(car));
             }
@@ -146,15 +152,26 @@ public class MainFrame extends javax.swing.JFrame {
     
     protected ListPanel getPositionPanel(){
         ListPanel list = new ListPanel();
-        try{
-            ArrayList<Position> positions = pal.getAllPositions();
-            for(Position pos : positions){
-                list.addViewObject(vof.getViewObject(pos));
-            }
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+        
+        ArrayList<Position> positions = createPositions();
+        for(Position pos : positions){
+            list.addViewObject(vof.getViewObject(pos));
         }
+
         return list;
+    }
+    
+    
+    private ArrayList<Position> createPositions(){
+        
+        ArrayList<Position> positions = new ArrayList();
+        positions.add(MyConstants.FIREMAN);
+        if(li.getFireman().isDriver())
+            positions.add(MyConstants.DRIVER);
+        if(li.getFireman().isTeamLeader())
+            positions.add(MyConstants.TEAM_LEADER);
+        
+        return positions;
     }
     
     /**
@@ -188,8 +205,14 @@ public class MainFrame extends javax.swing.JFrame {
     
     protected void fillApproveListPanel(){
         approveListPanel.addViewObject(alarmPanel.getSelectedViewObject());
-        approveListPanel.addViewObject(carPanel.getSelectedViewObject());
-        approveListPanel.addViewObject(positionPanel.getSelectedViewObject());
+        ViewObjectCar carView = (ViewObjectCar)carPanel.getSelectedViewObject();
+        if(carView.getCarNumber() != 0){
+            approveListPanel.addViewObject(carPanel.getSelectedViewObject());
+            approveListPanel.addViewObject(positionPanel.getSelectedViewObject());
+        }else{
+            approveListPanel.addViewObject(carPanel.getSelectedViewObject());
+            approveListPanel.addViewObject(new ViewObjectPosition(MyConstants.STATION_DUTY));
+        }
     }
     
     
@@ -261,6 +284,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void changeView (){
         remove(li);
         add(fot, BorderLayout.SOUTH);
+        createPanels();
         add(tv, BorderLayout.CENTER);
         validate();
         repaint();

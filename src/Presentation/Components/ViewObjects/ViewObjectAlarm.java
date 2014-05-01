@@ -31,8 +31,6 @@ public class ViewObjectAlarm extends ViewObject{
         destination = alarm.getDistination();
         type = alarm.getType();
         time = alarm.getTime();
-        
-        
         fillData();
     }
 
