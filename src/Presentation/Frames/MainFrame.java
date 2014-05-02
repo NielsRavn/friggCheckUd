@@ -198,11 +198,11 @@ public class MainFrame extends javax.swing.JFrame {
         
         JPanel footer = new JPanel();
         footer.setLayout(new FlowLayout());
-        JButton btnAccept = new JButton("Accepter");
+        JButton btnAccept = new JButton("<html><body marginwidth=30 marginheight=20>Accepter</body></html>");
         btnAccept.setBackground(MyConstants.COLOR_GREEN);
         btnAccept.setForeground(Color.WHITE);
         btnAccept.setFont(MyConstants.FONT_BUTTON_FONT);
-        JButton btnCancel = new JButton("Fortryd");
+        JButton btnCancel = new JButton("<html><body marginwidth=30 marginheight=20>Fortryd</body></html>");
         btnCancel.setBackground(MyConstants.COLOR_RED);
         btnCancel.setForeground(Color.WHITE);
         btnCancel.setFont(MyConstants.FONT_BUTTON_FONT);

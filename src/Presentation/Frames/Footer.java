@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 
 /**
@@ -45,7 +46,10 @@ public class Footer extends javax.swing.JPanel {
         {
             jbAprove.setVisible(false);
         }
-        System.out.println(""+tsl.showTimeAprove());
+        setBackground(MyConstants.COLOR_BLUE);
+        jbAprove.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
+        jbErrorReporting.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
+        jbLogOut.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
     }
 
     /**
