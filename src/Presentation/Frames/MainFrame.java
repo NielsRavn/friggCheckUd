@@ -75,7 +75,7 @@ public class MainFrame extends javax.swing.JFrame {
             aal = new Alarm_AccessLink();
             pal = new Position_AccessLink();
             vof = new ViewObjectFactory();
-            fot = new Footer(this);
+            
             mfl = new MainFrameLogic();
             tsa = new TimeSheet_AccessLink();
             
@@ -105,6 +105,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void createPanels(){
+        fot = new Footer(this);
         alarmPanel = getAlarmPanel();
         carPanel = getCarPanel();
         positionPanel = getPositionPanel();
@@ -291,9 +292,9 @@ public class MainFrame extends javax.swing.JFrame {
     
     public void changeView (){
         remove(li);
+         createPanels();
         add(fot, BorderLayout.SOUTH);
-        createPanels();
-        add(tv, BorderLayout.CENTER);
+       add(tv, BorderLayout.CENTER);
         validate();
         repaint();
     }
