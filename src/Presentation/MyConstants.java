@@ -17,6 +17,10 @@ import java.awt.Font;
  */
 public class MyConstants {
     
+    //all these constants are made so that they are the same through out the program
+    // and if we want a different shade or text size we can change it in one place
+    // although it is not fully implemented.
+    
     public static final Color COLOR_BLUE = new Color(0, 51, 66),
             COLOR_RED = new Color(106, 0, 0),
             COLOR_GREEN = new Color(0, 85, 0),
