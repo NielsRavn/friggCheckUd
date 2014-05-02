@@ -22,7 +22,7 @@ public class Time_Sheet {
     private Time endTime;
     private boolean accepted;
     
-    private Time_Sheet (int employeeID, int alarmID, int carNr, int positionID, Time endTime, boolean accepted) {
+    public Time_Sheet (int employeeID, int alarmID, int carNr, int positionID, Time endTime, boolean accepted) {
         this.employeeID = employeeID;
         this.alarmID = alarmID;
         this.carNr = carNr;

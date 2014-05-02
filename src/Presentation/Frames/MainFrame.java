@@ -20,6 +20,7 @@ import Presentation.Components.AproveTimeSheet;
 import Presentation.Components.ListPanel;
 import Presentation.Components.TabView;
 import Presentation.Components.TimePicker;
+import Presentation.Components.ViewObjects.ViewObject;
 import Presentation.Components.ViewObjects.ViewObjectAlarm;
 import Presentation.Components.ViewObjects.ViewObjectCar;
 import Presentation.Components.ViewObjects.ViewObjectFactory;
@@ -39,6 +40,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -209,10 +211,14 @@ public class MainFrame extends javax.swing.JFrame {
         btnApproveAccept.setBackground(MyConstants.COLOR_GREEN);
         btnApproveAccept.setForeground(Color.WHITE);
         btnApproveAccept.setFont(MyConstants.FONT_BUTTON_FONT);
+        btnApproveAccept.addActionListener(new MyActionListener());
+        
         btnApproveCancel = new JButton("<html><body marginwidth=30 marginheight=20>Fortryd</body></html>");
         btnApproveCancel.setBackground(MyConstants.COLOR_RED);
         btnApproveCancel.setForeground(Color.WHITE);
         btnApproveCancel.setFont(MyConstants.FONT_BUTTON_FONT);
+        btnApproveCancel.addActionListener(new MyActionListener());
+        
         footer.add(btnApproveAccept);
         footer.add(btnApproveCancel);
         approvePanel.add(footer, BorderLayout.SOUTH);
@@ -410,12 +416,21 @@ public class MainFrame extends javax.swing.JFrame {
                     positionId = vop.getPosition().getID();
                 }
                 
+                ArrayList<ViewObject> vos = approveListPanel.getAllViewObject();
+                ViewObjectTime vot = null;
+                for(ViewObject vo: vos){
+                    if(vo.getClass() == ViewObjectTime.class)
+                        vot = (ViewObjectTime)vo;
+                }
                 
-//                ViewObjectTime vot = ;
-//                Timestamp endTime = ;
-//                
-//                Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID() , carNumber, positionId, endTime, false);
-//                tsa.addTimeSheet(ts);
+                Time endTime = vot.getEndTime();
+                
+                Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID() , carNumber, positionId, endTime, false);
+                try {
+                    tsa.addTimeSheet(ts);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(rootPane, "An sql error has accured " + ex);
+                }
                 logOut();
             }else if(e.getSource() == btnApproveCancel){
                 logOut();

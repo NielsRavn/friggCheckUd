@@ -73,13 +73,24 @@ public class TimeSheet_Access extends DatabaseConnection{
         {
             con = getConnection();
             Statement query = con.createStatement();
-            query.executeUpdate("Insert into TimeSheet Values ( "
+            if(ts.getCarNr() == 0){
+                query.executeUpdate("Insert into TimeSheet Values ( "
+                         + ts.getEmployeeID()+ ", "
+                        + ts.getAlarmID()+ ", "
+                        + "NULL"+","
+                        + ts.getPositionID() + ",'"
+                        + ts.getEndTime() + "','" 
+                        + ts.isAccepted()+ "') ");
+            }else{
+            
+                query.executeUpdate("Insert into TimeSheet Values ( "
                          + ts.getEmployeeID()+ ", "
                         + ts.getAlarmID()+ ", "
                         + ts.getCarNr()+","
-                        + ts.getPositionID() + ","
-                        + ts.getEndTime() + "," 
-                        + ts.isAccepted()+ ") ");
+                        + ts.getPositionID() + ",'"
+                        + ts.getEndTime() + "','" 
+                        + ts.isAccepted()+ "') ");
+            }
 
         }
         finally

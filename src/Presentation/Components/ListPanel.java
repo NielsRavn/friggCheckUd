@@ -132,6 +132,14 @@ public class ListPanel extends javax.swing.JPanel{
             return (ViewObject)model.get(mySelectedIndex);
     }
     
+    public ArrayList<ViewObject> getAllViewObject(){
+        ArrayList<ViewObject> viewObjects = new ArrayList();
+        for(int i = 0; i < model.size(); i++){
+            viewObjects.add((ViewObject)model.getElementAt(i));
+        }
+        return viewObjects;
+    }
+    
     public void addSelectionObserver(IObserver observer){
         observers.add(observer);
     }
