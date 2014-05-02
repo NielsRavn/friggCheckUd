@@ -28,9 +28,9 @@ public class ViewObjectCar extends ViewObject{
     }
 
     private void fillData() {
-        add(new JLabel(car.getIconPath()));
+        add(new JLabel(new ImageIcon(car.getIconPath())));
         JLabel carInfo = new JLabel(""+car.getCarNr());
-        carInfo.setFont(new Font("Comic Sans", Font.PLAIN, 42));
+        carInfo.setFont(new Font("Verdana", Font.PLAIN, 42));
         add(carInfo);
     }
     
