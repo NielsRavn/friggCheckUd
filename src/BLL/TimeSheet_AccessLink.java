@@ -31,35 +31,36 @@ public class TimeSheet_AccessLink {
     
     /**
      * 
-     * @param firemanTotest 
+     * @param fireman
+     * @return 
      */
-    private void isTeamleader(Fireman firemanTotest)
+    public boolean timesheetExist(int firemanId)
     {
-        if(firemanTotest.isTeamLeader())
-        {
-            try {
-                //If fireman is allowed to bee a teamlead check the database for timesheets not approved
-                    if(getTimeSheet(firemanTotest.getID()) != null)
-                    {
-                        timeSheetExist=true;
-                    }
-            } catch (SQLException ex) {
-                
+        try {
+            if(getTimeSheet(firemanId) != null)
+            {
+                timeSheetExist=true;
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(TimeSheet_AccessLink.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-    public boolean showTimeAprove(Fireman fireman)
-    {
-        isTeamleader(fireman);
         return timeSheetExist;
     }
-    
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws SQLException 
+     */
     public Time_Sheet getTimeSheet(int id) throws SQLException
     {
         return ta.testForTimeSheet(id);
     }
-    
+    /**
+     * 
+     * @param ts
+     * @throws SQLException 
+     */
     public void addTimeSheet(Time_Sheet ts) throws SQLException{
         ta.addTimeSheet(ts);
     }
