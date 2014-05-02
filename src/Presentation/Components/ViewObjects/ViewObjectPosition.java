@@ -21,16 +21,20 @@ import javax.swing.JPanel;
  * @author Brobak
  */
 public class ViewObjectPosition extends ViewObject{
-    String pos;
+    Position position;
     public ViewObjectPosition(Position position){
         setLayout(new FlowLayout());
-        pos = position.getName();
+        this.position = position;
         fillData();
     }
 
     private void fillData() {
-        JLabel lblPos = new JLabel(pos);
+        JLabel lblPos = new JLabel(position.getName());
         lblPos.setFont(new Font("Comic Sans", Font.PLAIN, 80));
         add(lblPos);
+    }
+    
+    public Position getPosition(){
+        return position;
     }
 }

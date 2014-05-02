@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import javax.swing.JLabel;
@@ -104,5 +105,9 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
         endMin = minute;
         lblTimeEnd.setText(MyUtil.p0(endHour) + ":" + MyUtil.p0(endMin));
         repaint();
+    }
+    
+    public Time getEndTime(){
+        return new Time(endHour, endMin, 0);
     }
 }

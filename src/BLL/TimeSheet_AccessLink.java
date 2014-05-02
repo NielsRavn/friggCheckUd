@@ -7,6 +7,7 @@
 package BLL;
 
 import BE.Fireman;
+import BE.Time_Sheet;
 import DAL.TimeSheet_Access;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -60,5 +61,9 @@ public class TimeSheet_AccessLink {
     public boolean showTimeAprove()
     {
         return timeSheetExist;
+    }
+    
+    public void addTimeSheet(Time_Sheet ts) throws SQLException{
+        ta.addTimeSheet(ts);
     }
 }

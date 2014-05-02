@@ -24,26 +24,23 @@ import javax.swing.JPanel;
  * @author Brobak
  */
 public class ViewObjectAlarm extends ViewObject{
-    String destination;
-    String type;
-    Timestamp time;
+   
     JPanel topPanel;
     JPanel buttomPanel;
     Calendar date;
+    Alarm alarm;
     public ViewObjectAlarm(Alarm alarm){
+        this.alarm = alarm;
         setLayout(new BorderLayout());
-        destination = alarm.getDistination();
-        type = alarm.getType();
-        time = alarm.getTime();
         date = Calendar.getInstance();
-        date.setTimeInMillis(time.getTime());
+        date.setTimeInMillis(alarm.getTime().getTime());
         fillData();
     }
 
     private void fillData() {
         topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout());
-        JLabel lblDest = new JLabel(destination);
+        JLabel lblDest = new JLabel(alarm.getDistination());
         lblDest.setFont(new Font("Comic Sans", Font.PLAIN, 42));
         JLabel lblTime = new JLabel(" - " + date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+"-"+date.get(Calendar.YEAR)+" " + MyUtil.p0(date.get(Calendar.HOUR_OF_DAY)) + ":" + MyUtil.p0(date.get(Calendar.MINUTE)));
         lblTime.setFont(new Font("Comic Sans", Font.PLAIN, 42));
@@ -52,7 +49,7 @@ public class ViewObjectAlarm extends ViewObject{
         add(topPanel, BorderLayout.NORTH);
         buttomPanel = new JPanel();
         buttomPanel.setLayout(new FlowLayout());
-        JLabel lblType = new JLabel(type);
+        JLabel lblType = new JLabel(alarm.getType());
         lblType.setFont(new Font("Comic Sans", Font.PLAIN, 24));
         buttomPanel.add(lblType);
         add(buttomPanel, BorderLayout.CENTER);
@@ -68,7 +65,11 @@ public class ViewObjectAlarm extends ViewObject{
     }
 
     public Timestamp getTime() {
-        return time;
+        return alarm.getTime();
+    }
+    
+    public Alarm getAlarm(){
+        return alarm;
     }
     
 }
