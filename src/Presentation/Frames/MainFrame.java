@@ -10,11 +10,12 @@ import BE.Alarm;
 import BE.Car;
 import BE.Position;
 import BLL.Alarm_AccessLink;
-import BLL.TimeSheet_AccessLink;
 import BLL.Car_AccessLink;
 import BLL.IObserver;
 import BLL.MainFrameLogic;
 import BLL.Position_AccessLink;
+import BLL.TimeSheet_AccessLink;
+import Presentation.Components.AproveTimeSheet;
 import Presentation.Components.ListPanel;
 import Presentation.Components.TabView;
 import Presentation.Components.TimePicker;
@@ -54,6 +55,7 @@ public class MainFrame extends javax.swing.JFrame {
     Position_AccessLink pal;
     ViewObjectFactory vof;
     Footer fot;
+    AproveTimeSheet ats;
     MainFrameLogic mfl;
     myListPanelListener panelListener;
     TimeSheet_AccessLink tsa;
@@ -110,7 +112,7 @@ public class MainFrame extends javax.swing.JFrame {
         carPanel = getCarPanel();
         positionPanel = getPositionPanel();
         approvePanel = getApprovePanel();
-
+        ats = new AproveTimeSheet();
         alarmPanel.addSelectionObserver(panelListener);
         carPanel.addSelectionObserver(panelListener);
         positionPanel.addSelectionObserver(panelListener);
@@ -309,6 +311,16 @@ public class MainFrame extends javax.swing.JFrame {
         repaint();
     }
     
+    public void aproveTimesheet() {
+        remove(tv);
+        remove(fot);
+        if(tp != null) remove(tp);
+        mfl.reset();
+        add(li, BorderLayout.CENTER);
+        li.setFocus();
+        repaint();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
@@ -330,7 +342,7 @@ public class MainFrame extends javax.swing.JFrame {
         validate();
         repaint();
     }
-    
+
     private class myListPanelListener implements IObserver{
 
         @Override

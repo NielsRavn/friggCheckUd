@@ -37,7 +37,7 @@ public class Footer extends javax.swing.JPanel {
         } catch (IOException ex) {
             Logger.getLogger(Footer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(tsl.showTimeAprove()== true)
+        if(tsl.showTimeAprove(parent.li.getFireman())== true)
         {
            jbAprove.setVisible(true);
         }
@@ -45,7 +45,6 @@ public class Footer extends javax.swing.JPanel {
         {
             jbAprove.setVisible(false);
         }
-        System.out.println(""+tsl.showTimeAprove());
     }
 
     /**
@@ -125,7 +124,7 @@ public class Footer extends javax.swing.JPanel {
     }//GEN-LAST:event_jbErrorReportingActionPerformed
 
     private void jbAproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAproveActionPerformed
-        //parent.aproveTimesheet();
+        parent.aproveTimesheet();
     }//GEN-LAST:event_jbAproveActionPerformed
 
 
