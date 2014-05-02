@@ -15,6 +15,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JTextField;
 
 /**
@@ -42,7 +43,13 @@ public class TimePicker extends javax.swing.JPanel {
         myKeyAdapter ka = new myKeyAdapter();
         tfHour.addKeyListener(ka);
         tfMinute.addKeyListener(ka);
-        
+        setBackground(MyConstants.COLOR_BLUE);
+        jPanel1.setBackground(MyConstants.COLOR_BLUE);
+        jPanel2.setBackground(MyConstants.COLOR_BLUE);
+        jPanel3.setBackground(MyConstants.COLOR_BLUE);
+        jLabel3.setForeground(Color.WHITE);
+        jPanel4.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+        jPanel5.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
     }
 
     /**
@@ -94,7 +101,9 @@ public class TimePicker extends javax.swing.JPanel {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         btnOkay = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
         btnAnnuller = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         tfHour = new javax.swing.JTextField();
@@ -107,23 +116,28 @@ public class TimePicker extends javax.swing.JPanel {
 
         btnOkay.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         btnOkay.setText("OK");
-        btnOkay.setMargin(new java.awt.Insets(2, 40, 2, 40));
+        btnOkay.setMargin(new java.awt.Insets(20, 40, 20, 40));
         btnOkay.setMinimumSize(new java.awt.Dimension(100, 31));
         btnOkay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOkayActionPerformed(evt);
             }
         });
-        jPanel2.add(btnOkay);
+        jPanel4.add(btnOkay);
+
+        jPanel2.add(jPanel4);
 
         btnAnnuller.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         btnAnnuller.setText("Annuller");
+        btnAnnuller.setMargin(new java.awt.Insets(20, 14, 20, 14));
         btnAnnuller.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnnullerActionPerformed(evt);
             }
         });
-        jPanel2.add(btnAnnuller);
+        jPanel5.add(btnAnnuller);
+
+        jPanel2.add(jPanel5);
 
         jPanel3.add(jPanel2, java.awt.BorderLayout.SOUTH);
 
@@ -163,6 +177,8 @@ public class TimePicker extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField tfHour;
     private javax.swing.JTextField tfMinute;
     // End of variables declaration//GEN-END:variables

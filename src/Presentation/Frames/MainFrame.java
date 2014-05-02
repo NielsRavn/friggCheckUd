@@ -66,7 +66,8 @@ public class MainFrame extends javax.swing.JFrame {
     TabView tv;
     LogIn li;
     TimePicker tp;
-    JButton btnApproveAccept, btnApproveCancel;
+    Header head;
+    
     ListPanel alarmPanel, carPanel, positionPanel, approveListPanel;
     
     JPanel approvePanel;
@@ -101,6 +102,9 @@ public class MainFrame extends javax.swing.JFrame {
             li = new LogIn(this);
             add(li, BorderLayout.CENTER);
             
+            head = new Header();
+            add(head, BorderLayout.NORTH);
+            
             //tv.setEnabledContent(p2, false);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(rootPane, "Could not use the config file, error: " + ex);
@@ -110,6 +114,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void createPanels(){
+        head.setUser(li.getFireman().getFirstName()+ " " + li.getFireman().getLastName());
         fot = new Footer(this);
         alarmPanel = getAlarmPanel();
         carPanel = getCarPanel();
@@ -198,16 +203,16 @@ public class MainFrame extends javax.swing.JFrame {
         
         JPanel footer = new JPanel();
         footer.setLayout(new FlowLayout());
-        btnApproveAccept = new JButton("Accepter");
-        btnApproveAccept.setBackground(MyConstants.COLOR_GREEN);
-        btnApproveAccept.setForeground(Color.WHITE);
-        btnApproveAccept.setFont(MyConstants.FONT_BUTTON_FONT);
-        btnApproveCancel = new JButton("Fortryd");
-        btnApproveCancel.setBackground(MyConstants.COLOR_RED);
-        btnApproveCancel.setForeground(Color.WHITE);
-        btnApproveCancel.setFont(MyConstants.FONT_BUTTON_FONT);
-        footer.add(btnApproveAccept);
-        footer.add(btnApproveCancel);
+        JButton btnAccept = new JButton("<html><body marginwidth=30 marginheight=20>Accepter</body></html>");
+        btnAccept.setBackground(MyConstants.COLOR_GREEN);
+        btnAccept.setForeground(Color.WHITE);
+        btnAccept.setFont(MyConstants.FONT_BUTTON_FONT);
+        JButton btnCancel = new JButton("<html><body marginwidth=30 marginheight=20>Fortryd</body></html>");
+        btnCancel.setBackground(MyConstants.COLOR_RED);
+        btnCancel.setForeground(Color.WHITE);
+        btnCancel.setFont(MyConstants.FONT_BUTTON_FONT);
+        footer.add(btnAccept);
+        footer.add(btnCancel);
         approvePanel.add(footer, BorderLayout.SOUTH);
         
         return approvePanel;
@@ -306,6 +311,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void logOut (){
         remove(tv);
         remove(fot);
+        head.loggedOut();
         if(tp != null) remove(tp);
         mfl.reset();
         add(li, BorderLayout.CENTER);
