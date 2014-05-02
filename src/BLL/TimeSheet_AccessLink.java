@@ -59,4 +59,8 @@ public class TimeSheet_AccessLink {
     {
         return ta.testForTimeSheet(id);
     }
+    
+    public void addTimeSheet(Time_Sheet ts) throws SQLException{
+        ta.addTimeSheet(ts);
+    }
 }

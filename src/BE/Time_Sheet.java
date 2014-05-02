@@ -7,6 +7,7 @@
 package BE;
 
 import java.sql.Date;
+import java.sql.Time;
 
 /**
  *
@@ -18,10 +19,10 @@ public class Time_Sheet {
     private int carNr;
     private int positionID;
     Position position;
-    private Date endTime;
+    private Time endTime;
     private boolean accepted;
     
-    private Time_Sheet (int employeeID, int alarmID, int carNr, int positionID, Date endTime, boolean accepted) {
+    private Time_Sheet (int employeeID, int alarmID, int carNr, int positionID, Time endTime, boolean accepted) {
         this.employeeID = employeeID;
         this.alarmID = alarmID;
         this.carNr = carNr;
@@ -31,7 +32,7 @@ public class Time_Sheet {
         
                 }
 
-    public Time_Sheet(int employeeId, int alarmId, int carNr, Position pos, Date endtime) {
+    public Time_Sheet(int employeeId, int alarmId, int carNr, Position pos, Time endtime) {
         this.employeeID = employeeId;
         this.alarmID = alarmId;
         this.carNr = carNr;
@@ -100,14 +101,14 @@ public class Time_Sheet {
     /**
      * @return the endTime
      */
-    public Date getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
     /**
      * @param endTime the endTime to set
      */
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 

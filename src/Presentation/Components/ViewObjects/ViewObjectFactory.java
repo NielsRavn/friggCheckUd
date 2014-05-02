@@ -10,6 +10,7 @@ import BE.Alarm;
 import BE.Car;
 import BE.Position;
 import BE.ViewObjectBE;
+import BE.Station;
 
 /**
  *
@@ -24,7 +25,8 @@ public class ViewObjectFactory {
             return getViewObject((Alarm) viewObjectBE);
         else if (viewObjectBE.getClass() == Position.class)
             return getViewObject((Position) viewObjectBE);
-        
+        else if(viewObjectBE.getClass() == Station.class)
+            return getViewObject((Station) viewObjectBE);
         return null;
     }
     
@@ -38,6 +40,10 @@ public class ViewObjectFactory {
     
     private ViewObjectPosition getViewObject(Position position){
         return new ViewObjectPosition(position);
+    }
+    
+    private ViewObjectStationDuty getViewObject(Station station){
+        return new ViewObjectStationDuty(station);
     }
     
 }

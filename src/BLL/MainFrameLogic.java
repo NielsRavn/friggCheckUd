@@ -8,6 +8,7 @@ package BLL;
 
 import Presentation.Components.ListPanel;
 import Presentation.Components.ViewObjects.ViewObjectCar;
+import Presentation.Components.ViewObjects.ViewObjectStationDuty;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 /**
@@ -36,9 +37,8 @@ public class MainFrameLogic {
     public JPanel getNextPanel(){
         ListPanel res = null;
         for(int i = 0; i< dataLists.size(); i++){
-            if(dataLists.get(i).getSelectedViewObject() != null && dataLists.get(i).getSelectedViewObject().getClass() == ViewObjectCar.class ){
-                ViewObjectCar carView = (ViewObjectCar)dataLists.get(i).getSelectedViewObject();
-                if(carView.getCarNumber() == 0)
+            if(dataLists.get(i).getSelectedViewObject() != null){
+                if(dataLists.get(i).getSelectedViewObject().getClass() == ViewObjectStationDuty.class)
                     return null;
             }
             if(dataLists.get(i).getSelectedViewObject() == null){

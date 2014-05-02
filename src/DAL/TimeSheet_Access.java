@@ -8,12 +8,14 @@ package DAL;
 
 import BE.Position;
 import BE.Time_Sheet;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.util.ArrayList;
 
 /**
@@ -46,7 +48,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                int alarmId = result.getInt("alarmId");
                int carNr = result.getInt("carNr"); 
                Position pos = pa.getPositionById(result.getInt("positionId"));
-               Date endtime = result.getDate("endTime");
+               Time endtime = result.getTime("endTime");
                
                //booking = new CarBooking(Id, car, cust, startDate, endDate, emp,startKm, endKm, cmp, "");
                timesheets = new Time_Sheet(employeeId, alarmId, carNr, pos, endtime);
@@ -63,6 +65,30 @@ public class TimeSheet_Access extends DatabaseConnection{
         
         
         return timesheets;
+    }
+    
+    public void addTimeSheet(Time_Sheet ts) throws SQLServerException, SQLException{
+        Connection con = null;
+        try
+        {
+            con = getConnection();
+            Statement query = con.createStatement();
+            query.executeUpdate("Insert into TimeSheet Values ( "
+                         + ts.getEmployeeID()+ ", "
+                        + ts.getAlarmID()+ ", "
+                        + ts.getCarNr()+","
+                        + ts.getPositionID() + ","
+                        + ts.getEndTime() + "," 
+                        + ts.isAccepted()+ ") ");
+
+        }
+        finally
+        {
+            if(con != null)
+            {
+                con.close();
+            }
+        }
     }
     
 }

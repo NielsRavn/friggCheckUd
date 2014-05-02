@@ -9,6 +9,7 @@ package Presentation.Frames;
 import BE.Alarm;
 import BE.Car;
 import BE.Position;
+import BE.Time_Sheet;
 import BLL.Alarm_AccessLink;
 import BLL.Car_AccessLink;
 import BLL.IObserver;
@@ -23,6 +24,7 @@ import Presentation.Components.ViewObjects.ViewObjectAlarm;
 import Presentation.Components.ViewObjects.ViewObjectCar;
 import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
+import Presentation.Components.ViewObjects.ViewObjectStationDuty;
 import Presentation.Components.ViewObjects.ViewObjectTime;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
@@ -32,9 +34,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,7 +68,8 @@ public class MainFrame extends javax.swing.JFrame {
     TabView tv;
     LogIn li;
     TimePicker tp;
-    
+    Header head;
+    JButton btnApproveAccept, btnApproveCancel;
     ListPanel alarmPanel, carPanel, positionPanel, approveListPanel;
     
     JPanel approvePanel;
@@ -98,6 +104,9 @@ public class MainFrame extends javax.swing.JFrame {
             li = new LogIn(this);
             add(li, BorderLayout.CENTER);
             
+            head = new Header();
+            add(head, BorderLayout.NORTH);
+            
             //tv.setEnabledContent(p2, false);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(rootPane, "Could not use the config file, error: " + ex);
@@ -107,6 +116,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void createPanels(){
+        head.setUser(li.getFireman().getFirstName()+ " " + li.getFireman().getLastName());
         fot = new Footer(this);
         alarmPanel = getAlarmPanel();
         carPanel = getCarPanel();
@@ -148,7 +158,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             
             ArrayList<Car> cars = cal.getAllCars();
-            cars.add(MyConstants.STATION_DUTY_CAR);
+            list.addViewObject(vof.getViewObject(MyConstants.STATION_DUTY_VIEW));
             for(Car car : cars){
                 list.addViewObject(vof.getViewObject(car));
             }
@@ -195,16 +205,16 @@ public class MainFrame extends javax.swing.JFrame {
         
         JPanel footer = new JPanel();
         footer.setLayout(new FlowLayout());
-        JButton btnAccept = new JButton("Accepter");
-        btnAccept.setBackground(MyConstants.COLOR_GREEN);
-        btnAccept.setForeground(Color.WHITE);
-        btnAccept.setFont(MyConstants.FONT_BUTTON_FONT);
-        JButton btnCancel = new JButton("Fortryd");
-        btnCancel.setBackground(MyConstants.COLOR_RED);
-        btnCancel.setForeground(Color.WHITE);
-        btnCancel.setFont(MyConstants.FONT_BUTTON_FONT);
-        footer.add(btnAccept);
-        footer.add(btnCancel);
+        btnApproveAccept = new JButton("<html><body marginwidth=30 marginheight=20>Accepter</body></html>");
+        btnApproveAccept.setBackground(MyConstants.COLOR_GREEN);
+        btnApproveAccept.setForeground(Color.WHITE);
+        btnApproveAccept.setFont(MyConstants.FONT_BUTTON_FONT);
+        btnApproveCancel = new JButton("<html><body marginwidth=30 marginheight=20>Fortryd</body></html>");
+        btnApproveCancel.setBackground(MyConstants.COLOR_RED);
+        btnApproveCancel.setForeground(Color.WHITE);
+        btnApproveCancel.setFont(MyConstants.FONT_BUTTON_FONT);
+        footer.add(btnApproveAccept);
+        footer.add(btnApproveCancel);
         approvePanel.add(footer, BorderLayout.SOUTH);
         
         return approvePanel;
@@ -214,8 +224,7 @@ public class MainFrame extends javax.swing.JFrame {
     protected void fillApproveListPanel(){
         ViewObjectAlarm voa = (ViewObjectAlarm) alarmPanel.getSelectedViewObject();
         approveListPanel.addViewObject(voa);
-        ViewObjectCar carView = (ViewObjectCar)carPanel.getSelectedViewObject();
-        if(carView.getCarNumber() != 0){
+        if(carPanel.getSelectedViewObject().getClass() == ViewObjectCar.class){
             approveListPanel.addViewObject(carPanel.getSelectedViewObject());
             approveListPanel.addViewObject(positionPanel.getSelectedViewObject());
         }else{
@@ -304,6 +313,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void logOut (){
         remove(tv);
         remove(fot);
+        head.loggedOut();
         if(tp != null) remove(tp);
         mfl.reset();
         add(li, BorderLayout.CENTER);
@@ -378,5 +388,42 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
     }
+    
+    private class MyActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource() == btnApproveAccept){
+                int carNumber;
+                ViewObjectAlarm alarm = (ViewObjectAlarm)alarmPanel.getSelectedViewObject();
+                if(carPanel.getSelectedViewObject().getClass() == ViewObjectStationDuty.class)
+                    carNumber = 0;
+                else{
+                    ViewObjectCar voc = (ViewObjectCar)carPanel.getSelectedViewObject();
+                    carNumber = voc.getCar().getCarNr();
+                }
+                int positionId;
+                if(carNumber == 0){
+                    positionId = MyConstants.STATION_DUTY.getID();
+                }else{
+                    ViewObjectPosition vop = (ViewObjectPosition)positionPanel.getSelectedViewObject();
+                    positionId = vop.getPosition().getID();
+                }
+                
+                
+//                ViewObjectTime vot = ;
+//                Timestamp endTime = ;
+//                
+//                Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID() , carNumber, positionId, endTime, false);
+//                tsa.addTimeSheet(ts);
+                logOut();
+            }else if(e.getSource() == btnApproveCancel){
+                logOut();
+            }
+        }
+        
+    }
+    
+    
 
 }
