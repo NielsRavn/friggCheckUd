@@ -8,6 +8,7 @@ package DAL;
 
 import BE.Position;
 import BE.Time_Sheet;
+import Presentation.MyConstants;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
@@ -41,7 +42,7 @@ public class TimeSheet_Access extends DatabaseConnection{
            con = getConnection();
            
            Statement query = con.createStatement();
-           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE empoyeeId = "+id+" AND positionId = 1 AND accepted = 0;");
+           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE empoyeeId = "+id+" AND positionId = "+ MyConstants.TEAM_LEADER.getID() +" AND accepted = 0;");
            if(result.next())
            {
                int employeeId = result.getInt("empoyeeId");
