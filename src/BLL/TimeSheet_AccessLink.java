@@ -11,6 +11,7 @@ import BE.Time_Sheet;
 import DAL.TimeSheet_Access;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,29 +39,25 @@ public class TimeSheet_AccessLink {
         {
             try {
                 //If fireman is allowed to bee a teamlead check the database for timesheets not approved
-                ta.testForTimeSheet(firemanTotest.getID());
-                
-                    if(ta.testForTimeSheet(firemanTotest.getID()) != null)
+                    if(getTimeSheet(firemanTotest.getID()) != null)
                     {
                         timeSheetExist=true;
                     }
-                                
-                
             } catch (SQLException ex) {
-                Logger.getLogger(TimeSheet_AccessLink.class.getName()).log(Level.SEVERE, null, ex);
+                
             }
-            System.out.println(firemanTotest.getFirstName());
         }
     }
     
-    public void aproveTimesheet(Fireman fireman)
+    public boolean showTimeAprove(Fireman fireman)
     {
         isTeamleader(fireman);
+        return timeSheetExist;
     }
     
-    public boolean showTimeAprove()
+    public Time_Sheet getTimeSheet(int id) throws SQLException
     {
-        return timeSheetExist;
+        return ta.testForTimeSheet(id);
     }
     
     public void addTimeSheet(Time_Sheet ts) throws SQLException{
