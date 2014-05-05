@@ -6,6 +6,7 @@
 
 package Presentation.Components.ViewObjects;
 
+import BE.MyTime;
 import BLL.IObserver;
 import BLL.ITimeObserver;
 import BLL.MyUtil;
@@ -30,18 +31,20 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
     JPanel topPanel;
     JPanel buttomPanel;
     Calendar endDate;
-    int endHour;
-    int endMin;
+    MyTime time;
     
-    JLabel lblTimeEnd;
+    JLabel lblTimeStart, lblTimeEnd;
             
     public ViewObjectTime(Timestamp date){
         this.date = Calendar.getInstance();
         this.date.setTimeInMillis(date.getTime());
         endDate = Calendar.getInstance();
         setLayout(new BorderLayout());
-        endHour = endDate.get(Calendar.HOUR_OF_DAY);
-        endMin = endDate.get(Calendar.MINUTE);
+        int startHour = this.date.get(Calendar.HOUR_OF_DAY);
+        int startMin = this.date.get(Calendar.MINUTE);
+        int endHour = endDate.get(Calendar.HOUR_OF_DAY);
+        int endMin = endDate.get(Calendar.MINUTE);
+        time = new MyTime(startHour, startMin, endHour, endMin);
         fillData();
     }
     
@@ -65,13 +68,13 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
         JLabel lblStringInit = new JLabel("Fra kl ");
         lblStringInit.setFont(buttomFont);
         
-        JLabel lblTimeStart = new JLabel(MyUtil.p0(date.get(Calendar.HOUR_OF_DAY)) + ":" + MyUtil.p0(date.get(Calendar.MINUTE)));
+        lblTimeStart = new JLabel(MyUtil.p0(time.getStartHour()) + ":" + MyUtil.p0(time.getStartMinute()));
         lblTimeStart.setFont(buttomFont);
         
         JLabel lblStringDevider = new JLabel(" til ");
         lblStringDevider.setFont(buttomFont);
         
-        lblTimeEnd = new JLabel(MyUtil.p0(endHour) + ":" + MyUtil.p0(endMin));
+        lblTimeEnd = new JLabel(MyUtil.p0(time.getEndHour()) + ":" + MyUtil.p0(time.getEndMinute()));
         lblTimeEnd.setFont(buttomFont);
         
         buttomPanel.add(lblStringInit);
@@ -91,23 +94,23 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
             buttomPanel.setBackground(color);
     }
 
-    public int getEndHour() {
-        return endHour;
-    }
-
-    public int getEndMin() {
-        return endMin;
+    public MyTime getTime() {
+        return time;
     }
 
     @Override
-    public void timeChanged(int hour, int minute) {
-        endHour = hour;
-        endMin = minute;
-        lblTimeEnd.setText(MyUtil.p0(endHour) + ":" + MyUtil.p0(endMin));
+    public void timeChanged(MyTime inTime) {
+        time = inTime;
+        lblTimeStart.setText(MyUtil.p0(time.getStartHour()) + ":" + MyUtil.p0(time.getStartMinute()));
+        lblTimeEnd.setText(MyUtil.p0(time.getEndHour()) + ":" + MyUtil.p0(time.getEndMinute()));
         repaint();
     }
     
     public Time getEndTime(){
-        return new Time(endHour, endMin, 0);
+        return new Time(time.getEndHour(), time.getEndMinute(), 0);
+    }
+    
+    public Time getStartTime(){
+        return new Time(time.getStartHour(), time.getStartMinute(), 0);
     }
 }

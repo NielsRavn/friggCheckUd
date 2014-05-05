@@ -49,10 +49,11 @@ public class TimeSheet_Access extends DatabaseConnection{
                int alarmId = result.getInt("alarmId");
                int carNr = result.getInt("carNr"); 
                Position pos = pa.getPositionById(result.getInt("positionId"));
+               Time startTime = result.getTime("startTime");
                Time endtime = result.getTime("endTime");
                
                //booking = new CarBooking(Id, car, cust, startDate, endDate, emp,startKm, endKm, cmp, "");
-               timesheets = new Time_Sheet(employeeId, alarmId, carNr, pos, endtime);
+               timesheets = new Time_Sheet(employeeId, alarmId, carNr, pos, startTime, endtime); 
                
            }
        }
@@ -80,6 +81,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                         + ts.getAlarmID()+ ", "
                         + "NULL"+","
                         + ts.getPositionID() + ",'"
+                        + ts.getStartTime() + "','"
                         + ts.getEndTime() + "','" 
                         + ts.isAccepted()+ "') ");
             }else{
@@ -89,6 +91,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                         + ts.getAlarmID()+ ", "
                         + ts.getCarNr()+","
                         + ts.getPositionID() + ",'"
+                        + ts.getStartTime() + "','"
                         + ts.getEndTime() + "','" 
                         + ts.isAccepted()+ "') ");
             }

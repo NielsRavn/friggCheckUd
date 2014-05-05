@@ -6,6 +6,7 @@
 
 package Presentation.Components;
 
+import BE.MyTime;
 import BLL.ITimeObserver;
 import BLL.MyUtil;
 import Presentation.Frames.MainFrame;
@@ -24,7 +25,7 @@ import javax.swing.JTextField;
  */
 public class TimePicker extends javax.swing.JPanel {
 
-    int hour, minute;
+    MyTime time;
     MainFrame parent;
     ArrayList<ITimeObserver> observers;
     
@@ -43,11 +44,21 @@ public class TimePicker extends javax.swing.JPanel {
         myKeyAdapter ka = new myKeyAdapter();
         tfHour.addKeyListener(ka);
         tfMinute.addKeyListener(ka);
+        tfHour1.addKeyListener(ka);
+        tfMinute1.addKeyListener(ka);
         setBackground(MyConstants.COLOR_BLUE);
         jPanel1.setBackground(MyConstants.COLOR_BLUE);
         jPanel2.setBackground(MyConstants.COLOR_BLUE);
-        jPanel3.setBackground(MyConstants.COLOR_BLUE);
+        jPanel6.setBackground(MyConstants.COLOR_BLUE);
+        jPanel7.setBackground(MyConstants.COLOR_BLUE);
+        jPanel10.setBackground(MyConstants.COLOR_BLUE);
+        jPanel11.setBackground(MyConstants.COLOR_BLUE);
         jLabel3.setForeground(Color.WHITE);
+        jLabel4.setForeground(Color.WHITE);
+        jLabel1.setForeground(Color.WHITE);
+        jLabel2.setForeground(Color.WHITE);
+        jLabel1.setFont(MyConstants.FONT_HEADER_TEXT);
+        jLabel2.setFont(MyConstants.FONT_HEADER_TEXT);
         jPanel4.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         jPanel5.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
     }
@@ -58,12 +69,13 @@ public class TimePicker extends javax.swing.JPanel {
      * @param hour the hour to set on the time picker
      * @param minute the minute to set on the timepicker
      */
-    public TimePicker(MainFrame parent, int hour, int minute) {
+    public TimePicker(MainFrame parent, MyTime time) {
         this(parent);
-        this.hour = hour;
-        this.minute = minute;
-        tfHour.setText(MyUtil.p0(hour));
-        tfMinute.setText(MyUtil.p0(minute));
+        this.time = time;
+        tfHour1.setText(MyUtil.p0(time.getStartHour()));
+        tfMinute1.setText(MyUtil.p0(time.getStartMinute()));
+        tfHour.setText(MyUtil.p0(time.getEndHour()));
+        tfMinute.setText(MyUtil.p0(time.getEndMinute()));
     }
     
     /**
@@ -87,7 +99,7 @@ public class TimePicker extends javax.swing.JPanel {
      */
     private void notifyObservers(){
         for(ITimeObserver observer: observers)
-            observer.timeChanged(hour, minute);
+            observer.timeChanged(time);
     }
 
     /**
@@ -99,12 +111,20 @@ public class TimePicker extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnOkay = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         btnAnnuller = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        tfHour1 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        tfMinute1 = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         tfHour = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -112,7 +132,7 @@ public class TimePicker extends javax.swing.JPanel {
 
         setLayout(new java.awt.GridBagLayout());
 
-        jPanel3.setLayout(new java.awt.BorderLayout());
+        jPanel11.setLayout(new java.awt.BorderLayout());
 
         btnOkay.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         btnOkay.setText("OK");
@@ -139,7 +159,35 @@ public class TimePicker extends javax.swing.JPanel {
 
         jPanel2.add(jPanel5);
 
-        jPanel3.add(jPanel2, java.awt.BorderLayout.SOUTH);
+        jPanel11.add(jPanel2, java.awt.BorderLayout.SOUTH);
+
+        jPanel6.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setText("Sæt start tiden:");
+        jPanel6.add(jLabel2, java.awt.BorderLayout.NORTH);
+
+        tfHour1.setFont(new java.awt.Font("Tahoma", 1, 70)); // NOI18N
+        tfHour1.setPreferredSize(new java.awt.Dimension(96, 91));
+        jPanel10.add(tfHour1);
+
+        jLabel4.setFont(new java.awt.Font("Calibri", 1, 120)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText(":");
+        jPanel10.add(jLabel4);
+
+        tfMinute1.setFont(new java.awt.Font("Tahoma", 1, 70)); // NOI18N
+        tfMinute1.setMinimumSize(new java.awt.Dimension(96, 91));
+        tfMinute1.setPreferredSize(new java.awt.Dimension(96, 91));
+        jPanel10.add(tfMinute1);
+
+        jPanel6.add(jPanel10, java.awt.BorderLayout.CENTER);
+
+        jPanel11.add(jPanel6, java.awt.BorderLayout.NORTH);
+
+        jPanel7.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setText("Sæt slut tiden:");
+        jPanel7.add(jLabel1, java.awt.BorderLayout.NORTH);
 
         tfHour.setFont(new java.awt.Font("Tahoma", 1, 70)); // NOI18N
         tfHour.setPreferredSize(new java.awt.Dimension(96, 91));
@@ -155,9 +203,11 @@ public class TimePicker extends javax.swing.JPanel {
         tfMinute.setPreferredSize(new java.awt.Dimension(96, 91));
         jPanel1.add(tfMinute);
 
-        jPanel3.add(jPanel1, java.awt.BorderLayout.CENTER);
+        jPanel7.add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        add(jPanel3, new java.awt.GridBagConstraints());
+        jPanel11.add(jPanel7, java.awt.BorderLayout.CENTER);
+
+        add(jPanel11, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOkayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkayActionPerformed
@@ -173,14 +223,22 @@ public class TimePicker extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnuller;
     private javax.swing.JButton btnOkay;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JTextField tfHour;
+    private javax.swing.JTextField tfHour1;
     private javax.swing.JTextField tfMinute;
+    private javax.swing.JTextField tfMinute1;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -188,10 +246,16 @@ public class TimePicker extends javax.swing.JPanel {
      */
     private void checkInput(){
         try{
-            hour = checkInputForTextField(tfHour, 23);
+            time.setStartHour(checkInputForTextField(tfHour1, 23));
         }catch (IllegalStateException e){}
         try{
-            minute = checkInputForTextField(tfMinute, 59);
+            time.setStartMinute(checkInputForTextField(tfMinute1, 59));
+        }catch (IllegalStateException ex){}
+        try{
+            time.setEndHour(checkInputForTextField(tfHour, 23));
+        }catch (IllegalStateException e){}
+        try{
+            time.setEndMinute(checkInputForTextField(tfMinute, 59));
         }catch (IllegalStateException ex){}
         
         
