@@ -8,6 +8,7 @@ package Presentation.Components.ViewObjects;
 
 import BE.Alarm;
 import BE.Car;
+import BE.Equipment;
 import BE.Position;
 import BE.ViewObjectBE;
 import BE.Station;
@@ -27,6 +28,8 @@ public class ViewObjectFactory {
             return getViewObject((Position) viewObjectBE);
         else if(viewObjectBE.getClass() == Station.class)
             return getViewObject((Station) viewObjectBE);
+//        else if(viewObjectBE.getClass() == Equipment.class)
+//            return getViewObject((Equipment) viewObjectBE);
         return null;
     }
     
@@ -44,6 +47,10 @@ public class ViewObjectFactory {
     
     private ViewObjectStationDuty getViewObject(Station station){
         return new ViewObjectStationDuty(station);
+    }
+    
+    private ViewObjectEquipmentUsage getViewObject(Equipment equipment){
+        return new ViewObjectEquipmentUsage(equipment);
     }
     
 }

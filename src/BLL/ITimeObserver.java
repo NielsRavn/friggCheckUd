@@ -6,12 +6,14 @@
 
 package BLL;
 
+import BE.MyTime;
+
 /**
  *
  * @author Niels
  */
 public interface ITimeObserver {
     
-    public void timeChanged(int hour, int minute);
+    public void timeChanged(MyTime time);
     
 }

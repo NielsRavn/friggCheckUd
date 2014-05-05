@@ -8,6 +8,7 @@ package Presentation.Frames;
 
 import BE.Alarm;
 import BE.Car;
+import BE.MyTime;
 import BE.Position;
 import BE.Time_Sheet;
 import BLL.Alarm_AccessLink;
@@ -138,6 +139,20 @@ public class MainFrame extends javax.swing.JFrame {
         tv.addNewTab("Godkend", approvePanel, width);
     }
     
+//    protected ListPanel getEquipmentUsageList(){
+//        ListPanel list = new ListPanel();
+//        
+//        try{
+//            ArrayList<Equipment> equipments = eal.getAllEquipmentTypes();
+//            for(Equipment equipment : equipments){
+//                list.add(vof.getViewObject(equipment));
+//            }
+//        }catch(SQLException ex) {
+//            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+//        }
+//        return list;
+//    }
+    
     protected ListPanel getAlarmPanel() {
         ListPanel list = new ListPanel();
         try{
@@ -145,10 +160,10 @@ public class MainFrame extends javax.swing.JFrame {
             for(Alarm alarm : alarms){
                 list.addViewObject(vof.getViewObject(alarm));
             }
-            
         }catch(SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
+            
         return list;
     }
         
@@ -344,8 +359,8 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
-    public void addTimePicker(int hour, int minute){
-        tp = new TimePicker(this, hour, minute);
+    public void addTimePicker(MyTime time){
+        tp = new TimePicker(this, time);
         add(tp, BorderLayout.EAST);
         tv.setEnabled(false);
         approveListPanel.setElementsEnabled(false);
@@ -392,7 +407,7 @@ public class MainFrame extends javax.swing.JFrame {
                 tv.setSelectedComponent(positionPanel);
             }else if(approveListPanel.getSelectedViewObject().getClass() == ViewObjectTime.class){
                 ViewObjectTime vot = (ViewObjectTime) approveListPanel.getSelectedViewObject();
-                addTimePicker(vot.getEndHour(), vot.getEndMin());
+                addTimePicker(vot.getTime());
                 tp.addObserver(vot);
             }
         }
@@ -428,8 +443,9 @@ public class MainFrame extends javax.swing.JFrame {
                 }
                 
                 Time endTime = vot.getEndTime();
+                Time startTime = vot.getStartTime(); 
                 
-                Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID() , carNumber, positionId, endTime, false);
+                Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID() , carNumber, positionId, startTime, endTime, false);
                 try {
                     tsa.addTimeSheet(ts);
                 } catch (SQLException ex) {
