@@ -52,7 +52,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
-
+import BE.Equipment;
+import BLL.Equipment_AccessLink;
 /**
  *
  * @author Niels
@@ -61,6 +62,7 @@ public class MainFrame extends javax.swing.JFrame {
     Car_AccessLink cal;
     Alarm_AccessLink aal;
     Position_AccessLink pal;
+    Equipment_AccessLink eal;
     ViewObjectFactory vof;
     Footer fot;
     AproveTimeSheet ats;
@@ -85,6 +87,7 @@ public class MainFrame extends javax.swing.JFrame {
             cal = new Car_AccessLink();
             aal = new Alarm_AccessLink();
             pal = new Position_AccessLink();
+            eal = new Equipment_AccessLink();
             vof = new ViewObjectFactory();
             
             mfl = new MainFrameLogic();
@@ -142,19 +145,19 @@ public class MainFrame extends javax.swing.JFrame {
         tv.addNewTab("Godkend", approvePanel, width);
     }
     
-//    protected ListPanel getEquipmentUsageList(){
-//        ListPanel list = new ListPanel();
-//        
-//        try{
-//            ArrayList<Equipment> equipments = eal.getAllEquipmentTypes();
-//            for(Equipment equipment : equipments){
-//                list.add(vof.getViewObject(equipment));
-//            }
-//        }catch(SQLException ex) {
-//            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
-//        }
-//        return list;
-//    }
+    protected ListPanel getEquipmentUsageList(){
+        ListPanel list = new ListPanel();
+        
+        try{
+            ArrayList<Equipment> equipments = eal.getAllEquipmentTypes();
+            for(Equipment equipment : equipments){
+                list.add(vof.getViewObject(equipment));
+            }
+        }catch(SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+        }
+        return list;
+    }
     
     protected ListPanel getAlarmPanel() {
         ListPanel list = new ListPanel();

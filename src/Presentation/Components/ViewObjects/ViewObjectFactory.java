@@ -28,8 +28,8 @@ public class ViewObjectFactory {
             return getViewObject((Position) viewObjectBE);
         else if(viewObjectBE.getClass() == Station.class)
             return getViewObject((Station) viewObjectBE);
-//        else if(viewObjectBE.getClass() == Equipment.class)
-//            return getViewObject((Equipment) viewObjectBE);
+        else if(viewObjectBE.getClass() == Equipment.class)
+            return getViewObject((Equipment) viewObjectBE);
         return null;
     }
     

@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Brobak
  */
-public class Equipment{
+public class Equipment implements ViewObjectBE{
     String name;
     String unitType;
     public Equipment(String name, String unitType){
