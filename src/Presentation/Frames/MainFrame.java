@@ -8,6 +8,7 @@ package Presentation.Frames;
 
 import BE.Alarm;
 import BE.Car;
+import BE.Equipment;
 import BE.Position;
 import BE.Time_Sheet;
 import BLL.Alarm_AccessLink;
@@ -141,6 +142,20 @@ public class MainFrame extends javax.swing.JFrame {
         tv.addNewTab("Godkend", approvePanel, width);
     }
     
+//    protected ListPanel getEquipmentUsageList(){
+//        ListPanel list = new ListPanel();
+//        
+//        try{
+//            ArrayList<Equipment> equipments = eal.getAllEquipmentTypes();
+//            for(Equipment equipment : equipments){
+//                list.add(vof.getViewObject(equipment));
+//            }
+//        }catch(SQLException ex) {
+//            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+//        }
+//        return list;
+//    }
+    
     protected ListPanel getAlarmPanel() {
         ListPanel list = new ListPanel();
         try{
@@ -148,10 +163,10 @@ public class MainFrame extends javax.swing.JFrame {
             for(Alarm alarm : alarms){
                 list.addViewObject(vof.getViewObject(alarm));
             }
-            
         }catch(SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
+            
         return list;
     }
         
