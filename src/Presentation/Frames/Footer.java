@@ -31,21 +31,24 @@ public class Footer extends javax.swing.JPanel {
         jbLogOut.setBackground(MyConstants.COLOR_RED);
         jbAprove.setBackground(MyConstants.COLOR_GREEN);
         jbErrorReporting.setBackground(MyConstants.COLOR_LIGHT_BLUE);
-        this.setBackground(Color.white);
+        jbAprove.setVisible(false);
         this.parent = parent;
-        try {
+        if(parent.li.getFireman().isTeamLeader())
+        {
+            try {
             tsl = new TimeSheet_AccessLink();
-        } catch (IOException ex) {
-            Logger.getLogger(Footer.class.getName()).log(Level.SEVERE, null, ex);
+            
+            if(tsl.timesheetExist(parent.li.getFireman().getID())== true)
+            {
+               jbAprove.setVisible(true);
+            }
+                        
+            } catch (IOException ex) {
+                Logger.getLogger(Footer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
-        if(tsl.showTimeAprove(parent.li.getFireman())== true)
-        {
-           jbAprove.setVisible(true);
-        }
-        else
-        {
-            jbAprove.setVisible(false);
-        }
+       
         setBackground(MyConstants.COLOR_BLUE);
         jbAprove.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
         jbErrorReporting.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));

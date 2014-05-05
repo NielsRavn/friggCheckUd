@@ -19,28 +19,48 @@ public class Time_Sheet {
     private int carNr;
     private int positionID;
     Position position;
-    private Time endTime;
+    private Time startTime, endTime;
     private boolean accepted;
-    
-    public Time_Sheet (int employeeID, int alarmID, int carNr, int positionID, Time endTime, boolean accepted) {
+
+    public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Time startTime, Time endTime, boolean accepted) {
         this.employeeID = employeeID;
         this.alarmID = alarmID;
         this.carNr = carNr;
         this.positionID = positionID;
+        this.startTime = startTime;
         this.endTime = endTime;
         this.accepted = accepted;
-        
-                }
-
-    public Time_Sheet(int employeeId, int alarmId, int carNr, Position pos, Time endtime) {
-        this.employeeID = employeeId;
-        this.alarmID = alarmId;
-        this.carNr = carNr;
-        this.position = pos;
-        this.endTime = endtime;
     }
 
+    public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Time startTime, Time endTime) {
+        this.employeeID = employeeID;
+        this.alarmID = alarmID;
+        this.carNr = carNr;
+        this.positionID = positionID;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 
+    public Time_Sheet(int employeeID, int alarmID, int carNr, Position position, Time startTime, Time endTime) {
+        this.employeeID = employeeID;
+        this.alarmID = alarmID;
+        this.carNr = carNr;
+        this.position = position;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+    
+    
+
+    public Time getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
+    }
+
+   
 
     /**
      * @return the employeeID
