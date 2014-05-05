@@ -33,17 +33,17 @@ public class TimeSheet_Access extends DatabaseConnection{
         pa = new Position_Access();
     }
     
-    public Time_Sheet testForTimeSheet(int id) throws SQLException
+    public ArrayList<Time_Sheet> getTimeSheetsbyFiremanId(int id) throws SQLException
     {
         Connection con = null;
-        Time_Sheet timesheets = null;
+        ArrayList<Time_Sheet> timesheets = new ArrayList<Time_Sheet>();
        try
        {
            con = getConnection();
            
            Statement query = con.createStatement();
            ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE empoyeeId = "+id+" AND positionId = "+ MyConstants.TEAM_LEADER.getID() +" AND accepted = 0;");
-           if(result.next())
+           while(result.next())
            {
                int employeeId = result.getInt("empoyeeId");
                int alarmId = result.getInt("alarmId");
@@ -51,8 +51,8 @@ public class TimeSheet_Access extends DatabaseConnection{
                Position pos = pa.getPositionById(result.getInt("positionId"));
                Time endtime = result.getTime("endTime");
                
-               //booking = new CarBooking(Id, car, cust, startDate, endDate, emp,startKm, endKm, cmp, "");
-               timesheets = new Time_Sheet(employeeId, alarmId, carNr, pos, endtime);
+               Time_Sheet c = new Time_Sheet(employeeId, alarmId, carNr, pos, endtime);
+               timesheets.add(c);
                
            }
        }

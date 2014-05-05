@@ -96,5 +96,25 @@ public class Alarm_Access extends DatabaseConnection{
             if(con != null) con.close();
         }
     }
+
+    public Alarm getAlarmById(int id) throws SQLServerException, SQLException {
+        Connection con = null;
+        Alarm alarm = null;
+        try{
+            con = getConnection();
+            Statement stmnt = con.createStatement();
+            
+            ResultSet rs = stmnt.executeQuery("SELECT * FROM Alarm WHERE id="+id+" AND accepted = 0;");
+            
+            while(rs.next()){
+                alarm = new Alarm(rs.getInt("id"), rs.getInt("odinNr"), rs.getString("destination"), rs.getString("type"), rs.getTimestamp("time"), rs.getBoolean("accepted"));
+                
+            }
+        }finally{
+            if(con != null) con.close();
+        }
+        
+        return alarm;
+    }
     
 }

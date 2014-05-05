@@ -31,30 +31,13 @@ public class TimeSheet_AccessLink {
     
     /**
      * 
-     * @param fireman
-     * @return 
-     */
-    public boolean timesheetExist(int firemanId)
-    {
-        try {
-            if(getTimeSheet(firemanId) != null)
-            {
-                timeSheetExist=true;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(TimeSheet_AccessLink.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return timeSheetExist;
-    }
-    /**
-     * 
      * @param id
      * @return
      * @throws SQLException 
      */
-    public Time_Sheet getTimeSheet(int id) throws SQLException
+    public ArrayList<Time_Sheet> getTimeSheet(int id) throws SQLException
     {
-        return ta.testForTimeSheet(id);
+        return ta.getTimeSheetsbyFiremanId(id);
     }
     /**
      * 

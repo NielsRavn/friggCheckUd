@@ -10,6 +10,7 @@ import BLL.TimeSheet_AccessLink;
 import Presentation.MyConstants;
 import java.awt.Color;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -35,18 +36,7 @@ public class Footer extends javax.swing.JPanel {
         this.parent = parent;
         if(parent.li.getFireman().isTeamLeader())
         {
-            try {
-            tsl = new TimeSheet_AccessLink();
-            
-            if(tsl.timesheetExist(parent.li.getFireman().getID())== true)
-            {
-               jbAprove.setVisible(true);
-            }
-                        
-            } catch (IOException ex) {
-                Logger.getLogger(Footer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            jbAprove.setVisible(true);
         }
        
         setBackground(MyConstants.COLOR_BLUE);
@@ -132,7 +122,8 @@ public class Footer extends javax.swing.JPanel {
     }//GEN-LAST:event_jbErrorReportingActionPerformed
 
     private void jbAproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAproveActionPerformed
-        parent.aproveTimesheet();
+        
+            parent.aproveTimesheet();
     }//GEN-LAST:event_jbAproveActionPerformed
 
 

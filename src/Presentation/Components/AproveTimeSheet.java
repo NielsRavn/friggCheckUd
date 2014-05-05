@@ -6,19 +6,50 @@
 
 package Presentation.Components;
 
+import BE.Alarm;
+import BE.Time_Sheet;
+import BLL.Alarm_AccessLink;
+import DAL.TimeSheet_Access;
+import Presentation.Components.ViewObjects.ViewObjectFactory;
+import Presentation.Frames.MainFrame;
+import Presentation.MyConstants;
+import java.awt.BorderLayout;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Poul Nielsen
  */
 public class AproveTimeSheet extends javax.swing.JPanel {
-
+    TimeSheet_Access tsa;
+    Alarm_AccessLink aal;
+    ViewObjectFactory vof;
+    TabView tv;
+    MainFrame parent;
     /**
      * Creates new form AproveTimeSheet
+     * @param parent
      */
-    public AproveTimeSheet() {
+    public AproveTimeSheet(MainFrame parent, int firemanId) {
         initComponents();
+        setLayout(new BorderLayout());
+        this.parent = parent;
+        try {
+            tsa = new TimeSheet_Access();
+            aal = new Alarm_AccessLink();
+            vof = new ViewObjectFactory();
+        } catch (IOException ex) {
+          
+        }
+        getTimeSheetByFiremanId(firemanId);
+        createTabs(firemanId);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,15 +63,67 @@ public class AproveTimeSheet extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 755, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 593, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    private void createTabs(int firemanId)
+    {
+        tv = new TabView();
+        tv.addNewTab("alarm", getAlarmByFiremanId(firemanId), parent.getWidth());
+        //tv.addNewTab("Time Seddel", carPanel, parent.getWidth());
+        add(tv, BorderLayout.CENTER);
+        validate();
+        repaint();
+    }
+    
+    private ListPanel getAlarmByFiremanId(int firemanId)
+    {
+        ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
+        ListPanel list = new ListPanel();
+        ArrayList<Alarm> alarms = new ArrayList<Alarm>();
+        try{
+            timeSheet = tsa.getTimeSheetsbyFiremanId(firemanId);
+            
+            for(Time_Sheet c : timeSheet)
+            {
+                alarms.add(aal.getAlarmById(c.getAlarmID()));
+                System.out.println(" " + c.getAlarmID());
+            }
+       
+        }catch(SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+        }
+        for(Alarm a : alarms){
+                list.addViewObject(vof.getViewObject(a));
+            }
+        return list;
+    }
+    
+    private ArrayList<Time_Sheet> getTimeSheetByFiremanId(int firemanId) {
+        ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
+        try {
+            timeSheet = tsa.getTimeSheetsbyFiremanId(firemanId);
+            
+            for(Time_Sheet c : timeSheet)
+            {
+                getAlarmByFiremanId(c.getAlarmID());
+            }
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+        }
+        
+        return timeSheet;
+        
+    }
+  
 }
+

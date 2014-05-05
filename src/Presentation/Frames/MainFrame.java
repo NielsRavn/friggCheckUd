@@ -73,7 +73,6 @@ public class MainFrame extends javax.swing.JFrame {
     Header head;
     JButton btnApproveAccept, btnApproveCancel;
     ListPanel alarmPanel, carPanel, positionPanel, approveListPanel;
-    
     JPanel approvePanel;
     /**
      * Creates new form MainFrame
@@ -88,7 +87,6 @@ public class MainFrame extends javax.swing.JFrame {
             
             mfl = new MainFrameLogic();
             tsa = new TimeSheet_AccessLink();
-            
             panelListener = new myListPanelListener();
             
             initComponents();
@@ -124,16 +122,15 @@ public class MainFrame extends javax.swing.JFrame {
         carPanel = getCarPanel();
         positionPanel = getPositionPanel();
         approvePanel = getApprovePanel();
-        ats = new AproveTimeSheet();
         alarmPanel.addSelectionObserver(panelListener);
         carPanel.addSelectionObserver(panelListener);
         positionPanel.addSelectionObserver(panelListener);
         approveListPanel.addSelectionObserver(new myAcceptListPanelListener());
-
+        
         mfl.addDataList(alarmPanel);
         mfl.addDataList(carPanel);
         mfl.addDataList(positionPanel);
-
+       
         tv = new TabView();
         tv.addNewTab("alarm", alarmPanel, width);
         tv.addNewTab("car", carPanel, width);
@@ -319,6 +316,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void logOut (){
         remove(tv);
         remove(fot);
+        if(ats != null) remove(ats);
         head.loggedOut();
         if(tp != null) remove(tp);
         mfl.reset();
@@ -326,17 +324,23 @@ public class MainFrame extends javax.swing.JFrame {
         li.setFocus();
         repaint();
     }
-    
+    /**
+     * 
+     */
     public void aproveTimesheet() {
         remove(tv);
-        remove(fot);
-        if(tp != null) remove(tp);
-        mfl.reset();
-        add(li, BorderLayout.CENTER);
-        li.setFocus();
+        ats = new AproveTimeSheet(this, li.fireman.getID());
+        add(ats, BorderLayout.CENTER);
+        validate();
         repaint();
+        
+        
     }
     
+    public int getWidth()
+    {
+        return width;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
