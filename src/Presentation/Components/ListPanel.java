@@ -20,6 +20,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import static java.util.Collections.list;
+import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -30,6 +31,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -61,6 +63,7 @@ public class ListPanel extends javax.swing.JPanel{
         model = new ViewObjectTableModel();
         tblList.setModel(model);
         tblList.setDefaultRenderer(JPanel.class, new MyTableCellRenderer());
+        tblList.setDefaultEditor(JPanel.class, new MyTableCellEditor());
         //tblList.setCellRenderer(getClientListRenderer());
         MyMouseMotionAdapter mma = new MyMouseMotionAdapter();
         tblList.addMouseListener(mma);
@@ -145,6 +148,21 @@ public class ListPanel extends javax.swing.JPanel{
                 panel.setBackground(Color.WHITE);
             return panel;
         }
+    }
+    
+    
+    private class MyTableCellEditor extends AbstractCellEditor implements TableCellEditor {
+
+      public Component getTableCellEditorComponent(JTable table, Object value,
+          boolean isSelected, int row, int column) {
+        ViewObject object = (ViewObject)value;
+        //feedComponent.updateData(feed, true, table);
+        return object;
+      }
+
+      public Object getCellEditorValue() {
+        return null;
+      }
     }
 //    /**
 //     * Gets the Cell renderer for the list
@@ -272,8 +290,9 @@ public class ListPanel extends javax.swing.JPanel{
             int maxScroll = viewPort.getViewSize().height - getHeight();
             
             scrollPosition.y -= dy;
-            if(scrollPosition.y < 0) scrollPosition.y = 0;
             if(scrollPosition.y > maxScroll) scrollPosition.y = maxScroll;
+            if(scrollPosition.y < 0) scrollPosition.y = 0;
+            
 
             viewPort.setViewPosition(scrollPosition);
             
