@@ -58,7 +58,7 @@ public class TabView extends JTabbedPane{
         for(int i = 0; i< tabs.size(); i++){
             if(tabs.get(i).getContent() == content){
                 setEnabledAt(i, state);
-                setBackgroundAt(i, state ? Color.GRAY : Color.WHITE );
+                setBackgroundAt(i, state ? Color.WHITE : Color.GRAY );
             }
         }
     }
