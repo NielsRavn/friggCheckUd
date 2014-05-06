@@ -204,13 +204,11 @@ public class AlarmCreater extends javax.swing.JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("TEST");
             if(e.getSource() == btnAccept){
                 parent.remove(AlarmCreater.this);
             }
             if(e.getSource() == btnCancel){
                 parent.remove(AlarmCreater.this);
-                System.out.println("TEST3");
             }
         }
         
