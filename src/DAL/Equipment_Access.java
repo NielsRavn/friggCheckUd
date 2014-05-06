@@ -34,7 +34,7 @@ public class Equipment_Access extends DatabaseConnection{
             
             Statement stmnt = con.createStatement();
             ResultSet rs = stmnt.executeQuery("SELECT Equipment.name AS name, UnitType.name AS unitType FROM Equipment "
-                    + "JOIN UnitType ON unitTypeId = UnitType.name;");
+                    + "JOIN UnitType ON unitTypeId = UnitType.id;");
             
             while(rs.next()){
                 String name = rs.getString("name");

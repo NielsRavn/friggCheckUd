@@ -7,6 +7,9 @@
 package BLL;
 
 import BE.Equipment;
+import DAL.Equipment_Access;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -16,11 +19,11 @@ import java.util.ArrayList;
 public class Equipment_AccessLink {
     Equipment_Access ea;
     
-    public Equipment_AccessLink(){
+    public Equipment_AccessLink() throws IOException{
         ea = new Equipment_Access();
     }
     
-    public ArrayList<Equipment> getAllEquipmentTypes(){
+    public ArrayList<Equipment> getAllEquipmentTypes() throws SQLException{
         return ea.getAllEquipmentTypes();
     }
 }

@@ -143,6 +143,7 @@ public class MainFrame extends javax.swing.JFrame {
         tv.addNewTab("car", carPanel, width);
         tv.addNewTab("position", positionPanel, width);
         tv.addNewTab("Godkend", approvePanel, width);
+        tv.addNewTab("Equip", getEquipmentUsageList(), width);
     }
     
     protected ListPanel getEquipmentUsageList(){
@@ -151,11 +152,12 @@ public class MainFrame extends javax.swing.JFrame {
         try{
             ArrayList<Equipment> equipments = eal.getAllEquipmentTypes();
             for(Equipment equipment : equipments){
-                list.add(vof.getViewObject(equipment));
+                list.addViewObject(vof.getViewObject(equipment));
             }
         }catch(SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
+        
         return list;
     }
     

@@ -10,6 +10,7 @@ import BE.Equipment;
 import Presentation.Components.IntervalButton;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -48,6 +49,7 @@ public class ViewObjectEquipmentUsage extends ViewObject{
         JLabel equipmentLbl = new JLabel(equipment.getName());
         topPanel.add(equipmentLbl);
         equipmentAmount = new JTextField(amount);
+        equipmentAmount.setPreferredSize(new Dimension(70, 30));
         topPanel.add(equipmentAmount);
         topPanel.add(new JLabel(equipment.getUnitType()));
         add(topPanel, BorderLayout.CENTER);
