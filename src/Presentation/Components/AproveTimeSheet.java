@@ -96,7 +96,6 @@ public class AproveTimeSheet extends javax.swing.JPanel {
             for(Time_Sheet c : timeSheet)
             {
                 alarms.add(aal.getAlarmById(c.getAlarmID()));
-                System.out.println(" " + c.getAlarmID());
             }
        
         }catch(SQLException ex) {
@@ -105,6 +104,10 @@ public class AproveTimeSheet extends javax.swing.JPanel {
         for(Alarm a : alarms){
                 list.addViewObject(vof.getViewObject(a));
             }
+        if(list == null)
+        {
+             JOptionPane.showMessageDialog(this, "Der er ingen timesedler der kræver godkendelse");
+        }
         return list;
     }
     

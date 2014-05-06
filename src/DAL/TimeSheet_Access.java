@@ -52,7 +52,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                Time startTime = result.getTime("startTime");
                Time endtime = result.getTime("endTime");
                
-               Time_Sheet c = new Time_Sheet(employeeId, alarmId, carNr, pos, endtime);
+               Time_Sheet c = new Time_Sheet(employeeId, alarmId, carNr, pos, startTime, endtime);
                timesheets.add(c);
                
            }
