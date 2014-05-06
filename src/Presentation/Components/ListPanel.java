@@ -120,7 +120,6 @@ public class ListPanel extends javax.swing.JPanel{
 //        }
 //    }
     
-    private class 
     
     /**
      * Adds a new ViewObject to the lst
