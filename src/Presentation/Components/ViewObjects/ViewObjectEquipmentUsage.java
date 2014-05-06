@@ -8,6 +8,7 @@ package Presentation.Components.ViewObjects;
 
 import BE.Equipment;
 import Presentation.Components.IntervalButton;
+import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -47,11 +48,15 @@ public class ViewObjectEquipmentUsage extends ViewObject{
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout());
         JLabel equipmentLbl = new JLabel(equipment.getName());
+        equipmentLbl.setFont(MyConstants.FONT_HEADER_TEXT);
         topPanel.add(equipmentLbl);
         equipmentAmount = new JTextField(amount);
-        equipmentAmount.setPreferredSize(new Dimension(70, 30));
+        equipmentAmount.setFont(MyConstants.FONT_HEADER_TEXT);
+        equipmentAmount.setPreferredSize(new Dimension(100, 40));
         topPanel.add(equipmentAmount);
-        topPanel.add(new JLabel(equipment.getUnitType()));
+        JLabel unitType = new JLabel(equipment.getUnitType());
+        unitType.setFont(MyConstants.FONT_HEADER_TEXT);
+        topPanel.add(unitType);
         add(topPanel, BorderLayout.CENTER);
         
     }
