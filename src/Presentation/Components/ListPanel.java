@@ -52,6 +52,7 @@ public class ListPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form ListPanel
+     * @param editable
      */
     public ListPanel( boolean editable) {
         enabled = true;

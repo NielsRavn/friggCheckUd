@@ -13,13 +13,21 @@ import java.util.ArrayList;
  * @author Brobak
  */
 public class Equipment implements ViewObjectBE{
+    int id;
     String name;
     String unitType;
-    public Equipment(String name, String unitType){
+    public Equipment(int id, String name, String unitType){
+        this.id = id;
         this.name = name;
         this.unitType = unitType;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    
+    
     public String getName() {
         return name;
     }
