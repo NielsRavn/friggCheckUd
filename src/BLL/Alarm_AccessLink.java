@@ -27,4 +27,9 @@ public class Alarm_AccessLink {
         return aa.getAllUnfinishedAlarms();
     }
     
+    public Alarm getAlarmById(int id) throws SQLException
+    {
+        return aa.getAlarmById(id);
+    }
+    
 }
