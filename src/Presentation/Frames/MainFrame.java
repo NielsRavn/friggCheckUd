@@ -144,7 +144,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     protected ListPanel getEquipmentUsageList(){
-        ListPanel list = new ListPanel();
+        ListPanel list = new ListPanel(true);
         
         try{
             ArrayList<Equipment> equipments = eal.getAllEquipmentTypes();
@@ -159,7 +159,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     protected ListPanel getAlarmPanel() {
-        ListPanel list = new ListPanel();
+        ListPanel list = new ListPanel(false);
         try{
             ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
             for(Alarm alarm : alarms){
@@ -173,7 +173,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
         
     protected ListPanel getCarPanel(){
-        ListPanel list = new ListPanel();
+        ListPanel list = new ListPanel(false);
         try {
             
             ArrayList<Car> cars = cal.getAllCars();
@@ -188,7 +188,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     protected ListPanel getPositionPanel(){
-        ListPanel list = new ListPanel();
+        ListPanel list = new ListPanel(false);
         
         ArrayList<Position> positions = createPositions();
         for(Position pos : positions){
@@ -219,7 +219,7 @@ public class MainFrame extends javax.swing.JFrame {
         JPanel approvePanel = new JPanel();
         approvePanel.setLayout(new BorderLayout());
         
-        approveListPanel = new ListPanel();
+        approveListPanel = new ListPanel(false);
         approvePanel.add(approveListPanel, BorderLayout.CENTER);
         
         JPanel footer = new JPanel();

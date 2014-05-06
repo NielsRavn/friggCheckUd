@@ -84,7 +84,7 @@ public class TabView extends JTabbedPane{
         g.drawRect(0, 0, getWidth(), getHeight());
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     
     /**
      * to keep track of the inputted tabs
