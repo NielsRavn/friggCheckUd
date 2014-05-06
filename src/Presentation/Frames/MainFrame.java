@@ -8,15 +8,18 @@ package Presentation.Frames;
 
 import BE.Alarm;
 import BE.Car;
+import BE.Equipment;
 import BE.MyTime;
 import BE.Position;
 import BE.Time_Sheet;
 import BLL.Alarm_AccessLink;
 import BLL.Car_AccessLink;
+import BLL.Equipment_AccessLink;
 import BLL.IObserver;
 import BLL.MainFrameLogic;
 import BLL.Position_AccessLink;
 import BLL.TimeSheet_AccessLink;
+import Presentation.Components.AlarmCreater;
 import Presentation.Components.AproveTimeSheet;
 import Presentation.Components.ListPanel;
 import Presentation.Components.TabView;
@@ -52,8 +55,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
-import BE.Equipment;
-import BLL.Equipment_AccessLink;
 /**
  *
  * @author Niels
@@ -102,7 +103,7 @@ public class MainFrame extends javax.swing.JFrame {
             
             BorderLayout bl =  new BorderLayout();
             setLayout(bl);
-            
+            add(new AlarmCreater(this), BorderLayout.EAST);
             width = dim.width;
             
             li = new LogIn(this);
