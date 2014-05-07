@@ -93,14 +93,14 @@ public class LogIn extends javax.swing.JPanel {
     /**
      * Login methode testing if worker exist in system
      */
-    private void logIn() {
-        if (!IsInteger(txtLogIn.getText()) || txtLogIn.getText().isEmpty()) {
+    private void logIn() { // when LOG IND is pressed 
+        if (!IsInteger(txtLogIn.getText()) || txtLogIn.getText().isEmpty()) { // checks if there are Stings or the textfield is empty
             JOptionPane.showMessageDialog(this, "Medarbejder nummer ikke godkendt");
             txtLogIn.setText(null);
             txtLogIn.requestFocus();
-        } else {
+        } else { 
             int FiremanID = Integer.parseInt(txtLogIn.getText());
-            try {
+            try { // try to log in
                 fireman = firemanMgr.getFiremanByID(FiremanID);
                 if (fireman != null) {
                     parent.changeView();
@@ -121,7 +121,7 @@ public class LogIn extends javax.swing.JPanel {
      * @param s
      * @return 
      */
-    private boolean IsInteger(String s) {
+    private boolean IsInteger(String s) { // test if the text fiels contians numbers
         try {
             Integer.parseInt(s);
         } catch (NumberFormatException e) {
@@ -139,7 +139,7 @@ public class LogIn extends javax.swing.JPanel {
     /**
      * Sets focus on txtfiled txtLogIn
      */
-    public void setFocus()
+    public void setFocus() 
     {
         txtLogIn.requestFocus();
     }
