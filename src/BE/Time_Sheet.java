@@ -8,17 +8,21 @@ package BE;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 /**
  *
  * @author Susanne
  */
-public class Time_Sheet {
+public class Time_Sheet implements ViewObjectBE{
     private int employeeID;
     private int alarmID;
     private int carNr;
     private int positionID;
     Position position;
+    Fireman fireman;
+    Alarm alarm;
+    Car car;
     private Time startTime, endTime;
     private boolean accepted;
 
@@ -46,6 +50,15 @@ public class Time_Sheet {
         this.alarmID = alarmID;
         this.carNr = carNr;
         this.position = position;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public Time_Sheet(Fireman a, Alarm b, Car c, Position d, Time startTime, Time endTime) {
+        this.fireman = a;
+        this.alarm = b;
+        this.car = c;
+        this.position = d;
         this.startTime = startTime;
         this.endTime = endTime;
     }

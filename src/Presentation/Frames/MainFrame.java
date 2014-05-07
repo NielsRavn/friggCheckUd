@@ -78,7 +78,7 @@ public class MainFrame extends JFrame {
     JButton btnApproveAccept, btnApproveCancel;
     ListPanel alarmPanel, carPanel, positionPanel, approveListPanel;
     EquipmentUsageList equipmentPanel;
-    JPanel approvePanel;
+    JPanel approvePanel, primaryAlarmPanel;
 
     /**
      * Creates new form MainFrame
@@ -105,7 +105,6 @@ public class MainFrame extends JFrame {
 
             BorderLayout bl = new BorderLayout();
             setLayout(bl);
-            add(new AlarmCreater(this), BorderLayout.EAST);
             width = dim.width;
 
             li = new LogIn(this);
@@ -123,7 +122,7 @@ public class MainFrame extends JFrame {
     public void createPanels() {
         head.setUser(li.getFireman().getFirstName() + " " + li.getFireman().getLastName());
         fot = new Footer(this);
-        alarmPanel = getAlarmPanel();
+        primaryAlarmPanel = getAlarmPanel();
         carPanel = getCarPanel();
         positionPanel = getPositionPanel();
         approvePanel = getApprovePanel();
@@ -138,7 +137,7 @@ public class MainFrame extends JFrame {
         mfl.addDataList(positionPanel);
 
         tv = new TabView();
-        tv.addNewTab("alarm", alarmPanel, width);
+        tv.addNewTab("alarm", primaryAlarmPanel, width);
         tv.addNewTab("car", carPanel, width);
         tv.addNewTab("position", positionPanel, width);
         tv.addNewTab("Godkend", approvePanel, width);
@@ -159,19 +158,32 @@ public class MainFrame extends JFrame {
 
         return list;
     }
-
-    protected ListPanel getAlarmPanel() {
-        ListPanel list = new ListPanel(false);
-        try {
+    
+    protected JPanel getAlarmPanel() {
+        JPanel mainAlarmPanel = new JPanel();
+        mainAlarmPanel.setLayout(new BorderLayout());
+        alarmPanel = new ListPanel(false);
+        try{
             ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
-            for (Alarm alarm : alarms) {
-                list.addViewObject(vof.getViewObject(alarm));
+            for(Alarm alarm : alarms){
+                alarmPanel.addViewObject(vof.getViewObject(alarm));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
-
-        return list;
+        
+        JPanel footer = new JPanel();
+        footer.setLayout(new FlowLayout());
+        btnApproveAccept = new JButton("<html><body marginwidth=30 marginheight=20>Opret ny alarm</body></html>");
+        btnApproveAccept.setBackground(MyConstants.COLOR_BLUE);
+        btnApproveAccept.setForeground(Color.WHITE);
+        btnApproveAccept.setFont(MyConstants.FONT_BUTTON_FONT);
+        btnApproveAccept.addActionListener(new MyActionListener());
+        footer.add(btnApproveAccept);
+        
+        mainAlarmPanel.add(alarmPanel, BorderLayout.CENTER);
+        mainAlarmPanel.add(footer, BorderLayout.SOUTH);
+        return mainAlarmPanel;
     }
 
     protected ListPanel getCarPanel() {
