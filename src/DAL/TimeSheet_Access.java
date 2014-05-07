@@ -76,14 +76,6 @@ public class TimeSheet_Access extends DatabaseConnection{
             con = getConnection();
             Statement query = con.createStatement();
             if(ts.getCarNr() == 0){
-                System.out.println("Insert into TimeSheet Values ( "
-                         + ts.getEmployeeID()+ ", "
-                        + ts.getAlarmID()+ ", "
-                        + "NULL"+","
-                        + ts.getPositionID() + ",'"
-                        + ts.getStartTime() + "','"
-                        + ts.getEndTime() + "','" 
-                        + ts.isAccepted()+ "') ");
                 query.executeUpdate("Insert into TimeSheet Values ( "
                          + ts.getEmployeeID()+ ", "
                         + ts.getAlarmID()+ ", "
@@ -95,14 +87,6 @@ public class TimeSheet_Access extends DatabaseConnection{
                 
                 
             }else{
-                System.out.println("Insert into TimeSheet Values ( "
-                         + ts.getEmployeeID()+ ", "
-                        + ts.getAlarmID()+ ", "
-                        + ts.getCarNr()+","
-                        + ts.getPositionID() + ",'"
-                        + ts.getStartTime() + "','"
-                        + ts.getEndTime() + "','" 
-                        + ts.isAccepted()+ "') ");
                 query.executeUpdate("Insert into TimeSheet Values ( "
                          + ts.getEmployeeID()+ ", "
                         + ts.getAlarmID()+ ", "
