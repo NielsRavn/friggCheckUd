@@ -124,9 +124,9 @@ public class AproveTimeSheet extends javax.swing.JPanel {
     {
         ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
         
-        //timeSheet = tsa.getDataForAproval(alarmId);
+        timeSheet = tsa.getDataForAproval(alarmId);
         
-        ListPanel list = new ListPanel();
+        ListPanel list = new ListPanel(false);
         System.out.println(" " + alarmId);
         return list;
     }
