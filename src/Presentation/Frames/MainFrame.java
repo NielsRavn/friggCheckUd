@@ -472,41 +472,43 @@ public class MainFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnApproveAccept) {
-                int carNumber;
-                ViewObjectAlarm alarm = (ViewObjectAlarm) alarmPanel.getSelectedViewObject();
-                if (carPanel.getSelectedViewObject().getClass() == ViewObjectStationDuty.class) {
-                    carNumber = 0;
-                } else {
-                    ViewObjectCar voc = (ViewObjectCar) carPanel.getSelectedViewObject();
-                    carNumber = voc.getCar().getCarNr();
-                }
-                int positionId;
-                if (carNumber == 0) {
-                    positionId = MyConstants.STATION_DUTY.getID();
-                } else {
-                    ViewObjectPosition vop = (ViewObjectPosition) positionPanel.getSelectedViewObject();
-                    positionId = vop.getPosition().getID();
-                }
-
                 ArrayList<ViewObject> vos = approveListPanel.getAllViewObject();
                 ViewObjectTime vot = null;
-                for (ViewObject vo : vos) {
-                    if (vo.getClass() == ViewObjectTime.class) {
-                        vot = (ViewObjectTime) vo;
+                    for (ViewObject vo : vos) {
+                        if (vo.getClass() == ViewObjectTime.class) {
+                            vot = (ViewObjectTime) vo;
+                        }
                     }
+                if (vot != null) {
+                    int carNumber;
+                    ViewObjectAlarm alarm = (ViewObjectAlarm) alarmPanel.getSelectedViewObject();
+                    if (carPanel.getSelectedViewObject().getClass() == ViewObjectStationDuty.class) {
+                        carNumber = 0;
+                    } else {
+                        ViewObjectCar voc = (ViewObjectCar) carPanel.getSelectedViewObject();
+                        carNumber = voc.getCar().getCarNr();
+                    }
+                    int positionId;
+                    if (carNumber == 0) {
+                        positionId = MyConstants.STATION_DUTY.getID();
+                    } else {
+                        ViewObjectPosition vop = (ViewObjectPosition) positionPanel.getSelectedViewObject();
+                        positionId = vop.getPosition().getID();
+                    }
+                    
+                    Time endTime = vot.getEndTime();
+                    Time startTime = vot.getStartTime();
+                    
+                    Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, false);
+                    try {
+                        tsa.addTimeSheet(ts);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(rootPane, "Du kan ikke meddle dig på samme alram 2 gange.");
+                    }
+                    logOut();
                 }
-
-                Time endTime = vot.getEndTime();
-                Time startTime = vot.getStartTime();
-
-                Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, false);
-                try {
-                    tsa.addTimeSheet(ts);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(rootPane, "An sql error has accured " + ex);
-                }
-                logOut();
             } else if (e.getSource() == btnApproveCancel) {
+                    logOut();
                 logOut();
             }
         }
