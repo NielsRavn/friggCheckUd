@@ -47,4 +47,12 @@ public class TimeSheet_AccessLink {
     public void addTimeSheet(Time_Sheet ts) throws SQLException{
         ta.addTimeSheet(ts);
     }
+
+    public ArrayList<Time_Sheet> getTimeSheetsbyFiremanId(int firemanId) throws SQLException {
+        return ta.getTimeSheetsbyFiremanId(firemanId);
+    }
+
+    public ArrayList<Time_Sheet> getDataForAproval(int alarmId) {
+        return ta.getDataForAproval(alarmId);
+    }
 }

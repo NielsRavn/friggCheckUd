@@ -9,8 +9,13 @@ package Presentation.Components;
 import BE.Alarm;
 import BE.Time_Sheet;
 import BLL.Alarm_AccessLink;
-import DAL.TimeSheet_Access;
+import BLL.IObserver;
+import BLL.TimeSheet_AccessLink;
+import Presentation.Components.ViewObjects.ViewObjectAlarm;
+import Presentation.Components.ViewObjects.ViewObjectCar;
 import Presentation.Components.ViewObjects.ViewObjectFactory;
+import Presentation.Components.ViewObjects.ViewObjectPosition;
+import Presentation.Components.ViewObjects.ViewObjectTime;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
@@ -26,11 +31,14 @@ import javax.swing.JOptionPane;
  * @author Poul Nielsen
  */
 public class AproveTimeSheet extends javax.swing.JPanel {
-    TimeSheet_Access tsa;
+    TimeSheet_AccessLink tsa;
     Alarm_AccessLink aal;
     ViewObjectFactory vof;
     TabView tv;
     MainFrame parent;
+    ListPanel alarmList, timeSheetList;
+    myObserverListener myObserver;
+    ArrayList<Alarm> openAlarms; 
     /**
      * Creates new form AproveTimeSheet
      * @param parent
@@ -39,14 +47,15 @@ public class AproveTimeSheet extends javax.swing.JPanel {
         initComponents();
         setLayout(new BorderLayout());
         this.parent = parent;
+        myObserver = new myObserverListener();
+        openAlarms = new ArrayList<>();
         try {
-            tsa = new TimeSheet_Access();
+            tsa = new TimeSheet_AccessLink();
             aal = new Alarm_AccessLink();
             vof = new ViewObjectFactory();
         } catch (IOException ex) {
           
         }
-        getTimeSheetByFiremanId(firemanId);
         createTabs(firemanId);
     }
     
@@ -77,15 +86,18 @@ public class AproveTimeSheet extends javax.swing.JPanel {
 
     private void createTabs(int firemanId)
     {
+        alarmList = getAlarmByFiremanId(firemanId);
+        alarmList.addSelectionObserver(myObserver);
+        
         tv = new TabView();
-        tv.addNewTab("alarm", getAlarmByFiremanId(firemanId), parent.getWidth());
-        //tv.addNewTab("Time Seddel", carPanel, parent.getWidth());
+        tv.addNewTab("alarm", alarmList, parent.getWidth());
+        
         add(tv, BorderLayout.CENTER);
         validate();
         repaint();
     }
     
-    private ListPanel getAlarmByFiremanId(int firemanId)
+    protected ListPanel getAlarmByFiremanId(int firemanId)
     {
         ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
         ListPanel list = new ListPanel(false);
@@ -104,29 +116,48 @@ public class AproveTimeSheet extends javax.swing.JPanel {
         for(Alarm a : alarms){
                 list.addViewObject(vof.getViewObject(a));
             }
-        if(list == null)
-        {
-             JOptionPane.showMessageDialog(this, "Der er ingen timesedler der kræver godkendelse");
-        }
+        
         return list;
     }
     
-    private ArrayList<Time_Sheet> getTimeSheetByFiremanId(int firemanId) {
+    private ListPanel getTimeSheetByAlarmId(int alarmId)
+    {
         ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
-        try {
-            timeSheet = tsa.getTimeSheetsbyFiremanId(firemanId);
+        
+        timeSheet = tsa.getDataForAproval(alarmId);
+        
+        ListPanel list = new ListPanel(false);
+        System.out.println(" " + alarmId);
+        return list;
+    }
+    
+    
+  
+    
+    private class myObserverListener implements IObserver{
+
+        @Override
+        public void notifyObserver() {
             
-            for(Time_Sheet c : timeSheet)
+        if(alarmList.getSelectedViewObject().getClass() == ViewObjectAlarm.class)
+        {
+            ViewObjectAlarm voa = (ViewObjectAlarm)alarmList.getSelectedViewObject();
+            
+            Alarm alarm = voa.getAlarm();
+            
+            String alarmTitle = voa.getAlarm().getDistination();
+            if(!openAlarms.contains(alarm))
             {
-                getAlarmByFiremanId(c.getAlarmID());
+                timeSheetList = getTimeSheetByAlarmId(alarm.getID());
+                tv.addNewTab(alarmTitle, timeSheetList, parent.getWidth());
+                tv.setSelectedComponent(timeSheetList);
+                openAlarms.add(alarm);
             }
-        } catch (SQLException ex) {
-           JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+            
+        }
         }
         
-        return timeSheet;
-        
     }
-  
+    
 }
 
