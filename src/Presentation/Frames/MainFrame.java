@@ -78,7 +78,7 @@ public class MainFrame extends JFrame {
     JButton btnApproveAccept, btnApproveCancel;
     ListPanel alarmPanel, carPanel, positionPanel, approveListPanel;
     EquipmentUsageList equipmentPanel;
-    JPanel approvePanel;
+    JPanel approvePanel, primaryAlarmPanel;
 
     /**
      * Creates new form MainFrame
@@ -105,7 +105,6 @@ public class MainFrame extends JFrame {
 
             BorderLayout bl = new BorderLayout();
             setLayout(bl);
-            add(new AlarmCreater(this), BorderLayout.EAST);
             width = dim.width;
 
             li = new LogIn(this);
@@ -163,7 +162,7 @@ public class MainFrame extends JFrame {
     protected JPanel getAlarmPanel() {
         JPanel mainAlarmPanel = new JPanel();
         mainAlarmPanel.setLayout(new BorderLayout());
-        alarmPanel = new ListPanel();
+        alarmPanel = new ListPanel(false);
         try{
             ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
             for(Alarm alarm : alarms){
