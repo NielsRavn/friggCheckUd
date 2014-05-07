@@ -100,7 +100,7 @@ public class AproveTimeSheet extends javax.swing.JPanel {
     protected ListPanel getAlarmByFiremanId(int firemanId)
     {
         ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
-        ListPanel list = new ListPanel();
+        ListPanel list = new ListPanel(false);
         ArrayList<Alarm> alarms = new ArrayList<Alarm>();
         try{
             timeSheet = tsa.getTimeSheetsbyFiremanId(firemanId);

@@ -33,6 +33,8 @@ public class ViewObjectFactory {
 //            return getViewObject((Equipment) viewObjectBE);
         else if(viewObjectBE.getClass() == Time_Sheet.class)
             return getViewObject((Time_Sheet) viewObjectBE);
+        else if(viewObjectBE.getClass() == Equipment.class)
+            return getViewObject((Equipment) viewObjectBE);
         return null;
     }
     

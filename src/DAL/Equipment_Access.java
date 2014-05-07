@@ -7,9 +7,11 @@
 package DAL;
 
 import BE.Equipment;
+import BE.Usage;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -33,14 +35,15 @@ public class Equipment_Access extends DatabaseConnection{
             con = getConnection();
             
             Statement stmnt = con.createStatement();
-            ResultSet rs = stmnt.executeQuery("SELECT Equipment.name AS name, UnitType.name AS unitType FROM Equipment "
-                    + "JOIN UnitType ON unitTypeId = UnitType.name;");
+            ResultSet rs = stmnt.executeQuery("SELECT Equipment.id AS id, Equipment.name AS name, UnitType.name AS unitType FROM Equipment "
+                    + "JOIN UnitType ON unitTypeId = UnitType.id;");
             
             while(rs.next()){
+                int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String unitType = rs.getString("unitType");
                 
-                Equipment e = new Equipment(name, unitType);
+                Equipment e = new Equipment(id, name, unitType);
                 result.add(e);
             }
             
@@ -51,6 +54,68 @@ public class Equipment_Access extends DatabaseConnection{
             }
         }
         return result;
+    }
+    
+    public ArrayList<Usage> getUsagesFor(int alarmId, int carNr) throws SQLServerException, SQLException{
+        Connection con = null;
+        ArrayList<Usage> result = new ArrayList<>();
+        
+        try{
+            con = getConnection();
+            
+            Statement stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("SELECT * FROM Usage WHERE alarmId = "+alarmId+" AND carNr = " + carNr +";");
+            
+            while(rs.next()){
+                int equipmentId = rs.getInt("equipmentId");
+                int amount = rs.getInt("amount");
+                
+                Usage u = new Usage(alarmId, carNr, equipmentId, amount, true);
+                result.add(u);
+            }
+            
+        }
+        finally{
+            if(con != null)
+                con.close();
+        }
+        return result;
+    }
+
+    public void updateUsages(ArrayList<Usage> usagesToUpdate) throws SQLServerException, SQLException {
+        Connection con = null;
+        
+        try{
+            con = getConnection();
+            for(Usage u: usagesToUpdate){
+                int affectedRows = 0;
+                if(u.isLoadedFromDatabase()){
+                    PreparedStatement ps = con.prepareStatement("UPDATE Usage SET amount = ? "
+                            + "WHERE alarmId = ? AND carNr = ? AND equipmentId = ?;");
+                    ps.setInt(1, u.getAmount());
+                    ps.setInt(2, u.getAlarmId());
+                    ps.setInt(3, u.getCarNr());
+                    ps.setInt(4, u.getEquipmentId());
+                    affectedRows = ps.executeUpdate();
+                }else{
+                    PreparedStatement ps = con.prepareStatement("INSERT INTO Usage VALUES "
+                            + "(?, ?, ?, ?);");
+                    ps.setInt(1, u.getAlarmId());
+                    ps.setInt(2, u.getCarNr());
+                    ps.setInt(3, u.getEquipmentId());
+                    ps.setInt(4, u.getAmount());
+                    affectedRows = ps.executeUpdate();
+                }
+                if(affectedRows == 0){
+                    throw new SQLException("zero rows affected");
+                }
+            }
+        }
+        finally{
+            if(con != null){
+                con.close();
+            }
+        }
     }
     
 }
