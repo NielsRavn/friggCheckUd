@@ -426,6 +426,10 @@ public class MainFrame extends JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
+        goToApprovePanel();
+    }
+    
+    public void goToApprovePanel(){
         tv.setSelectedComponent(approvePanel);
     }
 
