@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -28,7 +29,8 @@ public class LogIn extends javax.swing.JPanel {
 
     private Fireman_AccessLink firemanMgr;
     MainFrame parent;
-
+    Fireman fireman;
+    
     public LogIn(MainFrame parent) {
         initComponents();
         btnLogIn.setBackground(MyConstants.COLOR_GREEN);
@@ -48,11 +50,16 @@ public class LogIn extends javax.swing.JPanel {
                     logIn();
                 }
             }
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!Character.isDigit(e.getKeyChar()) || txtLogIn.getText().length() >=6)
+                    e.consume();
+            }
 
         });
         setLayout(new GridBagLayout());
     }
-    Fireman fireman;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,13 +73,13 @@ public class LogIn extends javax.swing.JPanel {
         txtLogIn = new javax.swing.JTextField();
         btnLogIn = new javax.swing.JButton();
 
-        txtLogIn.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-        txtLogIn.setPreferredSize(new java.awt.Dimension(160, 68));
+        txtLogIn.setFont(new java.awt.Font("Verdana", 0, 48)); // NOI18N
+        txtLogIn.setPreferredSize(new java.awt.Dimension(275, 140));
         add(txtLogIn);
 
         btnLogIn.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         btnLogIn.setForeground(new java.awt.Color(255, 255, 255));
-        btnLogIn.setText("<html><body marginwidth=30 marginheight=20>Log Ind</body></html>");
+        btnLogIn.setLabel("<html><body marginwidth=90 marginheight=60>Log Ind</body></html>");
         btnLogIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogInActionPerformed(evt);
@@ -143,4 +150,5 @@ public class LogIn extends javax.swing.JPanel {
     {
         txtLogIn.requestFocus();
     }
+    
 }

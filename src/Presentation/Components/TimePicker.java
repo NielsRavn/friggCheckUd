@@ -300,6 +300,14 @@ public class TimePicker extends javax.swing.JPanel {
         public void keyReleased(KeyEvent e) {
             checkInput();
         }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            checkInput();
+            if(!Character.isDigit(e.getKeyChar()))
+                e.consume();
+        }
+        
         
         
         

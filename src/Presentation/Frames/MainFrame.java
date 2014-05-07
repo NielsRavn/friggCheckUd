@@ -316,6 +316,7 @@ public class MainFrame extends JFrame {
         } else {
             approveListPanel.addViewObject(carPanel.getSelectedViewObject());
             approveListPanel.addViewObject(new ViewObjectPosition(MyConstants.STATION_DUTY));
+            tv.setEnabledContent(equipmentPanel, false);
         }
         
         approveListPanel.addViewObject(new ViewObjectTime(voa.getTime()));
@@ -492,15 +493,17 @@ public class MainFrame extends JFrame {
 
         @Override
         public void notifyObserver() {
-            if (approveListPanel.getSelectedViewObject().getClass() == ViewObjectAlarm.class) {
+            Class test = approveListPanel.getSelectedViewObject().getClass();
+            if (test == ViewObjectAlarm.class) {
                 tv.setSelectedComponent(primaryAlarmPanel);
-            } else if (approveListPanel.getSelectedViewObject().getClass() == ViewObjectCar.class) {
+            } else if (test == ViewObjectCar.class
+                    || test == ViewObjectStationDuty.class) {
                 tv.setSelectedComponent(carPanel);
-            } else if (approveListPanel.getSelectedViewObject().getClass() == ViewObjectPosition.class) {
+            } else if (test == ViewObjectPosition.class) {
                 tv.setSelectedComponent(positionPanel);
-            }else if (approveListPanel.getSelectedViewObject().getClass() == ViewObjectEquipmentStatus.class) {
+            }else if (test == ViewObjectEquipmentStatus.class) {
                 tv.setSelectedComponent(equipmentPanel);
-            } else if (approveListPanel.getSelectedViewObject().getClass() == ViewObjectTime.class) {
+            } else if (test == ViewObjectTime.class) {
                 ViewObjectTime vot = (ViewObjectTime) approveListPanel.getSelectedViewObject();
                 addTimePicker(vot.getTime());
                 tp.addObserver(vot);
