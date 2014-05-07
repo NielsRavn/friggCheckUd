@@ -58,7 +58,7 @@ public class TabView extends JTabbedPane{
         for(int i = 0; i< tabs.size(); i++){
             if(tabs.get(i).getContent() == content){
                 setEnabledAt(i, state);
-                setBackgroundAt(i, state ? Color.GRAY : Color.WHITE );
+                setBackgroundAt(i, state ? Color.WHITE : Color.GRAY );
             }
         }
     }
@@ -84,7 +84,7 @@ public class TabView extends JTabbedPane{
         g.drawRect(0, 0, getWidth(), getHeight());
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     
     /**
      * to keep track of the inputted tabs

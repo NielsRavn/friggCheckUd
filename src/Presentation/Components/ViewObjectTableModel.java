@@ -28,23 +28,15 @@ public class ViewObjectTableModel extends AbstractTableModel{
     // The type of columns
     private Class[] classes = {
         JPanel.class};
-
+    boolean editable;
    
-    
     /**
      * Creates a new ViewObjectTableModel
      * @param allViewObjects a list of view objects that should be shown in the model
      */
-    public ViewObjectTableModel(ArrayList<ViewObject> allViewObjects) {
-        vos = allViewObjects;
-        fireTableDataChanged();
-    }
-    /**
-     * Creates a new ViewObjectTableModel
-     * @param allViewObjects a list of view objects that should be shown in the model
-     */
-    public ViewObjectTableModel() {
+    public ViewObjectTableModel(boolean editable) {
         vos = new ArrayList();
+        this.editable = editable;
         fireTableDataChanged();
     }
 
@@ -102,7 +94,7 @@ public class ViewObjectTableModel extends AbstractTableModel{
 
     @Override
     public boolean isCellEditable(int row, int col) {
-        return true;
+        return editable;
     }
 
     /**

@@ -7,7 +7,9 @@
 package BLL;
 
 import BE.Equipment;
+import BE.Usage;
 import DAL.Equipment_Access;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,5 +27,13 @@ public class Equipment_AccessLink {
     
     public ArrayList<Equipment> getAllEquipmentTypes() throws SQLException{
         return ea.getAllEquipmentTypes();
+    }
+    
+    public ArrayList<Usage> getUsagesFor(int alarmId, int carNr) throws SQLServerException, SQLException{
+        return ea.getUsagesFor(alarmId, carNr);
+    }
+
+    public void updateUsages(ArrayList<Usage> usagesToUpdate) throws SQLException {
+        ea.updateUsages(usagesToUpdate);
     }
 }

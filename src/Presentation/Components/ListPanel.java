@@ -39,7 +39,8 @@ import javax.swing.table.TableColumn;
  *
  * @author Brobak
  */
-public class ListPanel extends javax.swing.JPanel{
+public class ListPanel extends javax.swing.JPanel {
+
     JPanel thisList;
     //DefaultListModel model;
     ArrayList<IObserver> observers;
@@ -48,22 +49,24 @@ public class ListPanel extends javax.swing.JPanel{
     TimePicker tp;
     boolean enabled;
     ViewObjectTableModel model;
-    
+
     /**
      * Creates new form ListPanel
+     * @param editable
      */
-    public ListPanel() {
+    public ListPanel( boolean editable) {
         enabled = true;
-        mySelectedIndex  = -1;
+        mySelectedIndex = -1;
         initComponents();
         tblList.setTableHeader(null);
         vos = new ArrayList();
         thisList = this;
         observers = new ArrayList();
-        model = new ViewObjectTableModel();
+        model = new ViewObjectTableModel(editable);
         tblList.setModel(model);
         tblList.setDefaultRenderer(JPanel.class, new MyTableCellRenderer());
-        tblList.setDefaultEditor(JPanel.class, new MyTableCellEditor());
+        if(editable)
+            tblList.setDefaultEditor(JPanel.class, new MyTableCellEditor());
         //tblList.setCellRenderer(getClientListRenderer());
         MyMouseMotionAdapter mma = new MyMouseMotionAdapter();
         tblList.addMouseListener(mma);
@@ -89,7 +92,6 @@ public class ListPanel extends javax.swing.JPanel{
 
         setLayout(new java.awt.BorderLayout());
 
-        tblList.setModel(new ViewObjectTableModel());
         jScrollPane1.setViewportView(tblList);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -101,16 +103,16 @@ public class ListPanel extends javax.swing.JPanel{
     private javax.swing.JTable tblList;
     // End of variables declaration//GEN-END:variables
     private void populateTable() {
-            model = (ViewObjectTableModel) tblList.getModel();
-            model.setViewObjectList(vos);
+        model = (ViewObjectTableModel) tblList.getModel();
+        model.setViewObjectList(vos);
     }
-    
-    public void updateTable(ArrayList<ViewObject> viewObjects){
-            ArrayList<ViewObject> vos = viewObjects;
-            model.setViewObjectList(vos);
-            model.fireTableDataChanged();
+
+    public void updateTable(ArrayList<ViewObject> viewObjects) {
+        ArrayList<ViewObject> vos = viewObjects;
+        model.setViewObjectList(vos);
+        model.fireTableDataChanged();
     }
-    
+
 //    /**
 //     * Adds a cell renderer to the table coloums in tblResult
 //     */
@@ -122,8 +124,6 @@ public class ListPanel extends javax.swing.JPanel{
 //            tc.setCellRenderer(renderer);
 //        }
 //    }
-    
-    
     /**
      * Adds a new ViewObject to the lst
      *
@@ -135,34 +135,39 @@ public class ListPanel extends javax.swing.JPanel{
         //model.addElement(object);
     }
 
-    
-    private class MyTableCellRenderer extends JPanel implements TableCellRenderer{
+    private class MyTableCellRenderer extends JPanel implements TableCellRenderer {
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            ViewObject panel = (ViewObject)value;
-            table.setRowHeight(row, (int)panel.getPreferredSize().getHeight());
-            if(isSelected)
-                panel.setBackground(MyConstants.COLOR_LIGHT_BLUE);
-            else
-                panel.setBackground(Color.WHITE);
-            return panel;
+            return getCorectPanel(table, value, isSelected, row);
         }
     }
-    
-    
+
+    private JPanel getCorectPanel(JTable table, Object value, boolean isSelected, int row) {
+        ViewObject panel = (ViewObject) value;
+        table.setRowHeight(row, (int) panel.getPreferredSize().getHeight());
+        if (isSelected) {
+            panel.setBackground(MyConstants.COLOR_LIGHT_BLUE);
+        } else {
+            panel.setBackground(Color.WHITE);
+        }
+        JPanel surroundPanel = new JPanel();
+        surroundPanel.setLayout(new BorderLayout());
+        surroundPanel.add(panel, BorderLayout.CENTER);
+        surroundPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
+        return surroundPanel;
+    }
+
     private class MyTableCellEditor extends AbstractCellEditor implements TableCellEditor {
 
-      public Component getTableCellEditorComponent(JTable table, Object value,
-          boolean isSelected, int row, int column) {
-        ViewObject object = (ViewObject)value;
-        //feedComponent.updateData(feed, true, table);
-        return object;
-      }
+        public Component getTableCellEditorComponent(JTable table, Object value,
+                boolean isSelected, int row, int column) {
+            return getCorectPanel(table, value, isSelected, row);
+        }
 
-      public Object getCellEditorValue() {
-        return null;
-      }
+        public Object getCellEditorValue() {
+            return null;
+        }
     }
 //    /**
 //     * Gets the Cell renderer for the list
@@ -193,38 +198,39 @@ public class ListPanel extends javax.swing.JPanel{
 //        
 //        return r;
 //    }
-    
-    public ViewObject getSelectedViewObject(){
-        if(mySelectedIndex == -1)
+
+    public ViewObject getSelectedViewObject() {
+        if (mySelectedIndex == -1) {
             return null;
-        else 
-            return (ViewObject)model.getValueAt(mySelectedIndex, 0);
+        } else {
+            return (ViewObject) model.getValueAt(mySelectedIndex, 0);
+        }
     }
-    
-    public ArrayList<ViewObject> getAllViewObject(){
+
+    public ArrayList<ViewObject> getAllViewObject() {
         ArrayList<ViewObject> viewObjects = new ArrayList();
-        
-        for(int i = 0; i < model.getRowCount(); i++){
-            viewObjects.add((ViewObject)model.getValueAt(i, 0));
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            viewObjects.add((ViewObject) model.getValueAt(i, 0));
         }
         return viewObjects;
     }
-    
-    public void addSelectionObserver(IObserver observer){
+
+    public void addSelectionObserver(IObserver observer) {
         observers.add(observer);
     }
-    
-    public void removeSelectionObserver(IObserver observer){
+
+    public void removeSelectionObserver(IObserver observer) {
         observers.remove(observer);
     }
-    
-    private void notifyObservers(){
-        for(IObserver observer : observers){
+
+    private void notifyObservers() {
+        for (IObserver observer : observers) {
             observer.notifyObserver();
         }
     }
-    
-    public void clearList(){
+
+    public void clearList() {
         vos = new ArrayList();
         model.setViewObjectList(vos);
         model.fireTableDataChanged();
@@ -234,9 +240,7 @@ public class ListPanel extends javax.swing.JPanel{
         tblList.setEnabled(b);
         enabled = b;
     }
-    
-   
-    
+
     private class MyMouseMotionAdapter extends MouseAdapter {
 
         Point lastDragPoint = new Point();
@@ -244,30 +248,29 @@ public class ListPanel extends javax.swing.JPanel{
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            if(mySelectedIndex == -1)
+            if (mySelectedIndex == -1) {
                 tblList.clearSelection();
-            else
+            } else {
                 tblList.setRowSelectionInterval(mySelectedIndex, mySelectedIndex);
-            
+            }
+
             if (!beingDragged) {
                 beingDragged = true;
                 setLastDragPoint(e.getX(), e.getY());
             }
-            
+
             handleDraging(e);
-            
+
         }
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            if(enabled){
-                
+            if (enabled) {
+
                 mySelectedIndex = tblList.getSelectedRow();
                 notifyObservers();
             }
         }
-        
-        
 
         @Override
         public void mouseReleased(MouseEvent e) {
@@ -288,14 +291,17 @@ public class ListPanel extends javax.swing.JPanel{
             int dy = e.getY() - lastDragPoint.y;
 
             int maxScroll = viewPort.getViewSize().height - getHeight();
-            
+
             scrollPosition.y -= dy;
-            if(scrollPosition.y > maxScroll) scrollPosition.y = maxScroll;
-            if(scrollPosition.y < 0) scrollPosition.y = 0;
-            
+            if (scrollPosition.y > maxScroll) {
+                scrollPosition.y = maxScroll;
+            }
+            if (scrollPosition.y < 0) {
+                scrollPosition.y = 0;
+            }
 
             viewPort.setViewPosition(scrollPosition);
-            
+
         }
 
     }
