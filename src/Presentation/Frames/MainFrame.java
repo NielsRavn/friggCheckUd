@@ -74,11 +74,12 @@ public class MainFrame extends JFrame {
     TabView tv;
     LogIn li;
     TimePicker tp;
+    AlarmCreater ac;
     Header head;
-    JButton btnApproveAccept, btnApproveCancel;
+    JButton btnApproveAccept, btnApproveCancel, btnCreateAlarm;
     ListPanel alarmPanel, carPanel, positionPanel, approveListPanel;
     EquipmentUsageList equipmentPanel;
-    JPanel approvePanel, primaryAlarmPanel;
+    JPanel approvePanel, primaryAlarmPanel, mainAlarmPanel;
 
     /**
      * Creates new form MainFrame
@@ -143,7 +144,10 @@ public class MainFrame extends JFrame {
         tv.addNewTab("Godkend", approvePanel, width);
         tv.addNewTab("Forbrug", equipmentPanel, width);
         tv.setEnabledContent(equipmentPanel, false);
+        
     }
+    
+    
 
     protected EquipmentUsageList getEquipmentUsageList() {
         EquipmentUsageList list = null;
@@ -159,8 +163,14 @@ public class MainFrame extends JFrame {
         return list;
     }
     
+    public void addAlarm(Alarm alarm){
+        alarmPanel.addViewObject(vof.getViewObject(alarm));
+        validate();
+        repaint();
+    }
+    
     protected JPanel getAlarmPanel() {
-        JPanel mainAlarmPanel = new JPanel();
+        mainAlarmPanel = new JPanel();
         mainAlarmPanel.setLayout(new BorderLayout());
         alarmPanel = new ListPanel(false);
         try{
@@ -174,16 +184,41 @@ public class MainFrame extends JFrame {
         
         JPanel footer = new JPanel();
         footer.setLayout(new FlowLayout());
-        btnApproveAccept = new JButton("<html><body marginwidth=30 marginheight=20>Opret ny alarm</body></html>");
-        btnApproveAccept.setBackground(MyConstants.COLOR_BLUE);
-        btnApproveAccept.setForeground(Color.WHITE);
-        btnApproveAccept.setFont(MyConstants.FONT_BUTTON_FONT);
-        btnApproveAccept.addActionListener(new MyActionListener());
-        footer.add(btnApproveAccept);
+        btnCreateAlarm = new JButton("<html><body marginwidth=30 marginheight=20>Opret ny alarm</body></html>");
+        btnCreateAlarm.setBackground(MyConstants.COLOR_BLUE);
+        btnCreateAlarm.setForeground(Color.WHITE);
+        btnCreateAlarm.setFont(MyConstants.FONT_BUTTON_FONT);
+        btnCreateAlarm.addActionListener(new MyActionListener());
+        footer.add(btnCreateAlarm);
+        
+        btnCreateAlarm.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainFrame.this.addAlarmCreater(new AlarmCreater(MainFrame.this));
+                MainFrame.this.validate();
+                MainFrame.this.repaint();
+            }
+        });
+        
+        
         
         mainAlarmPanel.add(alarmPanel, BorderLayout.CENTER);
         mainAlarmPanel.add(footer, BorderLayout.SOUTH);
         return mainAlarmPanel;
+    }
+    
+    public void addAlarmCreater(AlarmCreater aCreater){
+        ac = aCreater;
+        add(ac, BorderLayout.EAST);
+    }
+    
+    public void removeAlarmCreater(){
+        if(ac != null){
+            remove(ac);
+            validate();
+            repaint();
+        }
     }
 
     protected ListPanel getCarPanel() {
@@ -225,6 +260,8 @@ public class MainFrame extends JFrame {
 
         return positions;
     }
+    
+    
 
     /**
      * Creates and returns an approve panel
@@ -368,6 +405,7 @@ public class MainFrame extends JFrame {
         if (tp != null) {
             remove(tp);
         }
+        removeAlarmCreater();
         mfl.reset();
         add(li, BorderLayout.CENTER);
         li.setFocus();
@@ -451,7 +489,7 @@ public class MainFrame extends JFrame {
         @Override
         public void notifyObserver() {
             if (approveListPanel.getSelectedViewObject().getClass() == ViewObjectAlarm.class) {
-                tv.setSelectedComponent(alarmPanel);
+                tv.setSelectedComponent(primaryAlarmPanel);
             } else if (approveListPanel.getSelectedViewObject().getClass() == ViewObjectCar.class) {
                 tv.setSelectedComponent(carPanel);
             } else if (approveListPanel.getSelectedViewObject().getClass() == ViewObjectPosition.class) {

@@ -6,14 +6,24 @@
 
 package Presentation.Components;
 
+import BE.Alarm;
+import BLL.Alarm_AccessLink;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -22,11 +32,17 @@ import javax.swing.JPanel;
  */
 public class AlarmCreater extends javax.swing.JPanel {
     MainFrame parent;
+    Alarm_AccessLink aal;
     /**
      * Creates new form AlarmCreater
      */
     public AlarmCreater(MainFrame parent){
         this.parent = parent;
+        try {
+            aal = new Alarm_AccessLink();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(parent, "An sql error has occured: " + ex.getMessage());
+        }
         initComponents();
         txtTime.setValue(System.currentTimeMillis()-3600000);
         Date currentDate = new Date(System.currentTimeMillis()-3600000);
@@ -37,6 +53,27 @@ public class AlarmCreater extends javax.swing.JPanel {
         setButtonColors();
         btnCancel.addActionListener(new MyActionListener());
         btnAccept.addActionListener(new MyActionListener());
+        btnAccept.setEnabled(false);
+        txtDestination.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(!txtDestination.getText().equals("") && !txtType.getText().equals(""))
+                    btnAccept.setEnabled(true);
+                else
+                    btnAccept.setEnabled(false);
+            }
+            
+        });
+        txtType.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(!txtDestination.getText().equals("") && !txtType.getText().equals(""))
+                    btnAccept.setEnabled(true);
+                else
+                    btnAccept.setEnabled(false);
+            }
+        });
     }
     
     public void setButtonColors(){
@@ -79,7 +116,7 @@ public class AlarmCreater extends javax.swing.JPanel {
         return txtType.getText();
     }
     
-    public Date getDateTime(){
+    public Timestamp getDateTime(){
         Date returnDate = new Date();
         if(txtDate.getValue().getClass() == Long.class && txtTime.getValue().getClass() == Long.class){
             returnDate = new Date((long)txtTime.getValue());
@@ -98,7 +135,7 @@ public class AlarmCreater extends javax.swing.JPanel {
             Date dateTime = (Date)txtTime.getValue();
             returnDate = new Date(dateDate.getTime() + dateTime.getTime() + 3600000);
         }
-        return returnDate;
+        return new Timestamp(returnDate.getTime());
     }
     
     
@@ -130,52 +167,71 @@ public class AlarmCreater extends javax.swing.JPanel {
 
         pnlMain.setLayout(new java.awt.BorderLayout(10, 10));
 
+        pnlInner.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         pnlInner.setMinimumSize(new java.awt.Dimension(300, 80));
         pnlInner.setLayout(new java.awt.GridLayout(4, 2, 10, 10));
 
+        jLabel1.setFont(MyConstants.FONT_HEADER_TEXT);
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Destination");
         jLabel1.setMaximumSize(new java.awt.Dimension(100, 14));
         jLabel1.setMinimumSize(new java.awt.Dimension(100, 14));
-        jLabel1.setPreferredSize(new java.awt.Dimension(100, 14));
+        jLabel1.setPreferredSize(null);
         pnlInner.add(jLabel1);
 
+        txtDestination.setFont(MyConstants.FONT_HEADER_TEXT);
         txtDestination.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtDestination.setPreferredSize(new java.awt.Dimension(160, 30));
         pnlInner.add(txtDestination);
 
+        jLabel2.setFont(MyConstants.FONT_HEADER_TEXT);
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Type");
+        jLabel2.setPreferredSize(null);
         pnlInner.add(jLabel2);
 
+        txtType.setFont(MyConstants.FONT_HEADER_TEXT);
         txtType.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtType.setPreferredSize(new java.awt.Dimension(160, 30));
         pnlInner.add(txtType);
 
+        jLabel4.setFont(MyConstants.FONT_HEADER_TEXT);
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Dato");
+        jLabel4.setPreferredSize(null);
         pnlInner.add(jLabel4);
 
         txtDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
         txtDate.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtDate.setFont(MyConstants.FONT_HEADER_TEXT);
+        txtDate.setPreferredSize(new java.awt.Dimension(160, 30));
         pnlInner.add(txtDate);
 
+        jLabel3.setFont(MyConstants.FONT_HEADER_TEXT);
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Tid");
+        jLabel3.setPreferredSize(null);
         pnlInner.add(jLabel3);
 
         txtTime.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
         txtTime.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtTime.setFont(MyConstants.FONT_HEADER_TEXT);
+        txtTime.setPreferredSize(new java.awt.Dimension(160, 30));
         pnlInner.add(txtTime);
 
         pnlMain.add(pnlInner, java.awt.BorderLayout.CENTER);
 
+        btnAccept.setFont(MyConstants.FONT_BUTTON_FONT);
         btnAccept.setText("Opret alarm");
         btnAccept.setMaximumSize(null);
         btnAccept.setMinimumSize(null);
         btnAccept.setName(""); // NOI18N
-        btnAccept.setPreferredSize(null);
+        btnAccept.setPreferredSize(new java.awt.Dimension(150, 60));
         pnlMainSouth.add(btnAccept);
 
+        btnCancel.setFont(MyConstants.FONT_BUTTON_FONT);
         btnCancel.setText("Fortryd");
+        btnCancel.setPreferredSize(new java.awt.Dimension(150, 60));
         pnlMainSouth.add(btnCancel);
 
         pnlMain.add(pnlMainSouth, java.awt.BorderLayout.SOUTH);
@@ -205,10 +261,18 @@ public class AlarmCreater extends javax.swing.JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == btnAccept){
-                parent.remove(AlarmCreater.this);
+                try {
+                    Alarm alarm = new Alarm(txtDestination.getText(), txtType.getText(), AlarmCreater.this.getDateTime());
+                    aal.addAlarm(alarm);
+                    if(alarm.getID() != 0)
+                        parent.addAlarm(alarm);
+                    parent.removeAlarmCreater();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(parent, "SQL error: " + ex.getMessage());
+                }
             }
             if(e.getSource() == btnCancel){
-                parent.remove(AlarmCreater.this);
+                parent.removeAlarmCreater();
             }
         }
         

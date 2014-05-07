@@ -117,4 +117,29 @@ public class Alarm_Access extends DatabaseConnection{
         return alarm;
     }
     
+    public void addAlarm(Alarm alarm) throws SQLServerException, SQLException{
+        Connection con = null;
+        try
+        {
+            con = getConnection();
+            Statement query = con.createStatement();
+                int key = query.executeUpdate("Insert into Alarm (destination, type, time, accepted ) VALUES("
+                        + "'"+alarm.getDistination()+ "', "
+                        + "'"+alarm.getType()+ "', "
+                        + "'"+alarm.getTime()+"',"
+                        + "'False') ", Statement.RETURN_GENERATED_KEYS);
+                alarm.setID(key);
+                
+                
+           
+        }
+        finally
+        {
+            if(con != null)
+            {
+                con.close();
+            }
+        }
+    }
+    
 }
