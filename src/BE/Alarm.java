@@ -36,6 +36,11 @@ public class Alarm implements ViewObjectBE{
         this.type = type;
         this.time = date;
     }
+    public Alarm(String destination, String type, Timestamp date) {
+        this.distination = destination;
+        this.type = type;
+        this.time = date;
+    }
 
 
     /**

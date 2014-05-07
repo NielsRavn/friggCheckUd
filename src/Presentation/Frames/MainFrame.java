@@ -74,11 +74,12 @@ public class MainFrame extends JFrame {
     TabView tv;
     LogIn li;
     TimePicker tp;
+    AlarmCreater ac;
     Header head;
-    JButton btnApproveAccept, btnApproveCancel;
+    JButton btnApproveAccept, btnApproveCancel, btnCreateAlarm;
     ListPanel alarmPanel, carPanel, positionPanel, approveListPanel;
     EquipmentUsageList equipmentPanel;
-    JPanel approvePanel;
+    JPanel approvePanel, primaryAlarmPanel, mainAlarmPanel;
 
     /**
      * Creates new form MainFrame
@@ -105,7 +106,6 @@ public class MainFrame extends JFrame {
 
             BorderLayout bl = new BorderLayout();
             setLayout(bl);
-            add(new AlarmCreater(this), BorderLayout.EAST);
             width = dim.width;
 
             li = new LogIn(this);
@@ -123,7 +123,7 @@ public class MainFrame extends JFrame {
     public void createPanels() {
         head.setUser(li.getFireman().getFirstName() + " " + li.getFireman().getLastName());
         fot = new Footer(this);
-        alarmPanel = getAlarmPanel();
+        primaryAlarmPanel = getAlarmPanel();
         carPanel = getCarPanel();
         positionPanel = getPositionPanel();
         approvePanel = getApprovePanel();
@@ -138,13 +138,16 @@ public class MainFrame extends JFrame {
         mfl.addDataList(positionPanel);
 
         tv = new TabView();
-        tv.addNewTab("alarm", alarmPanel, width);
+        tv.addNewTab("alarm", primaryAlarmPanel, width);
         tv.addNewTab("car", carPanel, width);
         tv.addNewTab("position", positionPanel, width);
         tv.addNewTab("Godkend", approvePanel, width);
         tv.addNewTab("Forbrug", equipmentPanel, width);
         tv.setEnabledContent(equipmentPanel, false);
+        
     }
+    
+    
 
     protected EquipmentUsageList getEquipmentUsageList() {
         EquipmentUsageList list = null;
@@ -159,19 +162,63 @@ public class MainFrame extends JFrame {
 
         return list;
     }
-
-    protected ListPanel getAlarmPanel() {
-        ListPanel list = new ListPanel(false);
-        try {
+    
+    public void addAlarm(Alarm alarm){
+        alarmPanel.addViewObject(vof.getViewObject(alarm));
+        validate();
+        repaint();
+    }
+    
+    protected JPanel getAlarmPanel() {
+        mainAlarmPanel = new JPanel();
+        mainAlarmPanel.setLayout(new BorderLayout());
+        alarmPanel = new ListPanel(false);
+        try{
             ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
-            for (Alarm alarm : alarms) {
-                list.addViewObject(vof.getViewObject(alarm));
+            for(Alarm alarm : alarms){
+                alarmPanel.addViewObject(vof.getViewObject(alarm));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
+        
+        JPanel footer = new JPanel();
+        footer.setLayout(new FlowLayout());
+        btnCreateAlarm = new JButton("<html><body marginwidth=30 marginheight=20>Opret ny alarm</body></html>");
+        btnCreateAlarm.setBackground(MyConstants.COLOR_BLUE);
+        btnCreateAlarm.setForeground(Color.WHITE);
+        btnCreateAlarm.setFont(MyConstants.FONT_BUTTON_FONT);
+        btnCreateAlarm.addActionListener(new MyActionListener());
+        footer.add(btnCreateAlarm);
+        
+        btnCreateAlarm.addActionListener(new ActionListener() {
 
-        return list;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainFrame.this.addAlarmCreater(new AlarmCreater(MainFrame.this));
+                MainFrame.this.validate();
+                MainFrame.this.repaint();
+            }
+        });
+        
+        
+        
+        mainAlarmPanel.add(alarmPanel, BorderLayout.CENTER);
+        mainAlarmPanel.add(footer, BorderLayout.SOUTH);
+        return mainAlarmPanel;
+    }
+    
+    public void addAlarmCreater(AlarmCreater aCreater){
+        ac = aCreater;
+        add(ac, BorderLayout.EAST);
+    }
+    
+    public void removeAlarmCreater(){
+        if(ac != null){
+            remove(ac);
+            validate();
+            repaint();
+        }
     }
 
     protected ListPanel getCarPanel() {
@@ -213,6 +260,8 @@ public class MainFrame extends JFrame {
 
         return positions;
     }
+    
+    
 
     /**
      * Creates and returns an approve panel
@@ -356,6 +405,7 @@ public class MainFrame extends JFrame {
         if (tp != null) {
             remove(tp);
         }
+        removeAlarmCreater();
         mfl.reset();
         add(li, BorderLayout.CENTER);
         li.setFocus();
@@ -414,6 +464,10 @@ public class MainFrame extends JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
+        goToApprovePanel();
+    }
+    
+    public void goToApprovePanel(){
         tv.setSelectedComponent(approvePanel);
     }
 
@@ -439,7 +493,7 @@ public class MainFrame extends JFrame {
         @Override
         public void notifyObserver() {
             if (approveListPanel.getSelectedViewObject().getClass() == ViewObjectAlarm.class) {
-                tv.setSelectedComponent(alarmPanel);
+                tv.setSelectedComponent(primaryAlarmPanel);
             } else if (approveListPanel.getSelectedViewObject().getClass() == ViewObjectCar.class) {
                 tv.setSelectedComponent(carPanel);
             } else if (approveListPanel.getSelectedViewObject().getClass() == ViewObjectPosition.class) {
@@ -460,41 +514,43 @@ public class MainFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnApproveAccept) {
-                int carNumber;
-                ViewObjectAlarm alarm = (ViewObjectAlarm) alarmPanel.getSelectedViewObject();
-                if (carPanel.getSelectedViewObject().getClass() == ViewObjectStationDuty.class) {
-                    carNumber = 0;
-                } else {
-                    ViewObjectCar voc = (ViewObjectCar) carPanel.getSelectedViewObject();
-                    carNumber = voc.getCar().getCarNr();
-                }
-                int positionId;
-                if (carNumber == 0) {
-                    positionId = MyConstants.STATION_DUTY.getID();
-                } else {
-                    ViewObjectPosition vop = (ViewObjectPosition) positionPanel.getSelectedViewObject();
-                    positionId = vop.getPosition().getID();
-                }
-
                 ArrayList<ViewObject> vos = approveListPanel.getAllViewObject();
                 ViewObjectTime vot = null;
-                for (ViewObject vo : vos) {
-                    if (vo.getClass() == ViewObjectTime.class) {
-                        vot = (ViewObjectTime) vo;
+                    for (ViewObject vo : vos) {
+                        if (vo.getClass() == ViewObjectTime.class) {
+                            vot = (ViewObjectTime) vo;
+                        }
                     }
+                if (vot != null) {
+                    int carNumber;
+                    ViewObjectAlarm alarm = (ViewObjectAlarm) alarmPanel.getSelectedViewObject();
+                    if (carPanel.getSelectedViewObject().getClass() == ViewObjectStationDuty.class) {
+                        carNumber = 0;
+                    } else {
+                        ViewObjectCar voc = (ViewObjectCar) carPanel.getSelectedViewObject();
+                        carNumber = voc.getCar().getCarNr();
+                    }
+                    int positionId;
+                    if (carNumber == 0) {
+                        positionId = MyConstants.STATION_DUTY.getID();
+                    } else {
+                        ViewObjectPosition vop = (ViewObjectPosition) positionPanel.getSelectedViewObject();
+                        positionId = vop.getPosition().getID();
+                    }
+                    
+                    Time endTime = vot.getEndTime();
+                    Time startTime = vot.getStartTime();
+                    
+                    Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, false);
+                    try {
+                        tsa.addTimeSheet(ts);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(rootPane, "Du kan ikke meddle dig på samme alram 2 gange.");
+                    }
+                    logOut();
                 }
-
-                Time endTime = vot.getEndTime();
-                Time startTime = vot.getStartTime();
-
-                Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, false);
-                try {
-                    tsa.addTimeSheet(ts);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(rootPane, "An sql error has accured " + ex);
-                }
-                logOut();
             } else if (e.getSource() == btnApproveCancel) {
+                    logOut();
                 logOut();
             }
         }

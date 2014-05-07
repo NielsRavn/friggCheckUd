@@ -32,4 +32,8 @@ public class Alarm_AccessLink {
         return aa.getAlarmById(id);
     }
     
+    public void addAlarm(Alarm alarm) throws SQLException{
+        aa.addAlarm(alarm);
+    }
+    
 }

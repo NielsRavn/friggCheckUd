@@ -61,7 +61,7 @@ public class EquipmentUsageList extends JPanel{
         btnAccept.setFont(MyConstants.FONT_BUTTON_FONT);
         btnAccept.addActionListener(new MyActionListener());
 
-        btnDecline = new JButton("<html><body marginwidth=30 marginheight=20>Fjern ændringer</body></html>");
+        btnDecline = new JButton("<html><body marginwidth=30 marginheight=20>Annuller</body></html>");
         btnDecline.setBackground(MyConstants.COLOR_RED);
         btnDecline.setForeground(Color.WHITE);
         btnDecline.setFont(MyConstants.FONT_BUTTON_FONT);
@@ -119,6 +119,7 @@ public class EquipmentUsageList extends JPanel{
                 parent.completeEquipmentUsage(usagesToUpdate); 
             } else if (ev.getSource() == btnDecline) {
                 setAmountForUsages(usages);
+                parent.goToApprovePanel();
             }
         }
 
