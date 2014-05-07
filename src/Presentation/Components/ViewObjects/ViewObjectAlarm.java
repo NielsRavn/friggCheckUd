@@ -72,4 +72,5 @@ public class ViewObjectAlarm extends ViewObject{
         return alarm;
     }
     
+    
 }
