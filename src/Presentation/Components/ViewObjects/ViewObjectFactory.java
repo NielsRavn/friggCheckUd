@@ -29,8 +29,6 @@ public class ViewObjectFactory {
             return getViewObject((Position) viewObjectBE);
         else if(viewObjectBE.getClass() == Station.class)
             return getViewObject((Station) viewObjectBE);
-        else if(viewObjectBE.getClass() == Time_Sheet.class)
-            return getViewObject((Time_Sheet) viewObjectBE);
         else if(viewObjectBE.getClass() == Equipment.class)
             return getViewObject((Equipment) viewObjectBE);
         return null;
@@ -56,8 +54,5 @@ public class ViewObjectFactory {
         return new ViewObjectEquipmentUsage(equipment);
     }
     
-    private ViewObjectTimeSheet getViewObject(Time_Sheet timeSheet){
-        return new ViewObjectTimeSheet(timeSheet);
-    }
     
 }
