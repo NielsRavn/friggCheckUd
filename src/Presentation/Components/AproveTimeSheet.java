@@ -7,6 +7,7 @@
 package Presentation.Components;
 
 import BE.Alarm;
+import BE.Fireman;
 import BE.Time_Sheet;
 import BLL.Alarm_AccessLink;
 import BLL.IObserver;
@@ -16,6 +17,7 @@ import Presentation.Components.ViewObjects.ViewObjectCar;
 import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
 import Presentation.Components.ViewObjects.ViewObjectTime;
+import Presentation.Components.ViewObjects.ViewObjectTimeSheet;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
@@ -123,12 +125,67 @@ public class AproveTimeSheet extends javax.swing.JPanel {
     private ListPanel getTimeSheetByAlarmId(int alarmId)
     {
         ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
-        
-        timeSheet = tsa.getDataForAproval(alarmId);
-        
         ListPanel list = new ListPanel(false);
-        System.out.println(" " + alarmId);
+        try {
+            timeSheet = tsa.getDataForAproval(alarmId);
+       
+        // list.addViewObject(new ViewObjectTimeSheet(timeSheet));
+            
+            //here lays the logic for showing the timesheets order by cars
+            ArrayList<ViewObjectTimeSheet> vos = new ArrayList<>();
+            
+            for(Time_Sheet a : timeSheet)
+            {
+                if(a.getCar() == null)
+                    System.out.println("TEST");
+                boolean carFound = false;
+                for(ViewObjectTimeSheet v : vos){
+                    if(v.getCar() != null && v.getCarId() == a.getCar().getCarNr()){
+                        carFound = true;
+                        populateFiremenViewObject(a, v);
+                            
+                    }
+                    if(v.getCar() == null)
+                    {
+                        carFound = true;
+                        if(a.getPositionID() == MyConstants.STATION_DUTY.getID())
+                        {
+                            v.addStationDuty(a);
+                        }
+                    }
+                        
+                }
+                if(!carFound){
+                    ViewObjectTimeSheet vots = new ViewObjectTimeSheet(a.getAlarm(),a.getCar());
+                    populateFiremenViewObject(a, vots);
+                    vos.add(vots);
+                    list.addViewObject(vots);
+                    
+                }
+                
+                }
+        
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+        }
+        
         return list;
+    }
+
+    private void populateFiremenViewObject(Time_Sheet a, ViewObjectTimeSheet v) {
+        if(a.getPositionID() == MyConstants.TEAM_LEADER.getID())
+        {
+            v.addTeamLeader(a);
+        }
+        if(a.getPositionID() == MyConstants.DRIVER.getID())
+        {
+            v.addDriver(a);
+        }
+        if(a.getPositionID() == MyConstants.FIREMAN.getID())
+        {
+            v.addFireman(a);
+        }
+        
     }
     
     

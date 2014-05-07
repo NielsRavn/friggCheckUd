@@ -19,10 +19,10 @@ public class Time_Sheet implements ViewObjectBE{
     private int alarmID;
     private int carNr;
     private int positionID;
-    Position position;
-    Fireman fireman;
-    Alarm alarm;
-    Car car;
+    private Position position;
+    private Fireman fireman;
+    private Alarm alarm;
+    private Car car;
     private Time startTime, endTime;
     private boolean accepted;
 
@@ -54,13 +54,14 @@ public class Time_Sheet implements ViewObjectBE{
         this.endTime = endTime;
     }
 
-    public Time_Sheet(Fireman a, Alarm b, Car c, Position d, Time startTime, Time endTime) {
+    public Time_Sheet(Fireman a, Alarm b, Car c, Position d, Time startTime, Time endTime, int firemenPositionId) {
         this.fireman = a;
         this.alarm = b;
         this.car = c;
         this.position = d;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.positionID = firemenPositionId;
     }
     
     
@@ -157,5 +158,61 @@ public class Time_Sheet implements ViewObjectBE{
      */
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
+    }
+
+    /**
+     * @return the position
+     */
+    public Position getPosition() {
+        return position;
+    }
+
+    /**
+     * @param position the position to set
+     */
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    /**
+     * @return the fireman
+     */
+    public Fireman getFireman() {
+        return fireman;
+    }
+
+    /**
+     * @param fireman the fireman to set
+     */
+    public void setFireman(Fireman fireman) {
+        this.fireman = fireman;
+    }
+
+    /**
+     * @return the alarm
+     */
+    public Alarm getAlarm() {
+        return alarm;
+    }
+
+    /**
+     * @param alarm the alarm to set
+     */
+    public void setAlarm(Alarm alarm) {
+        this.alarm = alarm;
+    }
+
+    /**
+     * @return the car
+     */
+    public Car getCar() {
+        return car;
+    }
+
+    /**
+     * @param car the car to set
+     */
+    public void setCar(Car car) {
+        this.car = car;
     }
 }

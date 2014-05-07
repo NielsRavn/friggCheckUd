@@ -52,7 +52,7 @@ public class TimeSheet_AccessLink {
         return ta.getTimeSheetsbyFiremanId(firemanId);
     }
 
-    public ArrayList<Time_Sheet> getDataForAproval(int alarmId) {
+    public ArrayList<Time_Sheet> getDataForAproval(int alarmId) throws SQLException {
         return ta.getDataForAproval(alarmId);
     }
 }

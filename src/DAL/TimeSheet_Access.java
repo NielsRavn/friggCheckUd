@@ -113,7 +113,7 @@ public class TimeSheet_Access extends DatabaseConnection{
     }
     
     
-    public ArrayList<Time_Sheet> getTimeSheetForAproval(int alarmId) throws SQLServerException, SQLException
+    public ArrayList<Time_Sheet> getDataForAproval(int alarmId) throws SQLServerException, SQLException
     {
         
         Connection con = null;
@@ -123,41 +123,47 @@ public class TimeSheet_Access extends DatabaseConnection{
            con = getConnection();
            
            Statement query = con.createStatement();
-           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet INNER JOIN Position ON TimeSheet.positionId = Position.id INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId INNER JOIN Car ON TimeSheet.CarNr = Car.carNr INNER JOIN Alarm ON TimeSheet.alarmId = Alarm.id WHERE TimeSheet.alarmId = "+alarmId+";");
+           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet "
+                                                                + "INNER JOIN Position ON TimeSheet.positionId = Position.id "
+                                                                + "INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId "
+                                                                + "INNER JOIN Car ON TimeSheet.CarNr = Car.carNr "
+                                                                + "INNER JOIN Alarm ON TimeSheet.alarmId = Alarm.id "
+                                                                + "WHERE TimeSheet.alarmId = "+alarmId+";");
            while(result.next())
            {
               //getting data for fireman
-               int firemanId = result.getInt("Fireman.employeeId");
-               String firemanFirsName = result.getString("Fireman.firstName");
-               String firemanLastName = result.getString("Fireman.lastName");
-               boolean isTeamLeader = result.getBoolean("Fireman.teamLeader");
-               boolean isDriver = result.getBoolean("Fireman.driver");
+               int firemanId = result.getInt("employeeId");
+               String firemanFirsName = result.getString("firstName");
+               String firemanLastName = result.getString("lastName");
+               boolean isTeamLeader = result.getBoolean("teamLeader");
+               boolean isDriver = result.getBoolean("driver");
                
                //getting data for the car
-               int carNr = result.getInt("Car.carNr");
-               String iconPath = result.getString("Car.iconPath");
-               String carName = result.getString("Car.name");
-               int seats = result.getInt("Car.seats");
+               int carNr = result.getInt("carNr");
+               String iconPath = result.getString("iconPath");
+               String carName = result.getString("name");
+               int seats = result.getInt("seats");
                
                //getting data for the alarm
                
-               int id = result.getInt("Alarm.id");
-               int odinNr = result.getInt("Alarm.odinNr");
-               String destination = result.getString("Alarm.destination");
-               String type = result.getString("Alarm.type");
-               Timestamp time = result.getTimestamp("Alarm.time");
-               boolean accepted = result.getBoolean("Alarm.accepted");
+               int id = result.getInt("id");
+               int odinNr = result.getInt("odinNr");
+               String destination = result.getString("destination");
+               String type = result.getString("type");
+               Timestamp time = result.getTimestamp("time");
+               boolean accepted = result.getBoolean("accepted");
                
                //getting data for the position
                
-               int positionId = result.getInt("Position.id");
-               String positionName = result.getString("Position.name");
+               int positionId = result.getInt("id");
+               String positionName = result.getString("name");
                
                //getting the rest of data for timesheet
                
-               Time startTime = result.getTime("TimeSheet.startTime");
-               Time endTime = result.getTime("TimeSheet.endTime");
-               boolean timesheetAccepted = result.getBoolean("TimeSheet.accepted");
+               Time startTime = result.getTime("startTime");
+               Time endTime = result.getTime("endTime");
+               int firemenPositionId = result.getInt("positionId");
+               boolean timesheetAccepted = result.getBoolean("accepted");
                
                //Creating the arraylist with data from sql query
                
@@ -169,7 +175,65 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                Position d = new Position(positionId, positionName);
                
-               Time_Sheet e = new Time_Sheet(a, b, c, d, startTime, endTime);
+               Time_Sheet e = new Time_Sheet(a, b, c, d, startTime, endTime, firemenPositionId);
+               
+               timesheets.add(e);
+           }
+           Statement a = con.createStatement();
+            ResultSet s = a.executeQuery("SELECT * FROM TimeSheet \n" +
+                                                            "INNER JOIN Position ON TimeSheet.positionId = Position.id \n" +
+                                                            "INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId \n" +
+                                                            "INNER JOIN Alarm ON TimeSheet.alarmId = Alarm.id \n" +
+                                                            "WHERE TimeSheet.alarmId = "+alarmId+"\n" +
+                                                            "and ISNULL(TimeSheet.carNr, 0) = 0;");
+           while(s.next())
+           {
+              //getting data for fireman
+               int firemanId = s.getInt("employeeId");
+               String firemanFirsName = s.getString("firstName");
+               String firemanLastName = s.getString("lastName");
+               boolean isTeamLeader = s.getBoolean("teamLeader");
+               boolean isDriver = s.getBoolean("driver");
+               
+               //getting data for the car
+               int carNr = s.getInt("carNr");
+               String iconPath = s.getString("iconPath");
+               String carName = s.getString("name");
+               int seats = s.getInt("seats");
+               
+               //getting data for the alarm
+               
+               int id = s.getInt("id");
+               int odinNr = s.getInt("odinNr");
+               String destination = s.getString("destination");
+               String type = s.getString("type");
+               Timestamp time = s.getTimestamp("time");
+               boolean accepted = s.getBoolean("accepted");
+               
+               //getting data for the position
+               
+               int positionId = s.getInt("id");
+               String positionName = s.getString("name");
+               
+               //getting the rest of data for timesheet
+               
+               Time startTime = s.getTime("startTime");
+               Time endTime = s.getTime("endTime");
+               int firemenPositionId = s.getInt("positionId");
+               boolean timesheetAccepted = s.getBoolean("accepted");
+               
+               //Creating the arraylist with data from sql query
+               
+               Fireman aa = new Fireman(firemanId, firemanFirsName, firemanLastName, isTeamLeader, isDriver);
+               
+               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted);
+               
+               Car c = new Car(carNr, iconPath, carName, seats);
+               
+               Position d = new Position(positionId, positionName);
+               
+               Time_Sheet e = new Time_Sheet(aa, b, c, d, startTime, endTime, firemenPositionId);
+               
                timesheets.add(e);
            }
        }
@@ -186,8 +250,5 @@ public class TimeSheet_Access extends DatabaseConnection{
         
     }
 
-    public ArrayList<Time_Sheet> getDataForAproval(int alarmId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }
