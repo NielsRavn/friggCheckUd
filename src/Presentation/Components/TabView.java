@@ -70,9 +70,11 @@ public class TabView extends JTabbedPane{
      */
     public void removeTab(JPanel content){
         for(int i = 0; i < tabs.size(); i++){
-            if(tabs.get(i).getContent() == content) removeTabAt(i);
+            if(tabs.get(i).getContent() == content) {
+                removeTabAt(i);
+                tabs.remove(i);
+            }
         }
-        tabs.remove(content);
     }
 
     /**
