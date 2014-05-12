@@ -127,4 +127,8 @@ public class Alarm implements ViewObjectBE{
         this.accepted = accepted;
     }
     
+    public String getName(){
+        return ""+ID;
+    }
+    
 }

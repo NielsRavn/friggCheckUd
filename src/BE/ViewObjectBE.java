@@ -12,4 +12,6 @@ package BE;
  */
 public interface ViewObjectBE {
     
+    public String getName();
+    
 }
