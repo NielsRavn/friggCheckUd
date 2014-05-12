@@ -159,22 +159,25 @@ public class ListPanel extends javax.swing.JPanel {
     }
 
     private class MyTableCellEditor extends AbstractCellEditor implements TableCellEditor {
-
+        
+        @Override
         public Component getTableCellEditorComponent(JTable table, Object value,
-                boolean isSelected, int row, int column) {
+            boolean isSelected, int row, int column) {
             return getCorectPanel(table, value, isSelected, row);
         }
 
+        @Override
         public Object getCellEditorValue() {
             return null;
         }
+        
     }
 //    /**
 //     * Gets the Cell renderer for the list
 //     *
 //     * @return
 //     */
-//    private ListCellRenderer getClientListRenderer(){
+//    private ListCellRenderer getListRenderer(){
 //        ListCellRenderer r =
 //            new ListCellRenderer() {
 //                @Override
@@ -194,8 +197,6 @@ public class ListPanel extends javax.swing.JPanel {
 //                    return surroundPanel;
 //                }
 //            };
-//        
-//        
 //        return r;
 //    }
 

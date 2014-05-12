@@ -33,7 +33,5 @@ public class ViewObjectFactory {
             return new ViewObjectEquipmentUsage((Equipment)viewObjectBE);
         else
             return new ViewObjectBasic(viewObjectBE); 
-    }
-    
-    
+    }  
 }
