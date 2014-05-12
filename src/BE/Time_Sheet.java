@@ -14,7 +14,7 @@ import java.sql.Timestamp;
  *
  * @author Susanne
  */
-public class Time_Sheet implements ViewObjectBE{
+public class Time_Sheet implements IViewObjectBE{
     private int employeeID;
     private int alarmID;
     private int carNr;

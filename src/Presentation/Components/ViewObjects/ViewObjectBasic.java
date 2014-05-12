@@ -6,7 +6,7 @@
 
 package Presentation.Components.ViewObjects;
 
-import BE.ViewObjectBE;
+import BE.IViewObjectBE;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 
@@ -15,8 +15,8 @@ import javax.swing.JLabel;
  * @author Brobak
  */
 public class ViewObjectBasic extends ViewObject{
-    ViewObjectBE vob;
-    public ViewObjectBasic(ViewObjectBE vob){
+    IViewObjectBE vob;
+    public ViewObjectBasic(IViewObjectBE vob){
         this.vob = vob;
         setLayout(new GridBagLayout());
         fillData();

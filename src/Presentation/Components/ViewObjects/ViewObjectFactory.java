@@ -12,7 +12,7 @@ import BE.Equipment;
 import BE.Position;
 import BE.Station;
 import BE.Time_Sheet;
-import BE.ViewObjectBE;
+import BE.IViewObjectBE;
 
 /**
  *
@@ -20,7 +20,7 @@ import BE.ViewObjectBE;
  */
 public class ViewObjectFactory {
     
-    public static ViewObject getViewObject(ViewObjectBE viewObjectBE){
+    public static ViewObject getViewObject(IViewObjectBE viewObjectBE){
         if(viewObjectBE.getClass() == Car.class)
             return new ViewObjectCar((Car)viewObjectBE);
         else if(viewObjectBE.getClass() == Alarm.class)
