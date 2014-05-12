@@ -25,25 +25,20 @@ import javax.swing.JPanel;
  * @author Poul Nielsen
  */
 public class ViewObjectTimeSheet extends ViewObject {
-    
-    ArrayList<Time_Sheet> timeSheet;
     Alarm alarm;
     Car car;
-    ArrayList<Fireman> hl;
-    ArrayList<Fireman> ch;
-    ArrayList<Fireman> bm;
-    ArrayList<Fireman> sd;
+    ArrayList<Time_Sheet> hl;
+    ArrayList<Time_Sheet> ch;
+    ArrayList<Time_Sheet> bm;
     public int getCarId;
     int FZ = 30;
     
-    public ViewObjectTimeSheet(Alarm alarm, Car car) {
-        this.alarm = alarm;
+    public ViewObjectTimeSheet( Car car) {
         this.car = car;
         setLayout(new BorderLayout());
         hl = new ArrayList<>();
         ch = new ArrayList<>();
         bm = new ArrayList<>();
-        sd = new ArrayList<>();
         
         fillData();
     }
@@ -60,27 +55,21 @@ public class ViewObjectTimeSheet extends ViewObject {
                 carInfo.setFont(new Font("Verdana", Font.PLAIN, FZ));
                 vest.add(carInfo);
        
-                for(Fireman a : hl)
+                for(Time_Sheet a : hl)
                 {
-                    JLabel fm = new JLabel("HL : "+ a.getFirstName()+" "+a.getLastName());
+                    JLabel fm = new JLabel("HL : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
                     fm.setFont(new Font("Verdana", Font.PLAIN, FZ));
                     center.add(fm);
                 }
-                for(Fireman a : ch)
+                for(Time_Sheet a : ch)
                 {
-                    JLabel fm = new JLabel("CH : "+ a.getFirstName()+" "+a.getLastName());
+                    JLabel fm = new JLabel("CH : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
                     fm.setFont(new Font("Verdana", Font.PLAIN, FZ)); 
                     center.add(fm);
                 }
-                for(Fireman a : bm)
+                for(Time_Sheet a : bm)
                 {
-                    JLabel fm = new JLabel("BM : "+ a.getFirstName()+" "+a.getLastName());
-                    fm.setFont(new Font("Verdana", Font.PLAIN, FZ)); 
-                    center.add(fm);
-                }
-                for(Fireman a : sd)
-                {
-                    JLabel fm = new JLabel("ST : "+ a.getFirstName()+" "+a.getLastName());
+                    JLabel fm = new JLabel("BM : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
                     fm.setFont(new Font("Verdana", Font.PLAIN, FZ)); 
                     center.add(fm);
                 }
@@ -88,32 +77,28 @@ public class ViewObjectTimeSheet extends ViewObject {
         add(vest , BorderLayout.WEST);
         add(center , BorderLayout.CENTER);
     }
-    
+        
 
     public Object getCar() {
         return car;
     }
 
     public void addTeamLeader(Time_Sheet a) {
-        hl.add(a.getFireman());
+        hl.add(a);
         fillData();
     }
 
     public void addDriver(Time_Sheet a) {
-        ch.add(a.getFireman());
+        ch.add(a);
         fillData();
     }
 
     public void addFireman(Time_Sheet a) {
-        bm.add(a.getFireman());
+        bm.add(a);
         fillData();
         
     }
 
-    public void addStationDuty(Time_Sheet a) {
-        sd.add(a.getFireman());
-        fillData();
-    }
 
     public int getCarId() {
         return car.getCarNr();

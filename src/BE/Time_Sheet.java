@@ -23,9 +23,19 @@ public class Time_Sheet implements ViewObjectBE{
     private Fireman fireman;
     private Alarm alarm;
     private Car car;
+    private Station station;
     private Time startTime, endTime;
     private boolean accepted;
-
+    /**
+     * 
+     * @param employeeID
+     * @param alarmID
+     * @param carNr
+     * @param positionID
+     * @param startTime
+     * @param endTime
+     * @param accepted 
+     */
     public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Time startTime, Time endTime, boolean accepted) {
         this.employeeID = employeeID;
         this.alarmID = alarmID;
@@ -35,7 +45,15 @@ public class Time_Sheet implements ViewObjectBE{
         this.endTime = endTime;
         this.accepted = accepted;
     }
-
+    /**
+     * 
+     * @param employeeID
+     * @param alarmID
+     * @param carNr
+     * @param positionID
+     * @param startTime
+     * @param endTime 
+     */
     public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Time startTime, Time endTime) {
         this.employeeID = employeeID;
         this.alarmID = alarmID;
@@ -44,7 +62,15 @@ public class Time_Sheet implements ViewObjectBE{
         this.startTime = startTime;
         this.endTime = endTime;
     }
-
+    /**
+     * 
+     * @param employeeID
+     * @param alarmID
+     * @param carNr
+     * @param position
+     * @param startTime
+     * @param endTime 
+     */
     public Time_Sheet(int employeeID, int alarmID, int carNr, Position position, Time startTime, Time endTime) {
         this.employeeID = employeeID;
         this.alarmID = alarmID;
@@ -53,7 +79,16 @@ public class Time_Sheet implements ViewObjectBE{
         this.startTime = startTime;
         this.endTime = endTime;
     }
-
+    /**
+     * 
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @param startTime
+     * @param endTime
+     * @param firemenPositionId 
+     */
     public Time_Sheet(Fireman a, Alarm b, Car c, Position d, Time startTime, Time endTime, int firemenPositionId) {
         this.fireman = a;
         this.alarm = b;
@@ -63,9 +98,27 @@ public class Time_Sheet implements ViewObjectBE{
         this.endTime = endTime;
         this.positionID = firemenPositionId;
     }
+   /**
+    * 
+    * @param a
+    * @param b
+    * @param c
+    * @param d
+    * @param startTime
+    * @param endTime
+    * @param firemenPositionId 
+    */
+    public Time_Sheet(Fireman a, Alarm b, Station c, Position d, Time startTime, Time endTime, int firemenPositionId) {
+        this.fireman = a;
+        this.alarm = b;
+        this.station = c;
+        this.position = d;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.positionID = firemenPositionId;
+    }
     
     
-
     public Time getStartTime() {
         return startTime;
     }
@@ -215,8 +268,18 @@ public class Time_Sheet implements ViewObjectBE{
     public void setCar(Car car) {
         this.car = car;
     }
-    
-    public String getName(){
-        return "Alarm: "+ alarmID + " - Brændmand: " + fireman.getID();
+
+    /**
+     * @return the station
+     */
+    public Station getStation() {
+        return station;
+    }
+
+    /**
+     * @param station the station to set
+     */
+    public void setStation(Station station) {
+        this.station = station;
     }
 }
