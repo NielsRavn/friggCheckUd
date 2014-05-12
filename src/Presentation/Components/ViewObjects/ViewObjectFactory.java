@@ -20,7 +20,7 @@ import BE.ViewObjectBE;
  */
 public class ViewObjectFactory {
     
-    public ViewObject getViewObject(ViewObjectBE viewObjectBE){
+    public static ViewObject getViewObject(ViewObjectBE viewObjectBE){
         if(viewObjectBE.getClass() == Car.class)
             return new ViewObjectCar((Car)viewObjectBE);
         else if(viewObjectBE.getClass() == Alarm.class)

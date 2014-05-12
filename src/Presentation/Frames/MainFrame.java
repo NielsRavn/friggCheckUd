@@ -64,7 +64,6 @@ public class MainFrame extends JFrame {
     Alarm_AccessLink aal;
     Position_AccessLink pal;
     Equipment_AccessLink eal;
-    ViewObjectFactory vof;
     Footer fot;
     AproveTimeSheet ats;
     MainFrameLogic mfl;
@@ -91,7 +90,6 @@ public class MainFrame extends JFrame {
             aal = new Alarm_AccessLink();
             pal = new Position_AccessLink();
             eal = new Equipment_AccessLink();
-            vof = new ViewObjectFactory();
 
             mfl = new MainFrameLogic();
             tsa = new TimeSheet_AccessLink();
@@ -164,7 +162,7 @@ public class MainFrame extends JFrame {
     }
     
     public void addAlarm(Alarm alarm){
-        alarmPanel.addViewObject(vof.getViewObject(alarm));
+        alarmPanel.addViewObject(ViewObjectFactory.getViewObject(alarm));
         validate();
         repaint();
     }
@@ -176,7 +174,7 @@ public class MainFrame extends JFrame {
         try{
             ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
             for(Alarm alarm : alarms){
-                alarmPanel.addViewObject(vof.getViewObject(alarm));
+                alarmPanel.addViewObject(ViewObjectFactory.getViewObject(alarm));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
@@ -226,9 +224,9 @@ public class MainFrame extends JFrame {
         try {
 
             ArrayList<Car> cars = cal.getAllCars();
-            list.addViewObject(vof.getViewObject(MyConstants.STATION_DUTY_VIEW));
+            list.addViewObject(ViewObjectFactory.getViewObject(MyConstants.STATION_DUTY_VIEW));
             for (Car car : cars) {
-                list.addViewObject(vof.getViewObject(car));
+                list.addViewObject(ViewObjectFactory.getViewObject(car));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
@@ -241,7 +239,7 @@ public class MainFrame extends JFrame {
 
         ArrayList<Position> positions = createPositions();
         for (Position pos : positions) {
-            list.addViewObject(vof.getViewObject(pos));
+            list.addViewObject(ViewObjectFactory.getViewObject(pos));
         }
 
         return list;
