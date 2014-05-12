@@ -282,4 +282,8 @@ public class Time_Sheet implements ViewObjectBE{
     public void setStation(Station station) {
         this.station = station;
     }
+    
+    public String getName(){
+        return "Alarm: "+ alarmID + " - Brændmand: " + fireman.getID();
+    }
 }
