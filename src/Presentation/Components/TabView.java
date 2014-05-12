@@ -41,6 +41,7 @@ public class TabView extends JTabbedPane{
      * @param width the width of the screen to calculate tab size and make them clickable with touch
      */
     public void addNewTab(String tabName, JPanel content, int width){
+        // create new tab, names it and gives it size and colors.
         content.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         Tab t = new Tab(tabName, content);
         tabs.add(t);

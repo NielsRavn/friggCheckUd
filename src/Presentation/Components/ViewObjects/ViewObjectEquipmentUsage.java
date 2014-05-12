@@ -82,23 +82,25 @@ public class ViewObjectEquipmentUsage extends ViewObject{
      * @return the correct number that is shown
      */
     private int checkInputForTextField(JTextField toTest){
-        int result = 0;
-        if(!toTest.getText().equals("")){
-            
-        
-            String text = toTest.getText();
-            boolean takeAwayLast = false;
-            
-            try{
-                result = Integer.parseInt(text);
-            }catch (NumberFormatException e){
-                takeAwayLast = true;
-            }
-            
-            if(takeAwayLast){
-                text = text.substring(0, text.length()-1);
-            }
-            toTest.setText(text);
+        int result = -1;
+        while(result == -1){
+            if(!toTest.getText().equals("")){
+
+
+                String text = toTest.getText();
+                boolean takeAwayLast = false;
+
+                try{
+                    result = Integer.parseInt(text);
+                }catch (NumberFormatException e){
+                    takeAwayLast = true;
+                }
+
+                if(takeAwayLast){
+                    text = text.substring(0, text.length()-1);
+                }
+                toTest.setText(text);
+            }else result = 0;
         }
         return result;
     }
@@ -118,6 +120,12 @@ public class ViewObjectEquipmentUsage extends ViewObject{
         public void keyReleased(KeyEvent e) {
             checkInput();
         }
+        
+        @Override
+        public void keyTyped(KeyEvent e) {
+            if(!Character.isDigit(e.getKeyChar()) || equipmentAmount.getText().length() >= 10)
+                e.consume();
+        }
     }
     
     private class MyFocusListener implements FocusListener{
@@ -130,6 +138,7 @@ public class ViewObjectEquipmentUsage extends ViewObject{
         @Override
         public void focusLost(FocusEvent e) {
             if(equipmentAmount.getText().equals("")) equipmentAmount.setText("0");
+            checkInput();
         }
         
     }
