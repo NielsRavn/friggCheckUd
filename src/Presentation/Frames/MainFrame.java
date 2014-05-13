@@ -483,7 +483,6 @@ public class MainFrame extends JFrame {
                 tv.setSelectedComponent(approvePanel);
  
             } else { 
-                
                 tv.setSelectedComponent(mfl.getNextPanel());
             }
 
