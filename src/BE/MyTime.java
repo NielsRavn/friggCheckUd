@@ -18,8 +18,8 @@ public class MyTime {
     private int startHour, startMinute, endHour, endMinute;
 
     public MyTime(Timestamp startDate, Timestamp alarmStartDate, int startHour, int startMinute, int endHour, int endMinute) {
-        this.startDate = startDate;
-        this.alarmStartDate = alarmStartDate;
+        this.startDate = (Timestamp) startDate.clone();
+        this.alarmStartDate = (Timestamp) alarmStartDate.clone();
         this.startHour = startHour;
         this.startMinute = startMinute;
         this.endHour = endHour;
@@ -48,10 +48,6 @@ public class MyTime {
 
     public Timestamp getAlarmStartDate() {
         return alarmStartDate;
-    }
-
-    public void setAlarmStartDate(Timestamp alarmStartDate) {
-        this.alarmStartDate = alarmStartDate;
     }
     
     public int getStartHour() {

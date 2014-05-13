@@ -16,8 +16,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -241,7 +243,7 @@ public class TimePicker extends javax.swing.JPanel {
                 changedSomthing = true;
             }
             if(time.getStartMinute()< alarmStart.get(Calendar.MINUTE)) {
-                time.setStartHour(alarmStart.get(Calendar.MINUTE));
+                time.setStartMinute(alarmStart.get(Calendar.MINUTE));
                 changedSomthing = true;
             }
             if(changedSomthing){
@@ -286,7 +288,7 @@ public class TimePicker extends javax.swing.JPanel {
     private void checkInput(){
         long selectedDate = choose.getSelectedDate().getTimeInMillis();
         if(time.getAlarmStartDate().getTime() < selectedDate){
-            time.getStartDate().setTime(selectedDate);
+            time.setStartDate(new Timestamp(selectedDate));
             Calendar date = Calendar.getInstance();
             date.setTimeInMillis(time.getStartDate().getTime());
             choose.setSelectedDate(date);
@@ -303,7 +305,6 @@ public class TimePicker extends javax.swing.JPanel {
         try{
             time.setEndMinute(checkInputForTextField(tfMinute, 59));
         }catch (IllegalStateException ex){}
-        
     }
     
     /**
