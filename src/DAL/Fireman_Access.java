@@ -23,7 +23,7 @@ public class Fireman_Access extends DatabaseConnection {
         super();
     }
 
-    public Fireman getFiremanByID(int ID) throws SQLException {
+    public Fireman getFiremanByID(int ID) throws SQLException { // gets Information on fireman on the ID
         Connection con = null;
         Fireman fireman = null;
         

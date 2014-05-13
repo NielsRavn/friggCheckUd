@@ -28,7 +28,7 @@ public class Equipment_Access extends DatabaseConnection{
     }
     
     public ArrayList<Equipment> getAllEquipmentTypes() throws SQLServerException, SQLException{
-        ArrayList<Equipment> result = new ArrayList<>();
+        ArrayList<Equipment> result = new ArrayList<>(); // gets an arraylist with all equipment avalieble
         Connection con = null;
         
         try{
@@ -43,7 +43,7 @@ public class Equipment_Access extends DatabaseConnection{
                 String name = rs.getString("name");
                 String unitType = rs.getString("unitType");
                 
-                Equipment e = new Equipment(id, name, unitType);
+                Equipment e = new Equipment(id, name, unitType); // information contained in the arraylist for all Equipment is the id, name and the unitType
                 result.add(e);
             }
             
@@ -56,7 +56,7 @@ public class Equipment_Access extends DatabaseConnection{
         return result;
     }
     
-    public ArrayList<Usage> getUsagesFor(int alarmId, int carNr) throws SQLServerException, SQLException{
+    public ArrayList<Usage> getUsagesFor(int alarmId, int carNr) throws SQLServerException, SQLException{ // gets equipment used by Alarm and Car
         Connection con = null;
         ArrayList<Usage> result = new ArrayList<>();
         
@@ -84,7 +84,7 @@ public class Equipment_Access extends DatabaseConnection{
 
     public void updateUsages(ArrayList<Usage> usagesToUpdate) throws SQLServerException, SQLException {
         Connection con = null;
-        
+        // updates how much equipment used on a car on a Alarm 
         try{
             con = getConnection();
             for(Usage u: usagesToUpdate){
