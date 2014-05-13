@@ -493,7 +493,6 @@ public class MainFrame extends JFrame {
 
         @Override
         public void notifyObserver() {
-            System.out.println("THIS IS MY TEST: " + approveListPanel.getSelectedViewObject());
             Class test = approveListPanel.getSelectedViewObject().getClass();
             if (test == ViewObjectAlarm.class) {
                 tv.setSelectedComponent(primaryAlarmPanel);
