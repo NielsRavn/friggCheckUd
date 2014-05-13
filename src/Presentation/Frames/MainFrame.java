@@ -28,6 +28,7 @@ import Presentation.Components.TimePicker;
 import Presentation.Components.ViewObjects.ViewObject;
 import Presentation.Components.ViewObjects.ViewObjectAlarm;
 import Presentation.Components.ViewObjects.ViewObjectCar;
+import Presentation.Components.ViewObjects.ViewObjectComment;
 import Presentation.Components.ViewObjects.ViewObjectEquipmentStatus;
 import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
@@ -270,7 +271,7 @@ public class MainFrame extends JFrame {
         JPanel approvePanel = new JPanel();
         approvePanel.setLayout(new BorderLayout());
 
-        approveListPanel = new ListPanel(false);
+        approveListPanel = new ListPanel(true);
         approvePanel.add(approveListPanel, BorderLayout.CENTER);
 
         JPanel footer = new JPanel();
@@ -318,6 +319,7 @@ public class MainFrame extends JFrame {
         }
         
         approveListPanel.addViewObject(new ViewObjectTime(voa.getTime()));
+        approveListPanel.addViewObject(new ViewObjectComment());
 
     }
 
@@ -491,6 +493,7 @@ public class MainFrame extends JFrame {
 
         @Override
         public void notifyObserver() {
+            System.out.println("THIS IS MY TEST: " + approveListPanel.getSelectedViewObject());
             Class test = approveListPanel.getSelectedViewObject().getClass();
             if (test == ViewObjectAlarm.class) {
                 tv.setSelectedComponent(primaryAlarmPanel);
@@ -546,7 +549,8 @@ public class MainFrame extends JFrame {
                     try {
                         tsa.addTimeSheet(ts);
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(rootPane, "Du kan ikke meddle dig på samme alram 2 gange.");
+                        //ex.printStackTrace();
+                        JOptionPane.showMessageDialog(rootPane, "Du kan ikke melde dig på samme alarm 2 gange.");
                     }
                     logOut();
                 }
