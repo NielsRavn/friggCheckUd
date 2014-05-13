@@ -15,6 +15,7 @@ import java.sql.Timestamp;
  * @author Susanne
  */
 public class Time_Sheet implements IViewObjectBE{
+    private int id;
     private int employeeID;
     private int alarmID;
     private int carNr;
@@ -36,7 +37,18 @@ public class Time_Sheet implements IViewObjectBE{
      * @param endTime
      * @param accepted 
      */
+    public Time_Sheet(int id, int employeeID, int alarmID, int carNr, int positionID, Time startTime, Time endTime, boolean accepted) {
+        this.id = id;
+        this.employeeID = employeeID;
+        this.alarmID = alarmID;
+        this.carNr = carNr;
+        this.positionID = positionID;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.accepted = accepted;
+    }
     public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Time startTime, Time endTime, boolean accepted) {
+        this.id = id;
         this.employeeID = employeeID;
         this.alarmID = alarmID;
         this.carNr = carNr;
@@ -54,7 +66,8 @@ public class Time_Sheet implements IViewObjectBE{
      * @param startTime
      * @param endTime 
      */
-    public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Time startTime, Time endTime) {
+    public Time_Sheet(int id, int employeeID, int alarmID, int carNr, int positionID, Time startTime, Time endTime) {
+        this.id = id;
         this.employeeID = employeeID;
         this.alarmID = alarmID;
         this.carNr = carNr;
@@ -71,7 +84,8 @@ public class Time_Sheet implements IViewObjectBE{
      * @param startTime
      * @param endTime 
      */
-    public Time_Sheet(int employeeID, int alarmID, int carNr, Position position, Time startTime, Time endTime) {
+    public Time_Sheet(int id, int employeeID, int alarmID, int carNr, Position position, Time startTime, Time endTime) {
+        this.id = id;
         this.employeeID = employeeID;
         this.alarmID = alarmID;
         this.carNr = carNr;
@@ -89,7 +103,8 @@ public class Time_Sheet implements IViewObjectBE{
      * @param endTime
      * @param firemenPositionId 
      */
-    public Time_Sheet(Fireman a, Alarm b, Car c, Position d, Time startTime, Time endTime, int firemenPositionId) {
+    public Time_Sheet(int id, Fireman a, Alarm b, Car c, Position d, Time startTime, Time endTime, int firemenPositionId) {
+        this.id = id;
         this.fireman = a;
         this.alarm = b;
         this.car = c;
@@ -108,7 +123,8 @@ public class Time_Sheet implements IViewObjectBE{
     * @param endTime
     * @param firemenPositionId 
     */
-    public Time_Sheet(Fireman a, Alarm b, Station c, Position d, Time startTime, Time endTime, int firemenPositionId) {
+    public Time_Sheet(int id, Fireman a, Alarm b, Station c, Position d, Time startTime, Time endTime, int firemenPositionId) {
+        this.id = id;
         this.fireman = a;
         this.alarm = b;
         this.station = c;
@@ -126,6 +142,25 @@ public class Time_Sheet implements IViewObjectBE{
     public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
+    
+    
+    /**
+     * Gets the ID for a time sheet
+     * @return the id of the time sheet 
+     */
+    public int getId() {
+        return id;
+    }
+    
+    /**
+     * Sets the ID for a time sheet 
+     * @param id the id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
 
    
 

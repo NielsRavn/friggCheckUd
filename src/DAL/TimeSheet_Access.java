@@ -39,7 +39,13 @@ public class TimeSheet_Access extends DatabaseConnection{
         pa = new Position_Access();
     }
     
-    public ArrayList<Time_Sheet> getTimeSheetsbyFiremanId(int id) throws SQLException
+    /**
+     * Gets all unaccpedted timesheets for a fireman with a given ID where the given fireman is positioned as team leader
+     * @param id the id of the fireman
+     * @return all uaccepted timesheets where the given fireman was teamleader 
+     * @throws SQLException 
+     */
+    public ArrayList<Time_Sheet> getUnaccedtedTimeSheetsbyFiremanIdInPositionTeamleader(int id) throws SQLException
     {
         Connection con = null;
         ArrayList<Time_Sheet> timesheets = new ArrayList<Time_Sheet>();
@@ -51,6 +57,7 @@ public class TimeSheet_Access extends DatabaseConnection{
            ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE empoyeeId = "+id+" AND positionId = "+ MyConstants.TEAM_LEADER.getID() +" AND accepted = 0;");
            while(result.next())
            {
+               int tsId = result.getInt("id");
                int employeeId = result.getInt("empoyeeId");
                int alarmId = result.getInt("alarmId");
                int carNr = result.getInt("carNr"); 
@@ -58,7 +65,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                Time startTime = result.getTime("startTime");
                Time endtime = result.getTime("endTime");
                
-               Time_Sheet c = new Time_Sheet(employeeId, alarmId, carNr, pos, startTime, endtime);
+               Time_Sheet c = new Time_Sheet(tsId, employeeId, alarmId, carNr, pos, startTime, endtime);
                timesheets.add(c);
                
            }
@@ -82,26 +89,26 @@ public class TimeSheet_Access extends DatabaseConnection{
             con = getConnection();
             Statement query = con.createStatement();
             if(ts.getCarNr() == 0){
-                query.executeUpdate("Insert into TimeSheet Values ( "
+                int id = query.executeUpdate("Insert into TimeSheet Values ( "
                          + ts.getEmployeeID()+ ", "
                         + ts.getAlarmID()+ ", "
                         + "NULL"+","
                         + ts.getPositionID() + ",'"
                         + ts.getStartTime() + "','"
                         + ts.getEndTime() + "','" 
-                        + ts.isAccepted()+ "') ");
-                
+                        + ts.isAccepted()+ "') ",Statement.RETURN_GENERATED_KEYS);
+                ts.setId(id);
                 
             }else{
-                query.executeUpdate("Insert into TimeSheet Values ( "
+                int id = query.executeUpdate("Insert into TimeSheet Values ( "
                          + ts.getEmployeeID()+ ", "
                         + ts.getAlarmID()+ ", "
                         + ts.getCarNr()+","
                         + ts.getPositionID() + ",'"
                         + ts.getStartTime() + "','"
                         + ts.getEndTime() + "','" 
-                        + ts.isAccepted()+ "') ");
-                
+                        + ts.isAccepted()+ "') ",Statement.RETURN_GENERATED_KEYS);
+                ts.setId(id);
             }
 
         }
@@ -125,7 +132,7 @@ public class TimeSheet_Access extends DatabaseConnection{
            con = getConnection();
            
            Statement query = con.createStatement();
-           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet "
+           ResultSet result = query.executeQuery("SELECT Timesheet.id as tsId, * FROM TimeSheet "
                                                                 + "INNER JOIN Position ON TimeSheet.positionId = Position.id "
                                                                 + "INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId "
                                                                 + "INNER JOIN Car ON TimeSheet.CarNr = Car.carNr "
@@ -161,7 +168,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                String positionName = result.getString("name");
                
                //getting the rest of data for timesheet
-               
+               int tsId = result.getInt("tsId");
                Time startTime = result.getTime("startTime");
                Time endTime = result.getTime("endTime");
                int firemenPositionId = result.getInt("positionId");
@@ -177,7 +184,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                Position d = new Position(positionId, positionName);
                
-               Time_Sheet e = new Time_Sheet(a, b, c, d, startTime, endTime, firemenPositionId);
+               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId);
                
                timesheets.add(e);
            }
@@ -207,7 +214,7 @@ public class TimeSheet_Access extends DatabaseConnection{
            con = getConnection();
            
            Statement query = con.createStatement();
-           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet \n" +
+           ResultSet result = query.executeQuery("SELECT Timesheet.id as tsId,* FROM TimeSheet \n" +
                                                             "INNER JOIN Position ON TimeSheet.positionId = Position.id \n" +
                                                             "INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId \n" +
                                                             "INNER JOIN Alarm ON TimeSheet.alarmId = Alarm.id \n" +
@@ -240,7 +247,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                String positionName = result.getString("name");
                
                //getting the rest of data for timesheet
-               
+               int tsId = result.getInt("tsId");
                Time startTime = result.getTime("startTime");
                Time endTime = result.getTime("endTime");
                int firemenPositionId = result.getInt("positionId");
@@ -256,7 +263,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                Position d = new Position(positionId, positionName);
                
-               Time_Sheet e = new Time_Sheet(a, b, c, d, startTime, endTime, firemenPositionId);
+               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId);
                
                timesheets.add(e);
            }
