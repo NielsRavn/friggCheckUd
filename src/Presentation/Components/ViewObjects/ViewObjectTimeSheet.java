@@ -9,6 +9,7 @@ package Presentation.Components.ViewObjects;
 import BE.Alarm;
 import BE.Car;
 import BE.Fireman;
+import BE.Station;
 import BE.Time_Sheet;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
@@ -27,18 +28,22 @@ import javax.swing.JPanel;
 public class ViewObjectTimeSheet extends ViewObject {
     Alarm alarm;
     Car car;
+    Station station;
     ArrayList<Time_Sheet> hl;
     ArrayList<Time_Sheet> ch;
     ArrayList<Time_Sheet> bm;
+    ArrayList<Time_Sheet> sd;
     public int getCarId;
     int FZ = 30;
     
-    public ViewObjectTimeSheet( Car car) {
-        this.car = car;
+    public ViewObjectTimeSheet( Time_Sheet timesheet) {
+        this.car = timesheet.getCar();
+        this.station = timesheet.getStation();
         setLayout(new BorderLayout());
         hl = new ArrayList<>();
         ch = new ArrayList<>();
         bm = new ArrayList<>();
+        sd = new ArrayList<>();
         
         fillData();
     }
@@ -50,10 +55,22 @@ public class ViewObjectTimeSheet extends ViewObject {
         vest.setLayout(new FlowLayout());
         center.setLayout(new GridLayout(0, 1));
                 
-                vest.add(new JLabel(new ImageIcon(car.getIconPath())));
-                JLabel carInfo = new JLabel(""+car.getCarNr());
-                carInfo.setFont(new Font("Verdana", Font.PLAIN, FZ));
-                vest.add(carInfo);
+                if(car == null)
+                {
+                    vest.add(new JLabel(new ImageIcon(station.getIconPath())));
+                    JLabel stationInfo = new JLabel(""+station.getName());
+                    stationInfo.setFont(new Font("Verdana", Font.PLAIN, FZ));
+                    vest.add(stationInfo);
+                }
+                else
+                {
+                    vest.add(new JLabel(new ImageIcon(car.getIconPath())));
+                    JLabel carInfo = new JLabel(""+car.getCarNr());
+                    carInfo.setFont(new Font("Verdana", Font.PLAIN, FZ));
+                    vest.add(carInfo);
+                }
+        
+                
        
                 for(Time_Sheet a : hl)
                 {
@@ -68,6 +85,12 @@ public class ViewObjectTimeSheet extends ViewObject {
                     center.add(fm);
                 }
                 for(Time_Sheet a : bm)
+                {
+                    JLabel fm = new JLabel("BM : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
+                    fm.setFont(new Font("Verdana", Font.PLAIN, FZ)); 
+                    center.add(fm);
+                }
+                for(Time_Sheet a : sd)
                 {
                     JLabel fm = new JLabel("BM : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
                     fm.setFont(new Font("Verdana", Font.PLAIN, FZ)); 
@@ -98,7 +121,11 @@ public class ViewObjectTimeSheet extends ViewObject {
         fillData();
         
     }
-
+    
+    public void addStationDuty(Time_Sheet a) {
+            sd.add(a);
+            fillData();
+        }
 
     public int getCarId() {
         return car.getCarNr();
