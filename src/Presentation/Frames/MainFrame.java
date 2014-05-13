@@ -481,8 +481,9 @@ public class MainFrame extends JFrame {
                 approveListPanel.clearList();
                 fillApproveListPanel();
                 tv.setSelectedComponent(approvePanel);
-
-            } else {
+ 
+            } else { 
+                
                 tv.setSelectedComponent(mfl.getNextPanel());
             }
 
