@@ -62,8 +62,8 @@ public class TimeSheet_Access extends DatabaseConnection{
                int alarmId = result.getInt("alarmId");
                int carNr = result.getInt("carNr"); 
                Position pos = pa.getPositionById(result.getInt("positionId"));
-               Time startTime = result.getTime("startTime");
-               Time endtime = result.getTime("endTime");
+               Timestamp startTime = result.getTimestamp("startTime");
+               Timestamp endtime = result.getTimestamp("endTime");
                
                Time_Sheet c = new Time_Sheet(tsId, employeeId, alarmId, carNr, pos, startTime, endtime);
                timesheets.add(c);
@@ -95,8 +95,8 @@ public class TimeSheet_Access extends DatabaseConnection{
                         + "NULL"+","
                         + ts.getPositionID() + ",'"
                         + ts.getStartTime() + "','"
-                        + ts.getEndTime() + "','" 
-                        + ts.isAccepted()+ "') ",Statement.RETURN_GENERATED_KEYS);
+                        + ts.getEndTime() + "'," 
+                        + "NULL"+ ") ",Statement.RETURN_GENERATED_KEYS);
                 ts.setId(id);
                 
             }else{
@@ -106,8 +106,8 @@ public class TimeSheet_Access extends DatabaseConnection{
                         + ts.getCarNr()+","
                         + ts.getPositionID() + ",'"
                         + ts.getStartTime() + "','"
-                        + ts.getEndTime() + "','" 
-                        + ts.isAccepted()+ "') ",Statement.RETURN_GENERATED_KEYS);
+                        + ts.getEndTime() + "'," 
+                        + "NULL"+ ") ",Statement.RETURN_GENERATED_KEYS);
                 ts.setId(id);
             }
 
@@ -168,8 +168,8 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                //getting the rest of data for timesheet
                int tsId = result.getInt("tsId");
-               Time startTime = result.getTime("startTime");
-               Time endTime = result.getTime("endTime");
+               Timestamp startTime = result.getTimestamp("startTime");
+               Timestamp endTime = result.getTimestamp("endTime");
                int firemenPositionId = result.getInt("positionId");
                
                //Creating the arraylist with data from sql query
@@ -246,8 +246,8 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                //getting the rest of data for timesheet
                int tsId = result.getInt("tsId");
-               Time startTime = result.getTime("startTime");
-               Time endTime = result.getTime("endTime");
+               Timestamp startTime = result.getTimestamp("startTime");
+               Timestamp endTime = result.getTimestamp("endTime");
                int firemenPositionId = result.getInt("positionId");
                
                //Creating the arraylist with data from sql query

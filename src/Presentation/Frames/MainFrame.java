@@ -44,6 +44,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -539,10 +540,10 @@ public class MainFrame extends JFrame {
                         positionId = vop.getPosition().getID();
                     }
                     
-                    Time endTime = vot.getEndTime();
-                    Time startTime = vot.getStartTime();
+                    Timestamp endTime = vot.getEndTime();
+                    Timestamp startTime = vot.getStartTime();
                     
-                    Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, false);
+                    Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, 0);
                     try {
                         tsa.addTimeSheet(ts);
                     } catch (SQLException ex) {

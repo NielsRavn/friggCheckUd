@@ -6,14 +6,26 @@
 
 package BE;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author Niels
  */
 public class MyTime {
     
+    Timestamp startDate, alarmStartDate;
     private int startHour, startMinute, endHour, endMinute;
 
+    public MyTime(Timestamp startDate, Timestamp alarmStartDate, int startHour, int startMinute, int endHour, int endMinute) {
+        this.startDate = startDate;
+        this.alarmStartDate = alarmStartDate;
+        this.startHour = startHour;
+        this.startMinute = startMinute;
+        this.endHour = endHour;
+        this.endMinute = endMinute;
+    }
+    
     public MyTime(int startHour, int startMinute, int endHour, int endMinute) {
         this.startHour = startHour;
         this.startMinute = startMinute;
@@ -25,8 +37,22 @@ public class MyTime {
         this.startHour = startHour;
         this.startMinute = startMinute;
     }
-    
-    
+
+    public Timestamp getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
+    }
+
+    public Timestamp getAlarmStartDate() {
+        return alarmStartDate;
+    }
+
+    public void setAlarmStartDate(Timestamp alarmStartDate) {
+        this.alarmStartDate = alarmStartDate;
+    }
     
     public int getStartHour() {
         return startHour;
