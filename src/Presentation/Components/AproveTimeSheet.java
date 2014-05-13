@@ -115,6 +115,7 @@ public class AproveTimeSheet extends javax.swing.JPanel {
        
         }catch(SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+            ex.printStackTrace();
         }
         for(Alarm a : alarms){
                 list.addViewObject(vof.getViewObject(a));
@@ -131,7 +132,6 @@ public class AproveTimeSheet extends javax.swing.JPanel {
         try {
             timeSheet = tsa.getDataForAproval(alarmId);
             timeSheetStatinsduty = tsa.stationsVagt(alarmId);
-        // list.addViewObject(new ViewObjectTimeSheet(timeSheet));
             
             //here lays the logic for showing the timesheets order by cars and station duty
             ArrayList<ViewObjectTimeSheet> vos = new ArrayList<>();
@@ -142,7 +142,6 @@ public class AproveTimeSheet extends javax.swing.JPanel {
                     if(v.getCar() != null && v.getCarId() == a.getCar().getCarNr()){
                         carFound = true;
                         populateFiremenViewObject(a, v);
-                            
                     }
                 }
                 if(!carFound){

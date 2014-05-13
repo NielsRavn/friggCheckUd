@@ -54,7 +54,7 @@ public class TimeSheet_Access extends DatabaseConnection{
            con = getConnection();
            
            Statement query = con.createStatement();
-           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE empoyeeId = "+id+" AND positionId = "+ MyConstants.TEAM_LEADER.getID() +" AND accepted = 0;");
+           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE empoyeeId = "+id+" AND positionId = "+ MyConstants.TEAM_LEADER.getID() +" AND acceptedBy IS NULL;");
            while(result.next())
            {
                int tsId = result.getInt("id");
@@ -161,7 +161,6 @@ public class TimeSheet_Access extends DatabaseConnection{
                String type = result.getString("type");
                Timestamp time = result.getTimestamp("time");
                boolean accepted = result.getBoolean("accepted");
-               
                //getting data for the position
                
                int positionId = result.getInt("id");
@@ -172,7 +171,6 @@ public class TimeSheet_Access extends DatabaseConnection{
                Time startTime = result.getTime("startTime");
                Time endTime = result.getTime("endTime");
                int firemenPositionId = result.getInt("positionId");
-               boolean timesheetAccepted = result.getBoolean("accepted");
                
                //Creating the arraylist with data from sql query
                
@@ -251,7 +249,6 @@ public class TimeSheet_Access extends DatabaseConnection{
                Time startTime = result.getTime("startTime");
                Time endTime = result.getTime("endTime");
                int firemenPositionId = result.getInt("positionId");
-               boolean timesheetAccepted = result.getBoolean("accepted");
                
                //Creating the arraylist with data from sql query
                
