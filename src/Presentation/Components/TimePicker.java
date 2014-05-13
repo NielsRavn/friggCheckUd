@@ -242,7 +242,7 @@ public class TimePicker extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     /**
-     * checks the inputed text in the two textfields one after the other.
+     * checks the inputed text in the textfields one after the other.
      */
     private void checkInput(){
         try{

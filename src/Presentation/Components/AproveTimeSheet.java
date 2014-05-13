@@ -18,6 +18,7 @@ import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
 import Presentation.Components.ViewObjects.ViewObjectTime;
 import Presentation.Components.ViewObjects.ViewObjectTimeSheet;
+import Presentation.Components.ViewObjects.ViewObjectTimeSheetStationDuty;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
@@ -102,6 +103,7 @@ public class AproveTimeSheet extends javax.swing.JPanel {
     protected ListPanel getAlarmByFiremanId(int firemanId)
     {
         ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
+        
         ListPanel list = new ListPanel(false);
         ArrayList<Alarm> alarms = new ArrayList<Alarm>();
         try{
@@ -125,19 +127,18 @@ public class AproveTimeSheet extends javax.swing.JPanel {
     private ListPanel getTimeSheetByAlarmId(int alarmId)
     {
         ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
+        ArrayList<Time_Sheet> timeSheetStatinsduty = new ArrayList<Time_Sheet>();
         ListPanel list = new ListPanel(false);
         try {
             timeSheet = tsa.getDataForAproval(alarmId);
-       
+            timeSheetStatinsduty = tsa.stationsVagt(alarmId);
         // list.addViewObject(new ViewObjectTimeSheet(timeSheet));
             
             //here lays the logic for showing the timesheets order by cars
             ArrayList<ViewObjectTimeSheet> vos = new ArrayList<>();
-            
+            ArrayList<ViewObjectTimeSheetStationDuty> vossd = new ArrayList<>();
             for(Time_Sheet a : timeSheet)
             {
-                if(a.getCar() == null)
-                    System.out.println("TEST");
                 boolean carFound = false;
                 for(ViewObjectTimeSheet v : vos){
                     if(v.getCar() != null && v.getCarId() == a.getCar().getCarNr()){
@@ -145,25 +146,31 @@ public class AproveTimeSheet extends javax.swing.JPanel {
                         populateFiremenViewObject(a, v);
                             
                     }
-                    if(v.getCar() == null)
-                    {
-                        carFound = true;
-                        if(a.getPositionID() == MyConstants.STATION_DUTY.getID())
-                        {
-                            v.addStationDuty(a);
-                        }
-                    }
+                   
                         
                 }
                 if(!carFound){
-                    ViewObjectTimeSheet vots = new ViewObjectTimeSheet(a.getAlarm(),a.getCar());
+                    ViewObjectTimeSheet vots = new ViewObjectTimeSheet(a.getCar());
                     populateFiremenViewObject(a, vots);
                     vos.add(vots);
                     list.addViewObject(vots);
                     
                 }
                 
+            }
+            ViewObjectTimeSheetStationDuty v;
+            if(timeSheetStatinsduty.size() > 0){
+                v = new ViewObjectTimeSheetStationDuty(MyConstants.STATION_DUTY_VIEW);
+                for(Time_Sheet b : timeSheetStatinsduty)
+                {
+
+                    v.addStationDuty(b);
+                    list.addViewObject(v);
                 }
+            }
+            
+            
+            
         
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);

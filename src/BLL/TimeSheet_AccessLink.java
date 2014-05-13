@@ -55,4 +55,8 @@ public class TimeSheet_AccessLink {
     public ArrayList<Time_Sheet> getDataForAproval(int alarmId) throws SQLException {
         return ta.getDataForAproval(alarmId);
     }
+    
+    public ArrayList<Time_Sheet> stationsVagt(int alarmId) throws SQLException {
+        return ta.stationsVagt(alarmId);
+    }
 }

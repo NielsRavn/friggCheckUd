@@ -12,7 +12,7 @@ import BE.Equipment;
 import BE.Position;
 import BE.Station;
 import BE.Time_Sheet;
-import BE.ViewObjectBE;
+import BE.IViewObjectBE;
 
 /**
  *
@@ -20,39 +20,18 @@ import BE.ViewObjectBE;
  */
 public class ViewObjectFactory {
     
-    public ViewObject getViewObject(ViewObjectBE viewObjectBE){
+    public static ViewObject getViewObject(IViewObjectBE viewObjectBE){
         if(viewObjectBE.getClass() == Car.class)
-            return getViewObject((Car) viewObjectBE);
+            return new ViewObjectCar((Car)viewObjectBE);
         else if(viewObjectBE.getClass() == Alarm.class)
-            return getViewObject((Alarm) viewObjectBE);
+            return new ViewObjectAlarm((Alarm)viewObjectBE);
         else if (viewObjectBE.getClass() == Position.class)
-            return getViewObject((Position) viewObjectBE);
+            return new ViewObjectPosition((Position)viewObjectBE);
         else if(viewObjectBE.getClass() == Station.class)
-            return getViewObject((Station) viewObjectBE);
+           return new ViewObjectStationDuty((Station)viewObjectBE);
         else if(viewObjectBE.getClass() == Equipment.class)
-            return getViewObject((Equipment) viewObjectBE);
-        return null;
-    }
-    
-    private ViewObjectCar getViewObject(Car car){
-        return new ViewObjectCar(car);
-    }
-    
-    private ViewObjectAlarm getViewObject(Alarm alarm){
-        return new ViewObjectAlarm(alarm);
-    }
-    
-    private ViewObjectPosition getViewObject(Position position){
-        return new ViewObjectPosition(position);
-    }
-    
-    private ViewObjectStationDuty getViewObject(Station station){
-        return new ViewObjectStationDuty(station);
-    }
-    
-    private ViewObjectEquipmentUsage getViewObject(Equipment equipment){
-        return new ViewObjectEquipmentUsage(equipment);
-    }
-    
-    
+            return new ViewObjectEquipmentUsage((Equipment)viewObjectBE);
+        else
+            return new ViewObjectBasic(viewObjectBE); 
+    }  
 }

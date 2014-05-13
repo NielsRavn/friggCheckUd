@@ -10,7 +10,7 @@ package BE;
  *
  * @author Brobak
  */
-public class Station implements ViewObjectBE{
+public class Station implements IViewObjectBE{
     String iconPath;
     String name;
     public Station (String name, String iconPath) {

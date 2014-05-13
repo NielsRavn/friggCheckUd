@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  *
  * @author Susanne
  */
-public class Alarm implements ViewObjectBE{
+public class Alarm implements IViewObjectBE{
     private int ID;
     private int odinNr;
     private String distination;
@@ -125,6 +125,10 @@ public class Alarm implements ViewObjectBE{
      */
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
+    }
+    
+    public String getName(){
+        return ""+ID;
     }
     
 }

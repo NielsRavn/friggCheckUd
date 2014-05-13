@@ -10,7 +10,7 @@ package BE;
  *
  * @author Susanne
  */
-public class Position implements ViewObjectBE{
+public class Position implements IViewObjectBE{
 private int ID;
 private String name;
 

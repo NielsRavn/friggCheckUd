@@ -23,7 +23,6 @@ public class ViewObjectCar extends ViewObject{
     public ViewObjectCar(Car car){
         this.car = car;
         setLayout(new FlowLayout());
-        
         fillData();
     }
 
@@ -33,7 +32,6 @@ public class ViewObjectCar extends ViewObject{
         carInfo.setFont(new Font("Verdana", Font.PLAIN, 42));
         add(carInfo);
     }
-    
     
     public Car getCar(){
         return car;

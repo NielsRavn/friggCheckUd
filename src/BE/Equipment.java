@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Brobak
  */
-public class Equipment implements ViewObjectBE{
+public class Equipment implements IViewObjectBE{
     int id;
     String name;
     String unitType;

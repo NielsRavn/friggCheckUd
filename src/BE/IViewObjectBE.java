@@ -10,6 +10,8 @@ package BE;
  *
  * @author Brobak
  */
-public interface ViewObjectBE {
+public interface IViewObjectBE {
+    
+    public String getName();
     
 }

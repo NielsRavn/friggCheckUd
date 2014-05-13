@@ -159,22 +159,25 @@ public class ListPanel extends javax.swing.JPanel {
     }
 
     private class MyTableCellEditor extends AbstractCellEditor implements TableCellEditor {
-
+        
+        @Override
         public Component getTableCellEditorComponent(JTable table, Object value,
-                boolean isSelected, int row, int column) {
+            boolean isSelected, int row, int column) {
             return getCorectPanel(table, value, isSelected, row);
         }
 
+        @Override
         public Object getCellEditorValue() {
             return null;
         }
+        
     }
 //    /**
 //     * Gets the Cell renderer for the list
 //     *
 //     * @return
 //     */
-//    private ListCellRenderer getClientListRenderer(){
+//    private ListCellRenderer getListRenderer(){
 //        ListCellRenderer r =
 //            new ListCellRenderer() {
 //                @Override
@@ -194,8 +197,6 @@ public class ListPanel extends javax.swing.JPanel {
 //                    return surroundPanel;
 //                }
 //            };
-//        
-//        
 //        return r;
 //    }
 
@@ -245,28 +246,10 @@ public class ListPanel extends javax.swing.JPanel {
 
         Point lastDragPoint = new Point();
         boolean beingDragged;
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            if (mySelectedIndex == -1) {
-                tblList.clearSelection();
-            } else {
-                tblList.setRowSelectionInterval(mySelectedIndex, mySelectedIndex);
-            }
-
-            if (!beingDragged) {
-                beingDragged = true;
-                setLastDragPoint(e.getX(), e.getY());
-            }
-
-            handleDraging(e);
-
-        }
-
+        
         @Override
         public void mouseClicked(MouseEvent e) {
             if (enabled) {
-
                 mySelectedIndex = tblList.getSelectedRow();
                 notifyObservers();
             }
@@ -274,9 +257,19 @@ public class ListPanel extends javax.swing.JPanel {
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            if (beingDragged) {
-                beingDragged = false;
+            if (beingDragged) beingDragged = false;
+        }
+        
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            if (mySelectedIndex == -1) tblList.clearSelection();
+            else tblList.setRowSelectionInterval(mySelectedIndex, mySelectedIndex);
+
+            if (!beingDragged) {
+                beingDragged = true;
+                setLastDragPoint(e.getX(), e.getY());
             }
+            handleDraging(e);
         }
 
         private void setLastDragPoint(int x, int y) {
@@ -293,17 +286,10 @@ public class ListPanel extends javax.swing.JPanel {
             int maxScroll = viewPort.getViewSize().height - getHeight();
 
             scrollPosition.y -= dy;
-            if (scrollPosition.y > maxScroll) {
-                scrollPosition.y = maxScroll;
-            }
-            if (scrollPosition.y < 0) {
-                scrollPosition.y = 0;
-            }
+            if (scrollPosition.y > maxScroll) scrollPosition.y = maxScroll;
+            if (scrollPosition.y < 0) scrollPosition.y = 0;
 
             viewPort.setViewPosition(scrollPosition);
-
         }
-
     }
-
 }
