@@ -11,12 +11,17 @@ import BLL.ITimeObserver;
 import BLL.MyUtil;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
+import datechooser.beans.DateChooserPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -28,6 +33,8 @@ public class TimePicker extends javax.swing.JPanel {
     MyTime time;
     MainFrame parent;
     ArrayList<ITimeObserver> observers;
+    DateChooserPanel choose;
+    Calendar alarmStart;
     
     /**
      * creates a new timePicker
@@ -49,6 +56,8 @@ public class TimePicker extends javax.swing.JPanel {
         setBackground(MyConstants.COLOR_BLUE);
         jPanel1.setBackground(MyConstants.COLOR_BLUE);
         jPanel2.setBackground(MyConstants.COLOR_BLUE);
+        jPanel8.setBackground(MyConstants.COLOR_BLUE);
+        jPanel2.setBackground(MyConstants.COLOR_BLUE);
         jPanel6.setBackground(MyConstants.COLOR_BLUE);
         jPanel7.setBackground(MyConstants.COLOR_BLUE);
         jPanel10.setBackground(MyConstants.COLOR_BLUE);
@@ -61,6 +70,8 @@ public class TimePicker extends javax.swing.JPanel {
         jLabel2.setFont(MyConstants.FONT_HEADER_TEXT);
         jPanel4.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         jPanel5.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+        choose = new DateChooserPanel();
+        jPanel8.add(choose);
     }
 
     /**
@@ -76,6 +87,11 @@ public class TimePicker extends javax.swing.JPanel {
         tfMinute1.setText(MyUtil.p0(time.getStartMinute()));
         tfHour.setText(MyUtil.p0(time.getEndHour()));
         tfMinute.setText(MyUtil.p0(time.getEndMinute()));
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(time.getStartDate().getTime());
+        choose.setSelectedDate(date);
+        alarmStart = Calendar.getInstance();
+        alarmStart.setTimeInMillis(time.getAlarmStartDate().getTime());
     }
     
     /**
@@ -111,6 +127,7 @@ public class TimePicker extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -129,8 +146,11 @@ public class TimePicker extends javax.swing.JPanel {
         tfHour = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         tfMinute = new javax.swing.JTextField();
+        jPanel8 = new javax.swing.JPanel();
 
         setLayout(new java.awt.GridBagLayout());
+
+        jPanel3.setLayout(new java.awt.BorderLayout());
 
         jPanel11.setLayout(new java.awt.BorderLayout());
 
@@ -207,10 +227,29 @@ public class TimePicker extends javax.swing.JPanel {
 
         jPanel11.add(jPanel7, java.awt.BorderLayout.CENTER);
 
-        add(jPanel11, new java.awt.GridBagConstraints());
+        jPanel3.add(jPanel11, java.awt.BorderLayout.CENTER);
+        jPanel3.add(jPanel8, java.awt.BorderLayout.NORTH);
+
+        add(jPanel3, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOkayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkayActionPerformed
+        checkInput();
+        if(choose.getSelectedDate().get(Calendar.DAY_OF_YEAR) == alarmStart.get(Calendar.DAY_OF_YEAR)
+                && choose.getSelectedDate().get(Calendar.YEAR) == alarmStart.get(Calendar.YEAR)){
+            boolean changedSomthing = false;
+            if(time.getStartHour() < alarmStart.get(Calendar.HOUR_OF_DAY)) {
+                time.setStartHour(alarmStart.get(Calendar.HOUR_OF_DAY));
+                changedSomthing = true;
+            }
+            if(time.getStartMinute()< alarmStart.get(Calendar.MINUTE)) {
+                time.setStartMinute(alarmStart.get(Calendar.MINUTE));
+                changedSomthing = true;
+            }
+            if(changedSomthing){
+                JOptionPane.showMessageDialog(parent, "Start tiden er blevet ændret fordi den var sat til før alarm kaldet kom.");
+            }
+        }
         notifyObservers();
         parent.removeTimePicker();
     }//GEN-LAST:event_btnOkayActionPerformed
@@ -231,10 +270,12 @@ public class TimePicker extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JTextField tfHour;
     private javax.swing.JTextField tfHour1;
     private javax.swing.JTextField tfMinute;
@@ -245,6 +286,13 @@ public class TimePicker extends javax.swing.JPanel {
      * checks the inputed text in the textfields one after the other.
      */
     private void checkInput(){
+        long selectedDate = choose.getSelectedDate().getTimeInMillis();
+        if(time.getAlarmStartDate().getTime() < selectedDate){
+            time.setStartDate(new Timestamp(selectedDate));
+            Calendar date = Calendar.getInstance();
+            date.setTimeInMillis(time.getStartDate().getTime());
+            choose.setSelectedDate(date);
+        }
         try{
             time.setStartHour(checkInputForTextField(tfHour1, 23));
         }catch (IllegalStateException e){}
@@ -257,8 +305,6 @@ public class TimePicker extends javax.swing.JPanel {
         try{
             time.setEndMinute(checkInputForTextField(tfMinute, 59));
         }catch (IllegalStateException ex){}
-        
-        
     }
     
     /**

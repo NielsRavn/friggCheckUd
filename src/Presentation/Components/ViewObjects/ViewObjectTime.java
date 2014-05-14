@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Locale;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -33,7 +34,7 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
     Calendar endDate;
     MyTime time;
     
-    JLabel lblTimeStart, lblTimeEnd;
+    JLabel lblTimeStart, lblTimeEnd, lblDate ;
             
     public ViewObjectTime(Timestamp date){
         this.date = Calendar.getInstance();
@@ -44,7 +45,7 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
         int startMin = this.date.get(Calendar.MINUTE);
         int endHour = endDate.get(Calendar.HOUR_OF_DAY);
         int endMin = endDate.get(Calendar.MINUTE);
-        time = new MyTime(startHour, startMin, endHour, endMin);
+        time = new MyTime(date, date, startHour, startMin, endHour, endMin);
         fillData();
     }
     
@@ -55,7 +56,7 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
         Font topFont = new Font("Verdana", Font.PLAIN, 50);
         JLabel lblDateString = new JLabel("Dato: ");
         lblDateString.setFont(topFont);
-        JLabel lblDate = new JLabel(date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+"-"+date.get(Calendar.YEAR));
+        lblDate = new JLabel(date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+"-"+date.get(Calendar.YEAR));
         lblDate.setFont(topFont);
         topPanel.add(lblDateString);
         topPanel.add(lblDate);
@@ -101,16 +102,29 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
     @Override
     public void timeChanged(MyTime inTime) {
         time = inTime;
+        date.setTimeInMillis(inTime.getStartDate().getTime());
+        lblDate.setText(date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+"-"+date.get(Calendar.YEAR));
         lblTimeStart.setText(MyUtil.p0(time.getStartHour()) + ":" + MyUtil.p0(time.getStartMinute()));
         lblTimeEnd.setText(MyUtil.p0(time.getEndHour()) + ":" + MyUtil.p0(time.getEndMinute()));
         repaint();
     }
     
-    public Time getEndTime(){
-        return new Time(time.getEndHour(), time.getEndMinute(), 0);
+    public Timestamp getEndTime(){
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(time.getStartDate().getTime());
+        if(time.getEndHour() < time.getStartHour() || (time.getEndHour() == time.getStartHour() && time.getEndMinute() < time.getStartMinute())){
+            date.set(Calendar.DAY_OF_YEAR, date.get(Calendar.DAY_OF_YEAR)+1);
+        }
+        date.set(Calendar.HOUR_OF_DAY, time.getEndHour());
+        date.set(Calendar.MINUTE, time.getEndMinute());
+        return new Timestamp(date.getTimeInMillis());
     }
     
-    public Time getStartTime(){
-        return new Time(time.getStartHour(), time.getStartMinute(), 0);
+    public Timestamp getStartTime(){
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(time.getStartDate().getTime());
+        date.set(Calendar.HOUR_OF_DAY, time.getStartHour());
+        date.set(Calendar.MINUTE, time.getStartMinute());
+        return new Timestamp(date.getTimeInMillis());
     }
 }
