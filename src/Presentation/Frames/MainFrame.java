@@ -321,7 +321,7 @@ public class MainFrame extends JFrame {
         }
         
         approveListPanel.addViewObject(new ViewObjectTime(voa.getTime()));
-        approveListPanel.addViewObject(new ViewObjectComment(approveListPanel));
+        approveListPanel.addViewObject(new ViewObjectComment(this));
 
     }
 

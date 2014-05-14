@@ -7,6 +7,7 @@
 package Presentation.Components.ViewObjects;
 
 import Presentation.Components.ListPanel;
+import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,8 +28,8 @@ public class ViewObjectComment extends ViewObject{
     JButton btnExpandComment;
     JTextArea taComment;
     JLabel lblText;
-    ListPanel parent;
-    public ViewObjectComment(ListPanel parent){
+    MainFrame parent;
+    public ViewObjectComment(MainFrame parent){
         this.parent = parent;
         setLayout(new BorderLayout());
         btnExpandComment = new JButton("<html><body marginwidth=30 marginheight=20>Add comment</body></html>");

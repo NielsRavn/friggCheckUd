@@ -69,7 +69,6 @@ public class Comment_Access extends DatabaseConnection{
                 con.close();
             }
         }
-        System.out.println("SUCCES");
         return comments;
     }
     
