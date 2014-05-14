@@ -41,9 +41,8 @@ public class Comment_Access extends DatabaseConnection{
             con = getConnection();
 
             Statement stmnt = con.createStatement();
-            ResultSet rs = stmnt.executeQuery("SELECT * FROM TimeSheetComment "
-                                                + "INNER JOIN Comment ON TimeSheetComment.commentId = Comment.id "
-                                                + "INNER JOIN Fireman ON TimeSheetComment.firemanId = Fireman.employeeId "
+            ResultSet rs = stmnt.executeQuery("SELECT Comment.id as cId,* FROM Comment "
+                                                + "INNER JOIN Fireman ON comment.firemanId = Fireman.employeeId "
                                                 + "WHERE timeSheetId = "+ timeSheetId +";");
             while(rs.next())
             {
@@ -57,8 +56,8 @@ public class Comment_Access extends DatabaseConnection{
                 Fireman fireman = new Fireman(userId, firstName, lastName, teamleader, driver);
                 
                 //Comment
-                int cId = rs.getInt("commentId");
-                String comment = rs.getString("comment");
+                int cId = rs.getInt("cId");
+                String comment = rs.getString("Comment");
                 
                 Comment c = new Comment(cId, fireman, comment);
                 comments.add(c);
@@ -86,8 +85,8 @@ public class Comment_Access extends DatabaseConnection{
             con = getConnection();
             Statement query = con.createStatement();
             
-            query.executeUpdate("Insert into Comment VALUES ( '"
-                            + c.getComment()+ "') ",Statement.RETURN_GENERATED_KEYS);
+            query.executeUpdate("Insert into Comment VALUES ( "
+                            + tsId +","+c.getFireman().getID() + ",'" + c.getComment()+ "') ",Statement.RETURN_GENERATED_KEYS);
             ResultSet result = query.getGeneratedKeys();
             if(result.next()){
                 c.setId(result.getInt(1));
@@ -97,11 +96,6 @@ public class Comment_Access extends DatabaseConnection{
                 throw new SQLException ("Creating car model failed, id returned.");
 
             }
-            query.executeUpdate("Insert into TimeSheetComment VALUES ( "
-                            + tsId+ ", "
-                            + c.getFireman().getID()+ ", "
-                            + c.getId()+  ") ");
-
         }
         finally
         {
