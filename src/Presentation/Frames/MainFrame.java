@@ -7,6 +7,7 @@ package Presentation.Frames;
 
 import BE.Alarm;
 import BE.Car;
+import BE.Comment;
 import BE.Equipment;
 import BE.MyTime;
 import BE.Position;
@@ -320,7 +321,7 @@ public class MainFrame extends JFrame {
         }
         
         approveListPanel.addViewObject(new ViewObjectTime(voa.getTime()));
-        approveListPanel.addViewObject(new ViewObjectComment());
+        approveListPanel.addViewObject(new ViewObjectComment(approveListPanel));
 
     }
 
@@ -546,6 +547,17 @@ public class MainFrame extends JFrame {
                     Timestamp startTime = vot.getStartTime();
                     
                     Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, 0, new ArrayList());
+                    String comment = null;
+                    for(ViewObject vo: approveListPanel.getAllViewObject()){
+                        if(vo.getClass() == ViewObjectComment.class){
+                            ViewObjectComment voc = (ViewObjectComment)vo;
+                            comment = voc.getComment();
+                        }
+                    }
+                    if(!comment.equals("")){
+                        ts.addComments(new Comment(li.getFireman(), comment));
+                    }
+                    
                     try {
                         tsa.addTimeSheet(ts);
                     } catch (SQLException ex) {
