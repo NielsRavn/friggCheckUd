@@ -9,12 +9,14 @@ package BE;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 /**
  *
  * @author Susanne
  */
 public class Time_Sheet implements IViewObjectBE{
+    private int id;
     private int employeeID;
     private int alarmID;
     private int carNr;
@@ -24,8 +26,9 @@ public class Time_Sheet implements IViewObjectBE{
     private Alarm alarm;
     private Car car;
     private Station station;
-    private Time startTime, endTime;
-    private boolean accepted;
+    private Timestamp startTime, endTime;
+    private int accepted;
+    private ArrayList<Comment> comments;
     /**
      * 
      * @param employeeID
@@ -36,7 +39,8 @@ public class Time_Sheet implements IViewObjectBE{
      * @param endTime
      * @param accepted 
      */
-    public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Time startTime, Time endTime, boolean accepted) {
+    public Time_Sheet(int id, int employeeID, int alarmID, int carNr, int positionID, Timestamp startTime, Timestamp endTime, int accepted, ArrayList<Comment> comments) {
+        this.id = id;
         this.employeeID = employeeID;
         this.alarmID = alarmID;
         this.carNr = carNr;
@@ -44,6 +48,17 @@ public class Time_Sheet implements IViewObjectBE{
         this.startTime = startTime;
         this.endTime = endTime;
         this.accepted = accepted;
+        comments = new ArrayList();
+    }
+    public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Timestamp startTime, Timestamp endTime, int accepted, ArrayList<Comment> comments) {
+        this.employeeID = employeeID;
+        this.alarmID = alarmID;
+        this.carNr = carNr;
+        this.positionID = positionID;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.accepted = accepted;
+        comments = new ArrayList();
     }
     /**
      * 
@@ -54,13 +69,15 @@ public class Time_Sheet implements IViewObjectBE{
      * @param startTime
      * @param endTime 
      */
-    public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Time startTime, Time endTime) {
+    public Time_Sheet(int id, int employeeID, int alarmID, int carNr, int positionID, Timestamp startTime, Timestamp endTime, ArrayList<Comment> comments) {
+        this.id = id;
         this.employeeID = employeeID;
         this.alarmID = alarmID;
         this.carNr = carNr;
         this.positionID = positionID;
         this.startTime = startTime;
         this.endTime = endTime;
+        comments = new ArrayList();
     }
     /**
      * 
@@ -71,13 +88,15 @@ public class Time_Sheet implements IViewObjectBE{
      * @param startTime
      * @param endTime 
      */
-    public Time_Sheet(int employeeID, int alarmID, int carNr, Position position, Time startTime, Time endTime) {
+    public Time_Sheet(int id, int employeeID, int alarmID, int carNr, Position position, Timestamp startTime, Timestamp endTime, ArrayList<Comment> comments) {
+        this.id = id;
         this.employeeID = employeeID;
         this.alarmID = alarmID;
         this.carNr = carNr;
         this.position = position;
         this.startTime = startTime;
         this.endTime = endTime;
+        comments = new ArrayList();
     }
     /**
      * 
@@ -89,7 +108,8 @@ public class Time_Sheet implements IViewObjectBE{
      * @param endTime
      * @param firemenPositionId 
      */
-    public Time_Sheet(Fireman a, Alarm b, Car c, Position d, Time startTime, Time endTime, int firemenPositionId) {
+    public Time_Sheet(int id, Fireman a, Alarm b, Car c, Position d, Timestamp startTime, Timestamp endTime, int firemenPositionId, ArrayList<Comment> comments) {
+        this.id = id;
         this.fireman = a;
         this.alarm = b;
         this.car = c;
@@ -97,6 +117,7 @@ public class Time_Sheet implements IViewObjectBE{
         this.startTime = startTime;
         this.endTime = endTime;
         this.positionID = firemenPositionId;
+        comments = new ArrayList();
     }
    /**
     * 
@@ -108,7 +129,8 @@ public class Time_Sheet implements IViewObjectBE{
     * @param endTime
     * @param firemenPositionId 
     */
-    public Time_Sheet(Fireman a, Alarm b, Station c, Position d, Time startTime, Time endTime, int firemenPositionId) {
+    public Time_Sheet(int id, Fireman a, Alarm b, Station c, Position d, Timestamp startTime, Timestamp endTime, int firemenPositionId, ArrayList<Comment> comments) {
+        this.id = id;
         this.fireman = a;
         this.alarm = b;
         this.station = c;
@@ -116,16 +138,49 @@ public class Time_Sheet implements IViewObjectBE{
         this.startTime = startTime;
         this.endTime = endTime;
         this.positionID = firemenPositionId;
+        comments = new ArrayList();
+    }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void addComments(Comment comment) {
+        comments.add(comment);
+    }
+    
+    public void removeComments(Comment comment) {
+        comments.remove(comment);
     }
     
     
-    public Time getStartTime() {
+    
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
+    
+    
+    /**
+     * Gets the ID for a time sheet
+     * @return the id of the time sheet 
+     */
+    public int getId() {
+        return id;
+    }
+    
+    /**
+     * Sets the ID for a time sheet 
+     * @param id the id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
 
    
 
@@ -188,28 +243,28 @@ public class Time_Sheet implements IViewObjectBE{
     /**
      * @return the endTime
      */
-    public Time getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
     /**
      * @param endTime the endTime to set
      */
-    public void setEndTime(Time endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 
     /**
      * @return the accepted
      */
-    public boolean isAccepted() {
+    public int isAccepted() {
         return accepted;
     }
 
     /**
      * @param accepted the accepted to set
      */
-    public void setAccepted(boolean accepted) {
+    public void setAccepted(int accepted) {
         this.accepted = accepted;
     }
 

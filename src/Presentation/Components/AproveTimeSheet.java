@@ -18,7 +18,6 @@ import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
 import Presentation.Components.ViewObjects.ViewObjectTime;
 import Presentation.Components.ViewObjects.ViewObjectTimeSheet;
-import Presentation.Components.ViewObjects.ViewObjectTimeSheetStationDuty;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
@@ -116,6 +115,7 @@ public class AproveTimeSheet extends javax.swing.JPanel {
        
         }catch(SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+            ex.printStackTrace();
         }
         for(Alarm a : alarms){
                 list.addViewObject(vof.getViewObject(a));
@@ -132,11 +132,9 @@ public class AproveTimeSheet extends javax.swing.JPanel {
         try {
             timeSheet = tsa.getDataForAproval(alarmId);
             timeSheetStatinsduty = tsa.stationsVagt(alarmId);
-        // list.addViewObject(new ViewObjectTimeSheet(timeSheet));
             
-            //here lays the logic for showing the timesheets order by cars
+            //here lays the logic for showing the timesheets order by cars and station duty
             ArrayList<ViewObjectTimeSheet> vos = new ArrayList<>();
-            ArrayList<ViewObjectTimeSheetStationDuty> vossd = new ArrayList<>();
             for(Time_Sheet a : timeSheet)
             {
                 boolean carFound = false;
@@ -144,35 +142,25 @@ public class AproveTimeSheet extends javax.swing.JPanel {
                     if(v.getCar() != null && v.getCarId() == a.getCar().getCarNr()){
                         carFound = true;
                         populateFiremenViewObject(a, v);
-                            
                     }
-                   
-                        
                 }
                 if(!carFound){
-                    ViewObjectTimeSheet vots = new ViewObjectTimeSheet(a.getCar());
+                    ViewObjectTimeSheet vots = new ViewObjectTimeSheet(a);
                     populateFiremenViewObject(a, vots);
                     vos.add(vots);
                     list.addViewObject(vots);
-                    
                 }
-                
             }
-            ViewObjectTimeSheetStationDuty v;
+            ViewObjectTimeSheet v;
             if(timeSheetStatinsduty.size() > 0){
-                v = new ViewObjectTimeSheetStationDuty(MyConstants.STATION_DUTY_VIEW);
+                v = new ViewObjectTimeSheet(timeSheetStatinsduty.get(0));
                 for(Time_Sheet b : timeSheetStatinsduty)
                 {
-
                     v.addStationDuty(b);
                     list.addViewObject(v);
                 }
             }
-            
-            
-            
-        
-        } catch (SQLException ex) {
+       } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
         

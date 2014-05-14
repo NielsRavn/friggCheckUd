@@ -7,6 +7,7 @@ package Presentation.Frames;
 
 import BE.Alarm;
 import BE.Car;
+import BE.Comment;
 import BE.Equipment;
 import BE.MyTime;
 import BE.Position;
@@ -28,6 +29,7 @@ import Presentation.Components.TimePicker;
 import Presentation.Components.ViewObjects.ViewObject;
 import Presentation.Components.ViewObjects.ViewObjectAlarm;
 import Presentation.Components.ViewObjects.ViewObjectCar;
+import Presentation.Components.ViewObjects.ViewObjectComment;
 import Presentation.Components.ViewObjects.ViewObjectEquipmentStatus;
 import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Components.ViewObjects.ViewObjectPosition;
@@ -44,6 +46,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -270,7 +273,7 @@ public class MainFrame extends JFrame {
         JPanel approvePanel = new JPanel();
         approvePanel.setLayout(new BorderLayout());
 
-        approveListPanel = new ListPanel(false);
+        approveListPanel = new ListPanel(true);
         approvePanel.add(approveListPanel, BorderLayout.CENTER);
 
         JPanel footer = new JPanel();
@@ -318,6 +321,7 @@ public class MainFrame extends JFrame {
         }
         
         approveListPanel.addViewObject(new ViewObjectTime(voa.getTime()));
+        approveListPanel.addViewObject(new ViewObjectComment(approveListPanel));
 
     }
 
@@ -478,8 +482,8 @@ public class MainFrame extends JFrame {
                 approveListPanel.clearList();
                 fillApproveListPanel();
                 tv.setSelectedComponent(approvePanel);
-
-            } else {
+ 
+            } else { 
                 tv.setSelectedComponent(mfl.getNextPanel());
             }
 
@@ -539,14 +543,26 @@ public class MainFrame extends JFrame {
                         positionId = vop.getPosition().getID();
                     }
                     
-                    Time endTime = vot.getEndTime();
-                    Time startTime = vot.getStartTime();
+                    Timestamp endTime = vot.getEndTime();
+                    Timestamp startTime = vot.getStartTime();
                     
-                    Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, false);
+                    Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, 0, new ArrayList());
+                    String comment = null;
+                    for(ViewObject vo: approveListPanel.getAllViewObject()){
+                        if(vo.getClass() == ViewObjectComment.class){
+                            ViewObjectComment voc = (ViewObjectComment)vo;
+                            comment = voc.getComment();
+                        }
+                    }
+                    if(!comment.equals("")){
+                        ts.addComments(new Comment(li.getFireman(), comment));
+                    }
+                    
                     try {
                         tsa.addTimeSheet(ts);
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(rootPane, "Du kan ikke meddle dig på samme alram 2 gange.");
+                        //ex.printStackTrace();
+                        JOptionPane.showMessageDialog(rootPane, "Du kan ikke melde dig på samme alarm 2 gange.");
                     }
                     logOut();
                 }

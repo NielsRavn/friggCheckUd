@@ -37,7 +37,7 @@ public class TimeSheet_AccessLink {
      */
     public ArrayList<Time_Sheet> getTimeSheet(int id) throws SQLException
     {
-        return ta.getTimeSheetsbyFiremanId(id);
+        return ta.getUnaccedtedTimeSheetsbyFiremanIdInPositionTeamleader(id);
     }
     /**
      * 
@@ -49,7 +49,7 @@ public class TimeSheet_AccessLink {
     }
 
     public ArrayList<Time_Sheet> getTimeSheetsbyFiremanId(int firemanId) throws SQLException {
-        return ta.getTimeSheetsbyFiremanId(firemanId);
+        return ta.getUnaccedtedTimeSheetsbyFiremanIdInPositionTeamleader(firemanId);
     }
 
     public ArrayList<Time_Sheet> getDataForAproval(int alarmId) throws SQLException {

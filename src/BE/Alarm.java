@@ -21,6 +21,7 @@ public class Alarm implements IViewObjectBE{
     private Timestamp time;
     private boolean accepted;
     
+    
     public Alarm (int ID, int odinNr, String distination, String type, Timestamp time, boolean accepted) {
     this.ID = ID;
     this.odinNr = odinNr;
