@@ -135,6 +135,13 @@ public class ListPanel extends javax.swing.JPanel {
         //model.addElement(object);
     }
 
+    public void myRepaint() {
+        JViewport viewPort = jScrollPane1.getViewport();
+        Point scrollPosition = viewPort.getViewPosition();
+        scrollPosition.y += 100;
+        viewPort.setViewPosition(scrollPosition);
+    }
+
     private class MyTableCellRenderer extends JPanel implements TableCellRenderer {
 
         @Override
