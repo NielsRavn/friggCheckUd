@@ -99,7 +99,7 @@ public class Time_Sheet implements IViewObjectBE{
         this.comments = comments;
     }
     /**
-     * 
+     * Is used with approve timesheeet with timesheets for firemen/teamleaders/drivers
      * @param a
      * @param b
      * @param c
@@ -108,7 +108,7 @@ public class Time_Sheet implements IViewObjectBE{
      * @param endTime
      * @param firemenPositionId 
      */
-    public Time_Sheet(int id, Fireman a, Alarm b, Car c, Position d, Timestamp startTime, Timestamp endTime, int firemenPositionId, ArrayList<Comment> comments) {
+    public Time_Sheet(int id, Fireman a, Alarm b, Car c, Position d, Timestamp startTime, Timestamp endTime, int firemenPositionId, ArrayList<Comment> comments, int accepted) {
         this.id = id;
         this.fireman = a;
         this.alarm = b;
@@ -118,9 +118,10 @@ public class Time_Sheet implements IViewObjectBE{
         this.endTime = endTime;
         this.positionID = firemenPositionId;
         this.comments = comments;
+        this.accepted = accepted;
     }
    /**
-    * 
+    * Is used with approve timesheeet with timesheets for stations duty
     * @param a
     * @param b
     * @param c
@@ -129,7 +130,7 @@ public class Time_Sheet implements IViewObjectBE{
     * @param endTime
     * @param firemenPositionId 
     */
-    public Time_Sheet(int id, Fireman a, Alarm b, Station c, Position d, Timestamp startTime, Timestamp endTime, int firemenPositionId, ArrayList<Comment> comments) {
+    public Time_Sheet(int id, Fireman a, Alarm b, Station c, Position d, Timestamp startTime, Timestamp endTime, int firemenPositionId, ArrayList<Comment> comments, int accepted) {
         this.id = id;
         this.fireman = a;
         this.alarm = b;
@@ -139,6 +140,7 @@ public class Time_Sheet implements IViewObjectBE{
         this.endTime = endTime;
         this.positionID = firemenPositionId;
         this.comments = comments;
+        this.accepted = accepted;
     }
 
     public ArrayList<Comment> getComments() {

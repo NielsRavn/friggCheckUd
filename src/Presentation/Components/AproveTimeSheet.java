@@ -103,7 +103,7 @@ public class AproveTimeSheet extends javax.swing.JPanel {
     {
         ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
         
-        ListPanel list = new ListPanel(false);
+        ListPanel list = new ListPanel(true);
         ArrayList<Alarm> alarms = new ArrayList<Alarm>();
         try{
             timeSheet = tsa.getTimeSheetsbyFiremanId(firemanId);
@@ -128,7 +128,7 @@ public class AproveTimeSheet extends javax.swing.JPanel {
     {
         ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
         ArrayList<Time_Sheet> timeSheetStatinsduty = new ArrayList<Time_Sheet>();
-        ListPanel list = new ListPanel(false);
+        ListPanel list = new ListPanel(true);
         try {
             timeSheet = tsa.getDataForAproval(alarmId);
             timeSheetStatinsduty = tsa.stationsVagt(alarmId);

@@ -204,6 +204,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                Timestamp startTime = result.getTimestamp("startTime");
                Timestamp endTime = result.getTimestamp("endTime");
                int firemenPositionId = result.getInt("positionId");
+               int isAccepted = result.getInt("acceptedBy");
                
                //Creating the arraylist with data from sql query
                
@@ -215,7 +216,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                Position d = new Position(positionId, positionName);
                
-               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId, ca.getCommentsByTimeSheetId(tsId));
+               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId, ca.getCommentsByTimeSheetId(tsId), isAccepted);
                
                timesheets.add(e);
            }
@@ -282,6 +283,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                Timestamp startTime = result.getTimestamp("startTime");
                Timestamp endTime = result.getTimestamp("endTime");
                int firemenPositionId = result.getInt("positionId");
+               int isAccepted = result.getInt("acceptedBy");
                
                //Creating the arraylist with data from sql query
                
@@ -293,7 +295,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                Position d = new Position(positionId, positionName);
                
-               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId, ca.getCommentsByTimeSheetId(tsId));
+               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId, ca.getCommentsByTimeSheetId(tsId), isAccepted);
                
                timesheets.add(e);
            }

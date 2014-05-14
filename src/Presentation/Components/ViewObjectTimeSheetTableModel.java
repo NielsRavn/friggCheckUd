@@ -7,16 +7,19 @@
 package Presentation.Components;
 
 import BE.Time_Sheet;
+import BLL.MyUtil;
 import Presentation.Components.ViewObjects.ViewObject;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.swing.table.AbstractTableModel;
 
 /**
  *
  * @author Poul Nielsen
  */
-public class ViewObjectTimeSheetTableModel extends AbstractTableModel{
+    public class ViewObjectTimeSheetTableModel extends AbstractTableModel{
 private ArrayList<Time_Sheet> vos;
+Calendar date = Calendar.getInstance();
     // The names of columns
     private String[] colNames = {"Pos" ,"Navn", "Start", "Slut", "Timer", "Godkend"};
     // The type of columns
@@ -51,6 +54,7 @@ private ArrayList<Time_Sheet> vos;
     }
 
     
+    
     /**
      * Gets the value at a given cell in the model
      * @param row the row of the cell
@@ -66,22 +70,49 @@ private ArrayList<Time_Sheet> vos;
             case 1:
                 return vo.getFireman().getFirstName() + " " + vo.getFireman().getLastName();
             case 2:
-                return vo.getStartTime();
+                
+                date.setTimeInMillis(vo.getStartTime().getTime());
+                return "" + date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+" " + MyUtil.p0(date.get(Calendar.HOUR_OF_DAY)) + ":" + MyUtil.p0(date.get(Calendar.MINUTE));
             case 3:
-                return vo.getEndTime();
+                date.setTimeInMillis(vo.getEndTime().getTime());
+                return "" + date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+" " + MyUtil.p0(date.get(Calendar.HOUR_OF_DAY)) + ":" + MyUtil.p0(date.get(Calendar.MINUTE));
             case 4:
                 return 1;
             case 5:
-                return false;
+                
+                if(vo.isAccepted() != 0){
+                    return true;
+                }else{
+                    return false;
+                }
+                
         }
 
         return null;
     }
 
     @Override
-    public String getColumnName(int col) {
+    public void setValueAt(Object o, int row, int col) {
+       Time_Sheet vo = vos.get(row);
+        switch (col) {
+            case 5:
+                if(vo.isAccepted() == 0)
+                {
+                    vo.setAccepted(1);
+                }
+                else
+                {
+                    vo.setAccepted(0);
+                }
+            break;
+        }
+                
+    }
 
-        return colNames[col];
+    
+    @Override
+    public String getColumnName(int col) {
+         return colNames[col];
     }
 
     /**
@@ -91,7 +122,8 @@ private ArrayList<Time_Sheet> vos;
      */
     @Override
     public Class<?> getColumnClass(int col) {
-        return classes[col];
+        return getValueAt(0, col).getClass();
+        //return classes[col];
     }
 
     @Override

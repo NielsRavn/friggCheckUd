@@ -11,8 +11,11 @@ import BE.Car;
 import BE.Fireman;
 import BE.Station;
 import BE.Time_Sheet;
+import Presentation.Components.ListPanel;
+import Presentation.Components.ViewObjectTimeSheetTableModel;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -20,11 +23,13 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import Presentation.Components.ViewObjectTimeSheetTableModel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -41,6 +46,7 @@ public class ViewObjectTimeSheet extends ViewObject {
     ArrayList<Time_Sheet> sd;
     public int getCarId;
     int FZ = 30;
+    JTable firemen;
     
     public ViewObjectTimeSheet( Time_Sheet timesheet) {
         this.car = timesheet.getCar();
@@ -64,7 +70,8 @@ public class ViewObjectTimeSheet extends ViewObject {
         JPanel center = new JPanel();
         center.setLayout(new BorderLayout());
         GridBagConstraints c = new GridBagConstraints();
-        JTable firemen = new JTable();
+        firemen = new JTable();
+        firemen.setRowHeight(28);
         JScrollPane scrl = new JScrollPane();
         scrl.setViewportView(firemen);
         firemen.setModel(model);
@@ -115,9 +122,41 @@ public class ViewObjectTimeSheet extends ViewObject {
         add(vest , BorderLayout.WEST);
         add(center , BorderLayout.CENTER);
         
-        
+        addCellRenderers();
+    }
+
+    private void addCellRenderers() {
+        TableColumn titleCol = firemen.getColumnModel().getColumn(0);
+        titleCol.setPreferredWidth(80);
+        TableColumn nameCol = firemen.getColumnModel().getColumn(1);
+        nameCol.setPreferredWidth(180);
+        TableColumn startCol = firemen.getColumnModel().getColumn(2);
+        startCol.setPreferredWidth(120);
+        TableColumn endCol = firemen.getColumnModel().getColumn(3);
+        endCol.setPreferredWidth(120);
+        TableColumn timeCol = firemen.getColumnModel().getColumn(4);
+        timeCol.setPreferredWidth(20);
+        TableColumn checkbox = firemen.getColumnModel().getColumn(5);
+        checkbox.setPreferredWidth(40);
+        titleCol.setCellRenderer(new TimeSheetTableRendere());
+        nameCol.setCellRenderer(new TimeSheetTableRendere());
+        startCol.setCellRenderer(new TimeSheetTableRendere());
+        endCol.setCellRenderer(new TimeSheetTableRendere());
+        timeCol.setCellRenderer(new TimeSheetTableRendere());
     }
     
+
+    private class TimeSheetTableRendere extends DefaultTableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            
+            JLabel lbl = new JLabel(value.toString());
+            lbl.setFont(MyConstants.FONT_HEADER_TEXT);
+            return lbl;
+        }
+        
+    }
           
 
     public Object getCar() {
@@ -148,8 +187,6 @@ public class ViewObjectTimeSheet extends ViewObject {
     public int getCarId() {
         return car.getCarNr();
     }
-
-    
     
     
 }
