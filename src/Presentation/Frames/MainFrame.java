@@ -554,14 +554,15 @@ public class MainFrame extends JFrame {
                             comment = voc.getComment();
                         }
                     }
-                    if(!comment.equals("")){
+                    if(!comment.equals("") && comment != null){
                         ts.addComments(new Comment(li.getFireman(), comment));
                     }
                     
                     try {
                         tsa.addTimeSheet(ts);
                     } catch (SQLException ex) {
-                        //ex.printStackTrace();
+                        ex.printStackTrace();
+                        
                         JOptionPane.showMessageDialog(rootPane, "Du kan ikke melde dig på samme alarm 2 gange.");
                     }
                     logOut();

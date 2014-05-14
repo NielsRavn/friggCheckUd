@@ -48,7 +48,7 @@ public class Time_Sheet implements IViewObjectBE{
         this.startTime = startTime;
         this.endTime = endTime;
         this.accepted = accepted;
-        comments = new ArrayList();
+        this.comments = comments;
     }
     public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Timestamp startTime, Timestamp endTime, int accepted, ArrayList<Comment> comments) {
         this.employeeID = employeeID;
@@ -58,7 +58,7 @@ public class Time_Sheet implements IViewObjectBE{
         this.startTime = startTime;
         this.endTime = endTime;
         this.accepted = accepted;
-        comments = new ArrayList();
+        this.comments = comments;
     }
     /**
      * 
@@ -77,7 +77,7 @@ public class Time_Sheet implements IViewObjectBE{
         this.positionID = positionID;
         this.startTime = startTime;
         this.endTime = endTime;
-        comments = new ArrayList();
+        this.comments = comments;
     }
     /**
      * 
@@ -96,7 +96,7 @@ public class Time_Sheet implements IViewObjectBE{
         this.position = position;
         this.startTime = startTime;
         this.endTime = endTime;
-        comments = new ArrayList();
+        this.comments = comments;
     }
     /**
      * 
@@ -117,7 +117,7 @@ public class Time_Sheet implements IViewObjectBE{
         this.startTime = startTime;
         this.endTime = endTime;
         this.positionID = firemenPositionId;
-        comments = new ArrayList();
+        this.comments = comments;
     }
    /**
     * 
@@ -138,7 +138,7 @@ public class Time_Sheet implements IViewObjectBE{
         this.startTime = startTime;
         this.endTime = endTime;
         this.positionID = firemenPositionId;
-        comments = new ArrayList();
+        this.comments = comments;
     }
 
     public ArrayList<Comment> getComments() {

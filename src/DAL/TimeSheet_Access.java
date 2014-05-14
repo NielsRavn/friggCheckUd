@@ -92,7 +92,15 @@ public class TimeSheet_Access extends DatabaseConnection{
             con = getConnection();
             Statement query = con.createStatement();
             if(ts.getCarNr() == 0){
-                int id = query.executeUpdate("Insert into TimeSheet Values ( "
+                System.out.println("Insert into TimeSheet Values ( "
+                         + ts.getEmployeeID()+ ", "
+                        + ts.getAlarmID()+ ", "
+                        + "NULL"+","
+                        + ts.getPositionID() + ",'"
+                        + ts.getStartTime() + "','"
+                        + ts.getEndTime() + "'," 
+                        + "NULL"+ ") ");
+                query.executeUpdate("Insert into TimeSheet Values ( "
                          + ts.getEmployeeID()+ ", "
                         + ts.getAlarmID()+ ", "
                         + "NULL"+","
@@ -100,10 +108,26 @@ public class TimeSheet_Access extends DatabaseConnection{
                         + ts.getStartTime() + "','"
                         + ts.getEndTime() + "'," 
                         + "NULL"+ ") ",Statement.RETURN_GENERATED_KEYS);
-                ts.setId(id);
+                ResultSet result = query.getGeneratedKeys();
+                if(result.next()){
+                    ts.setId(result.getInt(1));
+                }
+                else
+                {
+                    throw new SQLException ("Creating car model failed, id returned.");
+
+                }
                 
             }else{
-                int id = query.executeUpdate("Insert into TimeSheet Values ( "
+                System.out.println("Insert into TimeSheet Values ( "
+                         + ts.getEmployeeID()+ ", "
+                        + ts.getAlarmID()+ ", "
+                        + ts.getCarNr()+","
+                        + ts.getPositionID() + ",'"
+                        + ts.getStartTime() + "','"
+                        + ts.getEndTime() + "'," 
+                        + "NULL"+ ") ");
+                query.executeUpdate("Insert into TimeSheet Values ( "
                          + ts.getEmployeeID()+ ", "
                         + ts.getAlarmID()+ ", "
                         + ts.getCarNr()+","
@@ -111,7 +135,15 @@ public class TimeSheet_Access extends DatabaseConnection{
                         + ts.getStartTime() + "','"
                         + ts.getEndTime() + "'," 
                         + "NULL"+ ") ",Statement.RETURN_GENERATED_KEYS);
-                ts.setId(id);
+                ResultSet result = query.getGeneratedKeys();
+                if(result.next()){
+                    ts.setId(result.getInt(1));
+                }
+                else
+                {
+                    throw new SQLException ("Creating car model failed, id returned.");
+
+                }
             }
             
            
