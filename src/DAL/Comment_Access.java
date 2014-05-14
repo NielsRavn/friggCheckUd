@@ -85,8 +85,6 @@ public class Comment_Access extends DatabaseConnection{
         {
             con = getConnection();
             Statement query = con.createStatement();
-            System.out.println("Insert into Comment VALUES ( '"
-                            + c.getComment()+ "') ");
             
             query.executeUpdate("Insert into Comment VALUES ( '"
                             + c.getComment()+ "') ",Statement.RETURN_GENERATED_KEYS);
@@ -99,11 +97,6 @@ public class Comment_Access extends DatabaseConnection{
                 throw new SQLException ("Creating car model failed, id returned.");
 
             }
-            System.out.println(c.getId());
-            System.out.println("Insert into TimeSheetComment VALUES ( "
-                            + tsId+ ", "
-                            + c.getFireman().getID()+ ", "
-                            + c.getId()+  ") ");
             query.executeUpdate("Insert into TimeSheetComment VALUES ( "
                             + tsId+ ", "
                             + c.getFireman().getID()+ ", "

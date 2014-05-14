@@ -119,14 +119,6 @@ public class TimeSheet_Access extends DatabaseConnection{
                 }
                 
             }else{
-                System.out.println("Insert into TimeSheet Values ( "
-                         + ts.getEmployeeID()+ ", "
-                        + ts.getAlarmID()+ ", "
-                        + ts.getCarNr()+","
-                        + ts.getPositionID() + ",'"
-                        + ts.getStartTime() + "','"
-                        + ts.getEndTime() + "'," 
-                        + "NULL"+ ") ");
                 query.executeUpdate("Insert into TimeSheet Values ( "
                          + ts.getEmployeeID()+ ", "
                         + ts.getAlarmID()+ ", "
