@@ -8,6 +8,7 @@ package DAL;
 
 import BE.Alarm;
 import BE.Car;
+import BE.Comment;
 import BE.Fireman;
 import BE.Position;
 import BE.Station;
@@ -32,11 +33,13 @@ import javax.swing.ImageIcon;
 public class TimeSheet_Access extends DatabaseConnection{
   
     Position_Access pa;
+    Comment_Access ca;
     
     public TimeSheet_Access() throws IOException
     {
         super();
         pa = new Position_Access();
+        ca = new Comment_Access();
     }
     
     /**
@@ -65,7 +68,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                Timestamp startTime = result.getTimestamp("startTime");
                Timestamp endtime = result.getTimestamp("endTime");
                
-               Time_Sheet c = new Time_Sheet(tsId, employeeId, alarmId, carNr, pos, startTime, endtime);
+               Time_Sheet c = new Time_Sheet(tsId, employeeId, alarmId, carNr, pos, startTime, endtime, ca.getCommentsByTimeSheetId(tsId));
                timesheets.add(c);
                
            }
@@ -110,6 +113,12 @@ public class TimeSheet_Access extends DatabaseConnection{
                         + "NULL"+ ") ",Statement.RETURN_GENERATED_KEYS);
                 ts.setId(id);
             }
+            
+           
+            for(Comment c : ts.getComments()){
+                ca.addCommentToTimesheet(c, ts.getId());
+            }
+
 
         }
         finally
@@ -182,7 +191,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                Position d = new Position(positionId, positionName);
                
-               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId);
+               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId, ca.getCommentsByTimeSheetId(tsId));
                
                timesheets.add(e);
            }
@@ -260,7 +269,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                Position d = new Position(positionId, positionName);
                
-               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId);
+               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId, ca.getCommentsByTimeSheetId(tsId));
                
                timesheets.add(e);
            }

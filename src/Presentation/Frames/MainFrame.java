@@ -545,7 +545,7 @@ public class MainFrame extends JFrame {
                     Timestamp endTime = vot.getEndTime();
                     Timestamp startTime = vot.getStartTime();
                     
-                    Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, 0);
+                    Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, 0, new ArrayList());
                     try {
                         tsa.addTimeSheet(ts);
                     } catch (SQLException ex) {
