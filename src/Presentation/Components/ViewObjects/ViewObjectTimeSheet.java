@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import Presentation.Components.ViewObjectTimeSheetTableModel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -31,6 +34,7 @@ public class ViewObjectTimeSheet extends ViewObject {
     Alarm alarm;
     Car car;
     Station station;
+    ViewObjectTimeSheetTableModel model;
     ArrayList<Time_Sheet> hl;
     ArrayList<Time_Sheet> ch;
     ArrayList<Time_Sheet> bm;
@@ -41,142 +45,80 @@ public class ViewObjectTimeSheet extends ViewObject {
     public ViewObjectTimeSheet( Time_Sheet timesheet) {
         this.car = timesheet.getCar();
         this.station = timesheet.getStation();
-        setLayout(new GridBagLayout());
+        model = new ViewObjectTimeSheetTableModel();
+        setLayout(new BorderLayout());
         hl = new ArrayList<>();
         ch = new ArrayList<>();
         bm = new ArrayList<>();
         sd = new ArrayList<>();
         
-        fillDatanew();
+        fillData();
     }
     
     
-    private void fillDatanew()
+    private void fillData()
     {
-        JPanel left = new JPanel();
-        left.setLayout(new GridBagLayout());
-        JPanel right = new JPanel();
-        GridBagConstraints gbc = new GridBagConstraints();
+        model.clearList();
+        JPanel vest = new JPanel();
+        vest.setLayout(new GridBagLayout());
+        JPanel center = new JPanel();
+        center.setLayout(new BorderLayout());
         GridBagConstraints c = new GridBagConstraints();
+        JTable firemen = new JTable();
+        JScrollPane scrl = new JScrollPane();
+        scrl.setViewportView(firemen);
+        firemen.setModel(model);
         c.fill = GridBagConstraints.CENTER;
         
                 if(car == null)
                 {
                     c.gridx = 0;
                     c.gridy = 1;
-                    left.add(new JLabel(new ImageIcon(station.getIconPath())), c);
+                    vest.add(new JLabel(new ImageIcon(station.getIconPath())), c);
                     
                     JLabel stationInfo = new JLabel(""+station.getName());
                     stationInfo.setFont(new Font("Verdana", Font.PLAIN, FZ));
                     c.gridx = 0;
                     c.gridy = 0;
-                    left.add(stationInfo, c);
+                    vest.add(stationInfo, c);
                 }
                 else
                 {
                     c.gridx = 0;
                     c.gridy = 1;
-                    left.add(new JLabel(new ImageIcon(car.getIconPath())), c);
+                    vest.add(new JLabel(new ImageIcon(car.getIconPath())), c);
                     
-                    JLabel carInfo = new JLabel(""+car.getCarNr());
+                    JLabel carInfo = new JLabel("Bil Nr.: "+car.getCarNr());
                     carInfo.setFont(new Font("Verdana", Font.PLAIN, FZ));
                     c.gridx = 0;
                     c.gridy = 0;
-                    left.add(carInfo, c);
+                    vest.add(carInfo, c);
                 }
         
                 for(Time_Sheet a : hl)
                 {
-                    JLabel fm = new JLabel("HL : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
-                    fm.setFont(new Font("Verdana", Font.PLAIN, FZ));
-                    right.add(fm);
+                    model.addTimeSheet(a);
                 }
                 for(Time_Sheet a : ch)
                 {
-                    JLabel fm = new JLabel("CH : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
-                    fm.setFont(new Font("Verdana", Font.PLAIN, FZ)); 
-                    right.add(fm);
+                     model.addTimeSheet(a);
                 }
                 for(Time_Sheet a : bm)
                 {
-                    JLabel fm = new JLabel("BM : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
-                    fm.setFont(new Font("Verdana", Font.PLAIN, FZ)); 
-                    right.add(fm);
+                     model.addTimeSheet(a);
                 }
                 for(Time_Sheet a : sd)
                 {
-                    JLabel fm = new JLabel("BM : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
-                    fm.setFont(new Font("Verdana", Font.PLAIN, FZ)); 
-                    right.add(fm);
+                     model.addTimeSheet(a);
                 }
-                
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.LINE_START;
-        add(left, gbc);
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.LINE_END;
-        add(right, gbc);
-        
-        
-    }
-    
-    
-    
-    private void fillData()
-    {
-        JPanel vest = new JPanel();
-        JPanel center = new JPanel();
-        vest.setLayout(new FlowLayout());
-        center.setLayout(new GridLayout(0, 1));
-                
-                if(car == null)
-                {
-                    vest.add(new JLabel(new ImageIcon(station.getIconPath())));
-                    JLabel stationInfo = new JLabel(""+station.getName());
-                    stationInfo.setFont(new Font("Verdana", Font.PLAIN, FZ));
-                    vest.add(stationInfo);
-                }
-                else
-                {
-                    vest.add(new JLabel(new ImageIcon(car.getIconPath())));
-                    JLabel carInfo = new JLabel(""+car.getCarNr());
-                    carInfo.setFont(new Font("Verdana", Font.PLAIN, FZ));
-                    vest.add(carInfo);
-                }
-        
-                
-       
-                for(Time_Sheet a : hl)
-                {
-                    JLabel fm = new JLabel("HL : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
-                    fm.setFont(new Font("Verdana", Font.PLAIN, FZ));
-                    center.add(fm);
-                }
-                for(Time_Sheet a : ch)
-                {
-                    JLabel fm = new JLabel("CH : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
-                    fm.setFont(new Font("Verdana", Font.PLAIN, FZ)); 
-                    center.add(fm);
-                }
-                for(Time_Sheet a : bm)
-                {
-                    JLabel fm = new JLabel("BM : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
-                    fm.setFont(new Font("Verdana", Font.PLAIN, FZ)); 
-                    center.add(fm);
-                }
-                for(Time_Sheet a : sd)
-                {
-                    JLabel fm = new JLabel("BM : "+ a.getFireman().getFirstName()+" "+a.getFireman().getLastName());
-                    fm.setFont(new Font("Verdana", Font.PLAIN, FZ)); 
-                    center.add(fm);
-                }
-               
+        center.add(scrl, BorderLayout.CENTER);
         add(vest , BorderLayout.WEST);
         add(center , BorderLayout.CENTER);
-    }
         
+        
+    }
+    
+          
 
     public Object getCar() {
         return car;
@@ -184,23 +126,23 @@ public class ViewObjectTimeSheet extends ViewObject {
 
     public void addTeamLeader(Time_Sheet a) {
         hl.add(a);
-        fillDatanew();
+        fillData();
     }
 
     public void addDriver(Time_Sheet a) {
         ch.add(a);
-        fillDatanew();
+        fillData();
     }
 
     public void addFireman(Time_Sheet a) {
         bm.add(a);
-        fillDatanew();
+        fillData();
         
     }
     
     public void addStationDuty(Time_Sheet a) {
         sd.add(a);
-        fillDatanew();
+        fillData();
     }
 
     public int getCarId() {
