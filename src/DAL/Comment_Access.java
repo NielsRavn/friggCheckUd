@@ -41,12 +41,12 @@ public class Comment_Access extends DatabaseConnection{
             con = getConnection();
 
             Statement stmnt = con.createStatement();
-            System.out.println("SELECT FROM TimeSheetComment "
+            System.out.println("SELECT * FROM TimeSheetComment "
                                                 + "INNER JOIN Comment ON TimeSheetComment.commentId = Comment.id "
                                                 + "INNER JOIN Fireman ON TimeSheetComment.firemanId = Fireman.employeeId "
                                                 + "WHERE timeSheetId = "+ timeSheetId +";");
             
-            ResultSet rs = stmnt.executeQuery("SELECT FROM TimeSheetComment "
+            ResultSet rs = stmnt.executeQuery("SELECT * FROM TimeSheetComment "
                                                 + "INNER JOIN Comment ON TimeSheetComment.commentId = Comment.id "
                                                 + "INNER JOIN Fireman ON TimeSheetComment.firemanId = Fireman.employeeId "
                                                 + "WHERE timeSheetId = "+ timeSheetId +";");
@@ -75,6 +75,7 @@ public class Comment_Access extends DatabaseConnection{
                 con.close();
             }
         }
+        System.out.println("SUCCES");
         return comments;
     }
     
