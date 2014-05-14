@@ -474,6 +474,12 @@ public class MainFrame extends JFrame {
         tv.setSelectedComponent(approvePanel);
     }
 
+    public void myRepaint() {
+        //setSize(getWidth(), getHeight());
+        setSize(getWidth()-1, getHeight());
+        setSize(getWidth()+1, getHeight());
+    }
+
     private class myListPanelListener implements IObserver {
 
         @Override

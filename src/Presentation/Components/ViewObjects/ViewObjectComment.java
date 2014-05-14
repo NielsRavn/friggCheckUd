@@ -38,7 +38,7 @@ public class ViewObjectComment extends ViewObject{
         btnExpandComment.setForeground(Color.WHITE);
         btnExpandComment.addActionListener(new MyActionListener());
         taComment = new JTextArea();
-        taComment.setPreferredSize(new Dimension(0, 300));
+        taComment.setPreferredSize(new Dimension(0, 150));
         taComment.setFont(MyConstants.FONT_HEADER_TEXT);
         
         lblText = new JLabel("<html><body marginwidth=30 marginheight=20>Comment</body></html>");
@@ -54,7 +54,6 @@ public class ViewObjectComment extends ViewObject{
         remove(btnExpandComment);
         add(lblText, BorderLayout.NORTH);
         add(taComment, BorderLayout.CENTER);
-        
         validate();
         repaint();
         parent.validate();
@@ -67,8 +66,8 @@ public class ViewObjectComment extends ViewObject{
         add(btnExpandComment, BorderLayout.CENTER);
         validate();
         repaint();
-        parent.validate();
-        parent.repaint();
+//        parent.validate();
+//        parent.repaint();
     }
     
     private void fillData(){
@@ -87,6 +86,7 @@ public class ViewObjectComment extends ViewObject{
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == btnExpandComment){
                 expandCommentField();
+                parent.myRepaint();
             }
         }
         
