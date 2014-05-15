@@ -77,7 +77,7 @@ Calendar date = Calendar.getInstance();
                 date.setTimeInMillis(vo.getEndTime().getTime());
                 return "" + date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+" " + MyUtil.p0(date.get(Calendar.HOUR_OF_DAY)) + ":" + MyUtil.p0(date.get(Calendar.MINUTE));
             case 4:
-                return 1;
+                return (int) Math.ceil( (double)(vo.getEndTime().getTime() - (double)vo.getStartTime().getTime()) / 3600000 );
             case 5:
                 
                 if(vo.isAccepted() != 0){
@@ -128,7 +128,10 @@ Calendar date = Calendar.getInstance();
 
     @Override
     public boolean isCellEditable(int row, int col) {
+        if(col == 5)
         return true;
+        else
+        return false;
     }
 
     /**
