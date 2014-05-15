@@ -41,7 +41,7 @@ import javax.swing.table.TableColumn;
  */
 public class ListPanel extends javax.swing.JPanel {
 
-    JPanel thisList;
+    JPanel lstTheList;
     //DefaultListModel model;
     ArrayList<IObserver> observers;
     ArrayList<ViewObject> vos;
@@ -60,7 +60,7 @@ public class ListPanel extends javax.swing.JPanel {
         initComponents();
         tblList.setTableHeader(null);
         vos = new ArrayList();
-        thisList = this;
+        lstTheList = this;
         observers = new ArrayList();
         model = new ViewObjectTableModel(editable);
         tblList.setModel(model);
@@ -76,6 +76,7 @@ public class ListPanel extends javax.swing.JPanel {
         tblList.addMouseMotionListener(mma);
         jScrollPane1.addMouseMotionListener(mma);
         populateTable();
+        
     }
 
     /**
@@ -180,6 +181,10 @@ public class ListPanel extends javax.swing.JPanel {
         }
         
     }
+    
+    public void fireTableDataChanged(){
+        model.fireTableDataChanged();
+    }
 //    /**
 //     * Gets the Cell renderer for the list
 //     *
@@ -259,7 +264,8 @@ public class ListPanel extends javax.swing.JPanel {
         public void mouseClicked(MouseEvent e) {
             if (enabled) {
                 mySelectedIndex = tblList.getSelectedRow();
-                notifyObservers();
+                if(getSelectedViewObject() != null)
+                    notifyObservers();
             }
         }
 
