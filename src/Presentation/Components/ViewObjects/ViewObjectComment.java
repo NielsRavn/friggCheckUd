@@ -28,8 +28,8 @@ public class ViewObjectComment extends ViewObject{
     JButton btnExpandComment;
     JTextArea taComment;
     JLabel lblText;
-    MainFrame parent;
-    public ViewObjectComment(MainFrame parent){
+    ListPanel parent;
+    public ViewObjectComment(ListPanel parent){
         this.parent = parent;
         setLayout(new BorderLayout());
         btnExpandComment = new JButton("<html><body marginwidth=30 marginheight=20>Add comment</body></html>");
@@ -86,7 +86,8 @@ public class ViewObjectComment extends ViewObject{
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == btnExpandComment){
                 expandCommentField();
-                parent.myRepaint();
+                parent.fireTableDataChanged();
+                //parent.myRepaint();
             }
         }
         

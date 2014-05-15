@@ -123,7 +123,7 @@ public class ViewObjectEquipmentUsage extends ViewObject{
         
         @Override
         public void keyTyped(KeyEvent e) {
-            if(!Character.isDigit(e.getKeyChar()) || equipmentAmount.getText().length() >= 10)
+            if(!Character.isDigit(e.getKeyChar()) || equipmentAmount.getText().length() >= 8)
                 e.consume();
         }
     }
