@@ -30,7 +30,18 @@ public class Story_Access extends DatabaseConnection{
             con = getConnection();
             Statement stmnt = con.createStatement();
             
-            int affectedRows = stmnt.executeUpdate("INSERT INTO Story ()");
+            int affectedRows = stmnt.executeUpdate("INSERT INTO Story (alarmId, evaNr, "
+                    + "brandrapportNr, navne, addresser, type, gruppeNr, detektorNr, comment) "
+                    + "VALUES ("
+                    + story.getAlarmId() + ", "
+                    + story.getEvaNr() + ", "
+                    + story.getBrandrapportNr()+ ", '"
+                    + story.getNavne()+ "', '"
+                    + story.getAddresser()+ "', "
+                    + story.getType()+ ", "
+                    + story.getGruppeNr()+ ", "
+                    + story.getDetektorNr()+ ", '"
+                    + story.getComment()+ "'); ");
             
             if(affectedRows == 0) throw new SQLException("input failed no affected rows");
             

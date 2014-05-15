@@ -16,10 +16,10 @@ public class Story {
     
     int id, alarmId, evaNr, brandrapportNr;
     String navne, addresser;
-    int type;
-    String gruppeNr, detektorNr, bemærkning;
+    int type, gruppeNr, detektorNr;
+    String  comment;
 
-    public Story(int id, int alarmId, int evaNr, int brandrapportNr, String navne, String addresser, int type, String gruppeNr, String detektorNr, String bemærkning) {
+    public Story(int id, int alarmId, int evaNr, int brandrapportNr, String navne, String addresser, int type, int gruppeNr, int detektorNr, String comment) {
         this.id = id;
         this.alarmId = alarmId;
         this.evaNr = evaNr;
@@ -29,10 +29,10 @@ public class Story {
         this.type = type;
         this.gruppeNr = gruppeNr;
         this.detektorNr = detektorNr;
-        this.bemærkning = bemærkning;
+        this.comment = comment;
     }
 
-    public Story(int alarmId, int evaNr, int brandrapportNr, String navne, String addresser, int type, String gruppeNr, String detektorNr, String bemærkning) {
+    public Story(int alarmId, int evaNr, int brandrapportNr, String navne, String addresser, int type, int gruppeNr, int detektorNr, String comment) {
         this.alarmId = alarmId;
         this.evaNr = evaNr;
         this.brandrapportNr = brandrapportNr;
@@ -41,7 +41,7 @@ public class Story {
         this.type = type;
         this.gruppeNr = gruppeNr;
         this.detektorNr = detektorNr;
-        this.bemærkning = bemærkning;
+        this.comment = comment;
     }
 
     public int getId() {
@@ -100,28 +100,28 @@ public class Story {
         this.type = type;
     }
 
-    public String getGruppeNr() {
+    public int getGruppeNr() {
         return gruppeNr;
     }
 
-    public void setGruppeNr(String gruppeNr) {
+    public void setGruppeNr(int gruppeNr) {
         this.gruppeNr = gruppeNr;
     }
 
-    public String getDetektorNr() {
+    public int getDetektorNr() {
         return detektorNr;
     }
 
-    public void setDetektorNr(String detektorNr) {
+    public void setDetektorNr(int detektorNr) {
         this.detektorNr = detektorNr;
     }
 
-    public String getBemærkning() {
-        return bemærkning;
+    public String getComment() {
+        return comment;
     }
 
-    public void setBemærkning(String bemærkning) {
-        this.bemærkning = bemærkning;
+    public void setBemærkning(String comment) {
+        this.comment = comment;
     }
     
     

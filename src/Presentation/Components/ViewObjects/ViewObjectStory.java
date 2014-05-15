@@ -7,6 +7,9 @@
 package Presentation.Components.ViewObjects;
 
 import BE.Story;
+import java.awt.TextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -14,11 +17,19 @@ import BE.Story;
  */
 public class ViewObjectStory extends ViewObject {
 
+    int alarmId;
+    
     /**
      * Creates new form ViewObjectStory
      */
-    public ViewObjectStory() {
+    public ViewObjectStory(int alarmId) {
         initComponents();
+        this.alarmId = alarmId;
+        myKeyNumbersAdapter kna = new myKeyNumbersAdapter();
+        TFBrand.addKeyListener(kna);
+        TFEva.addKeyListener(kna);
+        TFGruppe.addKeyListener(kna);
+        TFDetektor.addKeyListener(kna);
     }
 
     /**
@@ -37,7 +48,7 @@ public class ViewObjectStory extends ViewObject {
         TFEva = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        TFBrand = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -45,31 +56,31 @@ public class ViewObjectStory extends ViewObject {
         jPanel7 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        TANavne = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        TAAdresser = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        RBBlind = new javax.swing.JRadioButton();
+        RBFalse = new javax.swing.JRadioButton();
+        RBNoUse = new javax.swing.JRadioButton();
+        RBNormal = new javax.swing.JRadioButton();
         jPanel14 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        TFGruppe = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        TFDetektor = new javax.swing.JTextField();
         jPanel15 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        TAComent = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
@@ -85,8 +96,8 @@ public class ViewObjectStory extends ViewObject {
         jLabel2.setText("Brandrapport Nr:");
         jPanel3.add(jLabel2);
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(75, 20));
-        jPanel3.add(jTextField1);
+        TFBrand.setPreferredSize(new java.awt.Dimension(75, 20));
+        jPanel3.add(TFBrand);
 
         jPanel2.add(jPanel3);
 
@@ -103,9 +114,9 @@ public class ViewObjectStory extends ViewObject {
 
         jPanel9.setLayout(new java.awt.BorderLayout());
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(2);
-        jScrollPane1.setViewportView(jTextArea1);
+        TANavne.setColumns(20);
+        TANavne.setRows(2);
+        jScrollPane1.setViewportView(TANavne);
 
         jPanel9.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -116,9 +127,9 @@ public class ViewObjectStory extends ViewObject {
 
         jPanel8.setLayout(new java.awt.BorderLayout());
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(2);
-        jScrollPane2.setViewportView(jTextArea2);
+        TAAdresser.setColumns(20);
+        TAAdresser.setRows(2);
+        jScrollPane2.setViewportView(TAAdresser);
 
         jPanel8.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
@@ -140,22 +151,22 @@ public class ViewObjectStory extends ViewObject {
 
         jPanel12.setLayout(new java.awt.BorderLayout());
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Blind alarm");
-        jPanel13.add(jRadioButton1);
+        buttonGroup1.add(RBBlind);
+        RBBlind.setText("Blind alarm");
+        jPanel13.add(RBBlind);
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Falsk alarm");
-        jPanel13.add(jRadioButton2);
+        buttonGroup1.add(RBFalse);
+        RBFalse.setText("Falsk alarm");
+        jPanel13.add(RBFalse);
 
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Ikke i brug");
-        jPanel13.add(jRadioButton3);
+        buttonGroup1.add(RBNoUse);
+        RBNoUse.setText("Ikke i brug");
+        jPanel13.add(RBNoUse);
 
-        buttonGroup1.add(jRadioButton4);
-        jRadioButton4.setSelected(true);
-        jRadioButton4.setText("Normal");
-        jPanel13.add(jRadioButton4);
+        buttonGroup1.add(RBNormal);
+        RBNormal.setSelected(true);
+        RBNormal.setText("Normal");
+        jPanel13.add(RBNormal);
 
         jPanel12.add(jPanel13, java.awt.BorderLayout.NORTH);
 
@@ -165,14 +176,14 @@ public class ViewObjectStory extends ViewObject {
         jLabel9.setText("Gruppenummer: ");
         jPanel14.add(jLabel9);
 
-        jTextField2.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel14.add(jTextField2);
+        TFGruppe.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel14.add(TFGruppe);
 
         jLabel10.setText("Detektornummer");
         jPanel14.add(jLabel10);
 
-        jTextField3.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel14.add(jTextField3);
+        TFDetektor.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel14.add(TFDetektor);
 
         jPanel12.add(jPanel14, java.awt.BorderLayout.CENTER);
 
@@ -180,9 +191,9 @@ public class ViewObjectStory extends ViewObject {
 
         jScrollPane3.setPreferredSize(new java.awt.Dimension(350, 96));
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
+        TAComent.setColumns(20);
+        TAComent.setRows(5);
+        jScrollPane3.setViewportView(TAComent);
 
         jPanel16.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
@@ -202,7 +213,17 @@ public class ViewObjectStory extends ViewObject {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton RBBlind;
+    private javax.swing.JRadioButton RBFalse;
+    private javax.swing.JRadioButton RBNoUse;
+    private javax.swing.JRadioButton RBNormal;
+    private javax.swing.JTextArea TAAdresser;
+    private javax.swing.JTextArea TAComent;
+    private javax.swing.JTextArea TANavne;
+    private javax.swing.JTextField TFBrand;
+    private javax.swing.JTextField TFDetektor;
     private javax.swing.JTextField TFEva;
+    private javax.swing.JTextField TFGruppe;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -230,23 +251,41 @@ public class ViewObjectStory extends ViewObject {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 
-public Story getStory(){
-    return null;
-}
+    public Story getStory(){
+        int evaNr = Integer.parseInt(TFEva.getText());
+        int brandNr = Integer.parseInt(TFBrand.getText());
+        String navne = TANavne.getText();
+        String addresser = TAAdresser.getText();
+        int type = getSelectedRadioButton();
+        int grup =  Integer.parseInt(TFGruppe.getText());
+        int detek =  Integer.parseInt(TFDetektor.getText());
+        String comment = TAComent.getText();
+        return new Story(alarmId, evaNr, brandNr, navne, addresser, type, grup, detek, comment);
+    }
+
+    private int getSelectedRadioButton() {
+        if(RBBlind.isSelected()) return 0;
+        else if(RBFalse.isSelected()) return 1;
+        else if(RBNoUse.isSelected()) return 2;
+        else return 3;
+    }
+    
+    
+    /**
+     * listens for any key event to trigger a check of the textfields.
+     */
+    private class myKeyNumbersAdapter extends KeyAdapter{
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            if(!Character.isDigit(e.getKeyChar()) || ((TextField)e.getComponent()).getText().length() >= 8)
+                e.consume();
+        }
+    }
     
 }
