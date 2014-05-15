@@ -86,8 +86,6 @@ public class ViewObjectComment extends ViewObject{
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == btnExpandComment){
                 expandCommentField();
-                parent.fireTableDataChanged();
-                //parent.myRepaint();
             }
         }
         
