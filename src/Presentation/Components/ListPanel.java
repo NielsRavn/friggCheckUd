@@ -7,39 +7,20 @@ package Presentation.Components;
 
 import BLL.IObserver;
 import Presentation.Components.ViewObjects.ViewObject;
-import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import static java.util.Collections.list;
-import javax.swing.AbstractCellEditor;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JViewport;
-import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 
 /**
  *
@@ -185,8 +166,10 @@ public class ListPanel extends javax.swing.JPanel {
         enabled = b;
     }
     
-    private void setBackgroundColorOfAllElements(Color WHITE) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void setBackgroundColorOfAllElements(Color c) {
+            for(ViewObject vo: vos){
+                vo.setBackground(c);
+            }
     }
     
     private int getIndexOfObject(ViewObject viewObject) {
@@ -209,7 +192,10 @@ public class ListPanel extends javax.swing.JPanel {
         public void mouseClicked(MouseEvent e) {
             if (enabled) {
                 mySelectedIndex = getIndexOfObject((ViewObject) e.getSource());
-                if(getSelectedViewObject() != null)
+                setBackgroundColorOfAllElements(Color.WHITE);
+                ViewObject selected = getSelectedViewObject();
+                if(selected != null)
+                    selected.setBackground(MyConstants.COLOR_LIGHT_BLUE);
                     notifyObservers();
             }
         }
