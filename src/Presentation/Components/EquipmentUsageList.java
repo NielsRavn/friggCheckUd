@@ -10,8 +10,8 @@ import BE.Equipment;
 import BE.EquipmentStatus;
 import BE.EquipmentUsage;
 import BE.Usage;
-import Presentation.Components.ViewObjects.ViewObjectEquipmentStatus;
-import Presentation.Components.ViewObjects.ViewObjectEquipmentUsage;
+import Presentation.Components.ViewObjects.ViewObject;
+import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
@@ -31,7 +31,7 @@ public class EquipmentUsageList extends JPanel{
     
     ArrayList<Equipment> equipments;
     ListPanel panel;
-    ArrayList<ViewObjectEquipmentUsage> voeus;
+    ArrayList<ViewObject> voeus;
     JButton btnAccept, btnDecline;
     ArrayList<Usage> usages;
     MainFrame parent;
@@ -43,7 +43,7 @@ public class EquipmentUsageList extends JPanel{
         this.equipments = equipments;
         voeus = new ArrayList<>();
         for(Equipment e: equipments){
-            ViewObjectEquipmentUsage voeu = new ViewObjectEquipmentUsage(new EquipmentUsage(e, new Usage()));
+            ViewObject voeu = ViewObjectFactory.getViewObject(new EquipmentUsage(e, new Usage()));
             voeus.add(voeu);
             panel.addViewObject(voeu); 
         }
@@ -76,7 +76,7 @@ public class EquipmentUsageList extends JPanel{
     
     public void setAmountForUsages(ArrayList<Usage> usages){
         this.usages = usages;
-        for(ViewObjectEquipmentUsage e: voeus){
+        for(ViewObject e: voeus){
             EquipmentUsage eu = (EquipmentUsage) e.getViewObjectBE();
             boolean updated = false;
             for(Usage u: usages){
@@ -102,7 +102,7 @@ public class EquipmentUsageList extends JPanel{
                 int alarmId = parent.getSelectedAlarmId();
                 int carNr = parent.getselectedCarNr();
                 ArrayList<Usage> usagesToUpdate = new ArrayList<>();
-                for(ViewObjectEquipmentUsage e: voeus){
+                for(ViewObject e: voeus){
                     EquipmentUsage eu = (EquipmentUsage) e.getViewObjectBE();
                     Usage use = null;
                     for(Usage u: usages){

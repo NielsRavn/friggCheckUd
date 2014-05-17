@@ -21,7 +21,7 @@ public class ViewObjectStationDuty extends ViewObject{
     String name;
     Station station;
     
-    public ViewObjectStationDuty(Station station){
+    protected ViewObjectStationDuty(Station station){
         super(station);
         this.station = station;
         icon = new ImageIcon(station.getIconPath());

@@ -20,7 +20,7 @@ import javax.swing.JLabel;
  */
 public class ViewObjectCar extends ViewObject{
     Car car;
-    public ViewObjectCar(Car car){
+    protected ViewObjectCar(Car car){
         super(car);
         this.car = car;
         

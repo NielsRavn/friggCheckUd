@@ -17,7 +17,7 @@ import javax.swing.JLabel;
  */
 public class ViewObjectPosition extends ViewObject{
     Position position;
-    public ViewObjectPosition(Position position){
+    protected ViewObjectPosition(Position position){
         super(position);
         
         this.position = position;

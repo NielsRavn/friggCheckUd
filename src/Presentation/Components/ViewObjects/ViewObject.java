@@ -8,7 +8,6 @@ package Presentation.Components.ViewObjects;
 
 import BE.IViewObjectBE;
 import java.awt.Color;
-import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
@@ -17,14 +16,14 @@ import javax.swing.JLabel;
  * @author Brobak
  */
 public abstract class ViewObject extends javax.swing.JPanel {
-    IViewObjectBE viewObjectBE;
+    IViewObjectBE viewObjectBE; 
     JLabel lblName;
     
     /**
      * Creates new form ViewObject
      * @param viewObjectBE
      */
-    public ViewObject(IViewObjectBE viewObjectBE) {
+    protected ViewObject(IViewObjectBE viewObjectBE) {
         initComponents();
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         this.viewObjectBE = viewObjectBE;

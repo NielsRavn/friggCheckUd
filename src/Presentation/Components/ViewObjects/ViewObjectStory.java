@@ -22,7 +22,7 @@ public class ViewObjectStory extends ViewObject {
     /**
      * Creates new form ViewObjectStory
      */
-    public ViewObjectStory(Story story) {
+    protected ViewObjectStory(Story story) {
         super(story);
         this.story = story;
         

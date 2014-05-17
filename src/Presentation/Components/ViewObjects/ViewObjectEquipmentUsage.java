@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 public class ViewObjectEquipmentUsage extends ViewObject{
     EquipmentUsage equipmentUsage;
     JTextField equipmentAmount;
-    public ViewObjectEquipmentUsage(EquipmentUsage equipmentUsage){
+    protected ViewObjectEquipmentUsage(EquipmentUsage equipmentUsage){
         super(equipmentUsage);
         this.equipmentUsage = equipmentUsage;
     }

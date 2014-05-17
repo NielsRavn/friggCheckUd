@@ -25,7 +25,7 @@ public class ViewObjectComment extends ViewObject{
     JButton btnExpandComment;
     JTextArea taComment;
     JLabel lblText;
-    public ViewObjectComment(Comment comment){
+    protected ViewObjectComment(Comment comment){
         super(comment);
 
     }

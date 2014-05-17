@@ -29,7 +29,7 @@ public class ViewObjectAlarm extends ViewObject{
     JPanel buttomPanel;
     Calendar date;
     Alarm alarm;
-    public ViewObjectAlarm(Alarm alarm){
+    protected ViewObjectAlarm(Alarm alarm){
         super(alarm);
         this.alarm = alarm;
         

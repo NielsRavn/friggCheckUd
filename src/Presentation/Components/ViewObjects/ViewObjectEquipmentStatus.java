@@ -25,7 +25,7 @@ public class ViewObjectEquipmentStatus extends ViewObject{
     JLabel equipmentLbl;
     JPanel topPanel;
     
-    public ViewObjectEquipmentStatus(EquipmentStatus equipmentStatus){
+    protected ViewObjectEquipmentStatus(EquipmentStatus equipmentStatus){
         super(equipmentStatus);
         this.equipmentStatus = equipmentStatus;
         
