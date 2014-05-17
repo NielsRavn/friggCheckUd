@@ -7,11 +7,13 @@ package Presentation.Components;
 
 import BLL.IObserver;
 import Presentation.Components.ViewObjects.ViewObject;
+import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -22,6 +24,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import static java.util.Collections.list;
 import javax.swing.AbstractCellEditor;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JList;
@@ -52,12 +55,18 @@ public class ListPanel extends javax.swing.JPanel {
     JScrollPane jScrollPane1;
     JPanel panel;
     MyMouseMotionAdapter mma;
+    int width;
+    boolean editAble;
     /**
      * Creates new form ListPanel
      * @param editable
      */
-    public ListPanel( boolean editable) {
-        panel = new JPanel(new GridLayout(0, 1));
+    public ListPanel( boolean editable, int width) {
+        this.width = width;
+        panel = new JPanel();
+        BoxLayout layout = new BoxLayout(panel, BoxLayout.Y_AXIS);
+        this.editAble = editable;
+        panel.setLayout(layout);
         jScrollPane1 = new JScrollPane(panel);
         enabled = true;
         mySelectedIndex = -1;
@@ -119,22 +128,18 @@ public class ListPanel extends javax.swing.JPanel {
     public void addViewObject(ViewObject object) {
         object.addMouseMotionListener(mma);
         object.addMouseListener(mma);
+        object.setMaximumSize(new Dimension(width, (int) object.getPreferredSize().getHeight()));
         vos.add(object);
         panel.add(object);
         
     }
 
-    private JPanel getCorectPanel(JTable table, Object value, boolean isSelected, int row) {
-        ViewObject panel = (ViewObject) value;
-        table.setRowHeight(row, (int) panel.getPreferredSize().getHeight());
-        if (isSelected) {
-            panel.setBackground(MyConstants.COLOR_LIGHT_BLUE);
-        } else {
-            panel.setBackground(Color.WHITE);
-        }
+    private JPanel getCorectPanel(ViewObject value) {
         JPanel surroundPanel = new JPanel();
+        surroundPanel.addMouseMotionListener(mma);
+        surroundPanel.addMouseListener(mma);
         surroundPanel.setLayout(new BorderLayout());
-        surroundPanel.add(panel, BorderLayout.CENTER);
+        surroundPanel.add(value, BorderLayout.CENTER);
         surroundPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
         return surroundPanel;
     }
@@ -167,6 +172,7 @@ public class ListPanel extends javax.swing.JPanel {
 
     public void clearList() {
         vos = new ArrayList();
+        panel.removeAll();
     }
 
     public void setElementsEnabled(boolean b) {
@@ -177,6 +183,17 @@ public class ListPanel extends javax.swing.JPanel {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    private int getIndexOfObject(ViewObject viewObject) {
+        for(int i = 0; i <vos.size(); i++){
+            if(vos.get(i) == viewObject) return i;
+        }
+        return -1;
+    }
+
+    public int getMyWidth() {
+        return width;
+    }
+    
     private class MyMouseMotionAdapter extends MouseAdapter {
 
         Point lastDragPoint = new Point();
@@ -185,7 +202,7 @@ public class ListPanel extends javax.swing.JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             if (enabled) {
-                mySelectedIndex = 0;
+                mySelectedIndex = getIndexOfObject((ViewObject) e.getSource());
                 if(getSelectedViewObject() != null)
                     notifyObservers();
             }
@@ -202,7 +219,6 @@ public class ListPanel extends javax.swing.JPanel {
             if (!beingDragged) {
                 beingDragged = true;
                 setLastDragPoint(e.getX(), (e.getY()+ ((JComponent)e.getSource()).getY()));
-                System.out.println("" +e.getX()+" " + (e.getY()+ ((JComponent)e.getSource()).getY()));
             }
             handleDraging(e);
         }
@@ -226,6 +242,5 @@ public class ListPanel extends javax.swing.JPanel {
             viewPort.setViewPosition(scrollPosition);
         }
 
-        
     }
 }

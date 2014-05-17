@@ -37,7 +37,7 @@ public class EquipmentUsageList extends JPanel{
 
     public EquipmentUsageList(boolean editable, ArrayList<Equipment> equipments, MainFrame parent) {
         this.parent = parent;
-        panel = new ListPanel(editable);
+        panel = new ListPanel(editable, parent.getWidth());
         this.equipments = equipments;
         voeus = new ArrayList<>();
         for(Equipment e: equipments){

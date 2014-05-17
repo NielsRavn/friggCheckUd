@@ -19,7 +19,10 @@ import javax.swing.JLabel;
 public class ViewObjectStationDuty extends ViewObject{
     ImageIcon icon;
     String name;
+    Station station;
+    
     public ViewObjectStationDuty(Station station){
+        this.station = station;
         setLayout(new FlowLayout());
         icon = new ImageIcon(station.getIconPath());
         name = station.getName();
@@ -27,6 +30,12 @@ public class ViewObjectStationDuty extends ViewObject{
         fillData();
     }
 
+    public Station getStation() {
+        return station;
+    }
+
+    
+    
     private void fillData() {
         add(new JLabel(icon));
         JLabel carInfo = new JLabel(name);

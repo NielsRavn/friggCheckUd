@@ -56,6 +56,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
+import javax.swing.text.ViewFactory;
 
 /**
  *
@@ -173,7 +174,7 @@ public class MainFrame extends JFrame {
     protected JPanel getAlarmPanel() {
         mainAlarmPanel = new JPanel();
         mainAlarmPanel.setLayout(new BorderLayout());
-        alarmPanel = new ListPanel(false);
+        alarmPanel = new ListPanel(false, width);
         try{
             ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
             for(Alarm alarm : alarms){
@@ -223,7 +224,7 @@ public class MainFrame extends JFrame {
     }
 
     protected ListPanel getCarPanel() {
-        ListPanel list = new ListPanel(false);
+        ListPanel list = new ListPanel(false, width);
         try {
 
             ArrayList<Car> cars = cal.getAllCars();
@@ -238,7 +239,7 @@ public class MainFrame extends JFrame {
     }
 
     protected ListPanel getPositionPanel() {
-        ListPanel list = new ListPanel(false);
+        ListPanel list = new ListPanel(false, width);
 
         ArrayList<Position> positions = createPositions();
         for (Position pos : positions) {
@@ -273,7 +274,7 @@ public class MainFrame extends JFrame {
         JPanel approvePanel = new JPanel();
         approvePanel.setLayout(new BorderLayout());
 
-        approveListPanel = new ListPanel(true);
+        approveListPanel = new ListPanel(true, width);
         approvePanel.add(approveListPanel, BorderLayout.CENTER);
 
         JPanel footer = new JPanel();
@@ -299,11 +300,12 @@ public class MainFrame extends JFrame {
 
     protected void fillApproveListPanel() {
         ViewObjectAlarm voa = (ViewObjectAlarm) alarmPanel.getSelectedViewObject();
-        approveListPanel.addViewObject(voa);
+        approveListPanel.addViewObject(ViewObjectFactory.getViewObject(voa.getAlarm()));
         if (carPanel.getSelectedViewObject().getClass() == ViewObjectCar.class) {
             ViewObjectCar voc = (ViewObjectCar) carPanel.getSelectedViewObject();
-            approveListPanel.addViewObject(voc);
-            approveListPanel.addViewObject(positionPanel.getSelectedViewObject());
+            approveListPanel.addViewObject(ViewObjectFactory.getViewObject(voc.getCar()));
+            ViewObjectPosition pos = (ViewObjectPosition) positionPanel.getSelectedViewObject();
+            approveListPanel.addViewObject(ViewObjectFactory.getViewObject(pos.getPosition()));
             try {
                 ArrayList<Usage> usages = eal.getUsagesFor(voa.getAlarm().getID(), voc.getCar().getCarNr());
                 equipmentPanel.setAmountForUsages(usages);
@@ -315,7 +317,8 @@ public class MainFrame extends JFrame {
                 JOptionPane.showMessageDialog(this, "Database call error: " + ex);
             }
         } else {
-            approveListPanel.addViewObject(carPanel.getSelectedViewObject());
+            ViewObjectStationDuty station = (ViewObjectStationDuty) carPanel.getSelectedViewObject();
+            approveListPanel.addViewObject(ViewObjectFactory.getViewObject(station.getStation()));
             approveListPanel.addViewObject(new ViewObjectPosition(MyConstants.STATION_DUTY));
             tv.setEnabledContent(equipmentPanel, false);
         }

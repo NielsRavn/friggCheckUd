@@ -54,6 +54,7 @@ public class ViewObjectComment extends ViewObject{
         remove(btnExpandComment);
         add(lblText, BorderLayout.NORTH);
         add(taComment, BorderLayout.CENTER);
+        setMaximumSize(new Dimension(parent.getMyWidth(), (int) getPreferredSize().getHeight()));
         validate();
         repaint();
         parent.validate();
