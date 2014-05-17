@@ -22,12 +22,11 @@ public class ViewObjectStationDuty extends ViewObject{
     Station station;
     
     public ViewObjectStationDuty(Station station){
+        super(station);
         this.station = station;
-        setLayout(new FlowLayout());
         icon = new ImageIcon(station.getIconPath());
         name = station.getName();
         
-        fillData();
     }
 
     public Station getStation() {
@@ -36,10 +35,18 @@ public class ViewObjectStationDuty extends ViewObject{
 
     
     
-    private void fillData() {
+    @Override
+    protected void fillData() {
+        setLayout(new FlowLayout());
+        
         add(new JLabel(icon));
         JLabel carInfo = new JLabel(name);
         carInfo.setFont(new Font("Verdana", Font.PLAIN, 42));
         add(carInfo);
+    }
+
+    @Override
+    public void refreshViewObject() {
+        
     }
 }
