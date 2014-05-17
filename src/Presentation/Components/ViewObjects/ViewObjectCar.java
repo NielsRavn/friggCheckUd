@@ -21,12 +21,15 @@ import javax.swing.JLabel;
 public class ViewObjectCar extends ViewObject{
     Car car;
     public ViewObjectCar(Car car){
+        super(car);
         this.car = car;
-        setLayout(new FlowLayout());
-        fillData();
+        
+        
     }
 
-    private void fillData() {
+    @Override
+    protected void fillData() {
+        setLayout(new FlowLayout());
         add(new JLabel(new ImageIcon(car.getIconPath())));
         JLabel carInfo = new JLabel(""+car.getCarNr());
         carInfo.setFont(new Font("Verdana", Font.PLAIN, 42));
@@ -35,6 +38,11 @@ public class ViewObjectCar extends ViewObject{
     
     public Car getCar(){
         return car;
+    }
+
+    @Override
+    public void refreshViewObject() {
+        
     }
     
 }

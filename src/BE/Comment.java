@@ -10,7 +10,7 @@ package BE;
  *
  * @author Brobak
  */
-public class Comment {
+public class Comment implements IViewObjectBE{
     String comment;
     Fireman fireman;
     int id;
@@ -56,6 +56,11 @@ public class Comment {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String getName() {
+        return "Kommentar: " + comment;
     }
     
     

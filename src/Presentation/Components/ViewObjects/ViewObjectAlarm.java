@@ -30,14 +30,17 @@ public class ViewObjectAlarm extends ViewObject{
     Calendar date;
     Alarm alarm;
     public ViewObjectAlarm(Alarm alarm){
+        super(alarm);
         this.alarm = alarm;
+        
+    }
+
+    @Override
+    protected void fillData() {
         setLayout(new BorderLayout());
         date = Calendar.getInstance();
         date.setTimeInMillis(alarm.getTime().getTime());
-        fillData();
-    }
 
-    private void fillData() {
         topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout());
         JLabel lblDest = new JLabel(alarm.getDistination());
@@ -70,6 +73,11 @@ public class ViewObjectAlarm extends ViewObject{
     
     public Alarm getAlarm(){
         return alarm;
+    }
+
+    @Override
+    public void refreshViewObject() {
+        
     }
     
     

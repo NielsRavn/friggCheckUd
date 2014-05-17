@@ -7,14 +7,9 @@
 package Presentation.Components.ViewObjects;
 
 import BE.Position;
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.sql.Date;
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  *
@@ -23,12 +18,14 @@ import javax.swing.JPanel;
 public class ViewObjectPosition extends ViewObject{
     Position position;
     public ViewObjectPosition(Position position){
-        setLayout(new FlowLayout());
+        super(position);
+        
         this.position = position;
-        fillData();
     }
 
-    private void fillData() {
+    @Override
+    protected void fillData() {
+        setLayout(new FlowLayout());
         JLabel lblPos = new JLabel(position.getName());
         lblPos.setFont(new Font("Comic Sans", Font.PLAIN, 80));
         add(lblPos);
@@ -36,5 +33,10 @@ public class ViewObjectPosition extends ViewObject{
     
     public Position getPosition(){
         return position;
+    }
+
+    @Override
+    public void refreshViewObject() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
