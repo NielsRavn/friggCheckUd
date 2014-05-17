@@ -17,6 +17,7 @@ import BE.MyTime;
 import BE.Position;
 import BE.Station;
 import BE.Story;
+import BE.TimeSheetList;
 import BE.Time_Sheet;
 
 /**
@@ -44,6 +45,8 @@ public class ViewObjectFactory {
             return new ViewObjectStory((Story)viewObjectBE);
         else if(viewObjectBE.getClass() == MyTime.class)
             return new ViewObjectTime((MyTime)viewObjectBE);
+        else if(viewObjectBE.getClass() == TimeSheetList.class)
+            return new ViewObjectTimeSheet((TimeSheetList)viewObjectBE);
         else
             return new ViewObjectBasic(viewObjectBE); 
     }  
