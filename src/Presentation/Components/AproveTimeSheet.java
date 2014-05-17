@@ -145,7 +145,7 @@ public class AproveTimeSheet extends javax.swing.JPanel {
                     TimeSheetList tsl = new TimeSheetList(a);
                     populateFiremenViewObject(a, tsl);
                     timeSheetLists.add(tsl);
-                    list.addViewObject(ViewObjectFactory.getViewObject(tsl));
+                    //list.addViewObject(ViewObjectFactory.getViewObject(tsl));
                 }
             }
             TimeSheetList v;
@@ -154,12 +154,17 @@ public class AproveTimeSheet extends javax.swing.JPanel {
                 for(Time_Sheet b : timeSheetStatinsduty)
                 {
                     v.addStationDuty(b);
-                    list.addViewObject(ViewObjectFactory.getViewObject(v));
+                    //list.addViewObject(ViewObjectFactory.getViewObject(v));
                 }
+            }
+            
+            for(TimeSheetList tsl: timeSheetLists){
+                list.addViewObject(ViewObjectFactory.getViewObject(tsl));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
+        
         
         return list;
     }
