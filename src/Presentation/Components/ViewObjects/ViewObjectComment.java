@@ -27,7 +27,7 @@ public class ViewObjectComment extends ViewObject{
     JLabel lblText;
     protected ViewObjectComment(Comment comment){
         super(comment);
-
+        fillData();
     }
     
     private void expandCommentField(){
@@ -47,7 +47,6 @@ public class ViewObjectComment extends ViewObject{
         repaint();
     }
     
-    @Override
     protected void fillData(){
         setLayout(new BorderLayout());
         btnExpandComment = new JButton("<html><body marginwidth=30 marginheight=20>Add comment</body></html>");

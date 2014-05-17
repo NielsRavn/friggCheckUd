@@ -38,6 +38,7 @@ public class ViewObjectTimeSheet extends ViewObject {
         super(timesheets);
         this.timesheets = timesheets;
         model = new ViewObjectTimeSheetTableModel();
+        fillData();
     }
     
     

@@ -21,9 +21,9 @@ public class ViewObjectPosition extends ViewObject{
         super(position);
         
         this.position = position;
+        fillData();
     }
 
-    @Override
     protected void fillData() {
         setLayout(new FlowLayout());
         JLabel lblPos = new JLabel(position.getName());

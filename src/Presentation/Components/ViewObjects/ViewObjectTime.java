@@ -47,10 +47,9 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
 //        int endHour = endDate.get(Calendar.HOUR_OF_DAY);
 //        int endMin = endDate.get(Calendar.MINUTE);
         this.time = time;
+        fillData();
     }
     
-    
-    @Override
     protected void fillData() {
         setLayout(new BorderLayout());
         topPanel = new JPanel();

@@ -25,7 +25,7 @@ public class ViewObjectStory extends ViewObject {
     protected ViewObjectStory(Story story) {
         super(story);
         this.story = story;
-        
+        fillData();
     }
 
     /**
@@ -271,7 +271,6 @@ public class ViewObjectStory extends ViewObject {
         else return 3;
     }
 
-    @Override
     protected void fillData() {
         initComponents();
         myKeyNumbersAdapter kna = new myKeyNumbersAdapter();

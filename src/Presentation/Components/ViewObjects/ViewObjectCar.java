@@ -24,10 +24,9 @@ public class ViewObjectCar extends ViewObject{
         super(car);
         this.car = car;
         
-        
+        fillData();
     }
 
-    @Override
     protected void fillData() {
         setLayout(new FlowLayout());
         add(new JLabel(new ImageIcon(car.getIconPath())));

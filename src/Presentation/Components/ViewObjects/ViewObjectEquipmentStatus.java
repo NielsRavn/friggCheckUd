@@ -28,7 +28,7 @@ public class ViewObjectEquipmentStatus extends ViewObject{
     protected ViewObjectEquipmentStatus(EquipmentStatus equipmentStatus){
         super(equipmentStatus);
         this.equipmentStatus = equipmentStatus;
-        
+        fillData();
     }
 
     @Override
@@ -40,7 +40,6 @@ public class ViewObjectEquipmentStatus extends ViewObject{
     /**
      * Fills the panel with data from the Equipment object
      */
-    @Override
     protected void fillData(){
         setLayout(new BorderLayout());
         topPanel = new JPanel();

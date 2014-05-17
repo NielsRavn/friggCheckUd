@@ -29,12 +29,12 @@ public class ViewObjectEquipmentUsage extends ViewObject{
     protected ViewObjectEquipmentUsage(EquipmentUsage equipmentUsage){
         super(equipmentUsage);
         this.equipmentUsage = equipmentUsage;
+        fillData();
     }
     
     /**
      * Fills the panel with data from the Equipment object
      */
-    @Override
     protected void fillData(){
         setLayout(new BorderLayout());
         JPanel topPanel = new JPanel();

@@ -23,7 +23,6 @@ public class ViewObjectBasic extends ViewObject{
         fillData();
     }
     
-    @Override
     protected void fillData(){
         setLayout(new GridBagLayout());
         add(new JLabel(vob.getName()));

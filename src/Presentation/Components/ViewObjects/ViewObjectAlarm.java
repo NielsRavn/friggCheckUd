@@ -32,10 +32,9 @@ public class ViewObjectAlarm extends ViewObject{
     protected ViewObjectAlarm(Alarm alarm){
         super(alarm);
         this.alarm = alarm;
-        
+        fillData();
     }
 
-    @Override
     protected void fillData() {
         setLayout(new BorderLayout());
         date = Calendar.getInstance();

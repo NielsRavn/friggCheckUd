@@ -26,16 +26,13 @@ public class ViewObjectStationDuty extends ViewObject{
         this.station = station;
         icon = new ImageIcon(station.getIconPath());
         name = station.getName();
-        
+        fillData();
     }
 
     public Station getStation() {
         return station;
     }
 
-    
-    
-    @Override
     protected void fillData() {
         setLayout(new FlowLayout());
         
