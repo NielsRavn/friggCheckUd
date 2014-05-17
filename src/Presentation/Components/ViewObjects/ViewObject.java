@@ -18,6 +18,8 @@ import javax.swing.JLabel;
  */
 public abstract class ViewObject extends javax.swing.JPanel {
     IViewObjectBE viewObjectBE;
+    JLabel lblName;
+    
     /**
      * Creates new form ViewObject
      * @param viewObjectBE
@@ -31,8 +33,13 @@ public abstract class ViewObject extends javax.swing.JPanel {
     }
     
     protected void fillData(){
-         setLayout(new GridBagLayout());
-        add(new JLabel(viewObjectBE.getName()));
+        setLayout(new GridBagLayout());
+        lblName = new JLabel(viewObjectBE.getName());
+        add(lblName);
+    }
+    
+    public void refreshViewObject(){
+        lblName.setText(viewObjectBE.getName());
     }
      
     public IViewObjectBE getViewObjectBE(){
