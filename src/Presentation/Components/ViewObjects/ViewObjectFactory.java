@@ -8,11 +8,16 @@ package Presentation.Components.ViewObjects;
 
 import BE.Alarm;
 import BE.Car;
+import BE.Comment;
 import BE.Equipment;
+import BE.EquipmentStatus;
+import BE.EquipmentUsage;
+import BE.IViewObjectBE;
+import BE.MyTime;
 import BE.Position;
 import BE.Station;
+import BE.Story;
 import BE.Time_Sheet;
-import BE.IViewObjectBE;
 
 /**
  *
@@ -29,8 +34,16 @@ public class ViewObjectFactory {
             return new ViewObjectPosition((Position)viewObjectBE);
         else if(viewObjectBE.getClass() == Station.class)
            return new ViewObjectStationDuty((Station)viewObjectBE);
-        else if(viewObjectBE.getClass() == Equipment.class)
-            return new ViewObjectEquipmentUsage((Equipment)viewObjectBE);
+        else if(viewObjectBE.getClass() == EquipmentUsage.class)
+            return new ViewObjectEquipmentUsage((EquipmentUsage)viewObjectBE);
+        else if(viewObjectBE.getClass() == EquipmentStatus.class)
+            return new ViewObjectEquipmentStatus((EquipmentStatus)viewObjectBE);
+        else if(viewObjectBE.getClass() == Comment.class)
+            return new ViewObjectComment((Comment)viewObjectBE);
+        else if(viewObjectBE.getClass() == Story.class)
+            return new ViewObjectStory((Story)viewObjectBE);
+        else if(viewObjectBE.getClass() == MyTime.class)
+            return new ViewObjectTime((MyTime)viewObjectBE);
         else
             return new ViewObjectBasic(viewObjectBE); 
     }  

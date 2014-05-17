@@ -486,6 +486,7 @@ public class MainFrame extends JFrame {
     
     public void goToApprovePanel(){
         tv.setSelectedComponent(approvePanel);
+        approveListPanel.refreshAllViewobjects();
     }
 
     public void myRepaint() {
