@@ -17,24 +17,24 @@ import javax.swing.JLabel;
  * @author Brobak
  */
 public abstract class ViewObject extends javax.swing.JPanel {
-    IViewObjectBE vob;
+    IViewObjectBE viewObjectBE;
     /**
      * Creates new form ViewObject
      */
-    public ViewObject(IViewObjectBE vob) {
+    public ViewObject(IViewObjectBE viewObjectBE) {
         initComponents();
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-        this.vob = vob;
+        this.viewObjectBE = viewObjectBE;
         
         fillData();
     }
      private void fillData(){
          setLayout(new GridBagLayout());
-        add(new JLabel(vob.getName()));
+        add(new JLabel(viewObjectBE.getName()));
     }
      
     public IViewObjectBE getViewObjectBE(){
-        return vob;
+        return viewObjectBE;
     }
 
     /**
