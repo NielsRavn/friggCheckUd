@@ -20,6 +20,7 @@ public abstract class ViewObject extends javax.swing.JPanel {
     IViewObjectBE viewObjectBE;
     /**
      * Creates new form ViewObject
+     * @param viewObjectBE
      */
     public ViewObject(IViewObjectBE viewObjectBE) {
         initComponents();
@@ -28,7 +29,8 @@ public abstract class ViewObject extends javax.swing.JPanel {
         
         fillData();
     }
-     private void fillData(){
+    
+    protected void fillData(){
          setLayout(new GridBagLayout());
         add(new JLabel(viewObjectBE.getName()));
     }

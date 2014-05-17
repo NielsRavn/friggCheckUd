@@ -29,11 +29,9 @@ public class ViewObjectEquipmentUsage extends ViewObject{
     JTextField equipmentAmount;
     int amount;
     public ViewObjectEquipmentUsage(Equipment equipment){
-        setLayout(new BorderLayout());
+        super(equipment);
         this.equipment = equipment;
         amount = 0;
-        fillData();
-        
     }
 
     public Equipment getEquipment() {
@@ -55,7 +53,9 @@ public class ViewObjectEquipmentUsage extends ViewObject{
     /**
      * Fills the panel with data from the Equipment object
      */
-    private void fillData(){
+    @Override
+    protected void fillData(){
+        setLayout(new BorderLayout());
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout());
         JLabel equipmentLbl = new JLabel(equipment.getName());
