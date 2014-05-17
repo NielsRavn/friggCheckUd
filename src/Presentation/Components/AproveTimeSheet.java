@@ -7,16 +7,14 @@
 package Presentation.Components;
 
 import BE.Alarm;
-import BE.Fireman;
+import BE.TimeSheetList;
 import BE.Time_Sheet;
 import BLL.Alarm_AccessLink;
 import BLL.IObserver;
 import BLL.TimeSheet_AccessLink;
+import Presentation.Components.ViewObjects.ViewObject;
 import Presentation.Components.ViewObjects.ViewObjectAlarm;
-import Presentation.Components.ViewObjects.ViewObjectCar;
 import Presentation.Components.ViewObjects.ViewObjectFactory;
-import Presentation.Components.ViewObjects.ViewObjectPosition;
-import Presentation.Components.ViewObjects.ViewObjectTime;
 import Presentation.Components.ViewObjects.ViewObjectTimeSheet;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
@@ -24,8 +22,6 @@ import java.awt.BorderLayout;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -134,40 +130,41 @@ public class AproveTimeSheet extends javax.swing.JPanel {
             timeSheetStatinsduty = tsa.stationsVagt(alarmId);
             
             //here lays the logic for showing the timesheets order by cars and station duty
-            ArrayList<ViewObjectTimeSheet> vos = new ArrayList<>();
+            ArrayList<TimeSheetList> timeSheetLists = new ArrayList<>();
             for(Time_Sheet a : timeSheet)
             {
                 boolean carFound = false;
-                for(ViewObjectTimeSheet v : vos){
-                    if(v.getCar() != null && v.getCarId() == a.getCar().getCarNr()){
+                for(TimeSheetList ts : timeSheetLists){
+                    if(ts.getCar() != null && ts.getCar().getCarNr() == a.getCar().getCarNr()){
                         carFound = true;
-                        populateFiremenViewObject(a, v);
+                        populateFiremenViewObject(a, ts);
+                        
                     }
                 }
                 if(!carFound){
-                    ViewObjectTimeSheet vots = new ViewObjectTimeSheet(a);
-                    populateFiremenViewObject(a, vots);
-                    vos.add(vots);
-                    list.addViewObject(vots);
+                    TimeSheetList tsl = new TimeSheetList(a);
+                    populateFiremenViewObject(a, tsl);
+                    timeSheetLists.add(tsl);
+                    list.addViewObject(ViewObjectFactory.getViewObject(tsl));
                 }
             }
-            ViewObjectTimeSheet v;
+            TimeSheetList v;
             if(timeSheetStatinsduty.size() > 0){
-                v = new ViewObjectTimeSheet(timeSheetStatinsduty.get(0));
+                v = new TimeSheetList(timeSheetStatinsduty.get(0));
                 for(Time_Sheet b : timeSheetStatinsduty)
                 {
                     v.addStationDuty(b);
-                    list.addViewObject(v);
+                    list.addViewObject(ViewObjectFactory.getViewObject(v));
                 }
             }
-       } catch (SQLException ex) {
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
         
         return list;
     }
 
-    private void populateFiremenViewObject(Time_Sheet a, ViewObjectTimeSheet v) {
+    private void populateFiremenViewObject(Time_Sheet a, TimeSheetList v) {
         if(a.getPositionID() == MyConstants.TEAM_LEADER.getID())
         {
             v.addTeamLeader(a);

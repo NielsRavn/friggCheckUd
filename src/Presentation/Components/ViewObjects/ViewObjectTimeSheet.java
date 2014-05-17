@@ -6,24 +6,16 @@
 
 package Presentation.Components.ViewObjects;
 
-import BE.Alarm;
-import BE.Car;
-import BE.Fireman;
-import BE.Station;
+import BE.TimeSheetList;
 import BE.Time_Sheet;
-import Presentation.Components.ListPanel;
 import Presentation.Components.ViewObjectTimeSheetTableModel;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,34 +28,22 @@ import javax.swing.table.TableColumn;
  * @author Poul Nielsen
  */
 public class ViewObjectTimeSheet extends ViewObject {
-    Alarm alarm;
-    Car car;
-    Station station;
-    ViewObjectTimeSheetTableModel model;
-    ArrayList<Time_Sheet> hl;
-    ArrayList<Time_Sheet> ch;
-    ArrayList<Time_Sheet> bm;
-    ArrayList<Time_Sheet> sd;
-    public int getCarId;
-    int FZ = 30;
-    JTable firemen;
     
-    public ViewObjectTimeSheet( Time_Sheet timesheet) {
-        this.car = timesheet.getCar();
-        this.station = timesheet.getStation();
+    ViewObjectTimeSheetTableModel model;
+    public int getCarId;
+    Font myFont = new Font("Verdana", Font.PLAIN, 30);
+    JTable firemen;
+    TimeSheetList timesheets;
+    protected ViewObjectTimeSheet( TimeSheetList timesheets) {
+        super(timesheets);
+        this.timesheets = timesheets;
         model = new ViewObjectTimeSheetTableModel();
-        setLayout(new BorderLayout());
-        hl = new ArrayList<>();
-        ch = new ArrayList<>();
-        bm = new ArrayList<>();
-        sd = new ArrayList<>();
-        
-        fillData();
     }
     
     
-    private void fillData()
+    protected void fillData()
     {
+        setLayout(new BorderLayout());
         model.clearList();
         JPanel vest = new JPanel();
         vest.setLayout(new GridBagLayout());
@@ -77,14 +57,14 @@ public class ViewObjectTimeSheet extends ViewObject {
         firemen.setModel(model);
         c.fill = GridBagConstraints.CENTER;
         
-                if(car == null)
+                if(timesheets.getCar() == null)
                 {
                     c.gridx = 0;
                     c.gridy = 1;
-                    vest.add(new JLabel(new ImageIcon(station.getIconPath())), c);
+                    vest.add(new JLabel(new ImageIcon(timesheets.getStation().getIconPath())), c);
                     
-                    JLabel stationInfo = new JLabel(""+station.getName());
-                    stationInfo.setFont(new Font("Verdana", Font.PLAIN, FZ));
+                    JLabel stationInfo = new JLabel(""+timesheets.getStation().getName());
+                    stationInfo.setFont(myFont);
                     c.gridx = 0;
                     c.gridy = 0;
                     vest.add(stationInfo, c);
@@ -93,31 +73,31 @@ public class ViewObjectTimeSheet extends ViewObject {
                 {
                     c.gridx = 0;
                     c.gridy = 1;
-                    vest.add(new JLabel(new ImageIcon(car.getIconPath())), c);
+                    vest.add(new JLabel(new ImageIcon(timesheets.getCar().getIconPath())), c);
                     
-                    JLabel carInfo = new JLabel("Bil Nr.: "+car.getCarNr());
-                    carInfo.setFont(new Font("Verdana", Font.PLAIN, FZ));
+                    JLabel carInfo = new JLabel("Bil Nr.: "+timesheets.getCar().getCarNr());
+                    carInfo.setFont(myFont);
                     c.gridx = 0;
                     c.gridy = 0;
                     vest.add(carInfo, c);
                 }
         
-                for(Time_Sheet a : hl)
-                {
-                    model.addTimeSheet(a);
-                }
-                for(Time_Sheet a : ch)
-                {
-                     model.addTimeSheet(a);
-                }
-                for(Time_Sheet a : bm)
-                {
-                     model.addTimeSheet(a);
-                }
-                for(Time_Sheet a : sd)
-                {
-                     model.addTimeSheet(a);
-                }
+        for(Time_Sheet a : timesheets.getTeamleaders())
+        {
+            model.addTimeSheet(a);
+        }
+        for(Time_Sheet a : timesheets.getChauffeurs())
+        {
+             model.addTimeSheet(a);
+        }
+        for(Time_Sheet a : timesheets.getFiremen())
+        {
+             model.addTimeSheet(a);
+        }
+        for(Time_Sheet a : timesheets.getStationDutyFiremen())
+        {
+             model.addTimeSheet(a);
+        }
         center.add(scrl, BorderLayout.CENTER);
         add(vest , BorderLayout.WEST);
         add(center , BorderLayout.CENTER);
@@ -144,6 +124,11 @@ public class ViewObjectTimeSheet extends ViewObject {
         endCol.setCellRenderer(new TimeSheetTableRendere());
         timeCol.setCellRenderer(new TimeSheetTableRendere());
     }
+
+    @Override
+    public void refreshViewObject() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 
     private class TimeSheetTableRendere extends DefaultTableCellRenderer {
@@ -159,34 +144,4 @@ public class ViewObjectTimeSheet extends ViewObject {
     }
           
 
-    public Object getCar() {
-        return car;
-    }
-
-    public void addTeamLeader(Time_Sheet a) {
-        hl.add(a);
-        fillData();
-    }
-
-    public void addDriver(Time_Sheet a) {
-        ch.add(a);
-        fillData();
-    }
-
-    public void addFireman(Time_Sheet a) {
-        bm.add(a);
-        fillData();
-        
-    }
-    
-    public void addStationDuty(Time_Sheet a) {
-        sd.add(a);
-        fillData();
-    }
-
-    public int getCarId() {
-        return car.getCarNr();
-    }
-    
-    
 }
