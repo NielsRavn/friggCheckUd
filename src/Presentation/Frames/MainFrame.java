@@ -9,6 +9,7 @@ import BE.Alarm;
 import BE.Car;
 import BE.Comment;
 import BE.Equipment;
+import BE.EquipmentStatus;
 import BE.MyTime;
 import BE.Position;
 import BE.Time_Sheet;
@@ -309,8 +310,9 @@ public class MainFrame extends JFrame {
             try {
                 ArrayList<Usage> usages = eal.getUsagesFor(voa.getAlarm().getID(), voc.getCar().getCarNr());
                 equipmentPanel.setAmountForUsages(usages);
-                ViewObjectEquipmentStatus voes = new ViewObjectEquipmentStatus(!usages.isEmpty());
-                equipmentPanel.setStatusViewObject(voes);
+                EquipmentStatus es = new EquipmentStatus(!usages.isEmpty());
+                ViewObjectEquipmentStatus voes = new ViewObjectEquipmentStatus(es);
+                equipmentPanel.setStatusViewObject(es);
                 approveListPanel.addViewObject(voes);
                 tv.setEnabledContent(equipmentPanel, true);
             } catch (SQLException ex) {

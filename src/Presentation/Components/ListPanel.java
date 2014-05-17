@@ -133,6 +133,12 @@ public class ListPanel extends javax.swing.JPanel {
         panel.add(object);
         
     }
+    
+    public void refreshAllViewobjects(){
+        for(ViewObject vo: vos){
+            vo.refreshViewObject();
+        }
+    }
 
     private JPanel getCorectPanel(ViewObject value) {
         JPanel surroundPanel = new JPanel();

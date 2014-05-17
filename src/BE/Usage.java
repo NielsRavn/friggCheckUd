@@ -29,6 +29,10 @@ public class Usage {
         this.amount = amount;
         this.loadedFromDatabase = loadedFromDatabase;
     }
+    
+    public Usage() {
+        amount = 0;
+    }
 
     public boolean isLoadedFromDatabase() {
         return loadedFromDatabase;
