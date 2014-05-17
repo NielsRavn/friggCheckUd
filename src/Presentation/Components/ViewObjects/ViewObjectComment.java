@@ -74,6 +74,11 @@ public class ViewObjectComment extends ViewObject{
     public String getComment(){
         return taComment.getText();
     }
+
+    @Override
+    public void refreshViewObject() {
+        
+    }
     
     private class MyActionListener implements ActionListener{
 
