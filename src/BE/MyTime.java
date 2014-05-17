@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  *
  * @author Niels
  */
-public class MyTime {
+public class MyTime implements IViewObjectBE {
     
     Timestamp startDate, alarmStartDate;
     private int startHour, startMinute, endHour, endMinute;
@@ -80,6 +80,11 @@ public class MyTime {
 
     public void setEndMinute(int endMinute) {
         this.endMinute = endMinute;
+    }
+
+    @Override
+    public String getName() {
+        return "Starttid: ["+ getStartHour() + ":" + getStartMinute() + "] Sluttid: ["+ getEndHour() + ":" + getEndMinute() + "]";
     }
     
     
