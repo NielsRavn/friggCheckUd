@@ -32,15 +32,9 @@ public abstract class ViewObject extends javax.swing.JPanel {
         fillData();
     }
     
-    protected void fillData(){
-        setLayout(new GridBagLayout());
-        lblName = new JLabel(viewObjectBE.getName());
-        add(lblName);
-    }
+    protected abstract void fillData();
     
-    public void refreshViewObject(){
-        lblName.setText(viewObjectBE.getName());
-    }
+    public abstract void refreshViewObject();
      
     public IViewObjectBE getViewObjectBE(){
         return viewObjectBE;

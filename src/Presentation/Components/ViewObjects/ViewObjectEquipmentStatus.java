@@ -31,12 +31,8 @@ public class ViewObjectEquipmentStatus extends ViewObject{
         
     }
 
-    public void setEquipmentHasData(boolean equipmentHasData) {
-        equipmentStatus.setEquipmentHasData(equipmentHasData);
-        setEquipmentlblLook();
-    }
-    
-    private void setEquipmentlblLook(){
+    @Override
+    public void refreshViewObject() {
         equipmentLbl.setText("<html><body marginheight=15>"+(equipmentStatus.isEquipmentHasData() ? "Forbrug er blevet udfyldt." : "Forbrug er ikke blevet udfyldt endnu.") +"</body></html>");
         equipmentLbl.setForeground(equipmentStatus.isEquipmentHasData() ? MyConstants.COLOR_GREEN : Color.BLACK);
     }
@@ -50,7 +46,7 @@ public class ViewObjectEquipmentStatus extends ViewObject{
         topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout()); 
         equipmentLbl = new JLabel();
-        setEquipmentlblLook();
+        refreshViewObject();
         equipmentLbl.setFont(MyConstants.FONT_HEADER_TEXT);
         topPanel.add(equipmentLbl);
         
