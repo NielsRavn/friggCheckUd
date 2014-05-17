@@ -10,7 +10,7 @@ package BE;
  *
  * @author Niels
  */
-public class Story {
+public class Story implements IViewObjectBE{
     
     
     
@@ -18,6 +18,10 @@ public class Story {
     String navne, addresser;
     int type, gruppeNr, detektorNr;
     String  comment;
+    
+    public Story(int alarmId){
+        this.alarmId = alarmId;
+    }
 
     public Story(int id, int alarmId, int evaNr, int brandrapportNr, String navne, String addresser, int type, int gruppeNr, int detektorNr, String comment) {
         this.id = id;
@@ -122,6 +126,11 @@ public class Story {
 
     public void setBemærkning(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public String getName() {
+        return "id: " + id;
     }
     
     

@@ -17,19 +17,15 @@ import java.awt.event.KeyEvent;
  */
 public class ViewObjectStory extends ViewObject {
 
-    int alarmId;
+    Story story;
     
     /**
      * Creates new form ViewObjectStory
      */
-    public ViewObjectStory(int alarmId) {
-        initComponents();
-        this.alarmId = alarmId;
-        myKeyNumbersAdapter kna = new myKeyNumbersAdapter();
-        TFBrand.addKeyListener(kna);
-        TFEva.addKeyListener(kna);
-        TFGruppe.addKeyListener(kna);
-        TFDetektor.addKeyListener(kna);
+    public ViewObjectStory(Story story) {
+        super(story);
+        this.story = story;
+        
     }
 
     /**
@@ -265,7 +261,7 @@ public class ViewObjectStory extends ViewObject {
         int grup =  Integer.parseInt(TFGruppe.getText());
         int detek =  Integer.parseInt(TFDetektor.getText());
         String comment = TAComent.getText();
-        return new Story(alarmId, evaNr, brandNr, navne, addresser, type, grup, detek, comment);
+        return new Story(story.getAlarmId(), evaNr, brandNr, navne, addresser, type, grup, detek, comment);
     }
 
     private int getSelectedRadioButton() {
@@ -273,6 +269,21 @@ public class ViewObjectStory extends ViewObject {
         else if(RBFalse.isSelected()) return 1;
         else if(RBNoUse.isSelected()) return 2;
         else return 3;
+    }
+
+    @Override
+    protected void fillData() {
+        initComponents();
+        myKeyNumbersAdapter kna = new myKeyNumbersAdapter();
+        TFBrand.addKeyListener(kna);
+        TFEva.addKeyListener(kna);
+        TFGruppe.addKeyListener(kna);
+        TFDetektor.addKeyListener(kna);
+    }
+
+    @Override
+    public void refreshViewObject() {
+        
     }
     
     
