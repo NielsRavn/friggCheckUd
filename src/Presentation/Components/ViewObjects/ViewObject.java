@@ -27,11 +27,7 @@ public abstract class ViewObject extends javax.swing.JPanel {
         initComponents();
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         this.viewObjectBE = viewObjectBE;
-        
-        fillData();
     }
-    
-    protected abstract void fillData();
     
     public abstract void refreshViewObject();
      
