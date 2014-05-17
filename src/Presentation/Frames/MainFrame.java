@@ -48,6 +48,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -322,8 +323,16 @@ public class MainFrame extends JFrame {
             approveListPanel.addViewObject(new ViewObjectPosition(MyConstants.STATION_DUTY));
             tv.setEnabledContent(equipmentPanel, false);
         }
-        
-        approveListPanel.addViewObject(new ViewObjectTime(voa.getTime()));
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(voa.getTime().getTime());
+        Calendar endDate = Calendar.getInstance();
+        int startHour = cal.get(Calendar.HOUR_OF_DAY);
+        int startMin = cal.get(Calendar.MINUTE);
+        int endHour = endDate.get(Calendar.HOUR_OF_DAY);
+        int endMin = endDate.get(Calendar.MINUTE);
+        approveListPanel.addViewObject(new ViewObjectTime(
+                new MyTime(new Timestamp(voa.getTime().getTime()), new Timestamp(voa.getTime().getTime()),startHour, startMin, endHour, endMin)
+        ));
         approveListPanel.addViewObject(new ViewObjectComment(new Comment(li.getFireman(), "")));
 
     }
