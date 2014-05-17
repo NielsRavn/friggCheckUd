@@ -17,12 +17,15 @@ import javax.swing.JLabel;
 public class ViewObjectBasic extends ViewObject{
     IViewObjectBE vob;
     public ViewObjectBasic(IViewObjectBE vob){
+        super(vob);
         this.vob = vob;
-        setLayout(new GridBagLayout());
+        
         fillData();
     }
     
-    private void fillData(){
+    @Override
+    protected void fillData(){
+        setLayout(new GridBagLayout());
         add(new JLabel(vob.getName()));
     }
     
