@@ -36,7 +36,7 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
     
     JLabel lblTimeStart, lblTimeEnd, lblDate ;
             
-    public ViewObjectTime(MyTime time){
+    protected ViewObjectTime(MyTime time){
         super(time);
         this.date = Calendar.getInstance();
         this.date.setTimeInMillis(time.getAlarmStartDate().getTime());
