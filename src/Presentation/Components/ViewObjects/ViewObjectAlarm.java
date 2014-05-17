@@ -74,6 +74,11 @@ public class ViewObjectAlarm extends ViewObject{
     public Alarm getAlarm(){
         return alarm;
     }
+
+    @Override
+    public void refreshViewObject() {
+        
+    }
     
     
 }

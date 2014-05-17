@@ -39,5 +39,10 @@ public class ViewObjectCar extends ViewObject{
     public Car getCar(){
         return car;
     }
+
+    @Override
+    public void refreshViewObject() {
+        
+    }
     
 }

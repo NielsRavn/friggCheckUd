@@ -28,5 +28,10 @@ public class ViewObjectBasic extends ViewObject{
         setLayout(new GridBagLayout());
         add(new JLabel(vob.getName()));
     }
+
+    @Override
+    public void refreshViewObject() {
+        
+    }
     
 }
