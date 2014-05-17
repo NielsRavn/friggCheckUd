@@ -302,19 +302,17 @@ public class MainFrame extends JFrame {
 
     protected void fillApproveListPanel() {
         ViewObjectAlarm voa = (ViewObjectAlarm) alarmPanel.getSelectedViewObject();
-        approveListPanel.addViewObject(ViewObjectFactory.getViewObject(voa.getAlarm()));
+        approveListPanel.addViewObject(ViewObjectFactory.getViewObject(voa.getViewObjectBE()));
         if (carPanel.getSelectedViewObject().getClass() == ViewObjectCar.class) {
             ViewObjectCar voc = (ViewObjectCar) carPanel.getSelectedViewObject();
-            approveListPanel.addViewObject(ViewObjectFactory.getViewObject(voc.getCar()));
-            ViewObjectPosition pos = (ViewObjectPosition) positionPanel.getSelectedViewObject();
-            approveListPanel.addViewObject(ViewObjectFactory.getViewObject(pos.getPosition()));
+            approveListPanel.addViewObject(ViewObjectFactory.getViewObject(voc.getViewObjectBE()));
+            approveListPanel.addViewObject(ViewObjectFactory.getViewObject(positionPanel.getSelectedViewObject().getViewObjectBE()));
             try {
                 ArrayList<Usage> usages = eal.getUsagesFor(voa.getAlarm().getID(), voc.getCar().getCarNr());
                 equipmentPanel.setAmountForUsages(usages);
                 EquipmentStatus es = new EquipmentStatus(!usages.isEmpty());
-                ViewObjectEquipmentStatus voes = new ViewObjectEquipmentStatus(es);
                 equipmentPanel.setStatusViewObject(es);
-                approveListPanel.addViewObject(voes);
+                approveListPanel.addViewObject(ViewObjectFactory.getViewObject(es));
                 tv.setEnabledContent(equipmentPanel, true);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Database call error: " + ex);
@@ -322,7 +320,7 @@ public class MainFrame extends JFrame {
         } else {
             ViewObjectStationDuty station = (ViewObjectStationDuty) carPanel.getSelectedViewObject();
             approveListPanel.addViewObject(ViewObjectFactory.getViewObject(station.getStation()));
-            approveListPanel.addViewObject(new ViewObjectPosition(MyConstants.STATION_DUTY));
+            approveListPanel.addViewObject(ViewObjectFactory.getViewObject(MyConstants.STATION_DUTY));
             tv.setEnabledContent(equipmentPanel, false);
         }
         Calendar cal = Calendar.getInstance();
@@ -332,10 +330,10 @@ public class MainFrame extends JFrame {
         int startMin = cal.get(Calendar.MINUTE);
         int endHour = endDate.get(Calendar.HOUR_OF_DAY);
         int endMin = endDate.get(Calendar.MINUTE);
-        approveListPanel.addViewObject(new ViewObjectTime(
+        approveListPanel.addViewObject(ViewObjectFactory.getViewObject(
                 new MyTime(new Timestamp(voa.getTime().getTime()), new Timestamp(voa.getTime().getTime()),startHour, startMin, endHour, endMin)
         ));
-        approveListPanel.addViewObject(new ViewObjectComment(new Comment(li.getFireman(), "")));
+        approveListPanel.addViewObject(ViewObjectFactory.getViewObject(new Comment(li.getFireman(), "")));
 
     }
 
