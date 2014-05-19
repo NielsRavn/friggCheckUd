@@ -77,7 +77,9 @@ Calendar date = Calendar.getInstance();
                 date.setTimeInMillis(vo.getEndTime().getTime());
                 return "" + date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+" " + MyUtil.p0(date.get(Calendar.HOUR_OF_DAY)) + ":" + MyUtil.p0(date.get(Calendar.MINUTE));
             case 4:
-                return (int) Math.ceil( (double)(vo.getEndTime().getTime() - (double)vo.getStartTime().getTime()) / 3600000 );
+                int hours = (int) Math.ceil( (double)(vo.getEndTime().getTime() - (double)vo.getStartTime().getTime()) / 3600000 );
+                if(hours < 2) hours = 2;
+                return hours;
             case 5:
                 
                 if(vo.getAcceptedByTeamleaderId()!= 0){
@@ -85,12 +87,19 @@ Calendar date = Calendar.getInstance();
                 }else{
                     return false;
                 }
+            
                 
         }
 
         return null;
     }
-
+    
+    public Time_Sheet getTimeSheet(int row)
+    {
+        return vos.get(row);
+    }
+    
+    
     @Override
     public void setValueAt(Object o, int row, int col) {
        Time_Sheet vo = vos.get(row);

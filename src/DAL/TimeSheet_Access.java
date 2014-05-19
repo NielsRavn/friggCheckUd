@@ -7,6 +7,7 @@
 package DAL;
 
 import BE.Alarm;
+import BE.ApprovalSheet;
 import BE.Car;
 import BE.Comment;
 import BE.Fireman;
@@ -17,10 +18,12 @@ import Presentation.MyConstants;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 
 /**
@@ -317,5 +320,41 @@ public class TimeSheet_Access extends DatabaseConnection{
         
         return timesheets;
 }
+
+    public void aproveTimesheetByTimesheetId(ArrayList<Time_Sheet> app, ApprovalSheet approvalSheet)  throws SQLServerException, SQLException {
+        Connection con = null;
+        try
+        {
+            con = getConnection();
+            String sql = "INSERT INTO ApprovalSheet VALUES (?,?,?,?)";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, approvalSheet.getFireman().getID());
+            ps.setString(2, approvalSheet.getComment());
+            ps.setBoolean(3, approvalSheet.isApproved());
+            ps.setInt(4, approvalSheet.getHours());
+            
+            ps.executeUpdate(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            
+            ResultSet rs = ps.getGeneratedKeys();
+            if(rs.next()){
+                approvalSheet.setId(rs.getInt(1));
+                String updateSql = "UPDATE Timesheet SET acceptedByTeamleader=?, WHERE id = ?;";
+                PreparedStatement psUpdate = con.prepareStatement(updateSql);
+                //psUpdate.setInt(i, );
+                
+            }else{
+                throw new SQLException("No key returned when adding ApprovalSheet");
+            }
+//ps.executeUpdate();
+             
+        }
+        finally
+        {
+            if(con != null)
+            {
+                con.close();
+            }
+        }
+    }
     
 }
