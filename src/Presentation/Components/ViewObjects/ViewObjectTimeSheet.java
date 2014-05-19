@@ -14,6 +14,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -39,8 +40,10 @@ public class ViewObjectTimeSheet extends ViewObject {
     Font myFont = new Font("Verdana", Font.PLAIN, 30);
     JTable firemen;
     TimeSheetList timesheets;
-    JButton aproveCar;
+    JButton btnAproveTimesheet;
     JPanel aproveCarPanel;
+    JPanel pnlaproveCarPanel;
+    JPanel pnlaproveTimesheet;
     JCheckBox aproveAllOnCar;
     protected ViewObjectTimeSheet( TimeSheetList timesheets) {
         super(timesheets);
@@ -50,7 +53,7 @@ public class ViewObjectTimeSheet extends ViewObject {
     }
 
     private JPanel getAproveCarPanel() {
-        aproveCarPanel = new JPanel();
+        pnlaproveCarPanel = new JPanel();
         aproveAllOnCar = new JCheckBox();
         
         aproveAllOnCar.setText(" Vælg alle på bilen");
@@ -67,10 +70,28 @@ public class ViewObjectTimeSheet extends ViewObject {
             }
         }
         );
-        aproveCarPanel.setLayout(new BorderLayout());
-        aproveCarPanel.add(aproveAllOnCar, BorderLayout.EAST);
-
-        return aproveCarPanel;
+        
+        btnAproveTimesheet = new JButton();
+        
+        btnAproveTimesheet.setFont(MyConstants.FONT_BUTTON_FONT); // NOI18N
+        btnAproveTimesheet.setBackground(MyConstants.COLOR_GREEN);
+        btnAproveTimesheet.setForeground(Color.WHITE);
+        btnAproveTimesheet.setText("<html><body marginwidth=30 marginheight=20>Godkend Timerne</body></html>");
+        btnAproveTimesheet.setActionCommand("<html><body marginwidth=30 marginheight=20>Godkend Timerne</body></html>");
+        btnAproveTimesheet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                for(int i = 0; model.getRowCount()> i; i++)
+                {
+                    System.out.println(" "+ model.getValueAt(i, 5));
+                    
+                }
+            }
+        });
+        
+        pnlaproveCarPanel.setLayout(new FlowLayout());
+        pnlaproveCarPanel.add(aproveAllOnCar);
+        pnlaproveCarPanel.add(btnAproveTimesheet);
+        return pnlaproveCarPanel;
     }
     
     
@@ -135,8 +156,7 @@ public class ViewObjectTimeSheet extends ViewObject {
         center.add(scrl, BorderLayout.CENTER);
         add(vest , BorderLayout.WEST);
         add(center , BorderLayout.CENTER);
-       
-       center.add(getAproveCarPanel() , BorderLayout.SOUTH);
+        center.add(getAproveCarPanel() , BorderLayout.SOUTH);
         addCellRenderers();
     }
 
