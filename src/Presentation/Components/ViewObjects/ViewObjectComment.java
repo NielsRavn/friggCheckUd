@@ -37,6 +37,7 @@ public class ViewObjectComment extends ViewObject{
         setMaximumSize(new Dimension((int)getMaximumSize().getWidth(), (int) getPreferredSize().getHeight()));
         validate();
         repaint();
+        super.notifyObservers();
     }
     
     private void hideCommentField(){

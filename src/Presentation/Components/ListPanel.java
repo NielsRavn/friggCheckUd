@@ -26,7 +26,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Brobak
  */
-public class ListPanel extends javax.swing.JPanel {
+public class ListPanel extends javax.swing.JPanel{
 
     JPanel lstTheList;
     ArrayList<IObserver> observers;
@@ -53,7 +53,6 @@ public class ListPanel extends javax.swing.JPanel {
         mySelectedIndex = -1;
         initComponents();
         vos = new ArrayList();
-        lstTheList = this;
         observers = new ArrayList();
         add(jScrollPane1, BorderLayout.CENTER);
         mma = new MyMouseMotionAdapter();
@@ -90,17 +89,7 @@ public class ListPanel extends javax.swing.JPanel {
         ArrayList<ViewObject> vos = viewObjects;
     }
 
-//    /**
-//     * Adds a cell renderer to the table coloums in tblResult
-//     */
-//    private void addCellRenderer() {
-//        MyTableCellRenderer renderer = new MyTableCellRenderer();
-//        
-//        for(int col = 0; col < model.getColumnCount(); col ++){
-//            TableColumn tc = tblList.getColumnModel().getColumn(col);
-//            tc.setCellRenderer(renderer);
-//        }
-//    }
+    
     /**
      * Adds a new ViewObject to the lst
      *
@@ -110,6 +99,7 @@ public class ListPanel extends javax.swing.JPanel {
         object.addMouseMotionListener(mma);
         object.addMouseListener(mma);
         object.setMaximumSize(new Dimension(width, (int) object.getPreferredSize().getHeight()));
+        object.addObserver(new ViiewObjectObserver());
         vos.add(object);
         panel.add(object);
         
@@ -181,6 +171,16 @@ public class ListPanel extends javax.swing.JPanel {
 
     public int getMyWidth() {
         return width;
+    }
+    
+    private class ViiewObjectObserver implements IObserver{
+
+        @Override
+        public void notifyObserver() {
+            ListPanel.this.validate();
+            ListPanel.this.repaint();
+        }
+        
     }
     
     private class MyMouseMotionAdapter extends MouseAdapter {
