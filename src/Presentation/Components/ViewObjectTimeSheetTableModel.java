@@ -80,7 +80,7 @@ Calendar date = Calendar.getInstance();
                 return (int) Math.ceil( (double)(vo.getEndTime().getTime() - (double)vo.getStartTime().getTime()) / 3600000 );
             case 5:
                 
-                if(vo.isAccepted() != 0){
+                if(vo.getAcceptedByTeamleaderId()!= 0){
                     return true;
                 }else{
                     return false;
@@ -96,13 +96,13 @@ Calendar date = Calendar.getInstance();
        Time_Sheet vo = vos.get(row);
         switch (col) {
             case 5:
-                if(vo.isAccepted() == 0)
+                if(vo.getAcceptedByTeamleaderId() == 0)
                 {
-                    vo.setAccepted(1);
+                    vo.setAcceptedByTeamleaderId(1);
                 }
                 else
                 {
-                    vo.setAccepted(0);
+                    vo.setAcceptedByTeamleaderId(0);
                 }
             break;
         }
