@@ -54,7 +54,7 @@ public class TimeSheet_Access extends DatabaseConnection{
            con = getConnection();
            
            Statement query = con.createStatement();
-           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE empoyeeId = "+id+" AND positionId = "+ MyConstants.TEAM_LEADER.getID() +" AND acceptedBy IS NULL;");
+           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE empoyeeId = "+id+" AND positionId = "+ MyConstants.TEAM_LEADER.getID() +" AND acceptedByTeamLeader IS NULL;");
            while(result.next())
            {
                int tsId = result.getInt("id");
@@ -93,7 +93,11 @@ public class TimeSheet_Access extends DatabaseConnection{
             con = getConnection();
             Statement query = con.createStatement();
             if(ts.getCarNr() == 0){
-                query.executeUpdate("Insert into TimeSheet Values ( "
+                
+                
+              
+                
+                query.executeUpdate("Insert into TimeSheet (empoyeeId,alarmId,carNr,positionId, startTime, endTime, acceptedByTeamleader, acceptedForSalary, addedToPayment, comment) Values ( "
                          + ts.getEmployeeID()+ ", "
                         + ts.getAlarmID()+ ", "
                         + "NULL"+","
@@ -103,7 +107,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                         + "NULL , "
                         + "NULL ,"
                         + "'False' ,'"
-                        + ts.getComment()+"'"+ ") ",Statement.RETURN_GENERATED_KEYS);
+                        + ts.getComment().getComment()+"'"+ ") ",Statement.RETURN_GENERATED_KEYS);
                 ResultSet result = query.getGeneratedKeys();
                 if(result.next()){
                     ts.setId(result.getInt(1));
