@@ -246,12 +246,12 @@ public class TimeSheet_Access extends DatabaseConnection{
            con = getConnection();
            
            Statement query = con.createStatement();
-           ResultSet result = query.executeQuery("SELECT Timesheet.id as tsId,* FROM TimeSheet \n" +
-                                                            "INNER JOIN Position ON TimeSheet.positionId = Position.id \n" +
-                                                            "INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId \n" +
-                                                            "INNER JOIN Alarm ON TimeSheet.alarmId = Alarm.id \n" +
-                                                            "WHERE TimeSheet.alarmId = "+alarmId+"\n" +
-                                                            "and ISNULL(TimeSheet.carNr, 0) = 0;");
+           ResultSet result = query.executeQuery("SELECT Timesheet.id as tsId,* FROM TimeSheet " +
+                                                            "INNER JOIN Position ON TimeSheet.positionId = Position.id " +
+                                                            "INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId " +
+                                                            "INNER JOIN Alarm ON TimeSheet.alarmId = Alarm.id " +
+                                                            "WHERE TimeSheet.alarmId = "+alarmId+"" +
+                                                            "AND ISNULL(TimeSheet.carNr, 0) = 0;");
            while(result.next())
            {
               //getting data for fireman

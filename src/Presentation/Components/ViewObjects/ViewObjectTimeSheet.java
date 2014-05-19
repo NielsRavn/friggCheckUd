@@ -11,6 +11,7 @@ import BE.Time_Sheet;
 import Presentation.Components.ViewObjectTimeSheetTableModel;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -40,6 +41,28 @@ public class ViewObjectTimeSheet extends ViewObject {
         model = new ViewObjectTimeSheetTableModel();
         fillData();
     }
+
+    private JPanel getAproveCarPanel() {
+        aproveCarPanel = new JPanel();
+        aproveCar = new JButton();
+        aproveCarPanel.setLayout(new BorderLayout());
+        aproveCar.setFont(MyConstants.FONT_BUTTON_FONT); // NOI18N
+        aproveCar.setBackground(MyConstants.COLOR_GREEN);
+        aproveCar.setForeground(Color.WHITE);
+        aproveCar.setText("<html><body marginwidth=30 marginheight=20>Godkend Bil</body></html>");
+        aproveCar.setActionCommand("<html><body marginwidth=30 marginheight=20>Godkend Bil</body></html>");
+        aproveCar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                for(int i = 0; model.getRowCount()> i; i++)
+                {
+                    model.setValueAt(true, i, 5);
+                    
+                }
+            }
+        });
+        aproveCarPanel.add(aproveCar, BorderLayout.EAST);
+        return aproveCarPanel;
+    }
     
     
     protected void fillData()
@@ -55,6 +78,7 @@ public class ViewObjectTimeSheet extends ViewObject {
         firemen.setRowHeight(28);
         JScrollPane scrl = new JScrollPane();
         scrl.setViewportView(firemen);
+        scrl.setPreferredSize(new Dimension(0,200));
         firemen.setModel(model);
         c.fill = GridBagConstraints.CENTER;
         
@@ -102,7 +126,8 @@ public class ViewObjectTimeSheet extends ViewObject {
         center.add(scrl, BorderLayout.CENTER);
         add(vest , BorderLayout.WEST);
         add(center , BorderLayout.CENTER);
-        
+       
+       center.add(getAproveCarPanel() , BorderLayout.SOUTH);
         addCellRenderers();
     }
 
