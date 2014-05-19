@@ -8,6 +8,8 @@ package Presentation.Components.ViewObjects;
 
 import BE.Story;
 import BLL.Story_AccessLink;
+import Presentation.MyConstants;
+import java.awt.Color;
 import java.awt.TextField;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -220,6 +222,7 @@ public class ViewObjectStory extends ViewObject {
         add(jPanel4, java.awt.BorderLayout.CENTER);
 
         btnApprove.setText("Godkend beretning");
+        btnApprove.setMargin(new java.awt.Insets(20, 14, 20, 14));
         btnApprove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnApproveActionPerformed(evt);
@@ -228,6 +231,7 @@ public class ViewObjectStory extends ViewObject {
         jPanel17.add(btnApprove);
 
         btnClear.setText("Nulstil felter");
+        btnClear.setMargin(new java.awt.Insets(20, 14, 20, 14));
         btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClearActionPerformed(evt);
@@ -315,6 +319,12 @@ public class ViewObjectStory extends ViewObject {
     protected void fillData() {
         initComponents();
         clearAllFields();
+        btnApprove.setBackground(MyConstants.COLOR_RED);
+        btnClear.setBackground(MyConstants.COLOR_GREEN);
+        btnApprove.setForeground(Color.WHITE);
+        btnClear.setForeground(Color.WHITE);
+        btnApprove.setFont(MyConstants.FONT_BUTTON_FONT);
+        btnClear.setFont(MyConstants.FONT_BUTTON_FONT);
         MyKeyNumbersAdapter kna = new MyKeyNumbersAdapter();
         MyFocusListener mfl = new MyFocusListener();
         TFBrand.addKeyListener(kna);

@@ -368,6 +368,9 @@
         <Component class="javax.swing.JButton" name="btnApprove">
           <Properties>
             <Property name="text" type="java.lang.String" value="Godkend beretning"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[20, 14, 20, 14]"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnApproveActionPerformed"/>
@@ -376,6 +379,9 @@
         <Component class="javax.swing.JButton" name="btnClear">
           <Properties>
             <Property name="text" type="java.lang.String" value="Nulstil felter"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[20, 14, 20, 14]"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearActionPerformed"/>
