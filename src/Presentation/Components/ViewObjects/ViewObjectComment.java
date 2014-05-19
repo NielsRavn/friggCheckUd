@@ -50,7 +50,7 @@ public class ViewObjectComment extends ViewObject{
     
     protected void fillData(){
         setLayout(new BorderLayout());
-        btnExpandComment = new JButton("<html><body marginwidth=30 marginheight=20>Add comment</body></html>");
+        btnExpandComment = new JButton("<html><body marginwidth=30 marginheight=20>Tilføj kommentar</body></html>");
         btnExpandComment.setBackground(MyConstants.COLOR_BLUE);
         btnExpandComment.setFont(MyConstants.FONT_BUTTON_FONT);
         btnExpandComment.setForeground(Color.WHITE);
@@ -59,7 +59,7 @@ public class ViewObjectComment extends ViewObject{
         taComment.setPreferredSize(new Dimension(0, 150));
         taComment.setFont(MyConstants.FONT_HEADER_TEXT);
         
-        lblText = new JLabel("<html><body marginwidth=30 marginheight=20>Comment</body></html>");
+        lblText = new JLabel("<html><body marginwidth=30 marginheight=20>Kommentar</body></html>");
         lblText.setHorizontalAlignment(JLabel.CENTER);
         lblText.setOpaque(true);
         lblText.setBackground(MyConstants.COLOR_BLUE);
