@@ -13,10 +13,12 @@ import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -35,6 +37,8 @@ public class ViewObjectTimeSheet extends ViewObject {
     Font myFont = new Font("Verdana", Font.PLAIN, 30);
     JTable firemen;
     TimeSheetList timesheets;
+    JButton aproveCar;
+    JPanel aproveCarPanel;
     protected ViewObjectTimeSheet( TimeSheetList timesheets) {
         super(timesheets);
         this.timesheets = timesheets;
