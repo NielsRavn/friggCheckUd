@@ -333,7 +333,7 @@ public class MainFrame extends JFrame {
         approveListPanel.addViewObject(ViewObjectFactory.getViewObject(
                 new MyTime(new Timestamp(voa.getTime().getTime()), new Timestamp(voa.getTime().getTime()),startHour, startMin, endHour, endMin)
         ));
-        approveListPanel.addViewObject(ViewObjectFactory.getViewObject(new Comment(li.getFireman(), "")));
+        approveListPanel.addViewObject(ViewObjectFactory.getViewObject(new Comment("")));
 
     }
 
@@ -565,7 +565,7 @@ public class MainFrame extends JFrame {
                     Timestamp endTime = vot.getEndTime();
                     Timestamp startTime = vot.getStartTime();
                     
-                    Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, 0, new ArrayList());
+                    Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, 0, 0,false, new Comment(""));
                     String comment = null;
                     for(ViewObject vo: approveListPanel.getAllViewObject()){
                         if(vo.getClass() == ViewObjectComment.class){
@@ -574,7 +574,7 @@ public class MainFrame extends JFrame {
                         }
                     }
                     if(!comment.equals("") && comment != null){
-                        ts.addComments(new Comment(li.getFireman(), comment));
+                        ts.setComment(new Comment(comment));
                     }
                     
                     try {

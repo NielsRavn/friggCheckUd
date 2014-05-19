@@ -17,8 +17,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -39,6 +41,7 @@ public class ViewObjectTimeSheet extends ViewObject {
     TimeSheetList timesheets;
     JButton aproveCar;
     JPanel aproveCarPanel;
+    JCheckBox aproveAllOnCar;
     protected ViewObjectTimeSheet( TimeSheetList timesheets) {
         super(timesheets);
         this.timesheets = timesheets;
@@ -48,23 +51,25 @@ public class ViewObjectTimeSheet extends ViewObject {
 
     private JPanel getAproveCarPanel() {
         aproveCarPanel = new JPanel();
-        aproveCar = new JButton();
-        aproveCarPanel.setLayout(new BorderLayout());
-        aproveCar.setFont(MyConstants.FONT_BUTTON_FONT); // NOI18N
-        aproveCar.setBackground(MyConstants.COLOR_GREEN);
-        aproveCar.setForeground(Color.WHITE);
-        aproveCar.setText("<html><body marginwidth=30 marginheight=20>Godkend Bil</body></html>");
-        aproveCar.setActionCommand("<html><body marginwidth=30 marginheight=20>Godkend Bil</body></html>");
-        aproveCar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        aproveAllOnCar = new JCheckBox();
+        
+        aproveAllOnCar.setText(" Vælg alle på bilen");
+        aproveAllOnCar.setFont(MyConstants.FONT_HEADER_TEXT);
+        aproveAllOnCar.addActionListener( new java.awt.event.ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
                 for(int i = 0; model.getRowCount()> i; i++)
                 {
                     model.setValueAt(true, i, 5);
-                    
                 }
+                model.fireTableDataChanged();
             }
-        });
-        aproveCarPanel.add(aproveCar, BorderLayout.EAST);
+        }
+        );
+        aproveCarPanel.setLayout(new BorderLayout());
+        aproveCarPanel.add(aproveAllOnCar, BorderLayout.EAST);
+
         return aproveCarPanel;
     }
     

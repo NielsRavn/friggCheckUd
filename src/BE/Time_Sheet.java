@@ -7,7 +7,6 @@
 package BE;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 /**
  *
@@ -25,19 +24,12 @@ public class Time_Sheet implements IViewObjectBE{
     private Car car;
     private Station station;
     private Timestamp startTime, endTime;
-    private int accepted;
-    private ArrayList<Comment> comments;
-    /**
-     * 
-     * @param employeeID
-     * @param alarmID
-     * @param carNr
-     * @param positionID
-     * @param startTime
-     * @param endTime
-     * @param accepted 
-     */
-    public Time_Sheet(int id, int employeeID, int alarmID, int carNr, int positionID, Timestamp startTime, Timestamp endTime, int accepted, ArrayList<Comment> comments) {
+    private int accedtedByTeamLeader;
+    private int acceptedForSallary;
+    private boolean addedToPayment;
+    private Comment comment;
+   
+    public Time_Sheet(int id, int employeeID, int alarmID, int carNr, int positionID, Timestamp startTime, Timestamp endTime, int accedtedByTeamLeader, int acceptedForSallary, boolean addedToPayment, Comment comment) {
         this.id = id;
         this.employeeID = employeeID;
         this.alarmID = alarmID;
@@ -45,48 +37,25 @@ public class Time_Sheet implements IViewObjectBE{
         this.positionID = positionID;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.accepted = accepted;
-        this.comments = comments;
+        this.accedtedByTeamLeader = accedtedByTeamLeader;
+        this.acceptedForSallary = acceptedForSallary;
+        this.addedToPayment = addedToPayment;
+        this.comment = comment;
     }
-    public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Timestamp startTime, Timestamp endTime, int accepted, ArrayList<Comment> comments) {
+    public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Timestamp startTime, Timestamp endTime, int accedtedByTeamLeader, int acceptedForSallary, boolean addedToPayment, Comment comment) {
         this.employeeID = employeeID;
         this.alarmID = alarmID;
         this.carNr = carNr;
         this.positionID = positionID;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.accepted = accepted;
-        this.comments = comments;
+        this.accedtedByTeamLeader = accedtedByTeamLeader;
+        this.acceptedForSallary = acceptedForSallary;
+        this.addedToPayment = addedToPayment;
+        this.comment = comment;
     }
-    /**
-     * 
-     * @param employeeID
-     * @param alarmID
-     * @param carNr
-     * @param positionID
-     * @param startTime
-     * @param endTime 
-     */
-    public Time_Sheet(int id, int employeeID, int alarmID, int carNr, int positionID, Timestamp startTime, Timestamp endTime, ArrayList<Comment> comments) {
-        this.id = id;
-        this.employeeID = employeeID;
-        this.alarmID = alarmID;
-        this.carNr = carNr;
-        this.positionID = positionID;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.comments = comments;
-    }
-    /**
-     * 
-     * @param employeeID
-     * @param alarmID
-     * @param carNr
-     * @param position
-     * @param startTime
-     * @param endTime 
-     */
-    public Time_Sheet(int id, int employeeID, int alarmID, int carNr, Position position, Timestamp startTime, Timestamp endTime, ArrayList<Comment> comments) {
+    
+    public Time_Sheet(int id, int employeeID, int alarmID, int carNr, Position position, Timestamp startTime, Timestamp endTime,int accedtedByTeamLeader, int acceptedForSallary, boolean addedToPayment, Comment comment) {
         this.id = id;
         this.employeeID = employeeID;
         this.alarmID = alarmID;
@@ -94,19 +63,13 @@ public class Time_Sheet implements IViewObjectBE{
         this.position = position;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.comments = comments;
+        this.accedtedByTeamLeader = accedtedByTeamLeader;
+        this.acceptedForSallary = acceptedForSallary;
+        this.addedToPayment = addedToPayment;
+        this.comment = comment;
     }
-    /**
-     * Is used with approve timesheeet with timesheets for firemen/teamleaders/drivers
-     * @param a
-     * @param b
-     * @param c
-     * @param d
-     * @param startTime
-     * @param endTime
-     * @param firemenPositionId 
-     */
-    public Time_Sheet(int id, Fireman a, Alarm b, Car c, Position d, Timestamp startTime, Timestamp endTime, int firemenPositionId, ArrayList<Comment> comments, int accepted) {
+    
+    public Time_Sheet(int id, Fireman a, Alarm b, Car c, Position d, Timestamp startTime, Timestamp endTime, int firemenPositionId, int accedtedByTeamLeader, int acceptedForSallary, boolean addedToPayment, Comment comment) {
         this.id = id;
         this.fireman = a;
         this.alarm = b;
@@ -115,20 +78,13 @@ public class Time_Sheet implements IViewObjectBE{
         this.startTime = startTime;
         this.endTime = endTime;
         this.positionID = firemenPositionId;
-        this.comments = comments;
-        this.accepted = accepted;
+        this.accedtedByTeamLeader = accedtedByTeamLeader;
+        this.acceptedForSallary = acceptedForSallary;
+        this.addedToPayment = addedToPayment;
+        this.comment = comment;
     }
-   /**
-    * Is used with approve timesheeet with timesheets for stations duty
-    * @param a
-    * @param b
-    * @param c
-    * @param d
-    * @param startTime
-    * @param endTime
-    * @param firemenPositionId 
-    */
-    public Time_Sheet(int id, Fireman a, Alarm b, Station c, Position d, Timestamp startTime, Timestamp endTime, int firemenPositionId, ArrayList<Comment> comments, int accepted) {
+   
+    public Time_Sheet(int id, Fireman a, Alarm b, Station c, Position d, Timestamp startTime, Timestamp endTime, int firemenPositionId, int accedtedByTeamLeader, int acceptedForSallary, boolean addedToPayment, Comment comment) {
         this.id = id;
         this.fireman = a;
         this.alarm = b;
@@ -136,22 +92,20 @@ public class Time_Sheet implements IViewObjectBE{
         this.position = d;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.positionID = firemenPositionId;
-        this.comments = comments;
-        this.accepted = accepted;
+        this.positionID = firemenPositionId;this.accedtedByTeamLeader = accedtedByTeamLeader;
+        this.acceptedForSallary = acceptedForSallary;
+        this.addedToPayment = addedToPayment;
+        this.comment = comment;
     }
 
-    public ArrayList<Comment> getComments() {
-        return comments;
+    public Comment getComment() {
+        return comment;
     }
 
-    public void addComments(Comment comment) {
-        comments.add(comment);
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
     
-    public void removeComments(Comment comment) {
-        comments.remove(comment);
-    }
     
     
     
@@ -257,17 +211,40 @@ public class Time_Sheet implements IViewObjectBE{
     /**
      * @return the accepted
      */
-    public int isAccepted() {
-        return accepted;
+    public int getAcceptedByTeamleaderId() {
+        return accedtedByTeamLeader;
     }
 
     /**
      * @param accepted the accepted to set
      */
-    public void setAccepted(int accepted) {
-        this.accepted = accepted;
+    public void setAcceptedByTeamleaderId(int accepted) {
+        this.accedtedByTeamLeader = accepted;
+    }
+    
+    /**
+     * @return the accepted
+     */
+    public int getAcceptedForSalaryId() {
+        return acceptedForSallary;
     }
 
+    /**
+     * @param accepted the accepted to set
+     */
+    public void setAcceptedForSalaryId(int accepted) {
+        this.acceptedForSallary = accepted;
+    }
+
+    public boolean isAddedToPayment() {
+        return addedToPayment;
+    }
+
+    public void setAddedToPayment(boolean addedToPayment) {
+        this.addedToPayment = addedToPayment;
+    }
+    
+    
     /**
      * @return the position
      */
