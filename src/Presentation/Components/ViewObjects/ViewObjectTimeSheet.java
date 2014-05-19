@@ -82,7 +82,7 @@ public class ViewObjectTimeSheet extends ViewObject {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 for(int i = 0; model.getRowCount()> i; i++)
                 {
-                    System.out.println(" "+ model.getValueAt(i, 5));
+                    System.out.println(" "+ model.getValueAt(i, 5) +" : "+ model.getValueAt(i, -1));
                     
                 }
             }

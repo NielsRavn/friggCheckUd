@@ -65,6 +65,8 @@ Calendar date = Calendar.getInstance();
     public Object getValueAt(int row, int col) {
         Time_Sheet vo = vos.get(row);
         switch (col) {
+            case -1:
+                return vo.getId();//hidden column, returns the timesheet id for aproval 
             case 0:
                 return vo.getPosition().getName();
             case 1:
@@ -85,6 +87,7 @@ Calendar date = Calendar.getInstance();
                 }else{
                     return false;
                 }
+            
                 
         }
 
