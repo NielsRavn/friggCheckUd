@@ -112,7 +112,7 @@ public class MainFrame extends JFrame {
             setLayout(bl);
             width = dim.width;
 
-            li = new LogIn(this);
+            li =  LogIn.getInstance(this);
             add(li, BorderLayout.CENTER);
 
             head = new Header();

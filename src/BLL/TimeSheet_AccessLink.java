@@ -6,6 +6,7 @@
 
 package BLL;
 
+import BE.ApprovalSheet;
 import BE.Fireman;
 import BE.Time_Sheet;
 import DAL.TimeSheet_Access;
@@ -58,5 +59,10 @@ public class TimeSheet_AccessLink {
     
     public ArrayList<Time_Sheet> stationsVagt(int alarmId) throws SQLException {
         return ta.stationsVagt(alarmId);
+    }
+
+
+    public void aproveTimesheetByTimesheetId(ArrayList<Time_Sheet> app, ApprovalSheet approvalSheet) throws SQLException {
+        ta.aproveTimesheetByTimesheetId(app, approvalSheet);
     }
 }

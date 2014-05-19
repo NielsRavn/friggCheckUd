@@ -30,8 +30,16 @@ public class LogIn extends javax.swing.JPanel {
     private Fireman_AccessLink firemanMgr;
     MainFrame parent;
     Fireman fireman;
+    static LogIn login;
     
-    public LogIn(MainFrame parent) {
+    public static LogIn getInstance(MainFrame parent)
+    {
+        if(login == null)
+            login = new LogIn(parent);
+        return login;
+    }
+    
+    private LogIn(MainFrame parent) {
         initComponents();
         btnLogIn.setBackground(MyConstants.COLOR_GREEN);
         
@@ -136,6 +144,12 @@ public class LogIn extends javax.swing.JPanel {
         }
         return true;
     }
+    
+    public static Fireman getFiremanStatic() throws IllegalStateException{
+        if(login == null) throw new IllegalStateException("Der er ikke blevet logget ind endnu");
+        return login.getFireman();
+    }
+    
     /**
      * 
      * @return Fireman

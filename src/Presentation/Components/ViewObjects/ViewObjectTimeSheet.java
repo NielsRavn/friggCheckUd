@@ -6,9 +6,12 @@
 
 package Presentation.Components.ViewObjects;
 
+import BE.ApprovalSheet;
 import BE.TimeSheetList;
 import BE.Time_Sheet;
+import BLL.TimeSheet_AccessLink;
 import Presentation.Components.ViewObjectTimeSheetTableModel;
+import Presentation.Frames.LogIn;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,10 +22,16 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -45,11 +54,19 @@ public class ViewObjectTimeSheet extends ViewObject {
     JPanel pnlaproveCarPanel;
     JPanel pnlaproveTimesheet;
     JCheckBox aproveAllOnCar;
+    ApprovalSheet approvalSheet;
+    TimeSheet_AccessLink tsa;
     protected ViewObjectTimeSheet( TimeSheetList timesheets) {
         super(timesheets);
         this.timesheets = timesheets;
         model = new ViewObjectTimeSheetTableModel();
+        try {
+            tsa = new TimeSheet_AccessLink();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Der er fejl i databasen, kontakt system administratoren " +  ex);
+        }
         fillData();
+        
     }
 
     private JPanel getAproveCarPanel() {
@@ -78,19 +95,38 @@ public class ViewObjectTimeSheet extends ViewObject {
         btnAproveTimesheet.setForeground(Color.WHITE);
         btnAproveTimesheet.setText("<html><body marginwidth=30 marginheight=20>Godkend Timerne</body></html>");
         btnAproveTimesheet.setActionCommand("<html><body marginwidth=30 marginheight=20>Godkend Timerne</body></html>");
+
+        final ArrayList<Time_Sheet> app = new ArrayList<>();
         btnAproveTimesheet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 for(int i = 0; model.getRowCount()> i; i++)
                 {
-                    System.out.println(" "+ model.getValueAt(i, 5) +" : "+ model.getValueAt(i, -1));
+                    String coment = null;
+                    Time_Sheet t = model.getTimeSheet(i);
+                    if(model.getValueAt(i, 5).equals(false))
+                    {
+                        coment = JOptionPane.showInternalInputDialog(ViewObjectTimeSheet.this, "Kometar til timesedlen på " + t.getFireman().getFirstName() + " " + t.getFireman().getLastName());
+                    }
+                    
+                    approvalSheet = new ApprovalSheet(LogIn.getFiremanStatic(), coment, (boolean) model.getValueAt(i, 5) , (Integer)model.getValueAt(i, 4) );
+                    
+                    app.add(t);
                     
                 }
+                
+                try {
+                    tsa.aproveTimesheetByTimesheetId(app, approvalSheet);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(ViewObjectTimeSheet.this, "Der er sket en database fejl, kontakt system administrator " + ex);
+                }
+                
             }
         });
         
         pnlaproveCarPanel.setLayout(new FlowLayout());
-        pnlaproveCarPanel.add(aproveAllOnCar);
+        
         pnlaproveCarPanel.add(btnAproveTimesheet);
+        pnlaproveCarPanel.add(aproveAllOnCar);
         return pnlaproveCarPanel;
     }
     

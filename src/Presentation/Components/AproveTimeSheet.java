@@ -7,6 +7,7 @@
 package Presentation.Components;
 
 import BE.Alarm;
+import BE.Story;
 import BE.TimeSheetList;
 import BE.Time_Sheet;
 import BLL.Alarm_AccessLink;
@@ -161,6 +162,8 @@ public class AproveTimeSheet extends javax.swing.JPanel {
             for(TimeSheetList tsl: timeSheetLists){
                 list.addViewObject(ViewObjectFactory.getViewObject(tsl));
             }
+            Story s = new Story(alarmId);
+            list.addViewObject(ViewObjectFactory.getViewObject(s));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
         }
