@@ -7,9 +7,18 @@
 package Presentation.Components.ViewObjects;
 
 import BE.Story;
+import BLL.Story_AccessLink;
 import java.awt.TextField;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -18,6 +27,7 @@ import java.awt.event.KeyEvent;
 public class ViewObjectStory extends ViewObject {
 
     Story story;
+    Story_AccessLink sal;
     
     /**
      * Creates new form ViewObjectStory
@@ -25,6 +35,9 @@ public class ViewObjectStory extends ViewObject {
     protected ViewObjectStory(Story story) {
         super(story);
         this.story = story;
+        try {
+            sal = new Story_AccessLink();
+        } catch (IOException ex) {}
         fillData();
     }
 
@@ -73,11 +86,13 @@ public class ViewObjectStory extends ViewObject {
         TFGruppe = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         TFDetektor = new javax.swing.JTextField();
-        jPanel15 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         TAComent = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        btnApprove = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -196,16 +211,40 @@ public class ViewObjectStory extends ViewObject {
         jLabel7.setText("Bemærkninger:");
         jPanel16.add(jLabel7, java.awt.BorderLayout.PAGE_START);
 
-        jPanel15.add(jPanel16);
-
-        jPanel12.add(jPanel15, java.awt.BorderLayout.SOUTH);
+        jPanel12.add(jPanel16, java.awt.BorderLayout.SOUTH);
 
         jPanel10.add(jPanel12, java.awt.BorderLayout.CENTER);
 
         jPanel4.add(jPanel10, java.awt.BorderLayout.CENTER);
 
         add(jPanel4, java.awt.BorderLayout.CENTER);
+
+        btnApprove.setText("Godkend beretning");
+        btnApprove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApproveActionPerformed(evt);
+            }
+        });
+        jPanel17.add(btnApprove);
+
+        btnClear.setText("Nulstil felter");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
+        jPanel17.add(btnClear);
+
+        add(jPanel17, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnApproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApproveActionPerformed
+        sendToDatabase();
+    }//GEN-LAST:event_btnApproveActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        clearAllFields();
+    }//GEN-LAST:event_btnClearActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -220,6 +259,8 @@ public class ViewObjectStory extends ViewObject {
     private javax.swing.JTextField TFDetektor;
     private javax.swing.JTextField TFEva;
     private javax.swing.JTextField TFGruppe;
+    private javax.swing.JButton btnApprove;
+    private javax.swing.JButton btnClear;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -237,8 +278,8 @@ public class ViewObjectStory extends ViewObject {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -273,29 +314,68 @@ public class ViewObjectStory extends ViewObject {
 
     protected void fillData() {
         initComponents();
-        myKeyNumbersAdapter kna = new myKeyNumbersAdapter();
+        clearAllFields();
+        MyKeyNumbersAdapter kna = new MyKeyNumbersAdapter();
+        MyFocusListener mfl = new MyFocusListener();
         TFBrand.addKeyListener(kna);
         TFEva.addKeyListener(kna);
         TFGruppe.addKeyListener(kna);
         TFDetektor.addKeyListener(kna);
+        TFBrand.addFocusListener(mfl);
+        TFEva.addFocusListener(mfl);
+        TFGruppe.addFocusListener(mfl);
+        TFDetektor.addFocusListener(mfl);
     }
 
     @Override
     public void refreshViewObject() {
         
     }
+
+    private void clearAllFields() {
+        RBNormal.setSelected(true);
+        TAAdresser.setText("");
+        TAComent.setText("");
+        TANavne.setText("");
+        TFBrand.setText("0");
+        TFDetektor.setText("0");
+        TFEva.setText("0");
+        TFGruppe.setText("0");
+    }
+
+    private void sendToDatabase() {
+        try {
+            sal.saveStory(getStory());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "database error: " + ex);
+        }
+    }
     
     
     /**
      * listens for any key event to trigger a check of the textfields.
      */
-    private class myKeyNumbersAdapter extends KeyAdapter{
+    private class MyKeyNumbersAdapter extends KeyAdapter{
 
         @Override
         public void keyTyped(KeyEvent e) {
             if(!Character.isDigit(e.getKeyChar()) || ((TextField)e.getComponent()).getText().length() >= 8)
                 e.consume();
         }
+    }
+    
+    private class MyFocusListener implements FocusListener{
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            if(((JTextField) e.getSource()).getText().equals("0")) ((JTextField) e.getSource()).setText("");
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            if(((JTextField) e.getSource()).getText().equals("")) ((JTextField) e.getSource()).setText("0");
+        }
+        
     }
     
 }
