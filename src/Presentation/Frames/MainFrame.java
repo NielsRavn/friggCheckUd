@@ -78,6 +78,7 @@ public class MainFrame extends JFrame {
     int width;
     TabView tv;
     LogIn li;
+    MessagePane messagePane;
     TimePicker tp;
     AlarmCreater ac;
     Header head;
@@ -114,6 +115,9 @@ public class MainFrame extends JFrame {
 
             li =  LogIn.getInstance(this);
             add(li, BorderLayout.CENTER);
+            
+            messagePane = new MessagePane();
+            add(messagePane, BorderLayout.SOUTH);
 
             head = new Header();
             add(head, BorderLayout.NORTH);
@@ -404,6 +408,7 @@ public class MainFrame extends JFrame {
 
     public void changeView() {
         remove(li);
+        remove(messagePane);
         createPanels();
         add(fot, BorderLayout.SOUTH);
         add(tv, BorderLayout.CENTER);
@@ -424,6 +429,7 @@ public class MainFrame extends JFrame {
         removeAlarmCreater();
         mfl.reset();
         add(li, BorderLayout.CENTER);
+        add(messagePane, BorderLayout.SOUTH);
         li.setFocus();
         repaint();
     }
