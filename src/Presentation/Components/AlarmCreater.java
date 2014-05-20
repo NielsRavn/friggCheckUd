@@ -262,7 +262,7 @@ public class AlarmCreater extends javax.swing.JPanel {
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == btnAccept){
                 try {
-                    Alarm alarm = new Alarm(txtDestination.getText(), txtType.getText(), AlarmCreater.this.getDateTime());
+                    Alarm alarm = new Alarm(txtDestination.getText(), txtType.getText(), AlarmCreater.this.getDateTime(), false);
                     aal.addAlarm(alarm);
                     if(alarm.getID() != 0)
                         parent.addAlarm(alarm);

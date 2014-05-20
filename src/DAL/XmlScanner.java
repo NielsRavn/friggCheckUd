@@ -71,7 +71,7 @@ public class XmlScanner {
                java.sql.Timestamp sqlDate = new java.sql.Timestamp(result.getTime());
                            
                
-                Alarm a = new Alarm(odinNr, destination, type, sqlDate);
+                Alarm a = new Alarm(odinNr, destination, type, sqlDate, false);
                 alarm.add(a);
                        }
                    }

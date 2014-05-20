@@ -76,7 +76,7 @@ public class ViewObjectTimeSheet extends ViewObject {
         aproveAllOnCar.setText(" Vælg alle på bilen");
         aproveAllOnCar.setFont(MyConstants.FONT_HEADER_TEXT);
         aproveAllOnCar.addActionListener( new java.awt.event.ActionListener() {
-
+        
             @Override
             public void actionPerformed(ActionEvent ae) {
                 for(int i = 0; model.getRowCount()> i; i++)
@@ -96,29 +96,31 @@ public class ViewObjectTimeSheet extends ViewObject {
         btnAproveTimesheet.setText("<html><body marginwidth=30 marginheight=20>Godkend Timerne</body></html>");
         btnAproveTimesheet.setActionCommand("<html><body marginwidth=30 marginheight=20>Godkend Timerne</body></html>");
 
-        final ArrayList<Time_Sheet> app = new ArrayList<>();
+        
         btnAproveTimesheet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 for(int i = 0; model.getRowCount()> i; i++)
                 {
-                    String coment = null;
+                    String coment = "";
                     Time_Sheet t = model.getTimeSheet(i);
                     if(model.getValueAt(i, 5).equals(false))
                     {
-                        coment = JOptionPane.showInternalInputDialog(ViewObjectTimeSheet.this, "Kometar til timesedlen på " + t.getFireman().getFirstName() + " " + t.getFireman().getLastName());
+                        coment = JOptionPane.showInputDialog("Kometar til timesedlen på " + t.getFireman().getFirstName() + " " + t.getFireman().getLastName());
                     }
                     
                     approvalSheet = new ApprovalSheet(LogIn.getFiremanStatic(), coment, (boolean) model.getValueAt(i, 5) , (Integer)model.getValueAt(i, 4) );
                     
-                    app.add(t);
+                   try {
+                    tsa.aproveTimesheetByTimesheetId(t, approvalSheet);
+                    ViewObjectTimeSheet.this.setVisible(false);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(ViewObjectTimeSheet.this, "Der er sket en database fejl, kontakt system administrator  " + ex);
+                    ex.printStackTrace();
+                }
                     
                 }
                 
-                try {
-                    tsa.aproveTimesheetByTimesheetId(app, approvalSheet);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(ViewObjectTimeSheet.this, "Der er sket en database fejl, kontakt system administrator " + ex);
-                }
+                
                 
             }
         });

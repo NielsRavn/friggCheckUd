@@ -196,6 +196,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                String type = result.getString("type");
                Timestamp time = result.getTimestamp("time");
                boolean accepted = result.getBoolean("accepted");
+               boolean exercise = result.getBoolean("exercise");
                //getting data for the position
                
                int positionId = result.getInt("id");
@@ -215,7 +216,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                Fireman a = new Fireman(firemanId, firemanFirsName, firemanLastName, isTeamLeader, isDriver);
                
-               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted);
+               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted, exercise);
                
                Car c = new Car(carNr, iconPath, carName, seats);
                
@@ -277,6 +278,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                String type = result.getString("type");
                Timestamp time = result.getTimestamp("time");
                boolean accepted = result.getBoolean("accepted");
+               boolean exercise = result.getBoolean("exercise");
                
                //getting data for the position
                
@@ -297,7 +299,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                Fireman a = new Fireman(firemanId, firemanFirsName, firemanLastName, isTeamLeader, isDriver);
                
-               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted);
+               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted, exercise);
                
                Station c = new Station(name, iconPath);
                
@@ -321,35 +323,54 @@ public class TimeSheet_Access extends DatabaseConnection{
         return timesheets;
 }
 
-    public void aproveTimesheetByTimesheetId(ArrayList<Time_Sheet> app, ApprovalSheet approvalSheet)  throws SQLServerException, SQLException {
+        public void aproveTimesheetByTimesheetId(Time_Sheet t, ApprovalSheet approvalSheet)  throws SQLServerException, SQLException {
         Connection con = null;
+        con = getConnection();
+        con.setAutoCommit(false);
+        con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
         try
         {
-            con = getConnection();
-            String sql = "INSERT INTO ApprovalSheet VALUES (?,?,?,?)";
-            PreparedStatement ps = con.prepareStatement(sql);
+            
+            String sql = "INSERT INTO ApprovalSheet (firemanId, comment, approved, hours) VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, approvalSheet.getFireman().getID());
             ps.setString(2, approvalSheet.getComment());
             ps.setBoolean(3, approvalSheet.isApproved());
             ps.setInt(4, approvalSheet.getHours());
             
-            ps.executeUpdate(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            
+            int affectedRows = ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
-            if(rs.next()){
+            
+            if (affectedRows == 0)
+            {
+                throw new SQLException("Problem with updating the ApprovalSheet");
+            }
+
+               if(rs.next()){
                 approvalSheet.setId(rs.getInt(1));
-                String updateSql = "UPDATE Timesheet SET acceptedByTeamleader=?, WHERE id = ?;";
+                String updateSql = "UPDATE Timesheet SET acceptedByTeamleader=? WHERE id = ?;";
                 PreparedStatement psUpdate = con.prepareStatement(updateSql);
-                //psUpdate.setInt(i, );
-                
+                psUpdate.setInt(1, rs.getInt(1));
+                psUpdate.setInt(2, t.getId());
+                   affectedRows = psUpdate.executeUpdate();
+                    if (affectedRows == 0)
+                    {
+                        throw new SQLException("Problem with updating the Timesheet ");
+                    }
+                    
             }else{
                 throw new SQLException("No key returned when adding ApprovalSheet");
             }
-//ps.executeUpdate();
-             
+               con.commit();
+        }
+        catch (SQLException e)
+        {
+            con.rollback();
+            throw e;
         }
         finally
         {
+            con.setAutoCommit(true);
             if(con != null)
             {
                 con.close();
