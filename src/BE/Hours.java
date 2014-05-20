@@ -11,7 +11,7 @@ package BE;
  * @author Brobak
  */
 public class Hours {
-    int hours;
+    double hours;
     String warning;
     
     public Hours(int hours, String warning){
@@ -19,11 +19,11 @@ public class Hours {
         this.warning = warning;
     }
 
-    public int getHours() {
+    public double getHours() {
         return hours;
     }
 
-    public void setHours(int hours) {
+    public void setHours(double hours) {
         this.hours = hours;
     }
 
