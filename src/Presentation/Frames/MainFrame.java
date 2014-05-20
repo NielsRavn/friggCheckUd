@@ -498,13 +498,17 @@ public class MainFrame extends JFrame {
 
         @Override
         public void notifyObserver() {
-            if (mfl.getNextPanel() == null) {
+            JPanel next = mfl.getNextPanel();
+            if ( next == null) {
                 approveListPanel.clearList();
                 fillApproveListPanel();
                 tv.setSelectedComponent(approvePanel);
  
             } else { 
-                tv.setSelectedComponent(mfl.getNextPanel());
+                if(next == alarmPanel)
+                    tv.setSelectedIndex(0);
+                else
+                    tv.setSelectedComponent(next);
             }
 
         }
