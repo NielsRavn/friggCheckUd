@@ -411,6 +411,8 @@ public class ViewObjectStory extends ViewObject {
     private void sendToDatabase() {
         try {
             sal.saveStory(getStory());
+            btnApprove.setEnabled(false);
+            setVisible(false);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "database error: " + ex);
         }
