@@ -213,6 +213,7 @@ public class MainFrame extends JFrame {
     }
     
     public void addAlarmCreater(AlarmCreater aCreater){
+        if(ac != null) remove(ac);
         ac = aCreater;
         add(ac, BorderLayout.EAST);
     }

@@ -56,12 +56,6 @@ public class ListPanel extends javax.swing.JPanel{
         observers = new ArrayList();
         add(jScrollPane1, BorderLayout.CENTER);
         mma = new MyMouseMotionAdapter();
-        jScrollPane1.addMouseListener(mma);
-        addMouseMotionListener(mma);
-        addMouseListener(mma);
-        panel.addMouseMotionListener(mma);
-        panel.addMouseListener(mma);
-        jScrollPane1.addMouseMotionListener(mma);
         populateTable();
         
     }

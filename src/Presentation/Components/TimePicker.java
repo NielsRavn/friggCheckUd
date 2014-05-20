@@ -76,7 +76,7 @@ public class TimePicker extends javax.swing.JPanel {
         choose.setCalendarPreferredSize(new Dimension(500,500));
         choose.setBehavior(MultyModelBehavior.SELECT_SINGLE);
         choose.setPreferredSize(new Dimension(300,50));
-        choose.setFont(MyConstants.FONT_BUTTON_FONT);
+        choose.setFieldFont(MyConstants.FONT_BUTTON_FONT);
         jPanel8.add(choose);
     }
 
