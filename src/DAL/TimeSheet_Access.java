@@ -57,7 +57,7 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
            con = getConnection();
            
            Statement query = con.createStatement();
-           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE empoyeeId = "+id+" AND positionId = "+ MyConstants.TEAM_LEADER.getID() +" AND acceptedByTeamLeader IS NULL;");
+           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE empoyeeId = "+id+" AND positionId = "+ MyConstants.TEAM_LEADER.getID() +" AND acceptedForSalary IS NULL;");
            while(result.next())
            {
                int tsId = result.getInt("id");
@@ -172,7 +172,7 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
                                                                 + "INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId "
                                                                 + "INNER JOIN Car ON TimeSheet.CarNr = Car.carNr "
                                                                 + "INNER JOIN Alarm ON TimeSheet.alarmId = Alarm.id "
-                                                                + "WHERE TimeSheet.alarmId = "+alarmId+";");
+                                                                + "WHERE TimeSheet.alarmId = "+alarmId+" AND acceptedByTeamleader IS NULL;");
            while(result.next())
            {
               //getting data for fireman
@@ -255,7 +255,7 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
                                                             "INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId " +
                                                             "INNER JOIN Alarm ON TimeSheet.alarmId = Alarm.id " +
                                                             "WHERE TimeSheet.alarmId = "+alarmId+"" +
-                                                            "AND TimeSheet.carNr IS NULL;");
+                                                            "AND TimeSheet.carNr IS NULL AND acceptedByTeamleader IS NULL;");
            while(result.next())
            {
               //getting data for fireman

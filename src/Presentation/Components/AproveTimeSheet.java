@@ -107,7 +107,9 @@ public class AproveTimeSheet extends javax.swing.JPanel {
             
             for(Time_Sheet c : timeSheet)
             {
-                alarms.add(aal.getAlarmById(c.getAlarmID()));
+                if(!arrayContainsAlarmId(alarms, c.getAlarmID())){
+                    alarms.add(aal.getAlarmById(c.getAlarmID()));
+                }
             }
        
         }catch(SQLException ex) {
@@ -186,6 +188,14 @@ public class AproveTimeSheet extends javax.swing.JPanel {
             v.addFireman(a);
         }
         
+    }
+
+    private boolean arrayContainsAlarmId(ArrayList<Alarm> alarms, int alarmID) {
+        for(Alarm a: alarms){
+            if(a.getID() == alarmID) return true;
+        }
+        
+        return false;
     }
     
     

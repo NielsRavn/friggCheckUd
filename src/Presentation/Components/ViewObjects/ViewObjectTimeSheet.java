@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Presentation.Components.ViewObjects;
 
 import BE.ApprovalSheet;
@@ -43,7 +42,7 @@ import javax.swing.table.TableColumn;
  * @author Poul Nielsen
  */
 public class ViewObjectTimeSheet extends ViewObject {
-    
+
     ViewObjectTimeSheetTableModel model;
     public int getCarId;
     Font myFont = new Font("Verdana", Font.PLAIN, 30);
@@ -56,85 +55,85 @@ public class ViewObjectTimeSheet extends ViewObject {
     JCheckBox aproveAllOnCar;
     ApprovalSheet approvalSheet;
     TimeSheet_AccessLink tsa;
-    protected ViewObjectTimeSheet( TimeSheetList timesheets) {
+
+    protected ViewObjectTimeSheet(TimeSheetList timesheets) {
         super(timesheets);
         this.timesheets = timesheets;
         model = new ViewObjectTimeSheetTableModel();
         try {
             tsa = new TimeSheet_AccessLink();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Der er fejl i databasen, kontakt system administratoren " +  ex);
+            JOptionPane.showMessageDialog(this, "Der er fejl i databasen, kontakt system administratoren " + ex);
         }
         fillData();
-        
+
     }
 
     private JPanel getAproveCarPanel() {
         pnlaproveCarPanel = new JPanel();
         aproveAllOnCar = new JCheckBox();
-        
+
         aproveAllOnCar.setText(" Vælg alle på bilen");
         aproveAllOnCar.setFont(MyConstants.FONT_HEADER_TEXT);
-        aproveAllOnCar.addActionListener( new java.awt.event.ActionListener() {
-        
+        aproveAllOnCar.addActionListener(new java.awt.event.ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent ae) {
-                for(int i = 0; model.getRowCount()> i; i++)
-                {
+                for (int i = 0; model.getRowCount() > i; i++) {
                     model.setValueAt(true, i, 5);
                 }
                 model.fireTableDataChanged();
             }
         }
         );
-        
+
         btnAproveTimesheet = new JButton();
-        
+
         btnAproveTimesheet.setFont(MyConstants.FONT_BUTTON_FONT); // NOI18N
         btnAproveTimesheet.setBackground(MyConstants.COLOR_GREEN);
         btnAproveTimesheet.setForeground(Color.WHITE);
         btnAproveTimesheet.setText("<html><body marginwidth=30 marginheight=20>Godkend Timerne</body></html>");
         btnAproveTimesheet.setActionCommand("<html><body marginwidth=30 marginheight=20>Godkend Timerne</body></html>");
 
-        
         btnAproveTimesheet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                for(int i = 0; model.getRowCount()> i; i++)
-                {
+                boolean ok = true;
+                for (int i = 0; model.getRowCount() > i; i++) {
                     String coment = "";
                     Time_Sheet t = model.getTimeSheet(i);
-                    if(model.getValueAt(i, 5).equals(false))
-                    {
+                    if (model.getValueAt(i, 5).equals(false)) {
                         coment = JOptionPane.showInputDialog("Kometar til timesedlen på " + t.getFireman().getFirstName() + " " + t.getFireman().getLastName());
+                        if(coment== null){
+                            ok = false;
+                            break;
+                        }
                     }
-                    
-                    approvalSheet = new ApprovalSheet(LogIn.getFiremanStatic(), coment, (boolean) model.getValueAt(i, 5) , (Integer)model.getValueAt(i, 4) );
-                    
-                   try {
-                    tsa.aproveTimesheetByTimesheetId(t, approvalSheet);
+                    if(ok){                        
+                        approvalSheet = new ApprovalSheet(LogIn.getFiremanStatic(), coment, (boolean) model.getValueAt(i, 5), (Integer) model.getValueAt(i, 4));
+                        try {
+                            tsa.aproveTimesheetByTimesheetId(t, approvalSheet);
+                            
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(ViewObjectTimeSheet.this, "Der er sket en database fejl, kontakt system administrator  " + ex);
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+                if(ok){
                     ViewObjectTimeSheet.this.setVisible(false);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(ViewObjectTimeSheet.this, "Der er sket en database fejl, kontakt system administrator  " + ex);
-                    ex.printStackTrace();
                 }
-                    
-                }
-                
-                
-                
+
             }
         });
-        
+
         pnlaproveCarPanel.setLayout(new FlowLayout());
-        
+
         pnlaproveCarPanel.add(btnAproveTimesheet);
         pnlaproveCarPanel.add(aproveAllOnCar);
         return pnlaproveCarPanel;
     }
-    
-    
-    protected void fillData()
-    {
+
+    protected void fillData() {
         setLayout(new BorderLayout());
         model.clearList();
         JPanel vest = new JPanel();
@@ -146,55 +145,48 @@ public class ViewObjectTimeSheet extends ViewObject {
         firemen.setRowHeight(28);
         JScrollPane scrl = new JScrollPane();
         scrl.setViewportView(firemen);
-        scrl.setPreferredSize(new Dimension(0,200));
+        scrl.setPreferredSize(new Dimension(0, 200));
         firemen.setModel(model);
         c.fill = GridBagConstraints.CENTER;
-        
-                if(timesheets.getCar() == null)
-                {
-                    c.gridx = 0;
-                    c.gridy = 1;
-                    vest.add(new JLabel(new ImageIcon(timesheets.getStation().getIconPath())), c);
-                    
-                    JLabel stationInfo = new JLabel(""+timesheets.getStation().getName());
-                    stationInfo.setFont(myFont);
-                    c.gridx = 0;
-                    c.gridy = 0;
-                    vest.add(stationInfo, c);
-                }
-                else
-                {
-                    c.gridx = 0;
-                    c.gridy = 1;
-                    vest.add(new JLabel(new ImageIcon(timesheets.getCar().getIconPath())), c);
-                    
-                    JLabel carInfo = new JLabel("Bil Nr.: "+timesheets.getCar().getCarNr());
-                    carInfo.setFont(myFont);
-                    c.gridx = 0;
-                    c.gridy = 0;
-                    vest.add(carInfo, c);
-                }
-        
-        for(Time_Sheet a : timesheets.getTeamleaders())
-        {
+
+        if (timesheets.getCar() == null) {
+            c.gridx = 0;
+            c.gridy = 1;
+            vest.add(new JLabel(new ImageIcon(timesheets.getStation().getIconPath())), c);
+
+            JLabel stationInfo = new JLabel("" + timesheets.getStation().getName());
+            stationInfo.setFont(myFont);
+            c.gridx = 0;
+            c.gridy = 0;
+            vest.add(stationInfo, c);
+        } else {
+            c.gridx = 0;
+            c.gridy = 1;
+            vest.add(new JLabel(new ImageIcon(timesheets.getCar().getIconPath())), c);
+
+            JLabel carInfo = new JLabel("Bil Nr.: " + timesheets.getCar().getCarNr());
+            carInfo.setFont(myFont);
+            c.gridx = 0;
+            c.gridy = 0;
+            vest.add(carInfo, c);
+        }
+
+        for (Time_Sheet a : timesheets.getTeamleaders()) {
             model.addTimeSheet(a);
         }
-        for(Time_Sheet a : timesheets.getChauffeurs())
-        {
-             model.addTimeSheet(a);
+        for (Time_Sheet a : timesheets.getChauffeurs()) {
+            model.addTimeSheet(a);
         }
-        for(Time_Sheet a : timesheets.getFiremen())
-        {
-             model.addTimeSheet(a);
+        for (Time_Sheet a : timesheets.getFiremen()) {
+            model.addTimeSheet(a);
         }
-        for(Time_Sheet a : timesheets.getStationDutyFiremen())
-        {
-             model.addTimeSheet(a);
+        for (Time_Sheet a : timesheets.getStationDutyFiremen()) {
+            model.addTimeSheet(a);
         }
         center.add(scrl, BorderLayout.CENTER);
-        add(vest , BorderLayout.WEST);
-        add(center , BorderLayout.CENTER);
-        center.add(getAproveCarPanel() , BorderLayout.SOUTH);
+        add(vest, BorderLayout.WEST);
+        add(center, BorderLayout.CENTER);
+        center.add(getAproveCarPanel(), BorderLayout.SOUTH);
         addCellRenderers();
     }
 
@@ -222,19 +214,17 @@ public class ViewObjectTimeSheet extends ViewObject {
     public void refreshViewObject() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 
     private class TimeSheetTableRendere extends DefaultTableCellRenderer {
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            
+
             JLabel lbl = new JLabel(value.toString());
             lbl.setFont(MyConstants.FONT_HEADER_TEXT);
             return lbl;
         }
-        
+
     }
-          
 
 }
