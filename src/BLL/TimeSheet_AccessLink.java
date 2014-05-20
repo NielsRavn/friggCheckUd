@@ -62,7 +62,7 @@ public class TimeSheet_AccessLink {
     }
 
 
-    public void aproveTimesheetByTimesheetId(ArrayList<Time_Sheet> app, ApprovalSheet approvalSheet) throws SQLException {
-        ta.aproveTimesheetByTimesheetId(app, approvalSheet);
+    public void aproveTimesheetByTimesheetId(Time_Sheet t, ApprovalSheet approvalSheet) throws SQLException {
+        ta.aproveTimesheetByTimesheetId(t, approvalSheet);
     }
 }
