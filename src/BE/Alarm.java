@@ -20,27 +20,31 @@ public class Alarm implements IViewObjectBE{
     private String type;
     private Timestamp time;
     private boolean accepted;
+    private boolean exercise;
     
     
-    public Alarm (int ID, int odinNr, String distination, String type, Timestamp time, boolean accepted) {
+    public Alarm (int ID, int odinNr, String distination, String type, Timestamp time, boolean accepted, boolean exercise) {
     this.ID = ID;
     this.odinNr = odinNr;
     this.distination = distination;
     this.type = type;
     this.time = time;
     this.accepted = accepted;
+    this.exercise = exercise;
     }
 
-    public Alarm(int odinNr, String destination, String type, Timestamp date) {
+    public Alarm(int odinNr, String destination, String type, Timestamp date, boolean exercise) {
         this.odinNr = odinNr;
         this.distination = destination;
         this.type = type;
         this.time = date;
+        this.exercise = exercise;
     }
-    public Alarm(String destination, String type, Timestamp date) {
+    public Alarm(String destination, String type, Timestamp date, boolean exercise) {
         this.distination = destination;
         this.type = type;
         this.time = date;
+        this.exercise = exercise;
     }
 
 
@@ -130,6 +134,10 @@ public class Alarm implements IViewObjectBE{
     
     public String getName(){
         return ""+ID;
+    }
+    
+    public boolean isExercise(){
+        return exercise;
     }
     
 }

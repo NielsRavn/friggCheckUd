@@ -196,6 +196,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                String type = result.getString("type");
                Timestamp time = result.getTimestamp("time");
                boolean accepted = result.getBoolean("accepted");
+               boolean exercise = result.getBoolean("exercise");
                //getting data for the position
                
                int positionId = result.getInt("id");
@@ -215,7 +216,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                Fireman a = new Fireman(firemanId, firemanFirsName, firemanLastName, isTeamLeader, isDriver);
                
-               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted);
+               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted, exercise);
                
                Car c = new Car(carNr, iconPath, carName, seats);
                
@@ -277,6 +278,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                String type = result.getString("type");
                Timestamp time = result.getTimestamp("time");
                boolean accepted = result.getBoolean("accepted");
+               boolean exercise = result.getBoolean("exercise");
                
                //getting data for the position
                
@@ -297,7 +299,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                
                Fireman a = new Fireman(firemanId, firemanFirsName, firemanLastName, isTeamLeader, isDriver);
                
-               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted);
+               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted, exercise);
                
                Station c = new Station(name, iconPath);
                
