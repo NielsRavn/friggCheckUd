@@ -29,19 +29,19 @@ public class Time_Sheet implements IViewObjectBE{
     private boolean addedToPayment;
     private Comment comment;
    
-    public Time_Sheet(int id, int employeeID, int alarmID, int carNr, int positionID, Timestamp startTime, Timestamp endTime, int accedtedByTeamLeader, int acceptedForSallary, boolean addedToPayment, Comment comment) {
-        this.id = id;
-        this.employeeID = employeeID;
-        this.alarmID = alarmID;
-        this.carNr = carNr;
-        this.positionID = positionID;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.accedtedByTeamLeader = accedtedByTeamLeader;
-        this.acceptedForSallary = acceptedForSallary;
-        this.addedToPayment = addedToPayment;
-        this.comment = comment;
-    }
+    /**
+     * 
+     * @param employeeID
+     * @param alarmID
+     * @param carNr
+     * @param positionID
+     * @param startTime
+     * @param endTime
+     * @param accedtedByTeamLeader
+     * @param acceptedForSallary
+     * @param addedToPayment
+     * @param comment 
+     */
     public Time_Sheet(int employeeID, int alarmID, int carNr, int positionID, Timestamp startTime, Timestamp endTime, int accedtedByTeamLeader, int acceptedForSallary, boolean addedToPayment, Comment comment) {
         this.employeeID = employeeID;
         this.alarmID = alarmID;
@@ -54,7 +54,20 @@ public class Time_Sheet implements IViewObjectBE{
         this.addedToPayment = addedToPayment;
         this.comment = comment;
     }
-    
+    /**
+     * 
+     * @param id
+     * @param employeeID
+     * @param alarmID
+     * @param carNr
+     * @param position
+     * @param startTime
+     * @param endTime
+     * @param accedtedByTeamLeader
+     * @param acceptedForSallary
+     * @param addedToPayment
+     * @param comment 
+     */
     public Time_Sheet(int id, int employeeID, int alarmID, int carNr, Position position, Timestamp startTime, Timestamp endTime,int accedtedByTeamLeader, int acceptedForSallary, boolean addedToPayment, Comment comment) {
         this.id = id;
         this.employeeID = employeeID;
@@ -68,7 +81,21 @@ public class Time_Sheet implements IViewObjectBE{
         this.addedToPayment = addedToPayment;
         this.comment = comment;
     }
-    
+    /**
+     * 
+     * @param id
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @param startTime
+     * @param endTime
+     * @param firemenPositionId
+     * @param accedtedByTeamLeader
+     * @param acceptedForSallary
+     * @param addedToPayment
+     * @param comment 
+     */
     public Time_Sheet(int id, Fireman a, Alarm b, Car c, Position d, Timestamp startTime, Timestamp endTime, int firemenPositionId, int accedtedByTeamLeader, int acceptedForSallary, boolean addedToPayment, Comment comment) {
         this.id = id;
         this.fireman = a;
@@ -83,7 +110,21 @@ public class Time_Sheet implements IViewObjectBE{
         this.addedToPayment = addedToPayment;
         this.comment = comment;
     }
-   
+   /**
+    * 
+    * @param id
+    * @param a
+    * @param b
+    * @param c
+    * @param d
+    * @param startTime
+    * @param endTime
+    * @param firemenPositionId
+    * @param accedtedByTeamLeader
+    * @param acceptedForSallary
+    * @param addedToPayment
+    * @param comment 
+    */
     public Time_Sheet(int id, Fireman a, Alarm b, Station c, Position d, Timestamp startTime, Timestamp endTime, int firemenPositionId, int accedtedByTeamLeader, int acceptedForSallary, boolean addedToPayment, Comment comment) {
         this.id = id;
         this.fireman = a;

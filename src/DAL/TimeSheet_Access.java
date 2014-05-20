@@ -243,9 +243,7 @@ public class TimeSheet_Access extends DatabaseConnection{
 
     public ArrayList<Time_Sheet> stationsVagt( int alarmId) throws SQLServerException, SQLException
 {
-    
-           
-           Connection con = null;
+        Connection con = null;
         ArrayList<Time_Sheet> timesheets = new ArrayList<Time_Sheet>();
        try
        {
@@ -257,7 +255,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                                                             "INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId " +
                                                             "INNER JOIN Alarm ON TimeSheet.alarmId = Alarm.id " +
                                                             "WHERE TimeSheet.alarmId = "+alarmId+"" +
-                                                            "AND ISNULL(TimeSheet.carNr, 0) = 0;");
+                                                            "AND TimeSheet.carNr IS NULL;");
            while(result.next())
            {
               //getting data for fireman

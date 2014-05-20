@@ -129,7 +129,6 @@ public class AproveTimeSheet extends javax.swing.JPanel {
         try {
             timeSheet = tsa.getDataForAproval(alarmId);
             timeSheetStatinsduty = tsa.stationsVagt(alarmId);
-            
             //here lays the logic for showing the timesheets order by cars and station duty
             ArrayList<TimeSheetList> timeSheetLists = new ArrayList<>();
             for(Time_Sheet a : timeSheet)
@@ -155,8 +154,9 @@ public class AproveTimeSheet extends javax.swing.JPanel {
                 for(Time_Sheet b : timeSheetStatinsduty)
                 {
                     v.addStationDuty(b);
-                    //list.addViewObject(ViewObjectFactory.getViewObject(v));
+                    
                 }
+                list.addViewObject(ViewObjectFactory.getViewObject(v));
             }
             
             for(TimeSheetList tsl: timeSheetLists){
