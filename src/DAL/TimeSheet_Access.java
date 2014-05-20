@@ -30,7 +30,7 @@ import java.util.ArrayList;
  *
  * @author Poul Nielsen
  */
-public class TimeSheet_Access extends DatabaseConnection{
+public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_Access{
   
     Position_Access pa;
     Comment_Access ca;
@@ -357,6 +357,16 @@ public class TimeSheet_Access extends DatabaseConnection{
                 con.close();
             }
         }
+    }
+
+    /**
+     * 
+     * @param timeSheet
+     * @return 
+     */
+    @Override
+    public ArrayList<Time_Sheet> getConflictingTimeSheets(Time_Sheet timeSheet) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
