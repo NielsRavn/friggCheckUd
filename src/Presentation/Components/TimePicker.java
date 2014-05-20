@@ -12,7 +12,10 @@ import BLL.MyUtil;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
 import datechooser.beans.DateChooserPanel;
+import datechooser.model.exeptions.IncompatibleDataExeption;
 import datechooser.model.multiple.MultyModelBehavior;
+import datechooser.model.multiple.Period;
+import datechooser.model.multiple.PeriodSet;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -22,6 +25,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -46,16 +51,27 @@ public class TimePicker extends javax.swing.JPanel {
         this.parent = parent;
         observers = new ArrayList<>();
         initComponents();
-        btnAnnuller.setBackground(MyConstants.COLOR_RED);
-        btnOkay.setBackground(MyConstants.COLOR_GREEN);
-        btnAnnuller.setForeground(Color.WHITE);
-        btnOkay.setForeground(Color.WHITE);
         myKeyAdapter ka = new myKeyAdapter();
         tfHour.addKeyListener(ka);
         tfMinute.addKeyListener(ka);
         tfHour1.addKeyListener(ka);
         tfMinute1.addKeyListener(ka);
         setBackground(MyConstants.COLOR_BLUE);
+        setVisuals();
+        choose = new MyDateChooserCombo();
+        choose.setCalendarPreferredSize(new Dimension(500,500));
+        choose.setBehavior(MultyModelBehavior.SELECT_SINGLE);
+        choose.setPreferredSize(new Dimension(300,50));
+        choose.setFieldFont(MyConstants.FONT_BUTTON_FONT);
+        
+        jPanel8.add(choose);
+    }
+    
+    private void setVisuals(){
+        btnAnnuller.setBackground(MyConstants.COLOR_RED);
+        btnOkay.setBackground(MyConstants.COLOR_GREEN);
+        btnAnnuller.setForeground(Color.WHITE);
+        btnOkay.setForeground(Color.WHITE);
         jPanel1.setBackground(MyConstants.COLOR_BLUE);
         jPanel2.setBackground(MyConstants.COLOR_BLUE);
         jPanel8.setBackground(MyConstants.COLOR_BLUE);
@@ -72,12 +88,6 @@ public class TimePicker extends javax.swing.JPanel {
         jLabel2.setFont(MyConstants.FONT_HEADER_TEXT);
         jPanel4.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         jPanel5.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-        choose = new MyDateChooserCombo();
-        choose.setCalendarPreferredSize(new Dimension(500,500));
-        choose.setBehavior(MultyModelBehavior.SELECT_SINGLE);
-        choose.setPreferredSize(new Dimension(300,50));
-        choose.setFieldFont(MyConstants.FONT_BUTTON_FONT);
-        jPanel8.add(choose);
     }
 
     /**
@@ -98,6 +108,15 @@ public class TimePicker extends javax.swing.JPanel {
         choose.setSelectedDate(date);
         alarmStart = Calendar.getInstance();
         alarmStart.setTimeInMillis(time.getAlarmStartDate().getTime());
+        Calendar invalidStart = Calendar.getInstance();
+        Calendar invalidEnd = Calendar.getInstance();
+        invalidEnd.setTimeInMillis(alarmStart.getTimeInMillis());
+        invalidEnd.set(Calendar.DAY_OF_YEAR, alarmStart.get(Calendar.DAY_OF_YEAR)-1);
+        invalidStart.setTimeInMillis(0);
+        PeriodSet p = new PeriodSet(new Period(invalidStart,invalidEnd));
+        try {
+            choose.setForbiddenPeriods(p);
+        } catch (IncompatibleDataExeption ex) {}
     }
     
     /**
@@ -295,6 +314,8 @@ public class TimePicker extends javax.swing.JPanel {
         long selectedDate = choose.getSelectedDate().getTimeInMillis();
         if(time.getAlarmStartDate().getTime() < selectedDate){
             time.setStartDate(new Timestamp(selectedDate));
+        }
+        else {
             Calendar date = Calendar.getInstance();
             date.setTimeInMillis(time.getStartDate().getTime());
             choose.setSelectedDate(date);
