@@ -125,6 +125,7 @@ public class ViewObjectStory extends ViewObject {
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
+        jLabel3.setFont(MyConstants.FONT_BUTTON_FONT);
         jLabel3.setText("Oplysninger om skadeslidte:");
         jPanel6.add(jLabel3);
 
@@ -344,26 +345,28 @@ public class ViewObjectStory extends ViewObject {
         else return 0;
     }
 
-    @Override
-    public void setBackground(Color bg) {
-        super.setBackground(bg);
-        jPanel1.setBackground(bg);
-        jPanel2.setBackground(bg);
-        jPanel3.setBackground(bg);
-        jPanel4.setBackground(bg);
-        jPanel5.setBackground(bg);
-        jPanel6.setBackground(bg);
-        jPanel7.setBackground(bg);
-        jPanel8.setBackground(bg);
-        jPanel9.setBackground(bg);
-        jPanel10.setBackground(bg);
-        jPanel11.setBackground(bg);
-        jPanel12.setBackground(bg);
-        jPanel13.setBackground(bg);
-        jPanel14.setBackground(bg);
-        jPanel16.setBackground(bg);
-        jPanel17.setBackground(bg);
-    }
+//    @Override
+//    public void setBackground(Color bg) {
+//        super.setBackground(bg);
+//        try{
+//            jPanel1.setBackground(bg);
+//            jPanel2.setBackground(bg);
+//            jPanel3.setBackground(bg);
+//            jPanel4.setBackground(bg);
+//            jPanel5.setBackground(bg);
+//            jPanel6.setBackground(bg);
+//            jPanel7.setBackground(bg);
+//            jPanel8.setBackground(bg);
+//            jPanel9.setBackground(bg);
+//            jPanel10.setBackground(bg);
+//            jPanel11.setBackground(bg);
+//            jPanel12.setBackground(bg);
+//            jPanel13.setBackground(bg);
+//            jPanel14.setBackground(bg);
+//            jPanel16.setBackground(bg);
+//            jPanel17.setBackground(bg);
+//        }catch (NullPointerException ex){}
+//    }
 
     protected void fillData() {
         initComponents();

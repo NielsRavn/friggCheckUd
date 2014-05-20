@@ -12,7 +12,9 @@ import BLL.MyUtil;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
 import datechooser.beans.DateChooserPanel;
+import datechooser.model.multiple.MultyModelBehavior;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -33,7 +35,7 @@ public class TimePicker extends javax.swing.JPanel {
     MyTime time;
     MainFrame parent;
     ArrayList<ITimeObserver> observers;
-    DateChooserPanel choose;
+    MyDateChooserCombo choose;
     Calendar alarmStart;
     
     /**
@@ -70,7 +72,11 @@ public class TimePicker extends javax.swing.JPanel {
         jLabel2.setFont(MyConstants.FONT_HEADER_TEXT);
         jPanel4.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         jPanel5.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-        choose = new DateChooserPanel();
+        choose = new MyDateChooserCombo();
+        choose.setCalendarPreferredSize(new Dimension(500,500));
+        choose.setBehavior(MultyModelBehavior.SELECT_SINGLE);
+        choose.setPreferredSize(new Dimension(300,50));
+        choose.setFont(MyConstants.FONT_BUTTON_FONT);
         jPanel8.add(choose);
     }
 

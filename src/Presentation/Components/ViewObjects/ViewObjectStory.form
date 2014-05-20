@@ -108,6 +108,9 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel3">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="MyConstants.FONT_BUTTON_FONT" type="code"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Oplysninger om skadeslidte:"/>
                   </Properties>
                 </Component>
