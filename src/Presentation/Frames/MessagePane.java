@@ -173,7 +173,6 @@ public class MessagePane extends javax.swing.JPanel {
 
         private void handleDraging(MouseEvent e) {
             int dx = e.getX()+ - lastDragPoint.y;
-            System.out.println("" + dx);
             if(dx > 100 && !hasSwitched){
                 currentMessageIndex++;
                 if(currentMessageIndex > messages.size()-1) currentMessageIndex = 0;
