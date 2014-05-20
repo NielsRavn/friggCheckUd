@@ -7,9 +7,20 @@
 package Presentation.Components.ViewObjects;
 
 import BE.Story;
+import BLL.Story_AccessLink;
+import Presentation.MyConstants;
+import java.awt.Color;
 import java.awt.TextField;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -18,6 +29,7 @@ import java.awt.event.KeyEvent;
 public class ViewObjectStory extends ViewObject {
 
     Story story;
+    Story_AccessLink sal;
     
     /**
      * Creates new form ViewObjectStory
@@ -25,6 +37,9 @@ public class ViewObjectStory extends ViewObject {
     protected ViewObjectStory(Story story) {
         super(story);
         this.story = story;
+        try {
+            sal = new Story_AccessLink();
+        } catch (IOException ex) {}
         fillData();
     }
 
@@ -66,6 +81,7 @@ public class ViewObjectStory extends ViewObject {
         RBBlind = new javax.swing.JRadioButton();
         RBFalse = new javax.swing.JRadioButton();
         RBNoUse = new javax.swing.JRadioButton();
+        RBRekvirent = new javax.swing.JRadioButton();
         RBNormal = new javax.swing.JRadioButton();
         jPanel14 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -73,26 +89,32 @@ public class ViewObjectStory extends ViewObject {
         TFGruppe = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         TFDetektor = new javax.swing.JTextField();
-        jPanel15 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         TAComent = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        btnApprove = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
+        jLabel1.setFont(MyConstants.FONT_BUTTON_FONT);
         jLabel1.setText("Eva nr:");
         jPanel1.add(jLabel1);
 
-        TFEva.setPreferredSize(new java.awt.Dimension(75, 20));
+        TFEva.setFont(MyConstants.FONT_BUTTON_FONT);
+        TFEva.setPreferredSize(new java.awt.Dimension(100, 25));
         jPanel1.add(TFEva);
 
         jPanel2.add(jPanel1);
 
+        jLabel2.setFont(MyConstants.FONT_BUTTON_FONT);
         jLabel2.setText("Brandrapport Nr:");
         jPanel3.add(jLabel2);
 
-        TFBrand.setPreferredSize(new java.awt.Dimension(75, 20));
+        TFBrand.setFont(MyConstants.FONT_BUTTON_FONT);
+        TFBrand.setPreferredSize(new java.awt.Dimension(100, 25));
         jPanel3.add(TFBrand);
 
         jPanel2.add(jPanel3);
@@ -103,6 +125,7 @@ public class ViewObjectStory extends ViewObject {
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
+        jLabel3.setFont(MyConstants.FONT_BUTTON_FONT);
         jLabel3.setText("Oplysninger om skadeslidte:");
         jPanel6.add(jLabel3);
 
@@ -111,11 +134,13 @@ public class ViewObjectStory extends ViewObject {
         jPanel9.setLayout(new java.awt.BorderLayout());
 
         TANavne.setColumns(20);
+        TANavne.setFont(MyConstants.FONT_BUTTON_FONT);
         TANavne.setRows(2);
         jScrollPane1.setViewportView(TANavne);
 
         jPanel9.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        jLabel4.setFont(MyConstants.FONT_BUTTON_FONT);
         jLabel4.setText("Navne");
         jPanel9.add(jLabel4, java.awt.BorderLayout.NORTH);
 
@@ -124,11 +149,13 @@ public class ViewObjectStory extends ViewObject {
         jPanel8.setLayout(new java.awt.BorderLayout());
 
         TAAdresser.setColumns(20);
+        TAAdresser.setFont(MyConstants.FONT_BUTTON_FONT);
         TAAdresser.setRows(2);
         jScrollPane2.setViewportView(TAAdresser);
 
         jPanel8.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
+        jLabel5.setFont(MyConstants.FONT_BUTTON_FONT);
         jLabel5.setText("Adresser");
         jPanel8.add(jLabel5, java.awt.BorderLayout.NORTH);
 
@@ -140,6 +167,7 @@ public class ViewObjectStory extends ViewObject {
 
         jPanel10.setLayout(new java.awt.BorderLayout());
 
+        jLabel6.setFont(MyConstants.FONT_BUTTON_FONT);
         jLabel6.setText("Beretning:");
         jPanel11.add(jLabel6);
 
@@ -148,37 +176,51 @@ public class ViewObjectStory extends ViewObject {
         jPanel12.setLayout(new java.awt.BorderLayout());
 
         buttonGroup1.add(RBBlind);
+        RBBlind.setFont(MyConstants.FONT_BUTTON_FONT);
         RBBlind.setText("Blind alarm");
         jPanel13.add(RBBlind);
 
         buttonGroup1.add(RBFalse);
+        RBFalse.setFont(MyConstants.FONT_BUTTON_FONT);
         RBFalse.setText("Falsk alarm");
         jPanel13.add(RBFalse);
 
         buttonGroup1.add(RBNoUse);
+        RBNoUse.setFont(MyConstants.FONT_BUTTON_FONT);
         RBNoUse.setText("Ikke i brug");
         jPanel13.add(RBNoUse);
 
+        buttonGroup1.add(RBRekvirent);
+        RBRekvirent.setFont(MyConstants.FONT_BUTTON_FONT);
+        RBRekvirent.setText("Rekvirent");
+        jPanel13.add(RBRekvirent);
+
         buttonGroup1.add(RBNormal);
+        RBNormal.setFont(MyConstants.FONT_BUTTON_FONT);
         RBNormal.setSelected(true);
         RBNormal.setText("Normal");
         jPanel13.add(RBNormal);
 
         jPanel12.add(jPanel13, java.awt.BorderLayout.NORTH);
 
+        jLabel8.setFont(MyConstants.FONT_BUTTON_FONT);
         jLabel8.setText("Ved ABA - alarm: ");
         jPanel14.add(jLabel8);
 
+        jLabel9.setFont(MyConstants.FONT_BUTTON_FONT);
         jLabel9.setText("Gruppenummer: ");
         jPanel14.add(jLabel9);
 
-        TFGruppe.setPreferredSize(new java.awt.Dimension(50, 20));
+        TFGruppe.setFont(MyConstants.FONT_BUTTON_FONT);
+        TFGruppe.setPreferredSize(new java.awt.Dimension(50, 25));
         jPanel14.add(TFGruppe);
 
+        jLabel10.setFont(MyConstants.FONT_BUTTON_FONT);
         jLabel10.setText("Detektornummer");
         jPanel14.add(jLabel10);
 
-        TFDetektor.setPreferredSize(new java.awt.Dimension(50, 20));
+        TFDetektor.setFont(MyConstants.FONT_BUTTON_FONT);
+        TFDetektor.setPreferredSize(new java.awt.Dimension(50, 25));
         jPanel14.add(TFDetektor);
 
         jPanel12.add(jPanel14, java.awt.BorderLayout.CENTER);
@@ -188,24 +230,52 @@ public class ViewObjectStory extends ViewObject {
         jScrollPane3.setPreferredSize(new java.awt.Dimension(350, 96));
 
         TAComent.setColumns(20);
+        TAComent.setFont(MyConstants.FONT_BUTTON_FONT);
         TAComent.setRows(5);
         jScrollPane3.setViewportView(TAComent);
 
         jPanel16.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
+        jLabel7.setFont(MyConstants.FONT_BUTTON_FONT);
         jLabel7.setText("Bemærkninger:");
         jPanel16.add(jLabel7, java.awt.BorderLayout.PAGE_START);
 
-        jPanel15.add(jPanel16);
-
-        jPanel12.add(jPanel15, java.awt.BorderLayout.SOUTH);
+        jPanel12.add(jPanel16, java.awt.BorderLayout.SOUTH);
 
         jPanel10.add(jPanel12, java.awt.BorderLayout.CENTER);
 
         jPanel4.add(jPanel10, java.awt.BorderLayout.CENTER);
 
         add(jPanel4, java.awt.BorderLayout.CENTER);
+
+        btnApprove.setText("Godkend beretning");
+        btnApprove.setMargin(new java.awt.Insets(20, 14, 20, 14));
+        btnApprove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApproveActionPerformed(evt);
+            }
+        });
+        jPanel17.add(btnApprove);
+
+        btnClear.setText("Nulstil felter");
+        btnClear.setMargin(new java.awt.Insets(20, 14, 20, 14));
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
+        jPanel17.add(btnClear);
+
+        add(jPanel17, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnApproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApproveActionPerformed
+        sendToDatabase();
+    }//GEN-LAST:event_btnApproveActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        clearAllFields();
+    }//GEN-LAST:event_btnClearActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -213,6 +283,7 @@ public class ViewObjectStory extends ViewObject {
     private javax.swing.JRadioButton RBFalse;
     private javax.swing.JRadioButton RBNoUse;
     private javax.swing.JRadioButton RBNormal;
+    private javax.swing.JRadioButton RBRekvirent;
     private javax.swing.JTextArea TAAdresser;
     private javax.swing.JTextArea TAComent;
     private javax.swing.JTextArea TANavne;
@@ -220,6 +291,8 @@ public class ViewObjectStory extends ViewObject {
     private javax.swing.JTextField TFDetektor;
     private javax.swing.JTextField TFEva;
     private javax.swing.JTextField TFGruppe;
+    private javax.swing.JButton btnApprove;
+    private javax.swing.JButton btnClear;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -237,8 +310,8 @@ public class ViewObjectStory extends ViewObject {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -265,37 +338,109 @@ public class ViewObjectStory extends ViewObject {
     }
 
     private int getSelectedRadioButton() {
-        if(RBBlind.isSelected()) return 0;
-        else if(RBFalse.isSelected()) return 1;
-        else if(RBNoUse.isSelected()) return 2;
-        else return 3;
+        if(RBBlind.isSelected()) return 1;
+        else if(RBFalse.isSelected()) return 2;
+        else if(RBNoUse.isSelected()) return 3;
+        else if(RBRekvirent.isSelected()) return 4;
+        else return 0;
     }
+
+//    @Override
+//    public void setBackground(Color bg) {
+//        super.setBackground(bg);
+//        try{
+//            jPanel1.setBackground(bg);
+//            jPanel2.setBackground(bg);
+//            jPanel3.setBackground(bg);
+//            jPanel4.setBackground(bg);
+//            jPanel5.setBackground(bg);
+//            jPanel6.setBackground(bg);
+//            jPanel7.setBackground(bg);
+//            jPanel8.setBackground(bg);
+//            jPanel9.setBackground(bg);
+//            jPanel10.setBackground(bg);
+//            jPanel11.setBackground(bg);
+//            jPanel12.setBackground(bg);
+//            jPanel13.setBackground(bg);
+//            jPanel14.setBackground(bg);
+//            jPanel16.setBackground(bg);
+//            jPanel17.setBackground(bg);
+//        }catch (NullPointerException ex){}
+//    }
 
     protected void fillData() {
         initComponents();
-        myKeyNumbersAdapter kna = new myKeyNumbersAdapter();
+        clearAllFields();
+        btnApprove.setBackground(MyConstants.COLOR_GREEN);
+        btnClear.setBackground(MyConstants.COLOR_RED);
+        btnApprove.setForeground(Color.WHITE);
+        btnClear.setForeground(Color.WHITE);
+        btnApprove.setFont(MyConstants.FONT_BUTTON_FONT);
+        btnClear.setFont(MyConstants.FONT_BUTTON_FONT);
+        MyKeyNumbersAdapter kna = new MyKeyNumbersAdapter();
+        MyFocusListener mfl = new MyFocusListener();
         TFBrand.addKeyListener(kna);
         TFEva.addKeyListener(kna);
         TFGruppe.addKeyListener(kna);
         TFDetektor.addKeyListener(kna);
+        TFBrand.addFocusListener(mfl);
+        TFEva.addFocusListener(mfl);
+        TFGruppe.addFocusListener(mfl);
+        TFDetektor.addFocusListener(mfl);
+        TAAdresser.setLineWrap(true);
+        TAComent.setLineWrap(true);
+        TANavne.setLineWrap(true);
     }
 
     @Override
     public void refreshViewObject() {
         
     }
+
+    private void clearAllFields() {
+        RBNormal.setSelected(true);
+        TAAdresser.setText("");
+        TAComent.setText("");
+        TANavne.setText("");
+        TFBrand.setText("0");
+        TFDetektor.setText("0");
+        TFEva.setText("0");
+        TFGruppe.setText("0");
+    }
+
+    private void sendToDatabase() {
+        try {
+            sal.saveStory(getStory());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "database error: " + ex);
+        }
+    }
     
     
     /**
      * listens for any key event to trigger a check of the textfields.
      */
-    private class myKeyNumbersAdapter extends KeyAdapter{
+    private class MyKeyNumbersAdapter extends KeyAdapter{
 
         @Override
         public void keyTyped(KeyEvent e) {
-            if(!Character.isDigit(e.getKeyChar()) || ((TextField)e.getComponent()).getText().length() >= 8)
+            if(!Character.isDigit(e.getKeyChar()) || ((JTextField)e.getComponent()).getText().length() >= 8)
                 e.consume();
         }
+    }
+    
+    private class MyFocusListener implements FocusListener{
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            if(((JTextField) e.getSource()).getText().equals("0")) ((JTextField) e.getSource()).setText("");
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            if(((JTextField) e.getSource()).getText().equals("")) ((JTextField) e.getSource()).setText("0");
+        }
+        
     }
     
 }

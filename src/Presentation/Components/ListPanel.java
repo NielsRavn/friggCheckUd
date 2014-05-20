@@ -56,12 +56,6 @@ public class ListPanel extends javax.swing.JPanel{
         observers = new ArrayList();
         add(jScrollPane1, BorderLayout.CENTER);
         mma = new MyMouseMotionAdapter();
-        jScrollPane1.addMouseListener(mma);
-        addMouseMotionListener(mma);
-        addMouseListener(mma);
-        panel.addMouseMotionListener(mma);
-        panel.addMouseListener(mma);
-        jScrollPane1.addMouseMotionListener(mma);
         populateTable();
         
     }
@@ -101,9 +95,17 @@ public class ListPanel extends javax.swing.JPanel{
         object.setMaximumSize(new Dimension(width, (int) object.getPreferredSize().getHeight()));
         object.addObserver(new ViiewObjectObserver());
         vos.add(object);
-        panel.add(object);
-        
+        panel.add(object); 
     }
+    
+//    public void addViewObject(ViewObject object) {
+//        object.addMouseMotionListener(mma);
+//        object.addMouseListener(mma);
+//        object.setMaximumSize(new Dimension(width, (int) object.getPreferredSize().getHeight()));
+//        object.addObserver(new ViiewObjectObserver());
+//        vos.add(object);
+//        panel.add(object); 
+//    }
     
     public void refreshAllViewobjects(){
         for(ViewObject vo: vos){
