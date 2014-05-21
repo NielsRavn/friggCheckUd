@@ -391,8 +391,8 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
            con = getConnection();
            
            Statement query = con.createStatement();
-           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE startTime >= '" + new Timestamp(timeSheet.getStartTime().getTime()-(oneHour*2)) +"' AND startTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime()+(oneHour*2))+"'"
-                                                + " OR endTime >= '" + new Timestamp(timeSheet.getStartTime().getTime()-(oneHour*2))+"' AND endTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime()+(oneHour*2)) +"';");
+           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE startTime >= '" + new Timestamp(timeSheet.getStartTime().getTime()) +"' AND startTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime())+"' AND empoyeeId = "+ timeSheet.getEmployeeID() + " AND id != " + timeSheet.getId()
+                                                + " OR endTime >= '" + new Timestamp(timeSheet.getStartTime().getTime())+"' AND endTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime()) +"' AND empoyeeId = "+ timeSheet.getEmployeeID()+ " AND id != " + timeSheet.getId() +";");
            while(result.next())
            {
                int tsId = result.getInt("id");

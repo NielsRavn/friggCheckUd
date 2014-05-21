@@ -10,6 +10,7 @@ import BE.Car;
 import BE.Comment;
 import BE.Equipment;
 import BE.EquipmentStatus;
+import BE.Hours;
 import BE.MyTime;
 import BE.Position;
 import BE.Time_Sheet;
@@ -92,6 +93,7 @@ public class MainFrame extends JFrame {
      */
     public MainFrame() {
         super("FRIGG Check Ud");
+        
         try {
             cal = new Car_AccessLink();
             aal = new Alarm_AccessLink();

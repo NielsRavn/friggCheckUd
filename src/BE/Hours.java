@@ -14,7 +14,7 @@ public class Hours {
     double hours;
     String warning;
     
-    public Hours(int hours, String warning){
+    public Hours(double hours, String warning){
         this.hours = hours;
         this.warning = warning;
     }
