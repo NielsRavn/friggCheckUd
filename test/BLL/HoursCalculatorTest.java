@@ -89,7 +89,7 @@ public class HoursCalculatorTest {
     @Test
     public void testGetHoursForTimeSheeet3() {
         final int oneHour = (60*60*1000);
-        System.out.println("getHoursForTimeSheeet2 : 2 different people working on same car at same time");
+        System.out.println("getHoursForTimeSheeet3 : 2 different people working on same car at same time");
         TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
         int employeeId = 1;
         int alarmId = 1;
@@ -126,7 +126,7 @@ public class HoursCalculatorTest {
     @Test
     public void testGetHoursForTimeSheeet4() {
         final int oneHour = (60*60*1000);
-        System.out.println("getHoursForTimeSheeet2 : 1 person with 2 conflicting timeSheets");
+        System.out.println("getHoursForTimeSheeet4 : 1 person with 2 conflicting timeSheets");
         TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
         int employeeId = 1;
         int alarmId = 1;
@@ -161,7 +161,7 @@ public class HoursCalculatorTest {
     @Test
     public void testGetHoursForTimeSheeet5() {
         final int oneHour = (60*60*1000);
-        System.out.println("getHoursForTimeSheeet2 : 1 person with 3 conflicting timeSheets");
+        System.out.println("getHoursForTimeSheeet5 : 1 person with 3 conflicting timeSheets");
         TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
         int employeeId = 1;
         int alarmId = 1;
@@ -205,7 +205,7 @@ public class HoursCalculatorTest {
     @Test
     public void testGetHoursForTimeSheeet6() {
         final int oneHour = (60*60*1000);
-        System.out.println("getHoursForTimeSheeet2 : 1 Timesheet surrounding another");
+        System.out.println("getHoursForTimeSheeet6 : 1 Timesheet surrounding another");
         TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
         int employeeId = 1;
         int alarmId = 1;
@@ -244,7 +244,7 @@ public class HoursCalculatorTest {
     @Test
     public void testGetHoursForTimeSheeet7() {
         final int oneHour = (60*60*1000);
-        System.out.println("getHoursForTimeSheeet2 : half hours");
+        System.out.println("getHoursForTimeSheeet7 : half hours");
         TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
         int employeeId = 1;
         int alarmId = 1;
@@ -277,7 +277,7 @@ public class HoursCalculatorTest {
     @Test
     public void testGetHoursForTimeSheeet8() {
         final int oneHour = (60*60*1000);
-        System.out.println("getHoursForTimeSheeet2 : quarter hours");
+        System.out.println("getHoursForTimeSheeet8 : quarter hours");
         TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
         int employeeId = 1;
         int alarmId = 1;
@@ -299,6 +299,121 @@ public class HoursCalculatorTest {
         
         int expResult = 3;
         int result = (int)(Math.round(result1));
+        
+        assertEquals(expResult, result);
+    }
+    
+    
+    /**
+     * Test of getHoursForTimeSheeet method, of class HoursCalculator.
+     * 1 hour timesheet followed by a 1 hour gap and then by a 2 hour timeSheet
+     */
+    @Test
+    public void testGetHoursForTimeSheeet9() {
+        final int oneHour = (60*60*1000);
+        System.out.println("getHoursForTimeSheeet9 : 1 hour timesheet followed by a 1 hour gap and then by a 2 hour timeSheet");
+        TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
+        int employeeId = 1;
+        int alarmId = 1;
+        int carNumber = 2711;
+        int carPos = MyConstants.FIREMAN.getID();
+        Timestamp startTime = new Timestamp(System.currentTimeMillis()-(oneHour*4));
+        Timestamp endTime = new Timestamp(System.currentTimeMillis()-(oneHour*3));
+        int acceptedByTeamleader = 0;
+        int acceptedToSalary = 0;
+        boolean addToPayment = false;
+        Comment comment = new Comment("Some comment");
+        Time_Sheet timeSheet1 = new Time_Sheet(employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
+        tsa.addTimeSheet(timeSheet1);
+        
+        startTime = new Timestamp(System.currentTimeMillis()-(oneHour*2));
+        endTime = new Timestamp(System.currentTimeMillis());
+        
+        Time_Sheet timeSheet2 = new Time_Sheet(employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
+        
+        HoursCalculator instance = new HoursCalculator(tsa);
+        
+        double result1 = instance.getHoursForTimeSheeet(timeSheet1).getHours();
+        double result2 = instance.getHoursForTimeSheeet(timeSheet2).getHours();
+        int expResult = 4;
+        
+        int result = (int)(Math.round(result1 + result2));
+        
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getHoursForTimeSheeet method, of class HoursCalculator.
+     * 1 hour timesheet followed by a 1 hour gap and then by a 1 hour timeSheet
+     */
+    @Test
+    public void testGetHoursForTimeSheeet10() {
+        final int oneHour = (60*60*1000);
+        System.out.println("getHoursForTimeSheeet10 : 1 hour timesheet followed by a 1 hour gap and then by a 1 hour timeSheet");
+        TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
+        int employeeId = 1;
+        int alarmId = 1;
+        int carNumber = 2711;
+        int carPos = MyConstants.FIREMAN.getID();
+        Timestamp startTime = new Timestamp(System.currentTimeMillis()-(oneHour*4));
+        Timestamp endTime = new Timestamp(System.currentTimeMillis()-(oneHour*3));
+        int acceptedByTeamleader = 0;
+        int acceptedToSalary = 0;
+        boolean addToPayment = false;
+        Comment comment = new Comment("Some comment");
+        Time_Sheet timeSheet1 = new Time_Sheet(employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
+        tsa.addTimeSheet(timeSheet1);
+        
+        startTime = new Timestamp(System.currentTimeMillis()-(oneHour*2));
+        endTime = new Timestamp(System.currentTimeMillis()-(oneHour));
+        
+        Time_Sheet timeSheet2 = new Time_Sheet(employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
+        
+        HoursCalculator instance = new HoursCalculator(tsa);
+        
+        double result1 = instance.getHoursForTimeSheeet(timeSheet1).getHours();
+        double result2 = instance.getHoursForTimeSheeet(timeSheet2).getHours();
+        int expResult = 4;
+        
+        int result = (int)(Math.round(result1 + result2));
+        
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getHoursForTimeSheeet method, of class HoursCalculator.
+     * 1 hour timesheet followed by a 2 hour gap and then by a 1 hour timeSheet
+     */
+    @Test
+    public void testGetHoursForTimeSheeet11() {
+        final int oneHour = (60*60*1000);
+        System.out.println("getHoursForTimeSheeet11 : 1 hour timesheet followed by a 2 hour gap and then by a 1 hour timeSheet");
+        TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
+        int employeeId = 1;
+        int alarmId = 1;
+        int carNumber = 2711;
+        int carPos = MyConstants.FIREMAN.getID();
+        Timestamp startTime = new Timestamp(System.currentTimeMillis()-(oneHour*4));
+        Timestamp endTime = new Timestamp(System.currentTimeMillis()-(oneHour*3));
+        int acceptedByTeamleader = 0;
+        int acceptedToSalary = 0;
+        boolean addToPayment = false;
+        Comment comment = new Comment("Some comment");
+        Time_Sheet timeSheet1 = new Time_Sheet(employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
+        tsa.addTimeSheet(timeSheet1);
+        
+        startTime = new Timestamp(System.currentTimeMillis()-(oneHour*1));
+        endTime = new Timestamp(System.currentTimeMillis());
+        
+        Time_Sheet timeSheet2 = new Time_Sheet(employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
+        
+        HoursCalculator instance = new HoursCalculator(tsa);
+        
+        double result1 = instance.getHoursForTimeSheeet(timeSheet1).getHours();
+        double result2 = instance.getHoursForTimeSheeet(timeSheet2).getHours();
+        int expResult = 4;
+        
+        int result = (int)(Math.round(result1 + result2));
         
         assertEquals(expResult, result);
     }
