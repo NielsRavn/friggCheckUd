@@ -32,6 +32,7 @@ import java.util.ArrayList;
  */
 public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_Access{
   
+    final int oneHour = (60*60*1000);
     Position_Access pa;
     Comment_Access ca;
     
@@ -382,8 +383,45 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
      * @return 
      */
     @Override
-    public ArrayList<Time_Sheet> getConflictingTimeSheets(Time_Sheet timeSheet) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Time_Sheet> getConflictingTimeSheets(Time_Sheet timeSheet) throws SQLServerException, SQLException{
+        Connection con = null;
+        ArrayList<Time_Sheet> timesheets = new ArrayList<Time_Sheet>();
+       try
+       {
+           con = getConnection();
+           
+           Statement query = con.createStatement();
+           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE startTime >= " + (timeSheet.getStartTime().getTime()-(oneHour*2)) +" AND startTime <="+ (timeSheet.getEndTime().getTime()+(oneHour*2))+""
+                                                + " OR endTime >= "+(timeSheet.getStartTime().getTime()-(oneHour*2))+" AND "+ (timeSheet.getEndTime().getTime()+(oneHour*2)) +";");
+           while(result.next())
+           {
+               int tsId = result.getInt("id");
+               int employeeId = result.getInt("empoyeeId");
+               int alarmId = result.getInt("alarmId");
+               int carNr = result.getInt("carNr"); 
+               Position pos = pa.getPositionById(result.getInt("positionId"));
+               Timestamp startTime = result.getTimestamp("startTime");
+               Timestamp endtime = result.getTimestamp("endTime");
+               int acceptedByTeamleader = result.getInt("acceptedByTeamLeader");
+               int acceptedForSalary = result.getInt("acceptedForSalary");
+               boolean addedToPayment = result.getBoolean("addedToPayment");
+               String comment = result.getString("Comment");
+               
+               Time_Sheet c = new Time_Sheet(tsId, employeeId, alarmId, carNr, pos, startTime, endtime, acceptedByTeamleader, acceptedForSalary, addedToPayment, new Comment(comment));
+               timesheets.add(c);
+               
+           }
+       }
+       finally
+       {
+           if(con != null)
+           {
+               con.close();
+           }
+       }
+        
+        
+        return timesheets;
     }
     
 }
