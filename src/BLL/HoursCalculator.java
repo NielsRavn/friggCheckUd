@@ -32,8 +32,8 @@ public class HoursCalculator{
     
     
 
-    public Hours getHoursForTimeSheeet(Time_Sheet ts) throws SQLException, CloneNotSupportedException {
-        Hours res = new Hours(0, null);
+    public int  getHoursForTimeSheeet(Time_Sheet ts) throws SQLException, CloneNotSupportedException {
+        int res = 0;
         long tsStart = ts.getStartTime().getTime();
         long tsEnd = ts.getEndTime().getTime();
         ArrayList<Time_Sheet> conflicts = new ArrayList();
@@ -64,16 +64,16 @@ public class HoursCalculator{
             double hours = tsEnd - tsStart + alternativeEndTime;
             
             hours = hours / (60*60*1000);
-            res.setHours(Math.ceil(hours));
+            res= (int)Math.ceil(hours);
             
             
         }else{
             if(ts.getEndTime().getTime() - ts.getStartTime().getTime() < (oneHour*2))
-                res.setHours(2);
+                res = 2;
             else {
                 double hours = ts.getEndTime().getTime() - ts.getStartTime().getTime();
                 hours = hours / (60*60*1000);
-                res.setHours(Math.ceil(hours));
+                res = (int)Math.ceil(hours);
             }
         }
         
