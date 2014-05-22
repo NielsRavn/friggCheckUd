@@ -7,10 +7,15 @@
 package Presentation.Components;
 
 import BE.Time_Sheet;
+import BLL.HoursCalculator;
 import BLL.MyUtil;
 import Presentation.Components.ViewObjects.ViewObject;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -18,6 +23,7 @@ import javax.swing.table.AbstractTableModel;
  * @author Poul Nielsen
  */
     public class ViewObjectTimeSheetTableModel extends AbstractTableModel{
+        private HoursCalculator hoursCalculator;
 private ArrayList<Time_Sheet> vos;
 Calendar date = Calendar.getInstance();
     // The names of columns
@@ -30,8 +36,13 @@ Calendar date = Calendar.getInstance();
      * Creates a new ViewObjectTableModel
      * @param allViewObjects a list of view objects that should be shown in the model
      */
-    public ViewObjectTimeSheetTableModel() {
+    public ViewObjectTimeSheetTableModel(){
         vos = new ArrayList();
+            try {
+                hoursCalculator = new HoursCalculator();
+            } catch (IOException ex) {
+                Logger.getLogger(ViewObjectTimeSheetTableModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         fireTableDataChanged();
     }
 
@@ -77,8 +88,14 @@ Calendar date = Calendar.getInstance();
                 date.setTimeInMillis(vo.getEndTime().getTime());
                 return "" + date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+" " + MyUtil.p0(date.get(Calendar.HOUR_OF_DAY)) + ":" + MyUtil.p0(date.get(Calendar.MINUTE));
             case 4:
-                int hours = (int) Math.ceil( (double)(vo.getEndTime().getTime() - (double)vo.getStartTime().getTime()) / 3600000 );
-                if(hours < 2) hours = 2;
+                int hours = 0;
+                try {
+                    hours = hoursCalculator.getHoursForTimeSheeet(vo);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ViewObjectTimeSheetTableModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (CloneNotSupportedException ex) {
+                    Logger.getLogger(ViewObjectTimeSheetTableModel.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 return hours;
             case 5:
                 
