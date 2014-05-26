@@ -133,7 +133,7 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
                         + "NULL , "
                         + "NULL ,"
                         + "'False' ,'"
-                        + ts.getComment()+"'"+ ") ",Statement.RETURN_GENERATED_KEYS);
+                        + ts.getComment().getComment()+"'"+ ") ",Statement.RETURN_GENERATED_KEYS);
                 ResultSet result = query.getGeneratedKeys();
                 if(result.next()){
                     ts.setId(result.getInt(1));
