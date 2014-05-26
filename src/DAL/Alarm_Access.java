@@ -76,13 +76,14 @@ public class Alarm_Access extends DatabaseConnection{
         {
             if(!alarmsFromSql.contains(a.getOdinNr()))
             {
-                String sql = "INSERT INTO Alarm VALUES (?,?,?,?,?)";
+                String sql = "INSERT INTO Alarm (odinNr, destination, type, time, accepted, exercise) VALUES (?,?,?,?,?,?)";
                 PreparedStatement ps = con.prepareStatement(sql);
                 ps.setInt(1, a.getOdinNr());
                 ps.setString(2, a.getDistination());
                 ps.setString(3, a.getType());
                 ps.setTimestamp(4, a.getTime());
                 ps.setBoolean(5, false);
+                ps.setBoolean(6, false);
                 
                 ps.executeUpdate();
             }
