@@ -190,6 +190,7 @@ public class MainFrame extends JFrame {
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
+            ex.printStackTrace();
         }
         
         JPanel footer = new JPanel();
