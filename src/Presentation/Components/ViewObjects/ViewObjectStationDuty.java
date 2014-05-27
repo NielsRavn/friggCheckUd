@@ -19,18 +19,31 @@ import javax.swing.JLabel;
 public class ViewObjectStationDuty extends ViewObject{
     ImageIcon icon;
     String name;
-    public ViewObjectStationDuty(Station station){
-        setLayout(new FlowLayout());
+    Station station;
+    
+    protected ViewObjectStationDuty(Station station){
+        super(station);
+        this.station = station;
         icon = new ImageIcon(station.getIconPath());
         name = station.getName();
-        
         fillData();
     }
 
-    private void fillData() {
+    public Station getStation() {
+        return station;
+    }
+
+    protected void fillData() {
+        setLayout(new FlowLayout());
+        
         add(new JLabel(icon));
         JLabel carInfo = new JLabel(name);
         carInfo.setFont(new Font("Verdana", Font.PLAIN, 42));
         add(carInfo);
+    }
+
+    @Override
+    public void refreshViewObject() {
+        
     }
 }

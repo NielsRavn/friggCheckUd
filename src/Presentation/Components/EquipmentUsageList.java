@@ -7,9 +7,11 @@
 package Presentation.Components;
 
 import BE.Equipment;
+import BE.EquipmentStatus;
+import BE.EquipmentUsage;
 import BE.Usage;
-import Presentation.Components.ViewObjects.ViewObjectEquipmentStatus;
-import Presentation.Components.ViewObjects.ViewObjectEquipmentUsage;
+import Presentation.Components.ViewObjects.ViewObject;
+import Presentation.Components.ViewObjects.ViewObjectFactory;
 import Presentation.Frames.MainFrame;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
@@ -29,19 +31,19 @@ public class EquipmentUsageList extends JPanel{
     
     ArrayList<Equipment> equipments;
     ListPanel panel;
-    ArrayList<ViewObjectEquipmentUsage> voeus;
+    ArrayList<ViewObject> voeus;
     JButton btnAccept, btnDecline;
     ArrayList<Usage> usages;
     MainFrame parent;
-    ViewObjectEquipmentStatus voes;
+    EquipmentStatus voes;
 
     public EquipmentUsageList(boolean editable, ArrayList<Equipment> equipments, MainFrame parent) {
         this.parent = parent;
-        panel = new ListPanel(editable);
+        panel = new ListPanel(editable, parent.getWidth());
         this.equipments = equipments;
         voeus = new ArrayList<>();
         for(Equipment e: equipments){
-            ViewObjectEquipmentUsage voeu = new ViewObjectEquipmentUsage(e);
+            ViewObject voeu = ViewObjectFactory.getViewObject(new EquipmentUsage(e, new Usage()));
             voeus.add(voeu);
             panel.addViewObject(voeu); 
         }
@@ -74,19 +76,21 @@ public class EquipmentUsageList extends JPanel{
     
     public void setAmountForUsages(ArrayList<Usage> usages){
         this.usages = usages;
-        for(ViewObjectEquipmentUsage e: voeus){
+        for(ViewObject e: voeus){
+            EquipmentUsage eu = (EquipmentUsage) e.getViewObjectBE();
             boolean updated = false;
             for(Usage u: usages){
-                if(e.getEquipment().getId() == u.getEquipmentId()){
-                    e.setAmount(u.getAmount());
+                if(eu.getEquipment().getId() == u.getEquipmentId()){
+                    eu.setUsage(new Usage(u.getAlarmId(), u.getCarNr(), u.getEquipmentId(), u.getAmount()));
                     updated = true;
                 }
             }
-            if(!updated) e.setAmount(0);
+            if(!updated) eu.setUsage(new Usage());
         }
+        panel.refreshAllViewobjects();
     }
 
-    public void setStatusViewObject(ViewObjectEquipmentStatus voes) {
+    public void setStatusViewObject(EquipmentStatus voes) {
         this.voes = voes;
     }
     
@@ -98,19 +102,20 @@ public class EquipmentUsageList extends JPanel{
                 int alarmId = parent.getSelectedAlarmId();
                 int carNr = parent.getselectedCarNr();
                 ArrayList<Usage> usagesToUpdate = new ArrayList<>();
-                for(ViewObjectEquipmentUsage e: voeus){
+                for(ViewObject e: voeus){
+                    EquipmentUsage eu = (EquipmentUsage) e.getViewObjectBE();
                     Usage use = null;
                     for(Usage u: usages){
-                        if(e.getEquipment().getId() == u.getEquipmentId()) {
+                        if(eu.getEquipment().getId() == u.getEquipmentId()) {
                             use = u;
-                            if(u.getAmount() != e.getAmount()){
-                                use.setAmount(e.getAmount());
+                            if(u.getAmount() != eu.getUsage().getAmount()){
+                                use.setAmount(eu.getUsage().getAmount());
                                 usagesToUpdate.add(use);
                             }
                         }
                     }
-                    if(use == null && e.getAmount() != 0) {
-                        use = new Usage(alarmId, carNr, e.getEquipment().getId(), e.getAmount());
+                    if(use == null && eu.getUsage().getAmount() != 0) {
+                        use = new Usage(alarmId, carNr, eu.getEquipment().getId(), eu.getUsage().getAmount());
                         usages.add(use);
                         usagesToUpdate.add(use);
                     }

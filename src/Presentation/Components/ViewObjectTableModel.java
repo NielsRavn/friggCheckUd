@@ -94,6 +94,7 @@ public class ViewObjectTableModel extends AbstractTableModel{
 
     @Override
     public boolean isCellEditable(int row, int col) {
+        
         return editable;
     }
 

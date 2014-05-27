@@ -16,14 +16,21 @@ import javax.swing.JLabel;
  */
 public class ViewObjectBasic extends ViewObject{
     IViewObjectBE vob;
-    public ViewObjectBasic(IViewObjectBE vob){
+    protected ViewObjectBasic(IViewObjectBE vob){
+        super(vob);
         this.vob = vob;
-        setLayout(new GridBagLayout());
+        
         fillData();
     }
     
-    private void fillData(){
+    protected void fillData(){
+        setLayout(new GridBagLayout());
         add(new JLabel(vob.getName()));
+    }
+
+    @Override
+    public void refreshViewObject() {
+        
     }
     
 }

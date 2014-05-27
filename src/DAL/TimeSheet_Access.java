@@ -7,6 +7,7 @@
 package DAL;
 
 import BE.Alarm;
+import BE.ApprovalSheet;
 import BE.Car;
 import BE.Comment;
 import BE.Fireman;
@@ -17,21 +18,21 @@ import Presentation.MyConstants;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 
 /**
  *
  * @author Poul Nielsen
  */
-public class TimeSheet_Access extends DatabaseConnection{
+public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_Access{
   
+    final int oneHour = (60*60*1000);
     Position_Access pa;
     Comment_Access ca;
     
@@ -57,7 +58,7 @@ public class TimeSheet_Access extends DatabaseConnection{
            con = getConnection();
            
            Statement query = con.createStatement();
-           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE empoyeeId = "+id+" AND positionId = "+ MyConstants.TEAM_LEADER.getID() +" AND acceptedBy IS NULL;");
+           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE empoyeeId = "+id+" AND positionId = "+ MyConstants.TEAM_LEADER.getID() +" AND acceptedForSalary IS NULL;");
            while(result.next())
            {
                int tsId = result.getInt("id");
@@ -67,8 +68,12 @@ public class TimeSheet_Access extends DatabaseConnection{
                Position pos = pa.getPositionById(result.getInt("positionId"));
                Timestamp startTime = result.getTimestamp("startTime");
                Timestamp endtime = result.getTimestamp("endTime");
+               int acceptedByTeamleader = result.getInt("acceptedByTeamLeader");
+               int acceptedForSalary = result.getInt("acceptedForSalary");
+               boolean addedToPayment = result.getBoolean("addedToPayment");
+               String comment = result.getString("Comment");
                
-               Time_Sheet c = new Time_Sheet(tsId, employeeId, alarmId, carNr, pos, startTime, endtime, ca.getCommentsByTimeSheetId(tsId));
+               Time_Sheet c = new Time_Sheet(tsId, employeeId, alarmId, carNr, pos, startTime, endtime, acceptedByTeamleader, acceptedForSalary, addedToPayment, new Comment(comment));
                timesheets.add(c);
                
            }
@@ -92,32 +97,54 @@ public class TimeSheet_Access extends DatabaseConnection{
             con = getConnection();
             Statement query = con.createStatement();
             if(ts.getCarNr() == 0){
-                int id = query.executeUpdate("Insert into TimeSheet Values ( "
+                
+                
+              
+                
+                query.executeUpdate("Insert into TimeSheet (empoyeeId,alarmId,carNr,positionId, startTime, endTime, acceptedByTeamleader, acceptedForSalary, addedToPayment, comment) Values ( "
                          + ts.getEmployeeID()+ ", "
                         + ts.getAlarmID()+ ", "
                         + "NULL"+","
                         + ts.getPositionID() + ",'"
                         + ts.getStartTime() + "','"
                         + ts.getEndTime() + "'," 
-                        + "NULL"+ ") ",Statement.RETURN_GENERATED_KEYS);
-                ts.setId(id);
+                        + "NULL , "
+                        + "NULL ,"
+                        + "'False' ,'"
+                        + ts.getComment().getComment()+"'"+ ") ",Statement.RETURN_GENERATED_KEYS);
+                ResultSet result = query.getGeneratedKeys();
+                if(result.next()){
+                    ts.setId(result.getInt(1));
+                }
+                else
+                {
+                    throw new SQLException ("Creating car model failed, id returned.");
+
+                }
                 
             }else{
-                int id = query.executeUpdate("Insert into TimeSheet Values ( "
+                query.executeUpdate("Insert into TimeSheet Values ( "
                          + ts.getEmployeeID()+ ", "
                         + ts.getAlarmID()+ ", "
                         + ts.getCarNr()+","
                         + ts.getPositionID() + ",'"
                         + ts.getStartTime() + "','"
                         + ts.getEndTime() + "'," 
-                        + "NULL"+ ") ",Statement.RETURN_GENERATED_KEYS);
-                ts.setId(id);
+                        + "NULL , "
+                        + "NULL ,"
+                        + "'False' ,'"
+                        + ts.getComment().getComment()+"'"+ ") ",Statement.RETURN_GENERATED_KEYS);
+                ResultSet result = query.getGeneratedKeys();
+                if(result.next()){
+                    ts.setId(result.getInt(1));
+                }
+                else
+                {
+                    throw new SQLException ("Creating car model failed, id returned.");
+
+                }
             }
             
-           
-            for(Comment c : ts.getComments()){
-                ca.addCommentToTimesheet(c, ts.getId());
-            }
 
 
         }
@@ -146,7 +173,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                                                                 + "INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId "
                                                                 + "INNER JOIN Car ON TimeSheet.CarNr = Car.carNr "
                                                                 + "INNER JOIN Alarm ON TimeSheet.alarmId = Alarm.id "
-                                                                + "WHERE TimeSheet.alarmId = "+alarmId+";");
+                                                                + "WHERE TimeSheet.alarmId = "+alarmId+" AND acceptedByTeamleader IS NULL;");
            while(result.next())
            {
               //getting data for fireman
@@ -170,6 +197,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                String type = result.getString("type");
                Timestamp time = result.getTimestamp("time");
                boolean accepted = result.getBoolean("accepted");
+               boolean exercise = result.getBoolean("exercise");
                //getting data for the position
                
                int positionId = result.getInt("id");
@@ -180,18 +208,22 @@ public class TimeSheet_Access extends DatabaseConnection{
                Timestamp startTime = result.getTimestamp("startTime");
                Timestamp endTime = result.getTimestamp("endTime");
                int firemenPositionId = result.getInt("positionId");
+               int acceptedByTeamleader = result.getInt("acceptedByTeamLeader");
+               int acceptedForSalary = result.getInt("acceptedForSalary");
+               boolean addedToPayment = result.getBoolean("addedToPayment");
+               String comment = result.getString("Comment");
                
                //Creating the arraylist with data from sql query
                
                Fireman a = new Fireman(firemanId, firemanFirsName, firemanLastName, isTeamLeader, isDriver);
                
-               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted);
+               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted, exercise);
                
                Car c = new Car(carNr, iconPath, carName, seats);
                
                Position d = new Position(positionId, positionName);
                
-               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId, ca.getCommentsByTimeSheetId(tsId));
+               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId, acceptedByTeamleader, acceptedForSalary, addedToPayment, new Comment(comment));
                
                timesheets.add(e);
            }
@@ -212,21 +244,19 @@ public class TimeSheet_Access extends DatabaseConnection{
 
     public ArrayList<Time_Sheet> stationsVagt( int alarmId) throws SQLServerException, SQLException
 {
-    
-           
-           Connection con = null;
+        Connection con = null;
         ArrayList<Time_Sheet> timesheets = new ArrayList<Time_Sheet>();
        try
        {
            con = getConnection();
            
            Statement query = con.createStatement();
-           ResultSet result = query.executeQuery("SELECT Timesheet.id as tsId,* FROM TimeSheet \n" +
-                                                            "INNER JOIN Position ON TimeSheet.positionId = Position.id \n" +
-                                                            "INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId \n" +
-                                                            "INNER JOIN Alarm ON TimeSheet.alarmId = Alarm.id \n" +
-                                                            "WHERE TimeSheet.alarmId = "+alarmId+"\n" +
-                                                            "and ISNULL(TimeSheet.carNr, 0) = 0;");
+           ResultSet result = query.executeQuery("SELECT Timesheet.id as tsId,* FROM TimeSheet " +
+                                                            "INNER JOIN Position ON TimeSheet.positionId = Position.id " +
+                                                            "INNER JOIN Fireman ON TimeSheet.empoyeeId = Fireman.employeeId " +
+                                                            "INNER JOIN Alarm ON TimeSheet.alarmId = Alarm.id " +
+                                                            "WHERE TimeSheet.alarmId = "+alarmId+"" +
+                                                            "AND TimeSheet.carNr IS NULL AND acceptedByTeamleader IS NULL;");
            while(result.next())
            {
               //getting data for fireman
@@ -247,6 +277,7 @@ public class TimeSheet_Access extends DatabaseConnection{
                String type = result.getString("type");
                Timestamp time = result.getTimestamp("time");
                boolean accepted = result.getBoolean("accepted");
+               boolean exercise = result.getBoolean("exercise");
                
                //getting data for the position
                
@@ -258,18 +289,22 @@ public class TimeSheet_Access extends DatabaseConnection{
                Timestamp startTime = result.getTimestamp("startTime");
                Timestamp endTime = result.getTimestamp("endTime");
                int firemenPositionId = result.getInt("positionId");
+               int acceptedByTeamleader = result.getInt("acceptedByTeamLeader");
+               int acceptedForSalary = result.getInt("acceptedForSalary");
+               boolean addedToPayment = result.getBoolean("addedToPayment");
+               String comment = result.getString("Comment");
                
                //Creating the arraylist with data from sql query
                
                Fireman a = new Fireman(firemanId, firemanFirsName, firemanLastName, isTeamLeader, isDriver);
                
-               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted);
+               Alarm b = new Alarm(id, odinNr, destination, type, time, accepted, exercise);
                
                Station c = new Station(name, iconPath);
                
                Position d = new Position(positionId, positionName);
                
-               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId, ca.getCommentsByTimeSheetId(tsId));
+               Time_Sheet e = new Time_Sheet(tsId, a, b, c, d, startTime, endTime, firemenPositionId, acceptedByTeamleader, acceptedForSalary, addedToPayment, new Comment(comment));
                
                timesheets.add(e);
            }
@@ -286,5 +321,110 @@ public class TimeSheet_Access extends DatabaseConnection{
         
         return timesheets;
 }
+
+        public void aproveTimesheetByTimesheetId(Time_Sheet t, ApprovalSheet approvalSheet)  throws SQLServerException, SQLException {
+        Connection con = null;
+        con = getConnection();
+        con.setAutoCommit(false);
+        con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+        try
+        {
+            
+            String sql = "INSERT INTO ApprovalSheet (firemanId, comment, approved, hours) VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, approvalSheet.getFireman().getID());
+            ps.setString(2, approvalSheet.getComment());
+            ps.setBoolean(3, approvalSheet.isApproved());
+            ps.setInt(4, approvalSheet.getHours());
+            
+            int affectedRows = ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            
+            if (affectedRows == 0)
+            {
+                throw new SQLException("Problem with updating the ApprovalSheet");
+            }
+
+               if(rs.next()){
+                approvalSheet.setId(rs.getInt(1));
+                String updateSql = "UPDATE Timesheet SET acceptedByTeamleader=? WHERE id = ?;";
+                PreparedStatement psUpdate = con.prepareStatement(updateSql);
+                psUpdate.setInt(1, rs.getInt(1));
+                psUpdate.setInt(2, t.getId());
+                   affectedRows = psUpdate.executeUpdate();
+                    if (affectedRows == 0)
+                    {
+                        throw new SQLException("Problem with updating the Timesheet ");
+                    }
+                    
+            }else{
+                throw new SQLException("No key returned when adding ApprovalSheet");
+            }
+               con.commit();
+        }
+        catch (SQLException e)
+        {
+            con.rollback();
+            throw e;
+        }
+        finally
+        {
+            con.setAutoCommit(true);
+            if(con != null)
+            {
+                con.close();
+            }
+        }
+    }
+
+    /**
+     * 
+     * @param timeSheet
+     * @return 
+     */
+    @Override
+    public ArrayList<Time_Sheet> getConflictingTimeSheets(Time_Sheet timeSheet) throws SQLServerException, SQLException{
+        Connection con = null;
+        ArrayList<Time_Sheet> timesheets = new ArrayList<Time_Sheet>();
+       try
+       {
+           con = getConnection();
+           
+           Statement query = con.createStatement();
+           ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE startTime >= '" + new Timestamp(timeSheet.getStartTime().getTime()) +"' AND startTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime())+"' AND empoyeeId = "+ timeSheet.getFireman().getID() + " AND id != " + timeSheet.getId()
+                                                + " OR endTime >= '" + new Timestamp(timeSheet.getStartTime().getTime())+"' AND endTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime()) +"' AND empoyeeId = "+ timeSheet.getFireman().getID()+ " AND id != " + timeSheet.getId() +";");
+           
+           System.out.println("SELECT * FROM TimeSheet WHERE startTime >= '" + new Timestamp(timeSheet.getStartTime().getTime()) +"' AND startTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime())+"' AND empoyeeId = "+ timeSheet.getEmployeeID() + " AND id != " + timeSheet.getId()
+                                                + " OR endTime >= '" + new Timestamp(timeSheet.getStartTime().getTime())+"' AND endTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime()) +"' AND empoyeeId = "+ timeSheet.getFireman().getID()+ " AND id != " + timeSheet.getId() +";");
+           while(result.next())
+           {
+               int tsId = result.getInt("id");
+               int employeeId = result.getInt("empoyeeId");
+               int alarmId = result.getInt("alarmId");
+               int carNr = result.getInt("carNr"); 
+               Position pos = pa.getPositionById(result.getInt("positionId"));
+               Timestamp startTime = result.getTimestamp("startTime");
+               Timestamp endtime = result.getTimestamp("endTime");
+               int acceptedByTeamleader = result.getInt("acceptedByTeamLeader");
+               int acceptedForSalary = result.getInt("acceptedForSalary");
+               boolean addedToPayment = result.getBoolean("addedToPayment");
+               String comment = result.getString("Comment");
+               
+               Time_Sheet c = new Time_Sheet(tsId, employeeId, alarmId, carNr, pos, startTime, endtime, acceptedByTeamleader, acceptedForSalary, addedToPayment, new Comment(comment));
+               timesheets.add(c);
+               
+           }
+       }
+       finally
+       {
+           if(con != null)
+           {
+               con.close();
+           }
+       }
+        
+        
+        return timesheets;
+    }
     
 }

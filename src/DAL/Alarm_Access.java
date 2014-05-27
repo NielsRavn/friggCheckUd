@@ -43,7 +43,7 @@ public class Alarm_Access extends DatabaseConnection{
             ResultSet rs = stmnt.executeQuery("SELECT * FROM Alarm WHERE accepted = 0;");
             
             while(rs.next()){
-                Alarm a = new Alarm(rs.getInt("id"), rs.getInt("odinNr"), rs.getString("destination"), rs.getString("type"), rs.getTimestamp("time"), rs.getBoolean("accepted"));
+                Alarm a = new Alarm(rs.getInt("id"), rs.getInt("odinNr"), rs.getString("destination"), rs.getString("type"), rs.getTimestamp("time"), rs.getBoolean("accepted"), rs.getBoolean("exercise"));
                 
                 alarms.add(a);
             }
@@ -76,13 +76,14 @@ public class Alarm_Access extends DatabaseConnection{
         {
             if(!alarmsFromSql.contains(a.getOdinNr()))
             {
-                String sql = "INSERT INTO Alarm VALUES (?,?,?,?,?)";
+                String sql = "INSERT INTO Alarm (odinNr, destination, type, time, accepted, exercise) VALUES (?,?,?,?,?,?)";
                 PreparedStatement ps = con.prepareStatement(sql);
                 ps.setInt(1, a.getOdinNr());
                 ps.setString(2, a.getDistination());
                 ps.setString(3, a.getType());
                 ps.setTimestamp(4, a.getTime());
                 ps.setBoolean(5, false);
+                ps.setBoolean(6, false);
                 
                 ps.executeUpdate();
             }
@@ -107,7 +108,7 @@ public class Alarm_Access extends DatabaseConnection{
             ResultSet rs = stmnt.executeQuery("SELECT * FROM Alarm WHERE id="+id+" AND accepted = 0;");
             
             while(rs.next()){
-                alarm = new Alarm(rs.getInt("id"), rs.getInt("odinNr"), rs.getString("destination"), rs.getString("type"), rs.getTimestamp("time"), rs.getBoolean("accepted"));
+                alarm = new Alarm(rs.getInt("id"), rs.getInt("odinNr"), rs.getString("destination"), rs.getString("type"), rs.getTimestamp("time"), rs.getBoolean("accepted"), rs.getBoolean("exercise"));
                 
             }
         }finally{
@@ -123,10 +124,11 @@ public class Alarm_Access extends DatabaseConnection{
         {
             con = getConnection();
             Statement query = con.createStatement();
-                int key = query.executeUpdate("Insert into Alarm (destination, type, time, accepted ) VALUES("
+                int key = query.executeUpdate("Insert into Alarm (destination, type, time, exercise, accepted ) VALUES("
                         + "'"+alarm.getDistination()+ "', "
                         + "'"+alarm.getType()+ "', "
                         + "'"+alarm.getTime()+"',"
+                        + "'"+alarm.isExercise()+"',"
                         + "'False') ", Statement.RETURN_GENERATED_KEYS);
                 alarm.setID(key);
                 

@@ -10,72 +10,54 @@ import Presentation.Components.ViewObjects.ViewObject;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import static java.util.Collections.list;
-import javax.swing.AbstractCellEditor;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JTable;
+import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 
 /**
  *
  * @author Brobak
  */
-public class ListPanel extends javax.swing.JPanel {
+public class ListPanel extends javax.swing.JPanel{
 
-    JPanel thisList;
-    //DefaultListModel model;
+    JPanel lstTheList;
     ArrayList<IObserver> observers;
     ArrayList<ViewObject> vos;
     int mySelectedIndex;
-    TimePicker tp;
     boolean enabled;
-    ViewObjectTableModel model;
-
+    JScrollPane jScrollPane1;
+    JPanel panel;
+    MyMouseMotionAdapter mma;
+    int width;
+    boolean editAble;
     /**
      * Creates new form ListPanel
      * @param editable
      */
-    public ListPanel( boolean editable) {
+    public ListPanel( boolean editable, int width) {
+        this.width = width;
+        panel = new JPanel();
+        BoxLayout layout = new BoxLayout(panel, BoxLayout.Y_AXIS);
+        this.editAble = editable;
+        panel.setLayout(layout);
+        jScrollPane1 = new JScrollPane(panel);
         enabled = true;
         mySelectedIndex = -1;
         initComponents();
-        tblList.setTableHeader(null);
         vos = new ArrayList();
-        thisList = this;
         observers = new ArrayList();
-        model = new ViewObjectTableModel(editable);
-        tblList.setModel(model);
-        tblList.setDefaultRenderer(JPanel.class, new MyTableCellRenderer());
-        if(editable)
-            tblList.setDefaultEditor(JPanel.class, new MyTableCellEditor());
-        //tblList.setCellRenderer(getClientListRenderer());
-        MyMouseMotionAdapter mma = new MyMouseMotionAdapter();
-        tblList.addMouseListener(mma);
-        jScrollPane1.addMouseListener(mma);
-        addMouseMotionListener(mma);
-        addMouseListener(mma);
-        tblList.addMouseMotionListener(mma);
-        jScrollPane1.addMouseMotionListener(mma);
+        add(jScrollPane1, BorderLayout.CENTER);
+        mma = new MyMouseMotionAdapter();
         populateTable();
+        
     }
 
     /**
@@ -87,135 +69,70 @@ public class ListPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblList = new javax.swing.JTable();
-
         setLayout(new java.awt.BorderLayout());
-
-        jScrollPane1.setViewportView(tblList);
-
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblList;
     // End of variables declaration//GEN-END:variables
     private void populateTable() {
-        model = (ViewObjectTableModel) tblList.getModel();
-        model.setViewObjectList(vos);
+        
     }
 
     public void updateTable(ArrayList<ViewObject> viewObjects) {
         ArrayList<ViewObject> vos = viewObjects;
-        model.setViewObjectList(vos);
-        model.fireTableDataChanged();
     }
 
-//    /**
-//     * Adds a cell renderer to the table coloums in tblResult
-//     */
-//    private void addCellRenderer() {
-//        MyTableCellRenderer renderer = new MyTableCellRenderer();
-//        
-//        for(int col = 0; col < model.getColumnCount(); col ++){
-//            TableColumn tc = tblList.getColumnModel().getColumn(col);
-//            tc.setCellRenderer(renderer);
-//        }
-//    }
+    
     /**
      * Adds a new ViewObject to the lst
      *
      * @param object the ViewObject you want to add to the list
      */
     public void addViewObject(ViewObject object) {
+        object.addMouseMotionListener(mma);
+        object.addMouseListener(mma);
+        object.setMaximumSize(new Dimension(width, (int) object.getPreferredSize().getHeight()));
+        object.addObserver(new ViiewObjectObserver());
         vos.add(object);
-        model.fireTableDataChanged();
-        //model.addElement(object);
+        panel.add(object); 
     }
-
-    private class MyTableCellRenderer extends JPanel implements TableCellRenderer {
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            return getCorectPanel(table, value, isSelected, row);
-            
+    
+//    public void addViewObject(ViewObject object) {
+//        object.addMouseMotionListener(mma);
+//        object.addMouseListener(mma);
+//        object.setMaximumSize(new Dimension(width, (int) object.getPreferredSize().getHeight()));
+//        object.addObserver(new ViiewObjectObserver());
+//        vos.add(object);
+//        panel.add(object); 
+//    }
+    
+    public void refreshAllViewobjects(){
+        for(ViewObject vo: vos){
+            vo.refreshViewObject();
         }
     }
 
-    private JPanel getCorectPanel(JTable table, Object value, boolean isSelected, int row) {
-        ViewObject panel = (ViewObject) value;
-        table.setRowHeight(row, (int) panel.getPreferredSize().getHeight());
-        if (isSelected) {
-            panel.setBackground(MyConstants.COLOR_LIGHT_BLUE);
-        } else {
-            panel.setBackground(Color.WHITE);
-        }
+    private JPanel getCorectPanel(ViewObject value) {
         JPanel surroundPanel = new JPanel();
+        surroundPanel.addMouseMotionListener(mma);
+        surroundPanel.addMouseListener(mma);
         surroundPanel.setLayout(new BorderLayout());
-        surroundPanel.add(panel, BorderLayout.CENTER);
+        surroundPanel.add(value, BorderLayout.CENTER);
         surroundPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
         return surroundPanel;
     }
-
-    private class MyTableCellEditor extends AbstractCellEditor implements TableCellEditor {
-        
-        @Override
-        public Component getTableCellEditorComponent(JTable table, Object value,
-            boolean isSelected, int row, int column) {
-            return getCorectPanel(table, value, isSelected, row);
-        }
-
-        @Override
-        public Object getCellEditorValue() {
-            return null;
-        }
-        
-    }
-//    /**
-//     * Gets the Cell renderer for the list
-//     *
-//     * @return
-//     */
-//    private ListCellRenderer getListRenderer(){
-//        ListCellRenderer r =
-//            new ListCellRenderer() {
-//                @Override
-//                public Component getListCellRendererComponent(JList list,
-//                        Object value, int index, boolean isSelected,
-//                        boolean cellHasFocus)
-//                {
-//                    ViewObject myViewObject = (ViewObject) value;
-//                    if(isSelected)
-//                        myViewObject.setBackground(MyConstants.COLOR_LIGHT_BLUE);
-//                    else
-//                        myViewObject.setBackground(Color.WHITE);
-//                    JPanel surroundPanel = new JPanel();
-//                    surroundPanel.setLayout(new BorderLayout());
-//                    surroundPanel.add(myViewObject, BorderLayout.CENTER);
-//                    surroundPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
-//                    return surroundPanel;
-//                }
-//            };
-//        return r;
-//    }
 
     public ViewObject getSelectedViewObject() {
         if (mySelectedIndex == -1) {
             return null;
         } else {
-            return (ViewObject) model.getValueAt(mySelectedIndex, 0);
+            return vos.get(mySelectedIndex);
         }
     }
 
     public ArrayList<ViewObject> getAllViewObject() {
-        ArrayList<ViewObject> viewObjects = new ArrayList();
-
-        for (int i = 0; i < model.getRowCount(); i++) {
-            viewObjects.add((ViewObject) model.getValueAt(i, 0));
-        }
-        return viewObjects;
+        return vos;
     }
 
     public void addSelectionObserver(IObserver observer) {
@@ -234,15 +151,40 @@ public class ListPanel extends javax.swing.JPanel {
 
     public void clearList() {
         vos = new ArrayList();
-        model.setViewObjectList(vos);
-        model.fireTableDataChanged();
+        panel.removeAll();
     }
 
     public void setElementsEnabled(boolean b) {
-        tblList.setEnabled(b);
         enabled = b;
     }
+    
+    private void setBackgroundColorOfAllElements(Color c) {
+            for(ViewObject vo: vos){
+                vo.setBackground(c);
+            }
+    }
+    
+    private int getIndexOfObject(ViewObject viewObject) {
+        for(int i = 0; i <vos.size(); i++){
+            if(vos.get(i) == viewObject) return i;
+        }
+        return -1;
+    }
 
+    public int getMyWidth() {
+        return width;
+    }
+    
+    private class ViiewObjectObserver implements IObserver{
+
+        @Override
+        public void notifyObserver() {
+            ListPanel.this.validate();
+            ListPanel.this.repaint();
+        }
+        
+    }
+    
     private class MyMouseMotionAdapter extends MouseAdapter {
 
         Point lastDragPoint = new Point();
@@ -251,8 +193,12 @@ public class ListPanel extends javax.swing.JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             if (enabled) {
-                mySelectedIndex = tblList.getSelectedRow();
-                notifyObservers();
+                mySelectedIndex = getIndexOfObject((ViewObject) e.getSource());
+                setBackgroundColorOfAllElements(Color.WHITE);
+                ViewObject selected = getSelectedViewObject();
+                if(selected != null)
+                    selected.setBackground(MyConstants.COLOR_LIGHT_BLUE);
+                    notifyObservers();
             }
         }
 
@@ -263,12 +209,10 @@ public class ListPanel extends javax.swing.JPanel {
         
         @Override
         public void mouseDragged(MouseEvent e) {
-            if (mySelectedIndex == -1) tblList.clearSelection();
-            else tblList.setRowSelectionInterval(mySelectedIndex, mySelectedIndex);
 
             if (!beingDragged) {
                 beingDragged = true;
-                setLastDragPoint(e.getX(), e.getY());
+                setLastDragPoint(e.getX(), (e.getY()+ ((JComponent)e.getSource()).getY()));
             }
             handleDraging(e);
         }
@@ -282,15 +226,15 @@ public class ListPanel extends javax.swing.JPanel {
             JViewport viewPort = jScrollPane1.getViewport();
             Point scrollPosition = viewPort.getViewPosition();
 
-            int dy = e.getY() - lastDragPoint.y;
-
+            int dy = (e.getY()+ ((JComponent)e.getSource()).getY()) - lastDragPoint.y;
+            
             int maxScroll = viewPort.getViewSize().height - getHeight();
-
             scrollPosition.y -= dy;
             if (scrollPosition.y > maxScroll) scrollPosition.y = maxScroll;
             if (scrollPosition.y < 0) scrollPosition.y = 0;
-
+            
             viewPort.setViewPosition(scrollPosition);
         }
+
     }
 }

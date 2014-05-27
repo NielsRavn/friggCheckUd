@@ -36,21 +36,22 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
     
     JLabel lblTimeStart, lblTimeEnd, lblDate ;
             
-    public ViewObjectTime(Timestamp date){
+    protected ViewObjectTime(MyTime time){
+        super(time);
         this.date = Calendar.getInstance();
-        this.date.setTimeInMillis(date.getTime());
+        this.date.setTimeInMillis(time.getAlarmStartDate().getTime());
         endDate = Calendar.getInstance();
-        setLayout(new BorderLayout());
-        int startHour = this.date.get(Calendar.HOUR_OF_DAY);
-        int startMin = this.date.get(Calendar.MINUTE);
-        int endHour = endDate.get(Calendar.HOUR_OF_DAY);
-        int endMin = endDate.get(Calendar.MINUTE);
-        time = new MyTime(date, date, startHour, startMin, endHour, endMin);
+        
+//        int startHour = this.date.get(Calendar.HOUR_OF_DAY);
+//        int startMin = this.date.get(Calendar.MINUTE);
+//        int endHour = endDate.get(Calendar.HOUR_OF_DAY);
+//        int endMin = endDate.get(Calendar.MINUTE);
+        this.time = time;
         fillData();
     }
     
-    
-    private void fillData() {
+    protected void fillData() {
+        setLayout(new BorderLayout());
         topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout());
         Font topFont = new Font("Verdana", Font.PLAIN, 50);
@@ -126,5 +127,13 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
         date.set(Calendar.HOUR_OF_DAY, time.getStartHour());
         date.set(Calendar.MINUTE, time.getStartMinute());
         return new Timestamp(date.getTimeInMillis());
+    }
+
+    @Override
+    public void refreshViewObject() {
+        lblDate.setText(date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+"-"+date.get(Calendar.YEAR));
+
+        lblTimeEnd.setText(MyUtil.p0(time.getEndHour()) + ":" + MyUtil.p0(time.getEndMinute()));
+        lblTimeStart.setText(MyUtil.p0(time.getStartHour()) + ":" + MyUtil.p0(time.getStartMinute()));
     }
 }

@@ -9,6 +9,8 @@ import BE.Alarm;
 import BE.Car;
 import BE.Comment;
 import BE.Equipment;
+import BE.EquipmentStatus;
+import BE.Hours;
 import BE.MyTime;
 import BE.Position;
 import BE.Time_Sheet;
@@ -48,6 +50,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -56,6 +59,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
+import javax.swing.text.ViewFactory;
 
 /**
  *
@@ -75,6 +79,7 @@ public class MainFrame extends JFrame {
     int width;
     TabView tv;
     LogIn li;
+    MessagePane messagePane;
     TimePicker tp;
     AlarmCreater ac;
     Header head;
@@ -88,6 +93,7 @@ public class MainFrame extends JFrame {
      */
     public MainFrame() {
         super("FRIGG Check Ud");
+        
         try {
             cal = new Car_AccessLink();
             aal = new Alarm_AccessLink();
@@ -109,8 +115,11 @@ public class MainFrame extends JFrame {
             setLayout(bl);
             width = dim.width;
 
-            li = new LogIn(this);
+            li =  LogIn.getInstance(this);
             add(li, BorderLayout.CENTER);
+            
+            messagePane = new MessagePane();
+            add(messagePane, BorderLayout.SOUTH);
 
             head = new Header();
             add(head, BorderLayout.NORTH);
@@ -173,7 +182,7 @@ public class MainFrame extends JFrame {
     protected JPanel getAlarmPanel() {
         mainAlarmPanel = new JPanel();
         mainAlarmPanel.setLayout(new BorderLayout());
-        alarmPanel = new ListPanel(false);
+        alarmPanel = new ListPanel(false, width);
         try{
             ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
             for(Alarm alarm : alarms){
@@ -210,6 +219,7 @@ public class MainFrame extends JFrame {
     }
     
     public void addAlarmCreater(AlarmCreater aCreater){
+        if(ac != null) remove(ac);
         ac = aCreater;
         add(ac, BorderLayout.EAST);
     }
@@ -223,7 +233,7 @@ public class MainFrame extends JFrame {
     }
 
     protected ListPanel getCarPanel() {
-        ListPanel list = new ListPanel(false);
+        ListPanel list = new ListPanel(false, width);
         try {
 
             ArrayList<Car> cars = cal.getAllCars();
@@ -238,7 +248,7 @@ public class MainFrame extends JFrame {
     }
 
     protected ListPanel getPositionPanel() {
-        ListPanel list = new ListPanel(false);
+        ListPanel list = new ListPanel(false, width);
 
         ArrayList<Position> positions = createPositions();
         for (Position pos : positions) {
@@ -273,7 +283,7 @@ public class MainFrame extends JFrame {
         JPanel approvePanel = new JPanel();
         approvePanel.setLayout(new BorderLayout());
 
-        approveListPanel = new ListPanel(true);
+        approveListPanel = new ListPanel(true, width);
         approvePanel.add(approveListPanel, BorderLayout.CENTER);
 
         JPanel footer = new JPanel();
@@ -299,29 +309,38 @@ public class MainFrame extends JFrame {
 
     protected void fillApproveListPanel() {
         ViewObjectAlarm voa = (ViewObjectAlarm) alarmPanel.getSelectedViewObject();
-        approveListPanel.addViewObject(voa);
+        approveListPanel.addViewObject(ViewObjectFactory.getViewObject(voa.getViewObjectBE()));
         if (carPanel.getSelectedViewObject().getClass() == ViewObjectCar.class) {
             ViewObjectCar voc = (ViewObjectCar) carPanel.getSelectedViewObject();
-            approveListPanel.addViewObject(voc);
-            approveListPanel.addViewObject(positionPanel.getSelectedViewObject());
+            approveListPanel.addViewObject(ViewObjectFactory.getViewObject(voc.getViewObjectBE()));
+            approveListPanel.addViewObject(ViewObjectFactory.getViewObject(positionPanel.getSelectedViewObject().getViewObjectBE()));
             try {
                 ArrayList<Usage> usages = eal.getUsagesFor(voa.getAlarm().getID(), voc.getCar().getCarNr());
                 equipmentPanel.setAmountForUsages(usages);
-                ViewObjectEquipmentStatus voes = new ViewObjectEquipmentStatus(!usages.isEmpty());
-                equipmentPanel.setStatusViewObject(voes);
-                approveListPanel.addViewObject(voes);
+                EquipmentStatus es = new EquipmentStatus(!usages.isEmpty());
+                equipmentPanel.setStatusViewObject(es);
+                approveListPanel.addViewObject(ViewObjectFactory.getViewObject(es));
                 tv.setEnabledContent(equipmentPanel, true);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Database call error: " + ex);
             }
         } else {
-            approveListPanel.addViewObject(carPanel.getSelectedViewObject());
-            approveListPanel.addViewObject(new ViewObjectPosition(MyConstants.STATION_DUTY));
+            ViewObjectStationDuty station = (ViewObjectStationDuty) carPanel.getSelectedViewObject();
+            approveListPanel.addViewObject(ViewObjectFactory.getViewObject(station.getStation()));
+            approveListPanel.addViewObject(ViewObjectFactory.getViewObject(MyConstants.STATION_DUTY));
             tv.setEnabledContent(equipmentPanel, false);
         }
-        
-        approveListPanel.addViewObject(new ViewObjectTime(voa.getTime()));
-        approveListPanel.addViewObject(new ViewObjectComment(approveListPanel));
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(voa.getTime().getTime());
+        Calendar endDate = Calendar.getInstance();
+        int startHour = cal.get(Calendar.HOUR_OF_DAY);
+        int startMin = cal.get(Calendar.MINUTE);
+        int endHour = endDate.get(Calendar.HOUR_OF_DAY);
+        int endMin = endDate.get(Calendar.MINUTE);
+        approveListPanel.addViewObject(ViewObjectFactory.getViewObject(
+                new MyTime(new Timestamp(voa.getTime().getTime()), new Timestamp(voa.getTime().getTime()),startHour, startMin, endHour, endMin)
+        ));
+        approveListPanel.addViewObject(ViewObjectFactory.getViewObject(new Comment("")));
 
     }
 
@@ -391,6 +410,7 @@ public class MainFrame extends JFrame {
 
     public void changeView() {
         remove(li);
+        remove(messagePane);
         createPanels();
         add(fot, BorderLayout.SOUTH);
         add(tv, BorderLayout.CENTER);
@@ -411,6 +431,7 @@ public class MainFrame extends JFrame {
         removeAlarmCreater();
         mfl.reset();
         add(li, BorderLayout.CENTER);
+        add(messagePane, BorderLayout.SOUTH);
         li.setFocus();
         repaint();
     }
@@ -472,19 +493,30 @@ public class MainFrame extends JFrame {
     
     public void goToApprovePanel(){
         tv.setSelectedComponent(approvePanel);
+        approveListPanel.refreshAllViewobjects();
+    }
+
+    public void myRepaint() {
+        //setSize(getWidth(), getHeight());
+        setSize(getWidth()-1, getHeight());
+        setSize(getWidth()+1, getHeight());
     }
 
     private class myListPanelListener implements IObserver {
 
         @Override
         public void notifyObserver() {
-            if (mfl.getNextPanel() == null) {
+            JPanel next = mfl.getNextPanel();
+            if ( next == null) {
                 approveListPanel.clearList();
                 fillApproveListPanel();
                 tv.setSelectedComponent(approvePanel);
  
             } else { 
-                tv.setSelectedComponent(mfl.getNextPanel());
+                if(next == alarmPanel)
+                    tv.setSelectedIndex(0);
+                else
+                    tv.setSelectedComponent(next);
             }
 
         }
@@ -546,7 +578,7 @@ public class MainFrame extends JFrame {
                     Timestamp endTime = vot.getEndTime();
                     Timestamp startTime = vot.getStartTime();
                     
-                    Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, 0, new ArrayList());
+                    Time_Sheet ts = new Time_Sheet(li.getFireman().getID(), alarm.getAlarm().getID(), carNumber, positionId, startTime, endTime, 0, 0,false, new Comment(""));
                     String comment = null;
                     for(ViewObject vo: approveListPanel.getAllViewObject()){
                         if(vo.getClass() == ViewObjectComment.class){
@@ -554,14 +586,15 @@ public class MainFrame extends JFrame {
                             comment = voc.getComment();
                         }
                     }
-                    if(!comment.equals("")){
-                        ts.addComments(new Comment(li.getFireman(), comment));
+                    if(!comment.equals("") && comment != null){
+                        ts.setComment(new Comment(comment));
                     }
                     
                     try {
                         tsa.addTimeSheet(ts);
                     } catch (SQLException ex) {
-                        //ex.printStackTrace();
+                        ex.printStackTrace();
+                        
                         JOptionPane.showMessageDialog(rootPane, "Du kan ikke melde dig på samme alarm 2 gange.");
                     }
                     logOut();

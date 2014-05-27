@@ -6,23 +6,49 @@
 
 package Presentation.Components.ViewObjects;
 
+import BE.IViewObjectBE;
+import BLL.IObserver;
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 
 /**
  *
  * @author Brobak
  */
 public abstract class ViewObject extends javax.swing.JPanel {
-
+    IViewObjectBE viewObjectBE; 
+    JLabel lblName;
+    ArrayList<IObserver> observers;
     /**
      * Creates new form ViewObject
+     * @param viewObjectBE
      */
-    public ViewObject() {
+    protected ViewObject(IViewObjectBE viewObjectBE) {
         initComponents();
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-        
-        
+        this.viewObjectBE = viewObjectBE;
+        observers = new ArrayList<>();
+    }
+    
+    public abstract void refreshViewObject();
+     
+    public IViewObjectBE getViewObjectBE(){
+        return viewObjectBE;
+    }
+    
+    public void addObserver(IObserver obs){
+        observers.add(obs);
+    }
+    
+    public void removeObserver(IObserver obs){
+        observers.remove(obs);
+    }
+    
+    protected void notifyObservers(){
+        for(IObserver obs : observers)
+            obs.notifyObserver();
     }
     
 

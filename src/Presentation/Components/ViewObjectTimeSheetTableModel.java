@@ -7,16 +7,25 @@
 package Presentation.Components;
 
 import BE.Time_Sheet;
+import BLL.HoursCalculator;
+import BLL.MyUtil;
 import Presentation.Components.ViewObjects.ViewObject;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
 /**
  *
  * @author Poul Nielsen
  */
-public class ViewObjectTimeSheetTableModel extends AbstractTableModel{
+    public class ViewObjectTimeSheetTableModel extends AbstractTableModel{
+        private HoursCalculator hoursCalculator;
 private ArrayList<Time_Sheet> vos;
+Calendar date = Calendar.getInstance();
     // The names of columns
     private String[] colNames = {"Pos" ,"Navn", "Start", "Slut", "Timer", "Godkend"};
     // The type of columns
@@ -27,8 +36,13 @@ private ArrayList<Time_Sheet> vos;
      * Creates a new ViewObjectTableModel
      * @param allViewObjects a list of view objects that should be shown in the model
      */
-    public ViewObjectTimeSheetTableModel() {
+    public ViewObjectTimeSheetTableModel(){
         vos = new ArrayList();
+            try {
+                hoursCalculator = new HoursCalculator();
+            } catch (IOException ex) {
+                Logger.getLogger(ViewObjectTimeSheetTableModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         fireTableDataChanged();
     }
 
@@ -51,6 +65,7 @@ private ArrayList<Time_Sheet> vos;
     }
 
     
+    
     /**
      * Gets the value at a given cell in the model
      * @param row the row of the cell
@@ -66,22 +81,64 @@ private ArrayList<Time_Sheet> vos;
             case 1:
                 return vo.getFireman().getFirstName() + " " + vo.getFireman().getLastName();
             case 2:
-                return vo.getStartTime();
+                
+                date.setTimeInMillis(vo.getStartTime().getTime());
+                return "" + date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+" " + MyUtil.p0(date.get(Calendar.HOUR_OF_DAY)) + ":" + MyUtil.p0(date.get(Calendar.MINUTE));
             case 3:
-                return vo.getEndTime();
+                date.setTimeInMillis(vo.getEndTime().getTime());
+                return "" + date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+" " + MyUtil.p0(date.get(Calendar.HOUR_OF_DAY)) + ":" + MyUtil.p0(date.get(Calendar.MINUTE));
             case 4:
-                return 1;
+                int hours = 0;
+                try {
+                    hours = hoursCalculator.getHoursForTimeSheeet(vo);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ViewObjectTimeSheetTableModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (CloneNotSupportedException ex) {
+                    Logger.getLogger(ViewObjectTimeSheetTableModel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return hours;
             case 5:
-                return false;
+                
+                if(vo.getAcceptedByTeamleaderId()!= 0){
+                    return true;
+                }else{
+                    return false;
+                }
+            
+                
         }
 
         return null;
     }
+    
+    public Time_Sheet getTimeSheet(int row)
+    {
+        return vos.get(row);
+    }
+    
+    
+    @Override
+    public void setValueAt(Object o, int row, int col) {
+       Time_Sheet vo = vos.get(row);
+        switch (col) {
+            case 5:
+                if(vo.getAcceptedByTeamleaderId() == 0)
+                {
+                    vo.setAcceptedByTeamleaderId(1);
+                }
+                else
+                {
+                    vo.setAcceptedByTeamleaderId(0);
+                }
+            break;
+        }
+                
+    }
 
+    
     @Override
     public String getColumnName(int col) {
-
-        return colNames[col];
+         return colNames[col];
     }
 
     /**
@@ -91,12 +148,16 @@ private ArrayList<Time_Sheet> vos;
      */
     @Override
     public Class<?> getColumnClass(int col) {
-        return classes[col];
+        return getValueAt(0, col).getClass();
+        //return classes[col];
     }
 
     @Override
     public boolean isCellEditable(int row, int col) {
+        if(col == 5)
         return true;
+        else
+        return false;
     }
 
     /**

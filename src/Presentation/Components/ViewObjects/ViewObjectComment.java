@@ -6,13 +6,11 @@
 
 package Presentation.Components.ViewObjects;
 
-import Presentation.Components.ListPanel;
+import BE.Comment;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -27,25 +25,8 @@ public class ViewObjectComment extends ViewObject{
     JButton btnExpandComment;
     JTextArea taComment;
     JLabel lblText;
-    ListPanel parent;
-    public ViewObjectComment(ListPanel parent){
-        this.parent = parent;
-        setLayout(new BorderLayout());
-        btnExpandComment = new JButton("<html><body marginwidth=30 marginheight=20>Add comment</body></html>");
-        btnExpandComment.setBackground(MyConstants.COLOR_BLUE);
-        btnExpandComment.setFont(MyConstants.FONT_BUTTON_FONT);
-        btnExpandComment.setForeground(Color.WHITE);
-        btnExpandComment.addActionListener(new MyActionListener());
-        taComment = new JTextArea();
-        taComment.setPreferredSize(new Dimension(0, 300));
-        taComment.setFont(MyConstants.FONT_HEADER_TEXT);
-        
-        lblText = new JLabel("<html><body marginwidth=30 marginheight=20>Comment</body></html>");
-        lblText.setHorizontalAlignment(JLabel.CENTER);
-        lblText.setOpaque(true);
-        lblText.setBackground(MyConstants.COLOR_BLUE);
-        lblText.setFont(MyConstants.FONT_BUTTON_FONT);
-        lblText.setForeground(Color.WHITE);
+    protected ViewObjectComment(Comment comment){
+        super(comment);
         fillData();
     }
     
@@ -53,11 +34,10 @@ public class ViewObjectComment extends ViewObject{
         remove(btnExpandComment);
         add(lblText, BorderLayout.NORTH);
         add(taComment, BorderLayout.CENTER);
-        
+        setMaximumSize(new Dimension((int)getMaximumSize().getWidth(), (int) getPreferredSize().getHeight()));
         validate();
         repaint();
-        parent.validate();
-        parent.repaint();
+        super.notifyObservers();
     }
     
     private void hideCommentField(){
@@ -66,11 +46,26 @@ public class ViewObjectComment extends ViewObject{
         add(btnExpandComment, BorderLayout.CENTER);
         validate();
         repaint();
-        parent.validate();
-        parent.repaint();
     }
     
-    private void fillData(){
+    protected void fillData(){
+        setLayout(new BorderLayout());
+        btnExpandComment = new JButton("<html><body marginwidth=30 marginheight=20>Tilføj kommentar</body></html>");
+        btnExpandComment.setBackground(MyConstants.COLOR_BLUE);
+        btnExpandComment.setFont(MyConstants.FONT_BUTTON_FONT);
+        btnExpandComment.setForeground(Color.WHITE);
+        btnExpandComment.addActionListener(new MyActionListener());
+        taComment = new JTextArea();
+        taComment.setPreferredSize(new Dimension(0, 150));
+        taComment.setFont(MyConstants.FONT_HEADER_TEXT);
+        
+        lblText = new JLabel("<html><body marginwidth=30 marginheight=20>Kommentar</body></html>");
+        lblText.setHorizontalAlignment(JLabel.CENTER);
+        lblText.setOpaque(true);
+        lblText.setBackground(MyConstants.COLOR_BLUE);
+        lblText.setFont(MyConstants.FONT_BUTTON_FONT);
+        lblText.setForeground(Color.WHITE);
+        
         add(btnExpandComment);
         validate();
         repaint();
@@ -78,6 +73,11 @@ public class ViewObjectComment extends ViewObject{
     
     public String getComment(){
         return taComment.getText();
+    }
+
+    @Override
+    public void refreshViewObject() {
+        
     }
     
     private class MyActionListener implements ActionListener{

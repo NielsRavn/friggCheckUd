@@ -6,12 +6,11 @@
 
 package Presentation.Components.ViewObjects;
 
-import BE.Equipment;
+import BE.EquipmentUsage;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -25,49 +24,31 @@ import javax.swing.JTextField;
  * @author Brobak
  */
 public class ViewObjectEquipmentUsage extends ViewObject{
-    Equipment equipment;
+    EquipmentUsage equipmentUsage;
     JTextField equipmentAmount;
-    int amount;
-    public ViewObjectEquipmentUsage(Equipment equipment){
-        setLayout(new BorderLayout());
-        this.equipment = equipment;
-        amount = 0;
+    protected ViewObjectEquipmentUsage(EquipmentUsage equipmentUsage){
+        super(equipmentUsage);
+        this.equipmentUsage = equipmentUsage;
         fillData();
-        
     }
-
-    public Equipment getEquipment() {
-        return equipment;
-    }
-    
-    public int getAmount() {
-        return amount;
-    }
-    
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-        equipmentAmount.setText(""+amount);
-    }
-    
-    
     
     /**
      * Fills the panel with data from the Equipment object
      */
-    private void fillData(){
+    protected void fillData(){
+        setLayout(new BorderLayout());
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout());
-        JLabel equipmentLbl = new JLabel(equipment.getName());
+        JLabel equipmentLbl = new JLabel(equipmentUsage.getName());
         equipmentLbl.setFont(MyConstants.FONT_HEADER_TEXT);
         topPanel.add(equipmentLbl);
-        equipmentAmount = new JTextField(amount);
+        equipmentAmount = new JTextField(equipmentUsage.getUsage().getAmount());
         equipmentAmount.setFont(MyConstants.FONT_HEADER_TEXT);
         equipmentAmount.setPreferredSize(new Dimension(100, 40));
         equipmentAmount.addFocusListener(new MyFocusListener());
         equipmentAmount.addKeyListener(new myKeyAdapter());
         topPanel.add(equipmentAmount);
-        JLabel unitType = new JLabel(equipment.getUnitType());
+        JLabel unitType = new JLabel(equipmentUsage.getEquipment().getUnitType());
         unitType.setFont(MyConstants.FONT_HEADER_TEXT);
         topPanel.add(unitType);
         add(topPanel, BorderLayout.CENTER);
@@ -107,8 +88,13 @@ public class ViewObjectEquipmentUsage extends ViewObject{
     
     private void checkInput() {
         try{
-            amount = checkInputForTextField(equipmentAmount);
+            equipmentUsage.getUsage().setAmount(checkInputForTextField(equipmentAmount));
         }catch (IllegalStateException e){}
+    }
+
+    @Override
+    public void refreshViewObject() {
+        equipmentAmount.setText(""+equipmentUsage.getUsage().getAmount());
     }
     
     /**
@@ -123,7 +109,7 @@ public class ViewObjectEquipmentUsage extends ViewObject{
         
         @Override
         public void keyTyped(KeyEvent e) {
-            if(!Character.isDigit(e.getKeyChar()) || equipmentAmount.getText().length() >= 10)
+            if(!Character.isDigit(e.getKeyChar()) || equipmentAmount.getText().length() >= 8)
                 e.consume();
         }
     }

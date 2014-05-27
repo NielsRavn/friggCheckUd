@@ -7,6 +7,7 @@
 package Presentation.Components.ViewObjects;
 
 import BE.Equipment;
+import BE.EquipmentStatus;
 import Presentation.MyConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,35 +21,31 @@ import javax.swing.JPanel;
  */
 public class ViewObjectEquipmentStatus extends ViewObject{
     
-    boolean equipmentHasData;
+    EquipmentStatus equipmentStatus;
     JLabel equipmentLbl;
     JPanel topPanel;
     
-    public ViewObjectEquipmentStatus(boolean equipmentHasData){
-        setLayout(new BorderLayout());
-        this.equipmentHasData = equipmentHasData;
+    protected ViewObjectEquipmentStatus(EquipmentStatus equipmentStatus){
+        super(equipmentStatus);
+        this.equipmentStatus = equipmentStatus;
         fillData();
-        
     }
 
-    public void setEquipmentHasData(boolean equipmentHasData) {
-        this.equipmentHasData = equipmentHasData;
-        setEquipmentlblLook();
-    }
-    
-    private void setEquipmentlblLook(){
-        equipmentLbl.setText("<html><body marginheight=15>"+(equipmentHasData ? "Forbrug er blevet udfyldt." : "Forbrug er ikke blevet udfyldt endnu.") +"</body></html>");
-        equipmentLbl.setForeground(equipmentHasData ? MyConstants.COLOR_GREEN : Color.BLACK);
+    @Override
+    public void refreshViewObject() {
+        equipmentLbl.setText("<html><body marginheight=15>"+(equipmentStatus.isEquipmentHasData() ? "Forbrug er blevet udfyldt." : "Forbrug er ikke blevet udfyldt endnu.") +"</body></html>");
+        equipmentLbl.setForeground(equipmentStatus.isEquipmentHasData() ? MyConstants.COLOR_GREEN : Color.BLACK);
     }
     
     /**
      * Fills the panel with data from the Equipment object
      */
-    private void fillData(){
+    protected void fillData(){
+        setLayout(new BorderLayout());
         topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout()); 
         equipmentLbl = new JLabel();
-        setEquipmentlblLook();
+        refreshViewObject();
         equipmentLbl.setFont(MyConstants.FONT_HEADER_TEXT);
         topPanel.add(equipmentLbl);
         
