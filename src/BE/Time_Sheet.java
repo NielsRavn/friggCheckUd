@@ -7,12 +7,14 @@
 package BE;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  *
  * @author Susanne
  */
-public class Time_Sheet implements IViewObjectBE{
+public class Time_Sheet implements IViewObjectBE, Comparable<Time_Sheet>{
     private int id;
     private int employeeID;
     private int alarmID;
@@ -23,11 +25,12 @@ public class Time_Sheet implements IViewObjectBE{
     private Alarm alarm;
     private Car car;
     private Station station;
-    private Timestamp startTime, endTime;
+    private Timestamp startTime, endTime, startTimeForCurrentTimeAtAlarm;
     private int accedtedByTeamLeader;
     private int acceptedForSallary;
     private boolean addedToPayment;
     private Comment comment;
+    private int minutes, hours;
    
     /**
      * 
@@ -157,6 +160,8 @@ public class Time_Sheet implements IViewObjectBE{
     public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
+    
+    
     
     
     /**
@@ -356,8 +361,77 @@ public class Time_Sheet implements IViewObjectBE{
         this.station = station;
     }
     
+    /**
+     * adds minutes to the timesheet
+     * @param addedMinutes the amount of minutes to add
+     */
+    public void addMinute(int addedMinutes){
+        minutes += addedMinutes;
+    }
+    
+    /**
+     * removes minutes from the timesheet
+     * @param removedMinutes the amount of minutes to remove
+     */
+    public void removeMinute(int removedMinutes){
+        minutes -= removedMinutes;
+    }
+    
+    /**
+     * Gets the amount of minutes currently added to the timesheet
+     * @return the amount of minutes currently added to the timesheet
+     */
+    public int getMinutes(){
+        return minutes;
+    }
+    
+    /**
+     * adds hours to the timesheet
+     * @param hours the amount of hours to add
+     */
+    public void addHours(int addedHours){
+        hours += addedHours;
+    }
+
+    /**
+     * Gets the amount of hours currently added to the timesheet
+     * @return the amount of hours currently added to the timesheet
+     */
+    public int getHours() {
+        return hours;
+    }
+    
+    public void clearHoursAndMinutes(){
+        hours =0;
+        minutes = 0;
+        startTimeForCurrentTimeAtAlarm = null;
+    }
+    
+    
+
+    public Timestamp getStartTimeForCurrentTimeAtAlarm() {
+        if(startTimeForCurrentTimeAtAlarm == null)
+            return startTime;
+        return startTimeForCurrentTimeAtAlarm;
+    }
+
+    public void setStartTimeForCurrentTimeAtAlarm(Timestamp startTimeForCurrentTimeAtAlarm) {
+        this.startTimeForCurrentTimeAtAlarm = startTimeForCurrentTimeAtAlarm;
+    }
+    
+    
+    
+    @Override
     public String getName(){
         return "Alarm: "+ alarmID + " - Brændmand: " + fireman.getID();
+    }
+
+    @Override
+    public int compareTo(Time_Sheet o) {
+        int startTimeCompare = startTime.compareTo(o.getStartTime());
+        if(startTimeCompare == 0)
+            return endTime.compareTo(o.getEndTime());
+        return startTimeCompare;
     }
     
 }
