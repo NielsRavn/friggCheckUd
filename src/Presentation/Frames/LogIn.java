@@ -109,8 +109,8 @@ public class LogIn extends javax.swing.JPanel {
      * Login methode testing if worker exist in system
      */
     private void logIn() { // when LOG IND is pressed 
-        if (!IsInteger(txtLogIn.getText()) || txtLogIn.getText().isEmpty()) { // checks if there are Stings or the textfield is empty
-            JOptionPane.showMessageDialog(this, "Medarbejder nummer ikke godkendt");
+        if (txtLogIn.getText().isEmpty()) { // checks if the textfield is empty
+            JOptionPane.showMessageDialog(this, "Indtast Gyldigt Medarbejder nummer");
             txtLogIn.setText(null);
             txtLogIn.requestFocus();
         } else { 
@@ -136,14 +136,6 @@ public class LogIn extends javax.swing.JPanel {
      * @param s
      * @return 
      */
-    private boolean IsInteger(String s) { // test if the text fiels contians numbers
-        try {
-            Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
     
     public static Fireman getFiremanStatic() throws IllegalStateException{
         if(login == null) throw new IllegalStateException("Der er ikke blevet logget ind endnu");
