@@ -10,7 +10,6 @@ import BE.Car;
 import BE.Comment;
 import BE.Equipment;
 import BE.EquipmentStatus;
-import BE.Hours;
 import BE.MyTime;
 import BE.Position;
 import BE.Time_Sheet;
@@ -38,6 +37,7 @@ import Presentation.Components.ViewObjects.ViewObjectPosition;
 import Presentation.Components.ViewObjects.ViewObjectStationDuty;
 import Presentation.Components.ViewObjects.ViewObjectTime;
 import Presentation.MyConstants;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -60,6 +60,8 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.text.ViewFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -179,7 +181,7 @@ public class MainFrame extends JFrame {
         repaint();
     }
     
-    protected JPanel getAlarmPanel() {
+    protected JPanel getAlarmPanel(){
         mainAlarmPanel = new JPanel();
         mainAlarmPanel.setLayout(new BorderLayout());
         alarmPanel = new ListPanel(false, width);
@@ -188,7 +190,7 @@ public class MainFrame extends JFrame {
             for(Alarm alarm : alarms){
                 alarmPanel.addViewObject(ViewObjectFactory.getViewObject(alarm));
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ParserConfigurationException| SAXException| IOException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
             ex.printStackTrace();
         }

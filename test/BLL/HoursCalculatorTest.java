@@ -276,13 +276,14 @@ public class HoursCalculatorTest {
         final int oneHour = (60*60*1000);
         System.out.println("getHoursForTimeSheeet6 : 1 Timesheet surrounding another");
         TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
-        int id = 1;
+        int id = 73;
         int employeeId = 1;
         int alarmId = 1;
         int carNumber = 2711;
         Position carPos = MyConstants.FIREMAN;
         Timestamp startTime = new Timestamp(System.currentTimeMillis()-(oneHour*4));
         Timestamp endTime = new Timestamp(System.currentTimeMillis());
+        System.out.println("Start1: " + startTime + "    Endtime: " + endTime);
         int acceptedByTeamleader = 0;
         int acceptedToSalary = 0;
         boolean addToPayment = false;
@@ -290,10 +291,10 @@ public class HoursCalculatorTest {
         Time_Sheet timeSheet1 = new Time_Sheet(id, employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
         tsa.addTimeSheet(timeSheet1);
         
-        id = 2;
+        id = 74;
         startTime = new Timestamp(System.currentTimeMillis()-(oneHour*3));
         endTime = new Timestamp(System.currentTimeMillis()-(oneHour));
-        
+        System.out.println("Start2: " + startTime + "    Endtime: " + endTime);
         Time_Sheet timeSheet2 = new Time_Sheet(id, employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
         tsa.addTimeSheet(timeSheet2);
         
@@ -644,9 +645,9 @@ public class HoursCalculatorTest {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        int expResult = 4;
+        int expResult = 2;
         assertEquals(expResult, (int)result1);
-        expResult = 0;
+        expResult = 2;
         assertEquals(expResult, (int)result2);
         
         expResult = 4;
@@ -662,12 +663,12 @@ public class HoursCalculatorTest {
         final int oneHour = (60*60*1000);
         System.out.println("getHoursForTimeSheeet14 : 2 Timesheets wit same starttime but different endTimes");
         TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
-        int id = 1;
+        int id = 27;
         int employeeId = 1;
         int alarmId = 1;
         int carNumber = 2711;
         Position carPos = MyConstants.FIREMAN;
-        Timestamp startTime = new Timestamp(System.currentTimeMillis()-(oneHour*4));
+        Timestamp startTime = new Timestamp(System.currentTimeMillis()-(oneHour*5));
         Timestamp endTime = new Timestamp(System.currentTimeMillis()-(oneHour));
         int acceptedByTeamleader = 0;
         int acceptedToSalary = 0;
@@ -676,30 +677,29 @@ public class HoursCalculatorTest {
         Time_Sheet timeSheet1 = new Time_Sheet(id, employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
         tsa.addTimeSheet(timeSheet1);
         
-        id = 2;
+        id = 28;
         endTime = new Timestamp(System.currentTimeMillis());
         Time_Sheet timeSheet2 = new Time_Sheet(id, employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
         tsa.addTimeSheet(timeSheet2);
         HoursCalculator instance = new HoursCalculator(tsa);
         
-        int result1 = 0;
-        int result2 = 0;
+        int result1 = 2;
+        int result2 = 2;
         try {
             result1 = instance.getHoursForTimeSheeet(timeSheet1);
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
-            
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        int expResult = 0;
+        int expResult = 2;
         assertEquals(expResult, result1);
-        expResult = 4;
+        expResult = 3;
         assertEquals(expResult, result2);
         
-        expResult = 4;
+        expResult = 5;
         int result = result1 + result2;
         assertEquals(expResult, result);
     }
