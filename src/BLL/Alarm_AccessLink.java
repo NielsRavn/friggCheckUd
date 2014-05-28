@@ -8,9 +8,12 @@ package BLL;
 
 import BE.Alarm;
 import DAL.Alarm_Access;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -23,7 +26,7 @@ public class Alarm_AccessLink {
         aa = new Alarm_Access();
     }
     
-    public ArrayList<Alarm> getAllUnfinishedAlarms() throws SQLException{
+    public ArrayList<Alarm> getAllUnfinishedAlarms() throws SQLException, SQLServerException, ParserConfigurationException, SAXException, IOException{
         return aa.getAllUnfinishedAlarms();
     }
     

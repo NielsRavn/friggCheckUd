@@ -8,6 +8,7 @@ package DAL;
 
 import BE.Alarm;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
@@ -36,13 +37,13 @@ public class XmlScanner {
      * @return Alarm 
      * @throws ParseException 
      */
-    public ArrayList<Alarm> scanner() throws ParseException
+    public ArrayList<Alarm> scanner() throws ParseException, FileNotFoundException, ParserConfigurationException, SAXException, IOException
     {
       
         String file = "res\\alarm.xml";
         ArrayList<Alarm> alarm = new ArrayList<>();
         Date date = null;
-        try {
+       
             
             InputStream is = new FileInputStream(file);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -79,10 +80,7 @@ public class XmlScanner {
                 
                 
                 //alarm = new Alarm(odinNr, destination, type, date);
-                
-         } catch (IOException | ParserConfigurationException | SAXException ex) {
         
-        }
         
         return alarm;
                   

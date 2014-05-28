@@ -19,6 +19,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -32,7 +34,7 @@ public class Alarm_Access extends DatabaseConnection{
     }
     
     
-    public ArrayList<Alarm> getAllUnfinishedAlarms() throws SQLServerException, SQLException{
+    public ArrayList<Alarm> getAllUnfinishedAlarms() throws SQLServerException, SQLException, ParserConfigurationException, SAXException, IOException{
         Connection con = null;
         ArrayList<Alarm> alarms = new ArrayList<>();
         getAlarmFromXml();
@@ -55,7 +57,7 @@ public class Alarm_Access extends DatabaseConnection{
     }
     
     
-    private void getAlarmFromXml() throws SQLException
+    private void getAlarmFromXml() throws SQLException, ParserConfigurationException, SAXException, IOException
     {
         ArrayList<Integer> alarmsFromSql = new ArrayList<Integer>();
         Connection con = null;
