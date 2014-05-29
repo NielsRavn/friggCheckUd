@@ -28,7 +28,8 @@ public class TimeSheet_AccessTest implements ITimeSheet_Access{
 //                    ||  ts.getStartTime().getTime() <= timeSheet.getStartTime().getTime() && ts.getEndTime().getTime() >= timeSheet.getStartTime().getTime() - (oneHour*2)
 //                    ||  ts.getStartTime().getTime() > (timeSheet.getStartTime().getTime()-(oneHour*2)) && ts.getEndTime().getTime() < (timeSheet.getEndTime().getTime()+(oneHour*2))){
             if(     ts.getStartTime().getTime() >= timeSheet.getStartTime().getTime() && ts.getStartTime().getTime() <= timeSheet.getEndTime().getTime()&& timeSheet.getId() != ts.getId() && ts.getEmployeeID() == timeSheet.getEmployeeID()||
-                    ts.getEndTime().getTime() >= timeSheet.getStartTime().getTime() && ts.getEndTime().getTime() <= timeSheet.getEndTime().getTime() && timeSheet.getId() != ts.getId() && ts.getEmployeeID() == timeSheet.getEmployeeID()){
+                    ts.getEndTime().getTime() >= timeSheet.getStartTime().getTime() && ts.getEndTime().getTime() <= timeSheet.getEndTime().getTime() && timeSheet.getId() != ts.getId() && ts.getEmployeeID() == timeSheet.getEmployeeID() ||
+                    ts.getStartTime().getTime() < timeSheet.getStartTime().getTime() && ts.getEndTime().getTime() > timeSheet.getStartTime().getTime() && timeSheet.getId() != ts.getId() && ts.getEmployeeID() == timeSheet.getEmployeeID() ){
                 result.add(ts);
             }
         }

@@ -74,16 +74,16 @@ public class HoursCalculator{
         
         if(totalHours < 2)
             totalHours = 2;
-//        if(ts.getId() == 73 || ts.getId() == 74){
-//            System.out.println("------------------");
-//            System.out.println("Starttime: " + ts.getStartTime() + "     Endtime: " + ts.getEndTime());
-//            for(Time_Sheet myTS : conflicts){
-//                System.out.println("ID: " + myTS.getId() + "  - Minutes: " + myTS.getMinutes());
-//            }
-//            System.out.println("Total minutes: " + minutes);
-//            System.out.println("ID: " + ts.getId() + "  - Minutes: " + ts.getMinutes());
-//            System.out.println("Total hours: " + totalHours);
-//        }
+        if(ts.getId() == 12 || ts.getId() == 13|| ts.getId() == 14){
+            System.out.println("------------------");
+            System.out.println("Starttime: " + ts.getStartTime() + "     Endtime: " + ts.getEndTime());
+            for(Time_Sheet myTS : conflicts){
+                System.out.println("ID: " + myTS.getId() + "  - Minutes: " + myTS.getMinutes());
+            }
+            System.out.println("Total minutes: " + minutes);
+            System.out.println("ID: " + ts.getId() + "  - Minutes: " + ts.getMinutes());
+            System.out.println("Total hours: " + totalHours);
+        }
         for(Time_Sheet myTS : conflicts){
             while(myTS.getMinutes() >= 60){
                 myTS.addHours(1);
@@ -91,7 +91,10 @@ public class HoursCalculator{
                 totalHours--;
             }
         }
+        
+        
         sortTimeSheetListByHours(conflicts, 0, conflicts.size()-1);
+        
         while(totalHours > 0){
             conflicts.get(conflicts.size()-1).addHours(1);
             totalHours --;
@@ -116,8 +119,6 @@ public class HoursCalculator{
         
         for(int i = 0; i < currentTimesheets.size(); i++){
             Time_Sheet ts = currentTimesheets.get(i);
-            if(ts.getId() == 73)
-                System.out.println("Test " + latestTimePayedFor);
             if(ts.getEndTime().getTime() <= latestTimePayedFor.getTime()){
                 currentTimesheets.remove(ts);
                 i--;
@@ -130,12 +131,8 @@ public class HoursCalculator{
         for(int j = currentTimesheets.size()-1; j >= 0; j--){
             
             Time_Sheet currenTempTS = currentTimesheets.get(j);
-            if(currenTempTS.getId() == 73)
-                System.out.println("Test " + latestTimePayedFor);
             long millis = currenTempTS.getEndTime().getTime() - latestTimePayedFor.getTime();
             int minutes = (int) (millis / (60*1000));
-            if(currenTempTS.getId() == 73)
-                System.out.println("Test " + latestTimePayedFor + "    min: " + minutes);
             currenTempTS.addMinute(minutes);
             latestTimePayedFor = currenTempTS.getEndTime();
         }
@@ -172,28 +169,20 @@ public class HoursCalculator{
                 int minutes = (int) (millis / (60*1000));
                 
                 for(Time_Sheet myTS: primaryTimesheets){
-                    if(myTS.getId() == 73){
-                        System.out.println("Endtime: " + currentTime.getTime());
-                        System.out.println("Starttime: " + myTS.getStartTimeForCurrentTimeAtAlarm() + "     Endtime: " + myTS.getEndTime() + "    addMin: " + (minutes/primaryTimesheets.size()));
                     
-                    }
                     myTS.addMinute((minutes/primaryTimesheets.size()));
                     myTS.setStartTimeForCurrentTimeAtAlarm(currentPrimaryTS.getEndTime());
                     
                 }
                 
-                primaryTimesheets.remove(j);
                 
+                primaryTimesheets.remove(j);
                 j--;
             }else{
                 
                 long millis = tempEnd.getTime() - currentPrimaryTS.getStartTimeForCurrentTimeAtAlarm().getTime();
                 int minutes = (int) (millis / (60*1000));
-                if(currentPrimaryTS.getId() == 73){
-                    System.out.println("Endtime: " + currentTime);
-                    System.out.println("Starttime: " + currentPrimaryTS.getStartTimeForCurrentTimeAtAlarm() + "     Endtime: " + currentPrimaryTS.getEndTime() + "    addMin: " + (minutes/primaryTimesheets.size()));
 
-                }
                 currentPrimaryTS.addMinute(minutes);
                 currentPrimaryTS.setStartTimeForCurrentTimeAtAlarm(currentTime);
                 currentTimesheets.add(currentPrimaryTS);
@@ -214,9 +203,10 @@ public class HoursCalculator{
         int oldConflictsSize = 0;
         conflicts.add(ts);
         for(int i = 0; i < conflicts.size(); i++){
-            
+
             for(Time_Sheet tempTs : timeSheetAccess.getConflictingTimeSheets(conflicts.get(i))){
                 boolean alreadyIncluded = false;
+                
                 for(Time_Sheet temporaryTs : conflicts){
                     if(tempTs.getId() == temporaryTs.getId())
                         alreadyIncluded = true;
@@ -259,10 +249,11 @@ public class HoursCalculator{
 
         while(left <= right) {
             
-            while(timesheets.get(left).getHours()-pivot.getHours() > 0)
+            while(myCompare(timesheets.get(left), pivot) > 0)
+                
                 left++;
             
-            while(timesheets.get(right).getHours()-pivot.getHours() < 0)
+            while(myCompare(timesheets.get(right), pivot) < 0)
                 right--;
 
             if(left <= right) {
@@ -272,6 +263,15 @@ public class HoursCalculator{
             }
         }  
         return left;
+    }
+    
+    private int myCompare(Time_Sheet ts1, Time_Sheet ts2){
+        if(ts1.getMinutes() == ts2.getMinutes()){
+            return ts1.getId() -ts2.getId();
+        }else{
+            return ts2.getMinutes()-ts1.getMinutes();
+        }
+        
     }
     
     /**

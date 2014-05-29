@@ -392,11 +392,10 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
            
            Statement query = con.createStatement();
            ResultSet result = query.executeQuery("SELECT * FROM TimeSheet WHERE startTime >= '" + new Timestamp(timeSheet.getStartTime().getTime()) +"' AND startTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime())+"' AND empoyeeId = "+ timeSheet.getFireman().getID() + " AND id != " + timeSheet.getId()
-                                                + " OR endTime >= '" + new Timestamp(timeSheet.getStartTime().getTime())+"' AND endTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime()) +"' AND empoyeeId = "+ timeSheet.getFireman().getID()+ " AND id != " + timeSheet.getId() +";");
+                                                + " OR endTime >= '" + new Timestamp(timeSheet.getStartTime().getTime())+"' AND endTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime()) +"' AND empoyeeId = "+ timeSheet.getFireman().getID()+ " AND id != " + timeSheet.getId() 
+                                                + " OR startTime < '" + new Timestamp(timeSheet.getStartTime().getTime())+"' AND endTime > '"+ new Timestamp(timeSheet.getStartTime().getTime()) +"' AND empoyeeId = "+ timeSheet.getFireman().getID()+ " AND id != " + timeSheet.getId() + ";");
            
-           System.out.println("SELECT * FROM TimeSheet WHERE startTime >= '" + new Timestamp(timeSheet.getStartTime().getTime()) +"' AND startTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime())+"' AND empoyeeId = "+ timeSheet.getEmployeeID() + " AND id != " + timeSheet.getId()
-                                                + " OR endTime >= '" + new Timestamp(timeSheet.getStartTime().getTime())+"' AND endTime <= '"+ new Timestamp(timeSheet.getEndTime().getTime()) +"' AND empoyeeId = "+ timeSheet.getFireman().getID()+ " AND id != " + timeSheet.getId() +";");
-           while(result.next())
+            while(result.next())
            {
                int tsId = result.getInt("id");
                int employeeId = result.getInt("empoyeeId");
