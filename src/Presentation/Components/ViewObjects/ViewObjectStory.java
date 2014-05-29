@@ -325,6 +325,10 @@ public class ViewObjectStory extends ViewObject {
     private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Creates a story based on the information in the view object
+     * @return a story based on the information in the view object
+     */
     public Story getStory(){
         int evaNr = Integer.parseInt(TFEva.getText());
         int brandNr = Integer.parseInt(TFBrand.getText());
@@ -337,6 +341,10 @@ public class ViewObjectStory extends ViewObject {
         return new Story(story.getAlarmId(), evaNr, brandNr, navne, addresser, type, grup, detek, comment);
     }
 
+    /**
+     * Gets a representation of the selected radio butten
+     * @return a number representing the selected radio button
+     */
     private int getSelectedRadioButton() {
         if(RBBlind.isSelected()) return 1;
         else if(RBFalse.isSelected()) return 2;
@@ -345,29 +353,9 @@ public class ViewObjectStory extends ViewObject {
         else return 0;
     }
 
-//    @Override
-//    public void setBackground(Color bg) {
-//        super.setBackground(bg);
-//        try{
-//            jPanel1.setBackground(bg);
-//            jPanel2.setBackground(bg);
-//            jPanel3.setBackground(bg);
-//            jPanel4.setBackground(bg);
-//            jPanel5.setBackground(bg);
-//            jPanel6.setBackground(bg);
-//            jPanel7.setBackground(bg);
-//            jPanel8.setBackground(bg);
-//            jPanel9.setBackground(bg);
-//            jPanel10.setBackground(bg);
-//            jPanel11.setBackground(bg);
-//            jPanel12.setBackground(bg);
-//            jPanel13.setBackground(bg);
-//            jPanel14.setBackground(bg);
-//            jPanel16.setBackground(bg);
-//            jPanel17.setBackground(bg);
-//        }catch (NullPointerException ex){}
-//    }
-
+    /**
+     * Fills the view object with appropriate data
+     */
     protected void fillData() {
         initComponents();
         clearAllFields();
@@ -392,11 +380,17 @@ public class ViewObjectStory extends ViewObject {
         TANavne.setLineWrap(true);
     }
 
+    /**
+     * Does nothing
+     */
     @Override
     public void refreshViewObject() {
         
     }
 
+    /**
+     * Clears all fields in the view object
+     */
     private void clearAllFields() {
         RBNormal.setSelected(true);
         TAAdresser.setText("");
@@ -408,6 +402,9 @@ public class ViewObjectStory extends ViewObject {
         TFGruppe.setText("0");
     }
 
+    /**
+     * Sends the story to the database and hides the story input.
+     */
     private void sendToDatabase() {
         try {
             sal.saveStory(getStory());

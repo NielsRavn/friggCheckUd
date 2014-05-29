@@ -56,6 +56,10 @@ public class ViewObjectTimeSheet extends ViewObject {
     ApprovalSheet approvalSheet;
     TimeSheet_AccessLink tsa;
 
+    /**
+     * Creates a new ViewObjectTimeSheet
+     * @param timesheets the list of timesheets you want represented in the view object
+     */
     protected ViewObjectTimeSheet(TimeSheetList timesheets) {
         super(timesheets);
         this.timesheets = timesheets;
@@ -69,6 +73,10 @@ public class ViewObjectTimeSheet extends ViewObject {
 
     }
 
+    /**
+     * Gets the approval panel
+     * @return the approval panel
+     */
     private JPanel getAproveCarPanel() {
         pnlaproveCarPanel = new JPanel();
         aproveAllOnCar = new JCheckBox();
@@ -133,6 +141,9 @@ public class ViewObjectTimeSheet extends ViewObject {
         return pnlaproveCarPanel;
     }
 
+    /**
+     * Fills the view object with nessesary data
+     */
     protected void fillData() {
         setLayout(new BorderLayout());
         model.clearList();
@@ -190,6 +201,9 @@ public class ViewObjectTimeSheet extends ViewObject {
         addCellRenderers();
     }
 
+    /**
+     * Adds Renderers 
+     */
     private void addCellRenderers() {
         TableColumn titleCol = firemen.getColumnModel().getColumn(0);
         titleCol.setPreferredWidth(80);
@@ -210,6 +224,9 @@ public class ViewObjectTimeSheet extends ViewObject {
         timeCol.setCellRenderer(new TimeSheetTableRendere());
     }
 
+    /**
+     * does nothing
+     */
     @Override
     public void refreshViewObject() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

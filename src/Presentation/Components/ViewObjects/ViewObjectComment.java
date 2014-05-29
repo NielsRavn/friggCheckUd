@@ -25,11 +25,17 @@ public class ViewObjectComment extends ViewObject{
     JButton btnExpandComment;
     JTextArea taComment;
     JLabel lblText;
+    /**
+     * Creates a new viewObjectComment
+     * @param comment the comment you want represented in the viewObject
+     */
     protected ViewObjectComment(Comment comment){
         super(comment);
         fillData();
     }
-    
+    /**
+     * expands the size of the viewObject to fit for a textarea for a comment
+     */
     private void expandCommentField(){
         remove(btnExpandComment);
         add(lblText, BorderLayout.NORTH);
@@ -39,15 +45,10 @@ public class ViewObjectComment extends ViewObject{
         repaint();
         super.notifyObservers();
     }
-    
-    private void hideCommentField(){
-        remove(taComment);
-        remove(lblText);
-        add(btnExpandComment, BorderLayout.CENTER);
-        validate();
-        repaint();
-    }
-    
+   
+    /**
+     * Fills the viewObject with nessesary data
+     */
     protected void fillData(){
         setLayout(new BorderLayout());
         btnExpandComment = new JButton("<html><body marginwidth=30 marginheight=20>Tilføj kommentar</body></html>");
@@ -71,17 +72,28 @@ public class ViewObjectComment extends ViewObject{
         repaint();
     }
     
+    /**
+     * Gets the comment represented in the view object
+     * @return the comment represented in the view object
+     */
     public String getComment(){
         return taComment.getText();
     }
 
+    /**
+     * Does nothing
+     */
     @Override
     public void refreshViewObject() {
         
     }
     
     private class MyActionListener implements ActionListener{
-
+        
+        /**
+         * expands the viewObject if the comment button is pushed
+         * @param e the actionevent that occured
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == btnExpandComment){

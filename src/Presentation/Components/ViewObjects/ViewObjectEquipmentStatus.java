@@ -24,13 +24,19 @@ public class ViewObjectEquipmentStatus extends ViewObject{
     EquipmentStatus equipmentStatus;
     JLabel equipmentLbl;
     JPanel topPanel;
-    
+    /**
+     * Creates a new ViewObjectEquipmentStatus
+     * @param equipmentStatus the EquipmentStatus you want represented in the view object
+     */
     protected ViewObjectEquipmentStatus(EquipmentStatus equipmentStatus){
         super(equipmentStatus);
         this.equipmentStatus = equipmentStatus;
         fillData();
     }
 
+    /**
+     * updates the viewobject with changed information
+     */
     @Override
     public void refreshViewObject() {
         equipmentLbl.setText("<html><body marginheight=15>"+(equipmentStatus.isEquipmentHasData() ? "Forbrug er blevet udfyldt." : "Forbrug er ikke blevet udfyldt endnu.") +"</body></html>");
@@ -53,6 +59,10 @@ public class ViewObjectEquipmentStatus extends ViewObject{
         
     }
     
+    /**
+     * changes the background color of the view object
+     * @param color the color you want for the background
+     */
     @Override
     public void setBackground(Color color){
         super.setBackground(color);

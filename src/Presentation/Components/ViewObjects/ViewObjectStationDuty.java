@@ -20,7 +20,10 @@ public class ViewObjectStationDuty extends ViewObject{
     ImageIcon icon;
     String name;
     Station station;
-    
+    /**
+     * Creates a new ViewObjectStationDuty
+     * @param station the Station you want represented in the view object
+     */
     protected ViewObjectStationDuty(Station station){
         super(station);
         this.station = station;
@@ -29,10 +32,17 @@ public class ViewObjectStationDuty extends ViewObject{
         fillData();
     }
 
+    /**
+     * Gets the station represented in the view object
+     * @return the station represented in the view object
+     */
     public Station getStation() {
         return station;
     }
 
+    /**
+     * fills the view object with nessesary data
+     */
     protected void fillData() {
         setLayout(new FlowLayout());
         
@@ -42,6 +52,9 @@ public class ViewObjectStationDuty extends ViewObject{
         add(carInfo);
     }
 
+    /**
+     * does nothing
+     */
     @Override
     public void refreshViewObject() {
         

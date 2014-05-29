@@ -16,18 +16,27 @@ import javax.swing.JLabel;
  */
 public class ViewObjectBasic extends ViewObject{
     IViewObjectBE vob;
+    /**
+     * Creates a new basic view object
+     * @param vob the BE you want to be represented in the viewObject
+     */
     protected ViewObjectBasic(IViewObjectBE vob){
         super(vob);
         this.vob = vob;
         
         fillData();
     }
-    
+    /**
+     * fills the nessesary data in to the viewobject
+     */
     protected void fillData(){
         setLayout(new GridBagLayout());
         add(new JLabel(vob.getName()));
     }
 
+    /**
+     * Does nothing
+     */
     @Override
     public void refreshViewObject() {
         

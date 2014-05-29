@@ -26,6 +26,11 @@ import BE.Time_Sheet;
  */
 public class ViewObjectFactory {
     
+    /**
+     * Gets an appropriate view object for a given view object BE
+     * @param viewObjectBE the BE you want a view object for
+     * @return an appropriate view object for a given view object BE
+     */
     public static ViewObject getViewObject(IViewObjectBE viewObjectBE){
         if(viewObjectBE.getClass() == Car.class)
             return new ViewObjectCar((Car)viewObjectBE);

@@ -29,12 +29,19 @@ public class ViewObjectAlarm extends ViewObject{
     JPanel buttomPanel;
     Calendar date;
     Alarm alarm;
+    /**
+     * Creates a new ViewObjectAlarm
+     * @param alarm the alarm you want the viewobject to represent
+     */
     protected ViewObjectAlarm(Alarm alarm){
         super(alarm);
         this.alarm = alarm;
         fillData();
     }
-
+    
+    /**
+     * fills the nessesary data in to the viewobject
+     */
     protected void fillData() {
         setLayout(new BorderLayout());
         date = Calendar.getInstance();
@@ -57,6 +64,10 @@ public class ViewObjectAlarm extends ViewObject{
         add(buttomPanel, BorderLayout.CENTER);
     }
     
+    /**
+     * Sets the background color on the viewObject
+     * @param color 
+     */
     @Override
     public void setBackground(Color color){
         super.setBackground(color);
@@ -66,14 +77,25 @@ public class ViewObjectAlarm extends ViewObject{
             buttomPanel.setBackground(color);
     }
 
+    /**
+     * Gets the time for the alarm shown in the viewObject
+     * @return the time of the alarm
+     */
     public Timestamp getTime() {
         return alarm.getTime();
     }
     
+    /**
+     * Gets the alarm show in the viewObject
+     * @return the alarm
+     */
     public Alarm getAlarm(){
         return alarm;
     }
 
+    /**
+     * Does nothing
+     */
     @Override
     public void refreshViewObject() {
         

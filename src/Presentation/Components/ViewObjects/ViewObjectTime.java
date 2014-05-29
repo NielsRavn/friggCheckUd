@@ -36,20 +36,23 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
     
     JLabel lblTimeStart, lblTimeEnd, lblDate ;
             
+    /**
+     * Creates a new ViewObjectTime
+     * @param time the time represented in the view object
+     */
     protected ViewObjectTime(MyTime time){
         super(time);
         this.date = Calendar.getInstance();
         this.date.setTimeInMillis(time.getAlarmStartDate().getTime());
         endDate = Calendar.getInstance();
         
-//        int startHour = this.date.get(Calendar.HOUR_OF_DAY);
-//        int startMin = this.date.get(Calendar.MINUTE);
-//        int endHour = endDate.get(Calendar.HOUR_OF_DAY);
-//        int endMin = endDate.get(Calendar.MINUTE);
         this.time = time;
         fillData();
     }
     
+    /**
+     * fills the viewobject with nessesary data
+     */
     protected void fillData() {
         setLayout(new BorderLayout());
         topPanel = new JPanel();
@@ -87,6 +90,10 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
         add(buttomPanel, BorderLayout.CENTER);
     }
     
+    /**
+     * Sets the background of the view object
+     * @param color the color you want the background to have
+     */
     @Override
     public void setBackground(Color color){
         super.setBackground(color);
@@ -96,10 +103,18 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
             buttomPanel.setBackground(color);
     }
 
+    /**
+     * Gets the time represented in the view object
+     * @return the time represented in the view object
+     */
     public MyTime getTime() {
         return time;
     }
 
+    /**
+     * Refreshes the viewobject with new times
+     * @param inTime the times you want the viewObject to show
+     */
     @Override
     public void timeChanged(MyTime inTime) {
         time = inTime;
@@ -109,7 +124,10 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
         lblTimeEnd.setText(MyUtil.p0(time.getEndHour()) + ":" + MyUtil.p0(time.getEndMinute()));
         repaint();
     }
-    
+    /**
+     * Gets the end time represented in the view object
+     * @return the end time represented in the view object
+     */
     public Timestamp getEndTime(){
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(time.getStartDate().getTime());
@@ -121,6 +139,10 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
         return new Timestamp(date.getTimeInMillis());
     }
     
+    /**
+     * Gets the start time represented in the view object
+     * @return the start time represented in the view object
+     */
     public Timestamp getStartTime(){
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(time.getStartDate().getTime());
@@ -129,6 +151,9 @@ public class ViewObjectTime extends ViewObject implements ITimeObserver{
         return new Timestamp(date.getTimeInMillis());
     }
 
+    /**
+     * Refreshes the textfields in the view object with current data
+     */
     @Override
     public void refreshViewObject() {
         lblDate.setText(date.get(Calendar.DAY_OF_MONTH)+"/"+(date.get(Calendar.MONTH)+1)+"-"+date.get(Calendar.YEAR));

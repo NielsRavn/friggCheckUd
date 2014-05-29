@@ -32,20 +32,37 @@ public abstract class ViewObject extends javax.swing.JPanel {
         observers = new ArrayList<>();
     }
     
+    /**
+     * refreshed the viewobject
+     */
     public abstract void refreshViewObject();
      
+    /**
+     * Gets the business entity shown by the viewobject
+     * @return 
+     */
     public IViewObjectBE getViewObjectBE(){
         return viewObjectBE;
     }
     
+    /**
+     * Adds the given observer to the list of observers
+     * @param obs the observer you want to be notified on changes
+     */
     public void addObserver(IObserver obs){
         observers.add(obs);
     }
-    
+    /**
+     * Removes the given observer to the list of observers
+     * @param obs the observer you not longer want to be notified on changes
+     */
     public void removeObserver(IObserver obs){
         observers.remove(obs);
     }
     
+    /**
+     * Notifies all observers in the observer list
+     */
     protected void notifyObservers(){
         for(IObserver obs : observers)
             obs.notifyObserver();

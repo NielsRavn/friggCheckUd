@@ -20,6 +20,10 @@ import javax.swing.JLabel;
  */
 public class ViewObjectCar extends ViewObject{
     Car car;
+    /**
+     * Creates a new viewObjectCar
+     * @param car the car you want represented in the view object
+     */
     protected ViewObjectCar(Car car){
         super(car);
         this.car = car;
@@ -27,6 +31,9 @@ public class ViewObjectCar extends ViewObject{
         fillData();
     }
 
+    /**
+     * Fills the viewObject with the nessesary data
+     */
     protected void fillData() {
         setLayout(new FlowLayout());
         add(new JLabel(new ImageIcon(car.getIconPath())));
@@ -35,10 +42,16 @@ public class ViewObjectCar extends ViewObject{
         add(carInfo);
     }
     
+    /**
+     * Gets the car represented in the viewObject
+     * @return the car represented in the viewObject
+     */
     public Car getCar(){
         return car;
     }
-
+    /**
+     * does nothing
+     */
     @Override
     public void refreshViewObject() {
         
