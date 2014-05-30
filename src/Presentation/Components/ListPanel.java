@@ -103,7 +103,7 @@ public class ListPanel extends javax.swing.JPanel{
 //        object.addMouseListener(mma);
 //        object.setMaximumSize(new Dimension(width, (int) object.getPreferredSize().getHeight()));
 //        object.addObserver(new ViiewObjectObserver());
-//        vos.add(object);
+//   1     vos.add(object);
 //        panel.add(object); 
 //    }
     

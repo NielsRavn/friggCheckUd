@@ -108,7 +108,8 @@ public class AproveTimeSheet extends javax.swing.JPanel {
             for(Time_Sheet c : timeSheet)
             {
                 if(!arrayContainsAlarmId(alarms, c.getAlarmID())){
-                    alarms.add(aal.getAlarmById(c.getAlarmID()));
+                    Alarm a = aal.getAlarmById(c.getAlarmID());
+                    if ( a != null) alarms.add(a);
                 }
             }
        
