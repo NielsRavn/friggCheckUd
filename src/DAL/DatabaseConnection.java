@@ -27,7 +27,7 @@ public abstract class DatabaseConnection {
     /**
      * gets a connection to the database, REMEMBER to close it!
      * @return a connection to the database
-     * @throws SQLServerException if te connection cant be made.
+     * @throws SQLServerException if the connection cant be made.
      */
     protected Connection getConnection() throws SQLServerException{
         return ds.getConnection();

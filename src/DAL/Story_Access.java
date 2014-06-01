@@ -19,10 +19,20 @@ import java.sql.Statement;
  * @author Niels Kristian Ravn
  */
 public class Story_Access extends DatabaseConnection{
-
+    /**
+     * Creates a new story access
+     * @throws FileNotFoundException if the config file could not be found
+     * @throws IOException if an I/O exception of some sort has occurred.
+     */
     public Story_Access() throws FileNotFoundException, IOException {
     }
 
+    /**
+     * Adds a story to the database
+     * @param story the story you want to add to the database
+     * @throws SQLServerException if the connection cant be made.
+     * @throws SQLException if an error has occured executing the sql query
+     */
     public void saveStory(Story story) throws SQLServerException, SQLException {
         Connection con = null;
         

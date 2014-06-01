@@ -21,7 +21,10 @@ import java.util.ArrayList;
  * @author Brobak
  */
 public class Car_Access extends DatabaseConnection{
-    
+    /**
+     * Creates a new car access
+     * @throws IOException 
+     */
     public Car_Access() throws IOException{
         super();
     }

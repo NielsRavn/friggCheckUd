@@ -18,11 +18,20 @@ import java.sql.Statement;
  * @author Susanne
  */
 public class Fireman_Access extends DatabaseConnection {
-    
+    /**
+     * Creates a new fireman access
+     * @throws IOException if an I/O exception of some sort has occurred.
+     */
     public Fireman_Access () throws IOException {
         super();
     }
 
+    /**
+     * Gets a fireman with a given ID
+     * @param ID the id
+     * @return the fireman witht he given id
+     * @throws SQLException if an error has occured executing the sql query
+     */
     public Fireman getFiremanByID(int ID) throws SQLException { // gets Information on fireman on the ID
         Connection con = null;
         Fireman fireman = null;

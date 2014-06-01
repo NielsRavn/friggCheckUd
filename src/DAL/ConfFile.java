@@ -146,8 +146,8 @@ public class ConfFile {
     
     /**
      * saves the properties file
-     * @throws FileNotFoundException
-     * @throws IOException 
+     * @throws FileNotFoundException if the config file does not exist
+     * @throws IOException if the config file is formated wrong. 
      */
     private void saveProperties() throws FileNotFoundException, IOException{
         FileOutputStream fops = new FileOutputStream(PROPERTIES_FILE_URL);
@@ -157,8 +157,8 @@ public class ConfFile {
 
     /**
      * loads the properties file from memmory.
-     * @throws FileNotFoundException
-     * @throws IOException 
+     * @throws FileNotFoundException if the config file does not exist
+     * @throws IOException if the config file is formated wrong. 
      */
     private void loadProperties() throws FileNotFoundException, IOException {
         FileInputStream fis = new FileInputStream(PROPERTIES_FILE_URL);

@@ -35,7 +35,10 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
     final int oneHour = (60*60*1000);
     Position_Access pa;
     Comment_Access ca;
-    
+    /**
+     * creates a new time sheet access
+     * @throws IOException if an I/O exception of some sort has occurred.
+     */
     public TimeSheet_Access() throws IOException
     {
         super();
@@ -90,6 +93,12 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
         return timesheets;
     }
     
+    /**
+     * adds a given time sheet to the database
+     * @param ts the time sheet
+     * @throws SQLServerException if the connection cant be made.
+     * @throws SQLException if an error has occured executing the sql query
+     */
     public void addTimeSheet(Time_Sheet ts) throws SQLServerException, SQLException{
         Connection con = null;
         try
@@ -157,7 +166,13 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
         }
     }
     
-    
+    /**
+     * gets a list of unapproved timesheets where the position where not stationduty
+     * @param alarmId the id of the alarm
+     * @return a list of unapproved timesheets where the position where not stationduty
+     * @throws SQLServerException if the connection cant be made.
+     * @throws SQLException if an error has occured executing the sql query
+     */
     public ArrayList<Time_Sheet> getDataForAproval(int alarmId) throws SQLServerException, SQLException
     {
         
@@ -242,6 +257,13 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
         
     }
 
+    /**
+     * Gets a list of firefigthers who where at staion duty at a given alarm
+     * @param alarmId the id of the alarm
+     * @return a list of firefigthers who where at staion duty at a given alarm
+     * @throws SQLServerException if the connection cant be made.
+     * @throws SQLException if an error has occured executing the sql query
+     */
     public ArrayList<Time_Sheet> stationsVagt( int alarmId) throws SQLServerException, SQLException
 {
         Connection con = null;
@@ -322,6 +344,13 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
         return timesheets;
 }
 
+    /**
+     * Creates an approval sheet in the database and adds it to a given time sheet
+     * @param t the time sheet
+     * @param approvalSheet the approval sheet you want to add
+     * @throws SQLServerException if the connection cant be made.
+     * @throws SQLException if an error has occured executing the sql query
+     */
         public void aproveTimesheetByTimesheetId(Time_Sheet t, ApprovalSheet approvalSheet)  throws SQLServerException, SQLException {
         Connection con = null;
         con = getConnection();
@@ -378,9 +407,11 @@ public class TimeSheet_Access extends DatabaseConnection implements ITimeSheet_A
     }
 
     /**
-     * 
-     * @param timeSheet
-     * @return 
+     * Gets all time sheets that are conflicting with a given time sheet
+     * @param timeSheet the time sheet you want all conflicts for
+     * @return a list of time sheets that are conflicting with the given time sheet
+     * @throws SQLServerException if the connection cant be made.
+     * @throws SQLException if an error has occured executing the sql query
      */
     @Override
     public ArrayList<Time_Sheet> getConflictingTimeSheets(Time_Sheet timeSheet) throws SQLServerException, SQLException{
