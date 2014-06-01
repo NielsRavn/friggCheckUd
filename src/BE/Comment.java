@@ -30,6 +30,9 @@ public class Comment implements IViewObjectBE{
     }
 
    
+    /**
+     * @return A representation of the comment
+     */
     @Override
     public String getName() {
         return "Kommentar: " + comment;

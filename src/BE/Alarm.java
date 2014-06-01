@@ -132,10 +132,16 @@ public class Alarm implements IViewObjectBE{
         this.accepted = accepted;
     }
     
+    /**
+     * @return the ID of the alarm
+     */
     public String getName(){
         return ""+ID;
     }
     
+    /**
+     * @return if the alarm is an exercise
+     */
     public boolean isExercise(){
         return exercise;
     }
