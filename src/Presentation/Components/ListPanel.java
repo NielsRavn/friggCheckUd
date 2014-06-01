@@ -38,15 +38,15 @@ public class ListPanel extends javax.swing.JPanel{
     MyMouseMotionAdapter mma;
     int width;
     boolean editAble;
+    
     /**
-     * Creates new form ListPanel
-     * @param editable
+     * creates a new listpanel to contain 
+     * @param width 
      */
-    public ListPanel( boolean editable, int width) {
+    public ListPanel(int width) {
         this.width = width;
         panel = new JPanel();
         BoxLayout layout = new BoxLayout(panel, BoxLayout.Y_AXIS);
-        this.editAble = editable;
         panel.setLayout(layout);
         jScrollPane1 = new JScrollPane(panel);
         enabled = true;
@@ -78,15 +78,9 @@ public class ListPanel extends javax.swing.JPanel{
     private void populateTable() {
         
     }
-
-    public void updateTable(ArrayList<ViewObject> viewObjects) {
-        ArrayList<ViewObject> vos = viewObjects;
-    }
-
     
     /**
-     * Adds a new ViewObject to the lst
-     *
+     * Adds a new ViewObject to the list, adding a border
      * @param object the ViewObject you want to add to the list
      */
     public void addViewObject(ViewObject object) {
@@ -98,31 +92,21 @@ public class ListPanel extends javax.swing.JPanel{
         panel.add(object); 
     }
     
-//    public void addViewObject(ViewObject object) {
-//        object.addMouseMotionListener(mma);
-//        object.addMouseListener(mma);
-//        object.setMaximumSize(new Dimension(width, (int) object.getPreferredSize().getHeight()));
-//        object.addObserver(new ViiewObjectObserver());
-//   1     vos.add(object);
-//        panel.add(object); 
-//    }
-    
+    /**
+     * runs the refresh method on all viewobjects in the list.
+     * used if an entity is changed and the text should be updated.
+     * the viewobject need to do somthing with it though
+     */
     public void refreshAllViewobjects(){
         for(ViewObject vo: vos){
             vo.refreshViewObject();
         }
     }
 
-    private JPanel getCorectPanel(ViewObject value) {
-        JPanel surroundPanel = new JPanel();
-        surroundPanel.addMouseMotionListener(mma);
-        surroundPanel.addMouseListener(mma);
-        surroundPanel.setLayout(new BorderLayout());
-        surroundPanel.add(value, BorderLayout.CENTER);
-        surroundPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
-        return surroundPanel;
-    }
-
+    /**
+     * gets the curently selected view object
+     * @return the selcted viewobject, if nothing is selected null is returned.
+     */
     public ViewObject getSelectedViewObject() {
         if (mySelectedIndex == -1) {
             return null;
@@ -131,39 +115,70 @@ public class ListPanel extends javax.swing.JPanel{
         }
     }
 
+    /**
+     * @return an arraylist with all the viewobjects in this list.
+     */
     public ArrayList<ViewObject> getAllViewObject() {
         return vos;
     }
 
+    /**
+     * adds a new observer, which will be notified when the selection has changed.
+     * @param observer the observer to add
+     */
     public void addSelectionObserver(IObserver observer) {
         observers.add(observer);
     }
 
+    /**
+     * removes an observer, using the object refrence
+     * @param observer the observer to remove
+     */
     public void removeSelectionObserver(IObserver observer) {
         observers.remove(observer);
     }
 
+    /**
+     * notifies all observers, running the notify method.
+     */
     private void notifyObservers() {
         for (IObserver observer : observers) {
             observer.notifyObserver();
         }
     }
 
+    /**
+     * clears the list of all viewobjects
+     */
     public void clearList() {
         vos = new ArrayList();
         panel.removeAll();
     }
 
+    /**
+     * set whether or not elemts in the list can be selected.
+     * @param b 
+     */
     public void setElementsEnabled(boolean b) {
         enabled = b;
     }
     
+    /**
+     * sets the color of all the objects in the list. does not work if the view object
+     * has many panel and does not overwrite the set background.
+     * @param c the new color to set on the viewobjects
+     */
     private void setBackgroundColorOfAllElements(Color c) {
             for(ViewObject vo: vos){
                 vo.setBackground(c);
             }
     }
     
+    /**
+     * gets the index of a view object in the list.
+     * @param viewObject the viewobject to search for
+     * @return the index starting with 0.
+     */
     private int getIndexOfObject(ViewObject viewObject) {
         for(int i = 0; i <vos.size(); i++){
             if(vos.get(i) == viewObject) return i;
@@ -171,10 +186,17 @@ public class ListPanel extends javax.swing.JPanel{
         return -1;
     }
 
+    /**
+     * @return the width that was passed in when the object was created
+     */
     public int getMyWidth() {
         return width;
     }
     
+    /**
+     * this observer is added to all viewobjects, making them able to repaint the list
+     * by notifying its observers.
+     */
     private class ViiewObjectObserver implements IObserver{
 
         @Override
@@ -185,11 +207,18 @@ public class ListPanel extends javax.swing.JPanel{
         
     }
     
+    /**
+     * this mouse adapter both hadles dragging and handles selecting
+     */
     private class MyMouseMotionAdapter extends MouseAdapter {
 
         Point lastDragPoint = new Point();
         boolean beingDragged;
         
+        /**
+         * when the mouse is clicked the item that was clicked is selected.
+         * @param e 
+         */
         @Override
         public void mouseClicked(MouseEvent e) {
             if (enabled) {
@@ -202,11 +231,20 @@ public class ListPanel extends javax.swing.JPanel{
             }
         }
 
+        /**
+         * when the mouse is released the dragging is stopped
+         * @param e 
+         */
         @Override
         public void mouseReleased(MouseEvent e) {
             if (beingDragged) beingDragged = false;
         }
         
+        /**
+         * listens for drags and starts the dragging by setting the start position
+         * afterwards it just handles dragging
+         * @param e 
+         */
         @Override
         public void mouseDragged(MouseEvent e) {
 
@@ -217,11 +255,22 @@ public class ListPanel extends javax.swing.JPanel{
             handleDraging(e);
         }
 
+        /**
+         * sets the startpoint of the drag
+         * @param x the x point of the drag
+         * @param y the y point of the start drag position.
+         */
         private void setLastDragPoint(int x, int y) {
             lastDragPoint.x = x;
             lastDragPoint.y = y;
         }
 
+        /**
+         * handles dragging, calculating the diference between the current point
+         * and the start point, then moving the scroll pan in the apropriate direction
+         * the appropriate distance.
+         * @param e 
+         */
         private void handleDraging(MouseEvent e) {
             JViewport viewPort = jScrollPane1.getViewport();
             Point scrollPosition = viewPort.getViewPosition();

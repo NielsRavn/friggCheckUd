@@ -33,6 +33,7 @@ import javax.swing.border.Border;
 import javax.swing.event.*;
 
 /**
+ * taken from the date chooser library that we used, and one line was removed
  * Bean "Combo date editor". <br> 
  * Êîìïîíåíò: "Ðàñêðûâàþèéñÿ ðåäàêòîð äàòû"
  * @author Androsov Vadim
@@ -103,6 +104,7 @@ public class MyDateChooserCombo extends DateChooserVisual {
         menu.add(chooser);
         menu.addPopupMenuListener(new PopupMenuListener() {
             public void popupMenuCanceled(PopupMenuEvent e) {
+                // here was a line that reset the chooser when the user clicked outside the picker
                 dateToField();
                 commit();
             }
