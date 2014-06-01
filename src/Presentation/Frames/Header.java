@@ -53,11 +53,18 @@ public class Header extends javax.swing.JPanel {
     private javax.swing.JLabel lblUser;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * sets the user that is logged in to be shown on the header.
+     * @param fullName 
+     */
     public void setUser(String fullName){
         lblUser.setText("<html><body>Logget ind som: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "
                 + "<br>" + fullName + "  </body></html>");
     }
     
+    /**
+     * removes the logged in string when noone is logged in.
+     */
     public void loggedOut(){
         lblUser.setText("");
     }

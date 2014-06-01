@@ -132,6 +132,9 @@ public class MainFrame extends JFrame {
 
     }
 
+    /**
+     * creates the tabs to be shown and sets alot of other things, connot be run without a logged in user.
+     */
     public void createPanels() {
         head.setUser(li.getFireman().getFirstName() + " " + li.getFireman().getLastName());
         fot = new Footer(this);
@@ -159,8 +162,10 @@ public class MainFrame extends JFrame {
         
     }
     
-    
-
+    /**
+     * creates a new equipmentusage list
+     * @return  the equipment usage list to use.
+     */
     protected EquipmentUsageList getEquipmentUsageList() {
         EquipmentUsageList list = null;
 
@@ -175,12 +180,21 @@ public class MainFrame extends JFrame {
         return list;
     }
     
+    /**
+     * adds a new alarm to the alarm panel
+     * @param alarm the new alarm
+     */
     public void addAlarm(Alarm alarm){
         alarmPanel.addViewObject(ViewObjectFactory.getViewObject(alarm));
         validate();
         repaint();
     }
     
+    /**
+     * creates the alarm panel to be show alarms and be able to create new alarm
+     * it contains a list of alarms
+     * @return the panel to show in the tab.
+     */
     protected JPanel getAlarmPanel(){
         mainAlarmPanel = new JPanel();
         mainAlarmPanel.setLayout(new BorderLayout());
@@ -221,12 +235,19 @@ public class MainFrame extends JFrame {
         return mainAlarmPanel;
     }
     
+    /**
+     * adds the alarm creator to the frame
+     * @param aCreater 
+     */
     public void addAlarmCreater(AlarmCreater aCreater){
         if(ac != null) remove(ac);
         ac = aCreater;
         add(ac, BorderLayout.EAST);
     }
     
+    /**
+     * removes the alarmcreator from the frame
+     */
     public void removeAlarmCreater(){
         if(ac != null){
             remove(ac);
@@ -235,6 +256,10 @@ public class MainFrame extends JFrame {
         }
     }
 
+    /**
+     * creates a listpanel with the cars from the database.
+     * @return a listpanel with cars.
+     */
     protected ListPanel getCarPanel() {
         ListPanel list = new ListPanel(width);
         try {
@@ -250,6 +275,10 @@ public class MainFrame extends JFrame {
         return list;
     }
 
+    /**
+     * gets a listpanel with all the positions, it only showa what the logged in firman can be.
+     * @return the listpanel with positions
+     */
     protected ListPanel getPositionPanel() {
         ListPanel list = new ListPanel(width);
 
@@ -261,6 +290,10 @@ public class MainFrame extends JFrame {
         return list;
     }
 
+    /**
+     * checks what the logged in firman can be and creates the positions from that
+     * @return 
+     */
     private ArrayList<Position> createPositions() {
 
         ArrayList<Position> positions = new ArrayList();
@@ -310,6 +343,10 @@ public class MainFrame extends JFrame {
         return approvePanel;
     }
 
+    /**
+     * fills the approve panel list with the selected items from each list
+     * and the timepicker and comment field.
+     */
     protected void fillApproveListPanel() {
         ViewObjectAlarm voa = (ViewObjectAlarm) alarmPanel.getSelectedViewObject();
         approveListPanel.addViewObject(ViewObjectFactory.getViewObject(voa.getViewObjectBE()));
@@ -411,6 +448,9 @@ public class MainFrame extends JFrame {
         });
     }
 
+    /**
+     * change view to the tabs when a user has logged in
+     */
     public void changeView() {
         remove(li);
         remove(messagePane);
@@ -421,6 +461,9 @@ public class MainFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * chenge view to the login page removing every thing not needed
+     */
     public void logOut() {
         remove(tv);
         remove(fot);
@@ -440,7 +483,7 @@ public class MainFrame extends JFrame {
     }
 
     /**
-     *
+     *shifts to approving timesheets
      */
     public void aproveTimesheet() {
         remove(tv);
@@ -451,6 +494,10 @@ public class MainFrame extends JFrame {
 
     }
 
+    /**
+     * gets the width of this object
+     * @return 
+     */
     @Override
     public int getWidth() {
         return width;
@@ -458,6 +505,10 @@ public class MainFrame extends JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * ads the time picker with the given time input, also setting most things disabled
+     * @param time the time to set into the time picker
+     */
     public void addTimePicker(MyTime time) {
         tp = new TimePicker(this, time);
         add(tp, BorderLayout.EAST);
@@ -468,6 +519,9 @@ public class MainFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * removes the timepicker, setting things enabled again
+     */
     public void removeTimePicker() {
         remove(tp);
         tv.setEnabled(true);
@@ -477,14 +531,24 @@ public class MainFrame extends JFrame {
         repaint();
     }
     
+    /**
+     * @return the id of the selected alarm
+     */
     public int getSelectedAlarmId() {
        return ((ViewObjectAlarm)alarmPanel.getSelectedViewObject()).getAlarm().getID();
     }
 
+    /**
+     * @return the carnr of the selected car.
+     */
     public int getselectedCarNr() {
         return ((ViewObjectCar)carPanel.getSelectedViewObject()).getCar().getCarNr();
     }
 
+    /**
+     * updates the usages from the equipment usage to the database and goes to approve panel
+     * @param usagesToUpdate 
+     */
     public void completeEquipmentUsage(ArrayList<Usage> usagesToUpdate) {
         try {
             eal.updateUsages(usagesToUpdate);
@@ -494,17 +558,17 @@ public class MainFrame extends JFrame {
         goToApprovePanel();
     }
     
+    /**
+     * goes to the approve panel and refreshes the objects.
+     */
     public void goToApprovePanel(){
         tv.setSelectedComponent(approvePanel);
         approveListPanel.refreshAllViewobjects();
     }
 
-    public void myRepaint() {
-        //setSize(getWidth(), getHeight());
-        setSize(getWidth()-1, getHeight());
-        setSize(getWidth()+1, getHeight());
-    }
-
+    /**
+     * added to the three first lists to change tabs when something is selected.
+     */
     private class myListPanelListener implements IObserver {
 
         @Override
@@ -526,6 +590,9 @@ public class MainFrame extends JFrame {
 
     }
 
+    /**
+     * added to the approve panel to handle when somthing is clicked and the tab should shift to the apropriate tab.
+     */
     private class myAcceptListPanelListener implements IObserver {
 
         @Override
@@ -549,6 +616,10 @@ public class MainFrame extends JFrame {
 
     }
 
+    /**
+     * action listener for the buttons on the approve page, approve send all the data to the database
+     * decline just logs you out.
+     */
     private class MyActionListener implements ActionListener {
 
         @Override

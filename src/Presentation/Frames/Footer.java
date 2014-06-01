@@ -24,8 +24,8 @@ public class Footer extends javax.swing.JPanel {
     MainFrame parent;
     TimeSheet_AccessLink tsl;
     /**
-     * 
-     * @param parent 
+     * creates a new footer
+     * @param parent the mainframe to be used to get the logged in fireman
      */
     public Footer(MainFrame parent) {
         initComponents();
@@ -134,6 +134,10 @@ public class Footer extends javax.swing.JPanel {
     private javax.swing.JButton jbLogOut;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * sets the buttons enabled status
+     * @param b whether or not the buttons should be clickable.
+     */
     void setElementsEnabled(boolean b) {
         jbAprove.setEnabled(b);
         jbErrorReporting.setEnabled(b);
