@@ -17,15 +17,25 @@ public class EquipmentStatus implements IViewObjectBE{
     public EquipmentStatus(boolean equipmentHasData) {
         this.equipmentHasData = equipmentHasData;
     }
-
+    
+    /**
+     * @return the equipment status
+     */
     public boolean isEquipmentHasData() {
         return equipmentHasData;
     }
 
+    /**
+     * sets the equipment status
+     * @param equipmentHasData the new status
+     */
     public void setEquipmentHasData(boolean equipmentHasData) {
         this.equipmentHasData = equipmentHasData;
     }
     
+    /**
+     * @return a representation of the equipment status
+     */
     @Override
     public String getName() {
         return "" + equipmentHasData;

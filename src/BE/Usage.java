@@ -29,31 +29,43 @@ public class Usage {
         this.amount = amount;
         this.loadedFromDatabase = loadedFromDatabase;
     }
-    
     public Usage() {
         amount = 0;
     }
-
+    /**
+     * @return if the usage is loaded from the database
+     */
     public boolean isLoadedFromDatabase() {
         return loadedFromDatabase;
     }
-    
+    /**
+     * @return the alarmid
+     */
     public int getAlarmId() {
         return alarmId;
     }
-
+    /**
+     * @return the car number
+     */
     public int getCarNr() {
         return carNr;
     }
-
+    /**
+     * @return the equipment id
+     */
     public int getEquipmentId() {
         return equipmentId;
     }
-
+    /**
+     * @return the amount
+     */
     public int getAmount() {
         return amount;
     }
-
+    /**
+     * Sets a new amount
+     * @param amount the new amount
+     */
     public void setAmount(int amount) {
         this.amount = amount;
     }

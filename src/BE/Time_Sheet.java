@@ -142,21 +142,29 @@ public class Time_Sheet implements IViewObjectBE, Comparable<Time_Sheet>{
         this.comment = comment;
     }
 
+    /**
+     * @return the comment
+     */
     public Comment getComment() {
         return comment;
     }
-
+    /**
+     * sets a new comment
+     * @param comment the new comment
+     */
     public void setComment(Comment comment) {
         this.comment = comment;
     }
-    
-    
-    
-    
+    /**
+     * @return the starttime
+     */
     public Timestamp getStartTime() {
         return startTime;
     }
-
+    /**
+     * Sets a new start time
+     * @param startTime the new new start time
+     */
     public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
@@ -408,24 +416,36 @@ public class Time_Sheet implements IViewObjectBE, Comparable<Time_Sheet>{
     }
     
     
-
+    /**
+     * @return the latest active point for the alarm
+     */
     public Timestamp getStartTimeForCurrentTimeAtAlarm() {
         if(startTimeForCurrentTimeAtAlarm == null)
             return startTime;
         return startTimeForCurrentTimeAtAlarm;
     }
-
+    
+    /**
+     * Sets the latest active point for the alarm
+     * @param startTimeForCurrentTimeAtAlarm the latest active point for the alarm
+     */
     public void setStartTimeForCurrentTimeAtAlarm(Timestamp startTimeForCurrentTimeAtAlarm) {
         this.startTimeForCurrentTimeAtAlarm = startTimeForCurrentTimeAtAlarm;
     }
     
     
-    
+    /**
+     * @return a string representation of the timesheet
+     */
     @Override
     public String getName(){
         return "Alarm: "+ alarmID + " - Brændmand: " + fireman.getID();
     }
-
+    /**
+     * Compares this to another timesheet
+     * @param o the other timesheet
+     * @return an integer representation of which timesheet is bigger
+     */
     @Override
     public int compareTo(Time_Sheet o) {
         int startTimeCompare = startTime.compareTo(o.getStartTime());

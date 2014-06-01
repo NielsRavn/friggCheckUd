@@ -22,16 +22,24 @@ public class Equipment implements IViewObjectBE{
         this.unitType = unitType;
     }
 
+    /**
+     * @return the ID of the equipment
+     */
     public int getId() {
         return id;
     }
 
     
-    
+    /**
+     * @return the name of the equipment
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return the unit type
+     */
     public String getUnitType() {
         return unitType;
     }

@@ -18,11 +18,17 @@ public class Station implements IViewObjectBE{
         this.name = name;
         
     }
-
+    
+    /**
+     * @return the icon path
+     */
     public String getIconPath() {
         return iconPath;
     }
-
+    
+    /**
+     * @return a string representation of the object
+     */
     public String getName() {
         return name;
     }
