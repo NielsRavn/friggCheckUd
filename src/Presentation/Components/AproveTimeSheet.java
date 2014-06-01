@@ -83,6 +83,10 @@ public class AproveTimeSheet extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * creates the tabview to be used and puts in the alarms relevenat to the given fireman
+     * @param firemanId the firman id for the teamleader to search for unapproved runs for.
+     */
     private void createTabs(int firemanId)
     {
         alarmList = getAlarmByFiremanId(firemanId);
@@ -96,6 +100,11 @@ public class AproveTimeSheet extends javax.swing.JPanel {
         repaint();
     }
     
+    /**
+     * creates a new listpanel with all alarms relevant to the teamleader given by his id
+     * @param firemanId the id of the teamleader
+     * @return a listpanel with alarms.
+     */
     protected ListPanel getAlarmByFiremanId(int firemanId)
     {
         ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
@@ -115,15 +124,20 @@ public class AproveTimeSheet extends javax.swing.JPanel {
        
         }catch(SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
-            ex.printStackTrace();
         }
         for(Alarm a : alarms){
-                list.addViewObject(vof.getViewObject(a));
+                list.addViewObject(ViewObjectFactory.getViewObject(a));
             }
         
         return list;
     }
     
+    /**
+     * creates an overvies of unaccepted timesheets on a specific alarm
+     * in a listpanel.
+     * @param alarmId the alarm to create it for
+     * @return a listpanel with an overview. and viewobjects to accept
+     */
     private ListPanel getTimeSheetByAlarmId(int alarmId)
     {
         ArrayList<Time_Sheet> timeSheet = new ArrayList<Time_Sheet>();
@@ -175,6 +189,11 @@ public class AproveTimeSheet extends javax.swing.JPanel {
         return list;
     }
 
+    /**
+     * adds the timesheet to the correct array in the timesheet list
+     * @param a the timsheet to add
+     * @param v the list to add it to.
+     */
     private void populateFiremenViewObject(Time_Sheet a, TimeSheetList v) {
         if(a.getPositionID() == MyConstants.TEAM_LEADER.getID())
         {
@@ -191,6 +210,12 @@ public class AproveTimeSheet extends javax.swing.JPanel {
         
     }
 
+    /**
+     * checks if an alarm arraylist contains the given alarm id.
+     * @param alarms the list to search in
+     * @param alarmID the id to search for
+     * @return if it is in there it returns true, false otherwise.
+     */
     private boolean arrayContainsAlarmId(ArrayList<Alarm> alarms, int alarmID) {
         for(Alarm a: alarms){
             if(a.getID() == alarmID) return true;
@@ -199,9 +224,9 @@ public class AproveTimeSheet extends javax.swing.JPanel {
         return false;
     }
     
-    
-  
-    
+    /**
+     * observer to be added to the alarm list to create new tabs when somthing is selected.
+     */
     private class myObserverListener implements IObserver{
 
         @Override
