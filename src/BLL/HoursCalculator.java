@@ -32,12 +32,16 @@ public class HoursCalculator{
     }
     
     
-
+    /**
+     * Calculates how many hours a given timesheet should get
+     * @param ts the timesheet of which you want the hours
+     * @return the hours
+     * @throws SQLException
+     * @throws CloneNotSupportedException 
+     */
     public int  getHoursForTimeSheeet(Time_Sheet ts) throws SQLException, CloneNotSupportedException {
         ArrayList<Time_Sheet> conflicts = getAllConflicts(ts);
-        for(Time_Sheet myTS : conflicts){
-            myTS.clearHoursAndMinutes();
-        }
+
         Collections.sort(conflicts);
         ArrayList<Time_Sheet> currentTimesheets = new ArrayList(); //A list of timesheets that are still active
         ArrayList<Time_Sheet> primaryTimesheets = new ArrayList(); //A list of timesheets that are currently getting the hours
@@ -54,7 +58,7 @@ public class HoursCalculator{
             }else{
                 
                 removeOldTimeSheets(currentTimesheets, currentTs.getStartTime());     
-                addTimeToPrimaryTimeSheets(primaryTimesheets, currentTimesheets, currentTs.getStartTime());//Might be something missing here to take into account if primaryTimeSheets have different endtimes
+                addTimeToPrimaryTimeSheets(primaryTimesheets, currentTimesheets, currentTs.getStartTime());
                 primaryTimesheets.add(currentTs);
             }
         }
@@ -74,16 +78,16 @@ public class HoursCalculator{
         
         if(totalHours < 2)
             totalHours = 2;
-        if(ts.getId() == 12 || ts.getId() == 13|| ts.getId() == 14){
-            System.out.println("------------------");
-            System.out.println("Starttime: " + ts.getStartTime() + "     Endtime: " + ts.getEndTime());
-            for(Time_Sheet myTS : conflicts){
-                System.out.println("ID: " + myTS.getId() + "  - Minutes: " + myTS.getMinutes());
-            }
-            System.out.println("Total minutes: " + minutes);
-            System.out.println("ID: " + ts.getId() + "  - Minutes: " + ts.getMinutes());
-            System.out.println("Total hours: " + totalHours);
-        }
+//        if(ts.getId() == 17 || ts.getId() == 18|| ts.getId() == 19){
+//
+//            System.out.println("Starttime: " + ts.getStartTime() + "     Endtime: " + ts.getEndTime());
+//            for(Time_Sheet myTS : conflicts){
+//                System.out.println("ID: " + myTS.getId() + "  - Minutes: " + myTS.getMinutes());
+//            }
+//            System.out.println("Total minutes: " + minutes);
+//            System.out.println("ID: " + ts.getId() + "  - Minutes: " + ts.getMinutes());
+//            System.out.println("Total hours: " + totalHours);
+//        }
         for(Time_Sheet myTS : conflicts){
             while(myTS.getMinutes() >= 60){
                 myTS.addHours(1);
@@ -101,9 +105,12 @@ public class HoursCalculator{
             conflicts.get(conflicts.size()-1).removeMinute(60);
             sortTimeSheetListByHours(conflicts, 0, conflicts.size()-1);
         }
-   
+        int res = ts.getHours();
+        for(Time_Sheet myTS : conflicts){
+            myTS.clearHoursAndMinutes();
+        }
         
-        return ts.getHours();
+        return res;
     }   
     
     
@@ -125,9 +132,8 @@ public class HoursCalculator{
 
             }
         }
-        
         addTimeToPrimaryTimeSheets(primaryTimesheets, currentTimesheets, primaryTimesheets.get(primaryTimesheets.size()-1).getEndTime());
-        //Collections.sort(currentTimesheets);
+
         for(int j = currentTimesheets.size()-1; j >= 0; j--){
             
             Time_Sheet currenTempTS = currentTimesheets.get(j);
@@ -160,9 +166,12 @@ public class HoursCalculator{
      * @param currentTime The current time to calculate hours and such from;
      */
     private void addTimeToPrimaryTimeSheets(ArrayList<Time_Sheet> primaryTimesheets, ArrayList<Time_Sheet> currentTimesheets, Timestamp currentTime){
+
         for(int j = 0; j < primaryTimesheets.size(); j++){
+
             Timestamp tempEnd = currentTime;
             Time_Sheet currentPrimaryTS = primaryTimesheets.get(j);
+            //If the primary timesheet ended before the new current time, then remove it and check if any timesheets are still active.
             if(currentPrimaryTS.getEndTime().getTime() <= currentTime.getTime()){
                 tempEnd = currentPrimaryTS.getEndTime();
                 long millis = currentPrimaryTS.getEndTime().getTime() - currentPrimaryTS.getStartTimeForCurrentTimeAtAlarm().getTime();
@@ -172,23 +181,46 @@ public class HoursCalculator{
                     
                     myTS.addMinute((minutes/primaryTimesheets.size()));
                     myTS.setStartTimeForCurrentTimeAtAlarm(currentPrimaryTS.getEndTime());
+                }
+                boolean hasAddedNewTimeSheet = false;
+                if(primaryTimesheets.size() == 1 && !currentTimesheets.isEmpty()){
+                    
+                    for(int k = 0; k < currentTimesheets.size(); k++){
+                        if(currentTimesheets.get(k).getEndTime().getTime() < currentPrimaryTS.getEndTime().getTime()){
+                            currentTimesheets.remove(k);
+                            k--;
+                        }
+                    }
+                    primaryTimesheets.add(currentTimesheets.get(currentTimesheets.size()-1));
+                    j++;
+                    primaryTimesheets.get(j).setStartTimeForCurrentTimeAtAlarm(currentPrimaryTS.getEndTime());
+                    currentTimesheets.remove(currentTimesheets.size()-1);
+                    hasAddedNewTimeSheet = true;
                     
                 }
                 
-                
-                primaryTimesheets.remove(j);
+                if(hasAddedNewTimeSheet){
+                    primaryTimesheets.remove(j-1);
+                    j--;
+                }else{
+                    primaryTimesheets.remove(j);
+                    
+                }
                 j--;
+                
             }else{
                 
                 long millis = tempEnd.getTime() - currentPrimaryTS.getStartTimeForCurrentTimeAtAlarm().getTime();
                 int minutes = (int) (millis / (60*1000));
-
+               
                 currentPrimaryTS.addMinute(minutes);
                 currentPrimaryTS.setStartTimeForCurrentTimeAtAlarm(currentTime);
                 currentTimesheets.add(currentPrimaryTS);
+                
                 primaryTimesheets.remove(j);
                 j--;
             }
+            
         }
         
     }
@@ -221,7 +253,12 @@ public class HoursCalculator{
     }
     
     
-    
+    /**
+     * Sorts an area of a list of timesheets by their hours, according to the quick sort method
+     * @param timesheets the list of timesheets
+     * @param i from where in the list to begin sorting
+     * @param j from where in the list to stop sorting
+     */
     private void sortTimeSheetListByHours(ArrayList<Time_Sheet> timesheets, int i, int j){
 
          int idx = partition(timesheets, i, j);

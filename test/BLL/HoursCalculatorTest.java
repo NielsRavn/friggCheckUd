@@ -590,7 +590,7 @@ public class HoursCalculatorTest {
     public void testGetHoursForTimeSheeet13() {
         System.out.println("getHoursForTimeSheeet13 : 2 timesheet with different startTime and different endTime, 1 timesheet surrounding the other, total at 6 hours");
         TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
-        int id = 7;
+        int id = 17;
         int employeeId = 1;
         int alarmId = 1;
         int carNumber = 2711;
@@ -606,7 +606,7 @@ public class HoursCalculatorTest {
         
         startTime = new Timestamp(baseTime-(oneHour*4));
         endTime = new Timestamp(baseTime - (oneHour*2));
-        id = 8;
+        id = 18;
         Time_Sheet timeSheet2 = new Time_Sheet(id, employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
         tsa.addTimeSheet(timeSheet2);
         
@@ -1004,5 +1004,63 @@ public class HoursCalculatorTest {
         assertEquals(expResultTotal, resultTotal);
     }
     
+    /**
+     * Test of getHoursForTimeSheeet method, of class HoursCalculator.
+     * 3 timesheet, different start and end times
+     */
+    @Test
+    public void testGetHoursForTimeSheeet21() {
+        System.out.println("getHoursForTimeSheeet21 : 3 timesheet, different start and end times");
+        TimeSheet_AccessTest tsa = new TimeSheet_AccessTest();
+        int id = 12;
+        int employeeId = 1;
+        int alarmId = 1;
+        int carNumber = 2711;
+        Position carPos = MyConstants.FIREMAN;
+        Timestamp startTime = new Timestamp(baseTime-(oneHour*5));
+        Timestamp endTime = new Timestamp(baseTime - (oneHour*3));
+        int acceptedByTeamleader = 0;
+        int acceptedToSalary = 0;
+        boolean addToPayment = false;
+        Comment comment = new Comment("Some comment");
+        Time_Sheet timeSheet1 = new Time_Sheet(id, employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
+        tsa.addTimeSheet(timeSheet1);
+        
+        startTime = new Timestamp(baseTime-(oneHour*4));
+        endTime = new Timestamp(baseTime- (oneHour*3));
+        id = 13;
+        Time_Sheet timeSheet2 = new Time_Sheet(id, employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
+        tsa.addTimeSheet(timeSheet2);
+        
+        startTime = new Timestamp(baseTime-(oneHour*3));
+        endTime = new Timestamp(baseTime );
+        id = 14;
+        Time_Sheet timeSheet3 = new Time_Sheet(id, employeeId, alarmId, carNumber, carPos, startTime, endTime, acceptedByTeamleader, acceptedToSalary, addToPayment, comment);
+        tsa.addTimeSheet(timeSheet3);
+        
+        HoursCalculator instance = new HoursCalculator(tsa);
+        int expResult1 = 1;
+        int expResult2 = 1;
+        int expResult3 = 3;
+        int expResultTotal = 5;
+        int result1 = 0;
+        int result2 = 0;
+        int result3 = 0;
+        int resultTotal = 0;
+        try {
+            result1 = instance.getHoursForTimeSheeet(timeSheet1);
+            result2 = instance.getHoursForTimeSheeet(timeSheet2);
+            result3 = instance.getHoursForTimeSheeet(timeSheet3);
+        } catch (SQLException ex) {
+            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        resultTotal = result1 + result2 + result3;
+        assertEquals(expResult1, result1);
+        assertEquals(expResult2, result2);
+        assertEquals(expResult3, result3);
+        assertEquals(expResultTotal, resultTotal);
+    }
     
 }
