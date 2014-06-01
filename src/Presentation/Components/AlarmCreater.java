@@ -35,6 +35,7 @@ public class AlarmCreater extends javax.swing.JPanel {
     Alarm_AccessLink aal;
     /**
      * Creates new form AlarmCreater
+     * @param parent
      */
     public AlarmCreater(MainFrame parent){
         this.parent = parent;
@@ -76,6 +77,9 @@ public class AlarmCreater extends javax.swing.JPanel {
         });
     }
     
+    /**
+     * sets the colors of the buttons.
+     */
     public void setButtonColors(){
         btnAccept.setBackground(MyConstants.COLOR_GREEN);
         btnAccept.setForeground(Color.WHITE);
@@ -83,6 +87,10 @@ public class AlarmCreater extends javax.swing.JPanel {
         btnCancel.setForeground(Color.WHITE);
     }
 
+    /**
+     * sets the background of the obect
+     * @param bg the color to set the background to.
+     */
     @Override
     public void setBackground(Color bg) {
         super.setBackground(bg); 
@@ -95,6 +103,10 @@ public class AlarmCreater extends javax.swing.JPanel {
         
     }
 
+    /**
+     * sets the foreground color of the object
+     * @param fg the color to set the forground to.
+     */
     @Override
     public void setForeground(Color fg) {
         super.setForeground(fg); //To change body of generated methods, choose Tools | Templates.
@@ -108,14 +120,23 @@ public class AlarmCreater extends javax.swing.JPanel {
             jLabel4.setForeground(fg);
     }
     
+    /**
+     * @return the string in the destination field
+     */
     public String getDestination(){
         return txtDestination.getText();
     }
     
+    /**
+     * @return the alarm type text.
+     */
     public String getType(){
         return txtType.getText();
     }
     
+    /**
+     * @return  the date this new alarm stated on.
+     */
     public Timestamp getDateTime(){
         Date returnDate = new Date();
         if(txtDate.getValue().getClass() == Long.class && txtTime.getValue().getClass() == Long.class){
@@ -256,6 +277,10 @@ public class AlarmCreater extends javax.swing.JPanel {
     private javax.swing.JTextField txtType;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * actionlistener for the buttons to cancel, or create a new alarm in the database when
+     * approve button is clicked, the fields are used to get the data for the alarm.
+     */
     private class MyActionListener implements ActionListener{
 
         @Override

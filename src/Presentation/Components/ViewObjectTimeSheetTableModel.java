@@ -111,12 +111,22 @@ Calendar date = Calendar.getInstance();
         return null;
     }
     
+    /**
+     * gets the timesheet in the specified row
+     * @param row the row to get from
+     * @return the timesheet from that row.
+     */
     public Time_Sheet getTimeSheet(int row)
     {
         return vos.get(row);
     }
     
-    
+    /**
+     * sets the value in a cell, here it is used to check the check box.
+     * @param o the new value
+     * @param row the row number
+     * @param col  the column number.
+     */
     @Override
     public void setValueAt(Object o, int row, int col) {
        Time_Sheet vo = vos.get(row);
@@ -124,7 +134,7 @@ Calendar date = Calendar.getInstance();
             case 5:
                 if(vo.getAcceptedByTeamleaderId() == 0)
                 {
-                    vo.setAcceptedByTeamleaderId(1);
+                    vo.setAcceptedByTeamleaderId(1); // we know this should be the id of the approving teamleader, but this bug is found a bit late.
                 }
                 else
                 {
@@ -135,7 +145,11 @@ Calendar date = Calendar.getInstance();
                 
     }
 
-    
+    /**
+     * gets the column name to be shown on the column header.
+     * @param col the column number
+     * @return the name to be shown.
+     */
     @Override
     public String getColumnName(int col) {
          return colNames[col];
@@ -152,6 +166,12 @@ Calendar date = Calendar.getInstance();
         //return classes[col];
     }
 
+    /**
+     * tells whether or not a pecific cell is should be editable
+     * @param row the row number of the cell
+     * @param col the column number of the cell
+     * @return true if the cell should be editable false otherwise.
+     */
     @Override
     public boolean isCellEditable(int row, int col) {
         if(col == 5)
@@ -163,7 +183,7 @@ Calendar date = Calendar.getInstance();
     /**
      * Sets the content of the table model to the given list of firemen.
      *
-     * @param procList the list of Projects to show in the JTable.
+     * @param voList the list of Projects to show in the JTable.
      */
     public void setViewObjectList(ArrayList<Time_Sheet> voList) {
         vos = voList;
@@ -179,12 +199,19 @@ Calendar date = Calendar.getInstance();
         return vos.get(row);
     }
     
+    /**
+     * adds a time sheets to this table
+     * @param timesheet the timesheet to be added
+     */
     public void addTimeSheet(Time_Sheet timesheet)
     {
         vos.add(timesheet);
         fireTableDataChanged();
     }
     
+    /**
+     * clears the list.
+     */
     public void clearList(){
         vos.clear();
     }

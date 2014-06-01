@@ -39,8 +39,8 @@ public class EquipmentUsageList extends JPanel{
 
     /**
      * creates a new equipment usage panel, to manage the eqipment usage list.
-     * @param equipments
-     * @param parent 
+     * @param equipments a list of all the equipments to be shown
+     * @param parent the mainframe to get width
      */
     public EquipmentUsageList(ArrayList<Equipment> equipments, MainFrame parent) {
         this.parent = parent;
@@ -55,6 +55,9 @@ public class EquipmentUsageList extends JPanel{
         createPanel();
     }
     
+    /**
+     * creates the panel, footer with buttons, sets the layouts and adds everything to the panel.
+     */
     private void createPanel(){
         setLayout(new BorderLayout());
         
@@ -79,6 +82,10 @@ public class EquipmentUsageList extends JPanel{
         add(footer, BorderLayout.SOUTH);
     }
     
+    /**
+     * sets the uasages for the equipments in this list
+     * @param usages an array of usages to be set
+     */
     public void setAmountForUsages(ArrayList<Usage> usages){
         this.usages = usages;
         for(ViewObject e: voeus){
@@ -95,12 +102,26 @@ public class EquipmentUsageList extends JPanel{
         panel.refreshAllViewobjects();
     }
 
+    /**
+     * sets the status entity assosiated with this equipment usage panel.
+     * to be updated.
+     * @param voes the equipment status to update
+     */
     public void setStatusViewObject(EquipmentStatus voes) {
         this.voes = voes;
     }
     
+    /**
+     * action listener for the buttons.
+     */
     private class MyActionListener implements ActionListener {
 
+        /**
+         * if it was decline button that got clicked this resets the usages set in the equipment fields.
+         * if the approve button was clicked, this gets the numbers from the equipment fields
+         * checks if they got updated, and updates the ones that has updates to the database.
+         * @param ev 
+         */
         @Override
         public void actionPerformed(ActionEvent ev) {
             if (ev.getSource() == btnAccept) {
