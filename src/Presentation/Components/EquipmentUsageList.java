@@ -39,8 +39,8 @@ public class EquipmentUsageList extends JPanel{
 
     /**
      * creates a new equipment usage panel, to manage the eqipment usage list.
-     * @param equipments
-     * @param parent 
+     * @param equipments a list of all the equipments to be shown
+     * @param parent the mainframe to get width
      */
     public EquipmentUsageList(ArrayList<Equipment> equipments, MainFrame parent) {
         this.parent = parent;
@@ -55,6 +55,9 @@ public class EquipmentUsageList extends JPanel{
         createPanel();
     }
     
+    /**
+     * creates the panel, footer with buttons, sets the layouts and adds everything to the panel.
+     */
     private void createPanel(){
         setLayout(new BorderLayout());
         
