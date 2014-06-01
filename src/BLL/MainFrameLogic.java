@@ -17,15 +17,24 @@ import javax.swing.JPanel;
  */
 public class MainFrameLogic {
     ArrayList<ListPanel> dataLists;
+    /**
+     * Creates a new main frame logic
+     */
     public MainFrameLogic(){
         dataLists = new ArrayList();
     }
     
-    
+    /**
+     * Adds a listpanel to the logic
+     * @param list the listpanel you want to add
+     */
     public void addDataList(ListPanel list){
         dataLists.add(list);
     }
     
+    /**
+     * Clears the list of listpanels
+     */
     public void reset(){
         dataLists.clear();
     }

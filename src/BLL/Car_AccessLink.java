@@ -18,7 +18,10 @@ import java.util.ArrayList;
  */
 public class Car_AccessLink {
     Car_Access ca;
-    
+    /**
+     * Creates a new car access link
+     * @throws IOException 
+     */
     public Car_AccessLink() throws IOException{
         ca = new Car_Access();
     }

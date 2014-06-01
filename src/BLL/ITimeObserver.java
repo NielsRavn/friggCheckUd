@@ -13,7 +13,10 @@ import BE.MyTime;
  * @author Niels
  */
 public interface ITimeObserver {
-    
+    /**
+     * notifies the observer with a changed time
+     * @param time the new time
+     */
     public void timeChanged(MyTime time);
     
 }

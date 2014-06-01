@@ -20,10 +20,19 @@ public class Message_AccessLink {
     
     Message_Access ma;
     
+    /**
+     * Creates a new message access link
+     * @throws IOException 
+     */
     public Message_AccessLink() throws IOException{
         ma = new Message_Access();
     }
 
+    /**
+     * Gets all messages to be shown
+     * @return a list of messages
+     * @throws SQLException 
+     */
     public ArrayList<Message> getAllMessageToBeShown() throws SQLException {
         return ma.getAllMessageToBeShown();
     }
