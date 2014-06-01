@@ -78,16 +78,6 @@ public class HoursCalculator{
         
         if(totalHours < 2)
             totalHours = 2;
-//        if(ts.getId() == 17 || ts.getId() == 18|| ts.getId() == 19){
-//
-//            System.out.println("Starttime: " + ts.getStartTime() + "     Endtime: " + ts.getEndTime());
-//            for(Time_Sheet myTS : conflicts){
-//                System.out.println("ID: " + myTS.getId() + "  - Minutes: " + myTS.getMinutes());
-//            }
-//            System.out.println("Total minutes: " + minutes);
-//            System.out.println("ID: " + ts.getId() + "  - Minutes: " + ts.getMinutes());
-//            System.out.println("Total hours: " + totalHours);
-//        }
         for(Time_Sheet myTS : conflicts){
             while(myTS.getMinutes() >= 60){
                 myTS.addHours(1);

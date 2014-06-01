@@ -12,6 +12,9 @@ package BLL;
  */
 public interface IObserver {
     
+    /**
+     * notifies the observer
+     */
     public void notifyObserver();
     
 }
