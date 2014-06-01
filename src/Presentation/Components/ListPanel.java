@@ -41,14 +41,12 @@ public class ListPanel extends javax.swing.JPanel{
     
     /**
      * creates a new listpanel to contain 
-     * @param editable
      * @param width 
      */
-    public ListPanel( boolean editable, int width) {
+    public ListPanel(int width) {
         this.width = width;
         panel = new JPanel();
         BoxLayout layout = new BoxLayout(panel, BoxLayout.Y_AXIS);
-        this.editAble = editable;
         panel.setLayout(layout);
         jScrollPane1 = new JScrollPane(panel);
         enabled = true;

@@ -166,7 +166,7 @@ public class MainFrame extends JFrame {
 
         try {
             ArrayList<Equipment> equipments = eal.getAllEquipmentTypes();
-            list = new EquipmentUsageList(true, equipments, this);
+            list = new EquipmentUsageList(equipments, this);
             
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database call error: " + ex);
@@ -184,7 +184,7 @@ public class MainFrame extends JFrame {
     protected JPanel getAlarmPanel(){
         mainAlarmPanel = new JPanel();
         mainAlarmPanel.setLayout(new BorderLayout());
-        alarmPanel = new ListPanel(false, width);
+        alarmPanel = new ListPanel(width);
         try{
             ArrayList<Alarm> alarms = aal.getAllUnfinishedAlarms();
             for(Alarm alarm : alarms){
@@ -236,7 +236,7 @@ public class MainFrame extends JFrame {
     }
 
     protected ListPanel getCarPanel() {
-        ListPanel list = new ListPanel(false, width);
+        ListPanel list = new ListPanel(width);
         try {
 
             ArrayList<Car> cars = cal.getAllCars();
@@ -251,7 +251,7 @@ public class MainFrame extends JFrame {
     }
 
     protected ListPanel getPositionPanel() {
-        ListPanel list = new ListPanel(false, width);
+        ListPanel list = new ListPanel(width);
 
         ArrayList<Position> positions = createPositions();
         for (Position pos : positions) {
@@ -286,7 +286,7 @@ public class MainFrame extends JFrame {
         JPanel approvePanel = new JPanel();
         approvePanel.setLayout(new BorderLayout());
 
-        approveListPanel = new ListPanel(true, width);
+        approveListPanel = new ListPanel(width);
         approvePanel.add(approveListPanel, BorderLayout.CENTER);
 
         JPanel footer = new JPanel();

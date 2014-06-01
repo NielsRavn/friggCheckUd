@@ -37,9 +37,14 @@ public class EquipmentUsageList extends JPanel{
     MainFrame parent;
     EquipmentStatus voes;
 
-    public EquipmentUsageList(boolean editable, ArrayList<Equipment> equipments, MainFrame parent) {
+    /**
+     * creates a new equipment usage panel, to manage the eqipment usage list.
+     * @param equipments
+     * @param parent 
+     */
+    public EquipmentUsageList(ArrayList<Equipment> equipments, MainFrame parent) {
         this.parent = parent;
-        panel = new ListPanel(editable, parent.getWidth());
+        panel = new ListPanel(parent.getWidth());
         this.equipments = equipments;
         voeus = new ArrayList<>();
         for(Equipment e: equipments){
