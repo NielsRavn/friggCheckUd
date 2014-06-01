@@ -36,10 +36,9 @@ public class HoursCalculator{
      * Calculates how many hours a given timesheet should get
      * @param ts the timesheet of which you want the hours
      * @return the hours
-     * @throws SQLException
-     * @throws CloneNotSupportedException 
+     * @throws SQLException if an error has occured executing the sql query
      */
-    public int  getHoursForTimeSheeet(Time_Sheet ts) throws SQLException, CloneNotSupportedException {
+    public int  getHoursForTimeSheeet(Time_Sheet ts) throws SQLException {
         ArrayList<Time_Sheet> conflicts = getAllConflicts(ts);
 
         Collections.sort(conflicts);
@@ -218,7 +217,7 @@ public class HoursCalculator{
      * Gets all timesheets that are conflicting with a given timesheet or conflicts with the conflicting timesheets and so on
      * @param ts the timesheet
      * @return a the conflicting timesheets
-     * @throws SQLException 
+     * @throws SQLException if an error has occured executing the sql query
      */
     private ArrayList<Time_Sheet> getAllConflicts(Time_Sheet ts) throws SQLException{
         ArrayList<Time_Sheet> conflicts = new ArrayList();
@@ -292,6 +291,12 @@ public class HoursCalculator{
         return left;
     }
     
+    /**
+     * Compares 2 time sheets
+     * @param ts1 the 1st timesheet
+     * @param ts2 the 2nd timesheet
+     * @return the difference in minutes between the 2 timesheets
+     */
     private int myCompare(Time_Sheet ts1, Time_Sheet ts2){
         if(ts1.getMinutes() == ts2.getMinutes()){
             return ts1.getId() -ts2.getId();

@@ -22,11 +22,19 @@ import java.util.ArrayList;
  * @author Niels
  */
 public class Equipment_Access extends DatabaseConnection{
-    
+    /**
+     * Creates a new Equipment access 
+     * @throws IOException if an I/O exception of some sort has occurred.
+     */
     public Equipment_Access() throws IOException{
         super();
     }
-    
+    /**
+     * Gets all types of equipment
+     * @return a list of equipments
+     * @throws SQLServerException if the connection cant be made.
+     * @throws SQLException if an error has occured executing the sql query
+     */
     public ArrayList<Equipment> getAllEquipmentTypes() throws SQLServerException, SQLException{
         ArrayList<Equipment> result = new ArrayList<>(); // gets an arraylist with all equipment avalieble
         Connection con = null;
@@ -55,7 +63,14 @@ public class Equipment_Access extends DatabaseConnection{
         }
         return result;
     }
-    
+    /**
+     * Gets all usages for a given car on a given alarm
+     * @param alarmId the id of the alarm
+     * @param carNr the nr of the car
+     * @return a list with all usages for a given car on a given alarm
+     * @throws SQLServerException if the connection cant be made.
+     * @throws SQLException if an error has occured executing the sql query
+     */
     public ArrayList<Usage> getUsagesFor(int alarmId, int carNr) throws SQLServerException, SQLException{ // gets equipment used by Alarm and Car
         Connection con = null;
         ArrayList<Usage> result = new ArrayList<>();
@@ -82,6 +97,12 @@ public class Equipment_Access extends DatabaseConnection{
         return result;
     }
 
+    /**
+     * Updates a list of usages to the database
+     * @param usagesToUpdate the list of usages you want to update
+     * @throws SQLServerException if the connection cant be made.
+     * @throws SQLException if an error has occured executing the sql query
+     */
     public void updateUsages(ArrayList<Usage> usagesToUpdate) throws SQLServerException, SQLException {
         Connection con = null;
         // updates how much equipment used on a car on a Alarm 

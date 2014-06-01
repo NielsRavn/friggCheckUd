@@ -21,11 +21,19 @@ import java.util.ArrayList;
  * @author Brobak
  */
 public class Position_Access extends DatabaseConnection{
-    
+    /**
+     * Creates a new position access
+     * @throws IOException if an I/O exception of some sort has occurred.
+     */
     public Position_Access() throws IOException{
         super();
     }
-    
+    /**
+     * gets all positions in the database
+     * @return a list of positions
+     * @throws SQLServerException if the connection cant be made.
+     * @throws SQLException if an error has occured executing the sql query
+     */
     public ArrayList<Position> getAllPositions() throws SQLServerException, SQLException{
         Connection con = null;
         ArrayList<Position> positions = new ArrayList<>();
@@ -48,6 +56,13 @@ public class Position_Access extends DatabaseConnection{
         return positions;
     }
     
+    /**
+     * Gets a position by a given id
+     * @param id the id of the position you want
+     * @return the position with the given id
+     * @throws SQLServerException if the connection cant be made.
+     * @throws SQLException if an error has occured executing the sql query
+     */
     public Position getPositionById(int id) throws SQLServerException, SQLException{
         Connection con = null;
         Position position = null;

@@ -93,9 +93,7 @@ Calendar date = Calendar.getInstance();
                     hours = hoursCalculator.getHoursForTimeSheeet(vo);
                 } catch (SQLException ex) {
                     Logger.getLogger(ViewObjectTimeSheetTableModel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (CloneNotSupportedException ex) {
-                    Logger.getLogger(ViewObjectTimeSheetTableModel.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                } 
                 return hours;
             case 5:
                 

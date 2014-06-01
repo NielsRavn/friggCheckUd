@@ -60,8 +60,6 @@ public class Comment_Access extends DatabaseConnection{
                 int cId = rs.getInt("cId");
                 String comment = rs.getString("Comment");
                 
-                //Comment c = new Comment(cId, fireman, comment);
-                //comments.add(c);
             }
             
 
@@ -85,11 +83,8 @@ public class Comment_Access extends DatabaseConnection{
             con = getConnection();
             Statement query = con.createStatement();
             
-            //query.executeUpdate("Insert into Comment VALUES ( "
-            //                + tsId +","+c.getFireman().getID() + ",'" + c.getComment()+ "') ",Statement.RETURN_GENERATED_KEYS);
             ResultSet result = query.getGeneratedKeys();
             if(result.next()){
-                //c.setId(result.getInt(1));
             }
             else
             {

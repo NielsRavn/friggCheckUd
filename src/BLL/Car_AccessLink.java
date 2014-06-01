@@ -20,7 +20,7 @@ public class Car_AccessLink {
     Car_Access ca;
     /**
      * Creates a new car access link
-     * @throws IOException 
+     * @throws IOException if an I/O exception of some sort has occurred.
      */
     public Car_AccessLink() throws IOException{
         ca = new Car_Access();
@@ -29,7 +29,7 @@ public class Car_AccessLink {
     /**
      * Gets all the cars
      * @return an arraylist with all the cars
-     * @throws SQLException 
+     * @throws SQLException if an error has occured executing the sql query
      */
     public ArrayList<Car> getAllCars() throws SQLException{
         return ca.getAllCars();

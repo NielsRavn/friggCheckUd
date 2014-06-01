@@ -20,7 +20,7 @@ public class Position_AccessLink {
     Position_Access pa;
     /**
      * Creates a new position access link
-     * @throws IOException 
+     * @throws IOException if an I/O exception of some sort has occurred.
      */
     public Position_AccessLink() throws IOException {
         pa = new Position_Access();
@@ -29,7 +29,7 @@ public class Position_AccessLink {
     /**
      * Gets all positions from the database
      * @return a list of all positions
-     * @throws SQLException 
+     * @throws SQLException if an error has occured executing the sql query
      */
     public ArrayList<Position> getAllPositions() throws SQLException{
         return pa.getAllPositions();

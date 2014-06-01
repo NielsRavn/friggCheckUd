@@ -19,11 +19,19 @@ import java.util.ArrayList;
  * @author Niels Kristian Ravn
  */
 public class Message_Access extends DatabaseConnection{
-    
+    /**
+     * Creates a new message access
+     * @throws IOException if an I/O exception of some sort has occurred.
+     */
     public Message_Access() throws IOException{
         super();
     }
 
+    /**
+     * Gets all messages that are not archived
+     * @return a list of messages to be shown
+     * @throws SQLException if an error has occured executing the sql query 
+     */
     public ArrayList<Message> getAllMessageToBeShown() throws SQLException {
         ArrayList<Message> messages = new ArrayList<>();
         Connection con = null;

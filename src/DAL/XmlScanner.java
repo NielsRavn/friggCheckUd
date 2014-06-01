@@ -33,9 +33,13 @@ public class XmlScanner {
     
     Scanner scanner = new Scanner(System.in);
     /**
-     * 
-     * @return Alarm 
-     * @throws ParseException 
+     * Scans the alarm xml file and returns a list with alarms in the file
+     * @return a list with all alarms found in the xml file
+     * @throws ParseException
+     * @throws FileNotFoundException could not find the alarm xml file
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException some I/O error
      */
     public ArrayList<Alarm> scanner() throws ParseException, FileNotFoundException, ParserConfigurationException, SAXException, IOException
     {
@@ -78,8 +82,6 @@ public class XmlScanner {
                    }
                }
                 
-                
-                //alarm = new Alarm(odinNr, destination, type, date);
         
         
         return alarm;

@@ -28,12 +28,24 @@ import org.xml.sax.SAXException;
  */
 public class Alarm_Access extends DatabaseConnection{
     XmlScanner xml;
+    /**
+     * Creates a new Alarm access
+     * @throws IOException 
+     */
     public Alarm_Access() throws IOException{
         super();
         xml = new XmlScanner();
     }
     
-    
+    /**
+     * Gets a list of all unfinished alarms
+     * @return a list of all unfinished alarms
+     * @throws SQLServerException
+     * @throws SQLException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException 
+     */
     public ArrayList<Alarm> getAllUnfinishedAlarms() throws SQLServerException, SQLException, ParserConfigurationException, SAXException, IOException{
         Connection con = null;
         ArrayList<Alarm> alarms = new ArrayList<>();
@@ -56,7 +68,13 @@ public class Alarm_Access extends DatabaseConnection{
         return alarms;
     }
     
-    
+    /**
+     * Gets all new alarms from the XML file and adds them to the database
+     * @throws SQLException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException 
+     */
     private void getAlarmFromXml() throws SQLException, ParserConfigurationException, SAXException, IOException
     {
         ArrayList<Integer> alarmsFromSql = new ArrayList<Integer>();
@@ -100,6 +118,13 @@ public class Alarm_Access extends DatabaseConnection{
         }
     }
 
+    /**
+     * Gets an alarm from the database with a given id
+     * @param id the id of the alarm you want
+     * @return the alarm from the database with a given id
+     * @throws SQLServerException
+     * @throws SQLException 
+     */
     public Alarm getAlarmById(int id) throws SQLServerException, SQLException {
         Connection con = null;
         Alarm alarm = null;
@@ -120,6 +145,12 @@ public class Alarm_Access extends DatabaseConnection{
         return alarm;
     }
     
+    /**
+     * adds a given alarm to the database
+     * @param alarm the alarm you want to add to the database
+     * @throws SQLServerException
+     * @throws SQLException 
+     */
     public void addAlarm(Alarm alarm) throws SQLServerException, SQLException{
         Connection con = null;
         try
