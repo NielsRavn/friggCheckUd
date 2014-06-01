@@ -38,9 +38,11 @@ public class ListPanel extends javax.swing.JPanel{
     MyMouseMotionAdapter mma;
     int width;
     boolean editAble;
+    
     /**
-     * Creates new form ListPanel
+     * creates a new listpanel to contain 
      * @param editable
+     * @param width 
      */
     public ListPanel( boolean editable, int width) {
         this.width = width;
@@ -98,29 +100,10 @@ public class ListPanel extends javax.swing.JPanel{
         panel.add(object); 
     }
     
-//    public void addViewObject(ViewObject object) {
-//        object.addMouseMotionListener(mma);
-//        object.addMouseListener(mma);
-//        object.setMaximumSize(new Dimension(width, (int) object.getPreferredSize().getHeight()));
-//        object.addObserver(new ViiewObjectObserver());
-//   1     vos.add(object);
-//        panel.add(object); 
-//    }
-    
     public void refreshAllViewobjects(){
         for(ViewObject vo: vos){
             vo.refreshViewObject();
         }
-    }
-
-    private JPanel getCorectPanel(ViewObject value) {
-        JPanel surroundPanel = new JPanel();
-        surroundPanel.addMouseMotionListener(mma);
-        surroundPanel.addMouseListener(mma);
-        surroundPanel.setLayout(new BorderLayout());
-        surroundPanel.add(value, BorderLayout.CENTER);
-        surroundPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
-        return surroundPanel;
     }
 
     public ViewObject getSelectedViewObject() {

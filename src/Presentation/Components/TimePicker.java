@@ -67,6 +67,9 @@ public class TimePicker extends javax.swing.JPanel {
         jPanel8.add(choose);
     }
     
+    /**
+     * sets the colors and borders of everything.
+     */
     private void setVisuals(){
         btnAnnuller.setBackground(MyConstants.COLOR_RED);
         btnOkay.setBackground(MyConstants.COLOR_GREEN);
