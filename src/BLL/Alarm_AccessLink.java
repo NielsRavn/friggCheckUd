@@ -33,8 +33,8 @@ public class Alarm_AccessLink {
     /**
      * Gets all unfinished alarms
      * @return a list containing all unfinished alarms
-     * @throws SQLException
-     * @throws SQLServerException
+     * @throws SQLServerException if the connection cant be made.
+     * @throws SQLException if an error has occured executing the sql query
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException 
@@ -47,7 +47,7 @@ public class Alarm_AccessLink {
      * Gets a specific alarm by its Id
      * @param id the id of the alarm you want
      * @return the alarm that has the given id
-     * @throws SQLException 
+     * @throws SQLException if an error has occured executing the sql query
      */
     public Alarm getAlarmById(int id) throws SQLException
     {
@@ -57,7 +57,7 @@ public class Alarm_AccessLink {
     /**
      * Adds an alarm to the database
      * @param alarm the alarm you want to add the the database
-     * @throws SQLException 
+     * @throws SQLException if an error has occured executing the sql query
      */
     public void addAlarm(Alarm alarm) throws SQLException{
         aa.addAlarm(alarm);

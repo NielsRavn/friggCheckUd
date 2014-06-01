@@ -22,7 +22,7 @@ public class Message_AccessLink {
     
     /**
      * Creates a new message access link
-     * @throws IOException 
+     * @throws IOException if an I/O exception of some sort has occurred.
      */
     public Message_AccessLink() throws IOException{
         ma = new Message_Access();
@@ -31,7 +31,7 @@ public class Message_AccessLink {
     /**
      * Gets all messages to be shown
      * @return a list of messages
-     * @throws SQLException 
+     * @throws SQLException if an error has occured executing the sql query
      */
     public ArrayList<Message> getAllMessageToBeShown() throws SQLException {
         return ma.getAllMessageToBeShown();

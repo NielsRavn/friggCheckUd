@@ -21,7 +21,7 @@ public class Fireman_AccessLink {
     
     /**
      * Creates a new fireman access link
-     * @throws IOException 
+     * @throws IOException if an I/O exception of some sort has occurred. 
      */
     public Fireman_AccessLink() throws IOException{
         fa = new Fireman_Access();
@@ -31,7 +31,7 @@ public class Fireman_AccessLink {
      * Gets a fireman with a given id
      * @param ID the id of the fireman you want to get
      * @return the fireman who has the given id
-     * @throws SQLException 
+     * @throws SQLException if an error has occured executing the sql query
      */
     public Fireman getFiremanByID (int ID) throws SQLException {
         return fa.getFiremanByID(ID);

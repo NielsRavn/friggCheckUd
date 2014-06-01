@@ -20,7 +20,7 @@ public class Story_AccessLink {
     Story_Access sa;
     /**
      * Creates a new story access link
-     * @throws IOException 
+     * @throws IOException if an I/O exception of some sort has occurred.
      */
     public Story_AccessLink() throws IOException{
         sa = new Story_Access();
@@ -29,7 +29,7 @@ public class Story_AccessLink {
     /**
      * Saves a new story
      * @param story the story you want to save
-     * @throws SQLException 
+     * @throws SQLException if an error has occured executing the sql query
      */
     public void saveStory(Story story) throws SQLException{
         sa.saveStory(story);
