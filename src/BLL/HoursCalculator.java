@@ -68,7 +68,7 @@ public class HoursCalculator{
         for(Time_Sheet myTS : conflicts){
             minutes += myTS.getMinutes();
         }
-        
+        //calculate the total amount of hours
         int totalHours;
         if(minutes % 60 == 0)
             totalHours = (int)(minutes / 60);
@@ -111,18 +111,15 @@ public class HoursCalculator{
      * @param currentTimesheets //A list of timesheets that are still active
      */
     private void cleanUpRemainingTimeSheets(ArrayList<Time_Sheet> primaryTimesheets, ArrayList<Time_Sheet> currentTimesheets){
-        Timestamp latestTimePayedFor = primaryTimesheets.get(0).getEndTime();
+        Timestamp latestTimePayedFor = primaryTimesheets.get(primaryTimesheets.size()-1).getEndTime();
         
-        for(int i = 0; i < currentTimesheets.size(); i++){
-            Time_Sheet ts = currentTimesheets.get(i);
-            if(ts.getEndTime().getTime() <= latestTimePayedFor.getTime()){
-                currentTimesheets.remove(ts);
-                i--;
-
-            }
-        }
+        //removes all the timesheets from current time sheets, that ended before the last primary time sheet
+        removeOldTimeSheets(currentTimesheets, latestTimePayedFor);
+     
+        //adds time to the remaining primary time sheets
         addTimeToPrimaryTimeSheets(primaryTimesheets, currentTimesheets, primaryTimesheets.get(primaryTimesheets.size()-1).getEndTime());
 
+        //Adds time to the remaining current time sheets
         for(int j = currentTimesheets.size()-1; j >= 0; j--){
             
             Time_Sheet currenTempTS = currentTimesheets.get(j);
@@ -155,31 +152,27 @@ public class HoursCalculator{
      * @param currentTime The current time to calculate hours and such from;
      */
     private void addTimeToPrimaryTimeSheets(ArrayList<Time_Sheet> primaryTimesheets, ArrayList<Time_Sheet> currentTimesheets, Timestamp currentTime){
-
+        //Do for all time sheets in primary time sheet
         for(int j = 0; j < primaryTimesheets.size(); j++){
 
             Timestamp tempEnd = currentTime;
             Time_Sheet currentPrimaryTS = primaryTimesheets.get(j);
-            //If the primary timesheet ended before the new current time, then remove it and check if any timesheets are still active.
+            //If the primary timesheet ended before the new current time, then remove it, add minutes and check if any current timesheets are still active.
             if(currentPrimaryTS.getEndTime().getTime() <= currentTime.getTime()){
                 tempEnd = currentPrimaryTS.getEndTime();
                 long millis = currentPrimaryTS.getEndTime().getTime() - currentPrimaryTS.getStartTimeForCurrentTimeAtAlarm().getTime();
                 int minutes = (int) (millis / (60*1000));
-                
+                //split the time between all the primary time sheets
                 for(Time_Sheet myTS: primaryTimesheets){
-                    
                     myTS.addMinute((minutes/primaryTimesheets.size()));
                     myTS.setStartTimeForCurrentTimeAtAlarm(currentPrimaryTS.getEndTime());
                 }
                 boolean hasAddedNewTimeSheet = false;
+                //If it's the last primary time sheet. Then move the last added current time sheet to primary time sheets.
                 if(primaryTimesheets.size() == 1 && !currentTimesheets.isEmpty()){
                     
-                    for(int k = 0; k < currentTimesheets.size(); k++){
-                        if(currentTimesheets.get(k).getEndTime().getTime() < currentPrimaryTS.getEndTime().getTime()){
-                            currentTimesheets.remove(k);
-                            k--;
-                        }
-                    }
+                    removeOldTimeSheets(currentTimesheets, currentPrimaryTS.getEndTime());
+                    
                     primaryTimesheets.add(currentTimesheets.get(currentTimesheets.size()-1));
                     j++;
                     primaryTimesheets.get(j).setStartTimeForCurrentTimeAtAlarm(currentPrimaryTS.getEndTime());
@@ -187,7 +180,7 @@ public class HoursCalculator{
                     hasAddedNewTimeSheet = true;
                     
                 }
-                
+                //Remove the primary time sheet we have calculated time for
                 if(hasAddedNewTimeSheet){
                     primaryTimesheets.remove(j-1);
                     j--;
@@ -197,7 +190,7 @@ public class HoursCalculator{
                 }
                 j--;
                 
-            }else{
+            }else{//if the primary time sheet ended after the current time, then add minutes and move it to current time sheets
                 
                 long millis = tempEnd.getTime() - currentPrimaryTS.getStartTimeForCurrentTimeAtAlarm().getTime();
                 int minutes = (int) (millis / (60*1000));
