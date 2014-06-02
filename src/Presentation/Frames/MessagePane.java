@@ -62,6 +62,9 @@ public class MessagePane extends javax.swing.JPanel {
 
     }
 
+    /**
+     * fills in the colors and mouselistener.
+     */
     private void fillData() {
         lblMessage.setFont(MyConstants.FONT_HEADER_TEXT);
         lblMessage.setForeground(Color.WHITE);
@@ -75,6 +78,10 @@ public class MessagePane extends javax.swing.JPanel {
         setText();
     }
 
+    /**
+     * scheduelses update tasks to be run, two tasks is schedueled.
+     * one to chege which message is shown and one to update the messages from the database.
+     */
     private void scheduleUpdateOfMessageList() {
         MyTimedUpdateTextTask updateTask = new MyTimedUpdateTextTask();
         Timer t = new Timer();
@@ -109,6 +116,9 @@ public class MessagePane extends javax.swing.JPanel {
     private javax.swing.JLabel lblMessage;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * sets the text of the message
+     */
     private void setText() {
         if (messages.size() > 0) {
             lblMessage.setText(messages.get(currentMessageIndex).getMessage());
@@ -116,6 +126,9 @@ public class MessagePane extends javax.swing.JPanel {
         repaint();
     }
 
+    /**
+     * if the user is not holder the object it shift to the next one when the timer task runs
+     */
     private class MyTimedUpdateTextTask extends TimerTask {
 
         @Override
@@ -128,6 +141,9 @@ public class MessagePane extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * this timed task updates the messages from the database.
+     */
     private class MyTimedUpdateArrayListTask extends TimerTask {
 
         @Override
@@ -139,11 +155,18 @@ public class MessagePane extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * thees handle holding the object, and swiping to the next or prvius  object.
+     */
     private class MyMouseListener extends MouseAdapter{
 
         Point lastDragPoint = new Point();
         boolean beingDragged, hasSwitched;
         
+        /**
+         * the holding and/or dragging stopped
+         * @param e 
+         */
         @Override
         public void mouseReleased(MouseEvent e) {
             holding = false;
@@ -151,11 +174,19 @@ public class MessagePane extends javax.swing.JPanel {
             if (beingDragged) beingDragged = false;
         }
 
+        /**
+         * holds the message when the mouse is pressed.
+         * @param e 
+         */
         @Override
         public void mousePressed(MouseEvent e) {
             holding = true;
         }
         
+        /**
+         * starts dragging by saving the startpoint and evry drag afterwards it handles the dragging
+         * @param e 
+         */
         @Override
         public void mouseDragged(MouseEvent e) {
 
@@ -166,11 +197,21 @@ public class MessagePane extends javax.swing.JPanel {
             handleDraging(e);
         }
 
+        /**
+         * saves the start x and y
+         * @param x
+         * @param y 
+         */
         private void setLastDragPoint(int x, int y) {
             lastDragPoint.x = x;
             lastDragPoint.y = y;
         }
 
+        /**
+         * handles the dragging, shifting to a new message when it has been dragged over a 100 pixels
+         * it can only shift ones in a drag so you have to lidt the finger and drag again to shift again.
+         * @param e 
+         */
         private void handleDraging(MouseEvent e) {
             int dx = e.getX()+ - lastDragPoint.y;
             if(dx > 100 && !hasSwitched){

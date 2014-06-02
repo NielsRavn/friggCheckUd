@@ -32,6 +32,11 @@ public class LogIn extends javax.swing.JPanel {
     Fireman fireman;
     static LogIn login;
     
+    /**
+     * gets the instance of the login object
+     * @param parent the mainframe parent
+     * @return the instance of the login panel
+     */
     public static LogIn getInstance(MainFrame parent)
     {
         if(login == null)
@@ -39,6 +44,10 @@ public class LogIn extends javax.swing.JPanel {
         return login;
     }
     
+    /**
+     * creates a new login panel
+     * @param parent 
+     */
     private LogIn(MainFrame parent) {
         initComponents();
         btnLogIn.setBackground(MyConstants.COLOR_GREEN);
@@ -131,12 +140,12 @@ public class LogIn extends javax.swing.JPanel {
 
         }
     }
+    
     /**
      * 
-     * @param s
-     * @return 
+     * @return the logged in firman
+     * @throws IllegalStateException 
      */
-    
     public static Fireman getFiremanStatic() throws IllegalStateException{
         if(login == null) throw new IllegalStateException("Der er ikke blevet logget ind endnu");
         return login.getFireman();
@@ -144,11 +153,12 @@ public class LogIn extends javax.swing.JPanel {
     
     /**
      * 
-     * @return Fireman
+     * @return the logged in Fireman
      */
     public Fireman getFireman() {
         return fireman;
     }
+    
     /**
      * Sets focus on txtfiled txtLogIn
      */
