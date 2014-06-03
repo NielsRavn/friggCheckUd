@@ -58,9 +58,7 @@ public class HoursCalculatorTest {
             result1 = instance.getHoursForTimeSheeet(timeSheet1);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         assertEquals(expResult, result1);
     }
     /**
@@ -92,9 +90,7 @@ public class HoursCalculatorTest {
             result1 = instance.getHoursForTimeSheeet(timeSheet1);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         assertEquals(expResult, result1);
     }
     
@@ -138,9 +134,7 @@ public class HoursCalculatorTest {
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         resultTotal = result1 + result2;
         assertEquals(expResult1, result1);
         assertEquals(expResult2, result2);
@@ -186,9 +180,7 @@ public class HoursCalculatorTest {
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         resultTotal = result1 + result2;
         assertEquals(expResult1, result1);
         assertEquals(expResult2, result2);
@@ -233,9 +225,7 @@ public class HoursCalculatorTest {
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         resultTotal = result1 + result2;
         assertEquals(expResult1, result1);
         assertEquals(expResult2, result2);
@@ -281,9 +271,7 @@ public class HoursCalculatorTest {
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         resultTotal = result1 + result2;
         assertEquals(expResult1, result1);
         assertEquals(expResult2, result2);
@@ -328,8 +316,6 @@ public class HoursCalculatorTest {
             result1 = instance.getHoursForTimeSheeet(timeSheet1);
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultTotal = result1 + result2;
@@ -377,9 +363,7 @@ public class HoursCalculatorTest {
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         resultTotal = result1 + result2;
         assertEquals(expResult1, result1);
         assertEquals(expResult2, result2);
@@ -425,8 +409,6 @@ public class HoursCalculatorTest {
             result1 = instance.getHoursForTimeSheeet(timeSheet1);
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultTotal = result1 + result2;
@@ -475,8 +457,6 @@ public class HoursCalculatorTest {
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultTotal = result1 + result2;
         assertEquals(expResult1, result1);
@@ -523,8 +503,6 @@ public class HoursCalculatorTest {
             result1 = instance.getHoursForTimeSheeet(timeSheet1);
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultTotal = result1 + result2;
@@ -573,8 +551,6 @@ public class HoursCalculatorTest {
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultTotal = result1 + result2;
         assertEquals(expResult1, result1);
@@ -621,8 +597,6 @@ public class HoursCalculatorTest {
             result1 = instance.getHoursForTimeSheeet(timeSheet1);
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultTotal = result1 + result2;
@@ -671,8 +645,6 @@ public class HoursCalculatorTest {
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultTotal = result1 + result2;
         assertEquals(expResult1, result1);
@@ -719,8 +691,6 @@ public class HoursCalculatorTest {
             result1 = instance.getHoursForTimeSheeet(timeSheet1);
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultTotal = result1 + result2;
@@ -769,9 +739,7 @@ public class HoursCalculatorTest {
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         resultTotal = result1 + result2;
         assertEquals(expResult1, result1);
         assertEquals(expResult2, result2);
@@ -817,8 +785,6 @@ public class HoursCalculatorTest {
             result1 = instance.getHoursForTimeSheeet(timeSheet1);
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
         } catch (SQLException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultTotal = result1 + result2;
@@ -875,8 +841,6 @@ public class HoursCalculatorTest {
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
             result3 = instance.getHoursForTimeSheeet(timeSheet3);
         } catch (SQLException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultTotal = result1 + result2 + result3;
@@ -935,8 +899,6 @@ public class HoursCalculatorTest {
             result3 = instance.getHoursForTimeSheeet(timeSheet3);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultTotal = result1 + result2 + result3;
         assertEquals(expResult1, result1);
@@ -993,8 +955,6 @@ public class HoursCalculatorTest {
             result2 = instance.getHoursForTimeSheeet(timeSheet2);
             result3 = instance.getHoursForTimeSheeet(timeSheet3);
         } catch (SQLException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         resultTotal = result1 + result2 + result3;
@@ -1053,9 +1013,7 @@ public class HoursCalculatorTest {
             result3 = instance.getHoursForTimeSheeet(timeSheet3);
         } catch (SQLException ex) {
             Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(HoursCalculatorTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         resultTotal = result1 + result2 + result3;
         assertEquals(expResult1, result1);
         assertEquals(expResult2, result2);
