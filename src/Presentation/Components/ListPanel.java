@@ -56,7 +56,6 @@ public class ListPanel extends javax.swing.JPanel{
         observers = new ArrayList();
         add(jScrollPane1, BorderLayout.CENTER);
         mma = new MyMouseMotionAdapter();
-        populateTable();
         
     }
 
@@ -75,9 +74,7 @@ public class ListPanel extends javax.swing.JPanel{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    private void populateTable() {
-        
-    }
+
     
     /**
      * Adds a new ViewObject to the list, adding a border
